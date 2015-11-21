@@ -20,7 +20,9 @@ The tool is developed as a <code>Maven</code> multi-module project. It is compos
 
 To install CHIA:
 
-* download the <code>CHIA.jar</code> file 
+* download the <code>CHIAFramework.zip</code> file
+* unzip the file
+* open the CHIAFramework/CHIA folder 
 * run <code>java -jar CHIA.jar</code>
 
 By running the <code>java -jar CHIA.jar</code> command the  shell of CHIA is executed. The user interacts with the tool using a set of commands.
