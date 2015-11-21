@@ -1,0 +1,13 @@
+targer/*
+target/*
+*.class
+*.preferences
+*.sh
+*.DS_Store
+*.metadata*
+IncompleteAutomataBasedModelCheckingGUI/*
+*.classpath
+*.settings
+CHIAScalabilityEvaluator/
+CHIAScalabilityEvaluator/*
+CHIAVisualization/*
