@@ -14,7 +14,7 @@ It provides a command-line shell which allows the developer to
 
 * check the replacement against the corresponding constraints.
 
-The tool is developed as a <code>Maven</code> multi-module project. It is composed by different modules which encapsulate different parts of the CHIA logic. The core of the framework is the [<code>CHIAFramework</code>](https://github.com/claudiomenghi/IncompleteAutomataBasedModelChecking/tree/master/IncompleteAutomataBasedModelChecking/CHIAFramework) Module.
+The tool is developed as a <code>Maven</code> multi-module project. It is composed by different modules which encapsulate different parts of the CHIA logic. The core of the framework is the [<code>CHIAFramework</code>](https://github.com/claudiomenghi/CHIA/tree/master/CHIA/CHIAFramework) Module.
 
 ## Installing CHIA
 

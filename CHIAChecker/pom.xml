@@ -156,7 +156,7 @@
 							<includes>
 								<include>**/*</include>
 							</includes>
-							<repositoryName>IncompleteAutomataBasedModelChecking</repositoryName>      <!-- github repo name -->
+							<repositoryName>CHIA</repositoryName>      <!-- github repo name -->
 							<repositoryOwner>claudiomenghi</repositoryOwner>    <!-- github username -->
 						</configuration>
 						<executions>
@@ -229,8 +229,8 @@
 
 	<repositories>
 		<repository>
-			<id>IncompleteAutomataBasedModelChecking</id>
-			<url>https://raw.github.com/claudiomenghi/IncompleteAutomataBasedModelChecking/mvn-repo/</url>
+			<id>CHIA</id>
+			<url>https://raw.github.com/claudiomenghi/CHIA/mvn-repo/</url>
 			<snapshots>
 				<enabled>true</enabled>
 				<updatePolicy>always</updatePolicy>
