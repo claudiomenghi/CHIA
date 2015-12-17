@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><constraint>
+    <subproperty indispensable="true" modelstateId="3" name="t0">
+        <ba>
+            <propositions>
+                <proposition name="b"/>
+                <proposition name="a"/>
+            </propositions>
+            <states>
+                <state id="2382" name="3 - 1 - 0"/>
+                <state id="2383" name="3 - 2 - 1"/>
+                <state id="2378" name="3 - 1 - 1"/>
+                <state accepting="true" id="2385" name="3 - 2 - 2"/>
+                <state accepting="true" id="2380" name="3 - 1 - 2"/>
+                <state id="2387" name="3 - 2 - 0"/>
+            </states>
+            <transitions>
+                <transition destination="2382" id="6266" propositions="!b" source="2380"/>
+                <transition destination="2383" id="6265" propositions="!b^!a" source="2382"/>
+                <transition destination="2380" id="6268" propositions="!b" source="2378"/>
+                <transition destination="2387" id="6267" propositions="!b^!a" source="2380"/>
+                <transition destination="2385" id="6269" propositions="!b^!a" source="2378"/>
+                <transition destination="2378" id="6255" propositions="!b" source="2382"/>
+                <transition destination="2383" id="6262" propositions="SIGMA" source="2387"/>
+                <transition destination="2385" id="6264" propositions="SIGMA" source="2383"/>
+                <transition destination="2387" id="6263" propositions="SIGMA" source="2385"/>
+            </transitions>
+        </ba>
+        <intransitions>
+            <labeledplugtransition id="355" label="G">
+                <sourcestate>
+                    <state id="1" name="1"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="2378" name="3 - 1 - 1"/>
+                </destinationstate>
+                <trans id="6270" propositions="a"/>
+            </labeledplugtransition>
+        </intransitions>
+        <outtransitions/>
+        <lowerReachability>
+            <reachabilityElements/>
+        </lowerReachability>
+        <upperReachability>
+            <reachabilityElements/>
+        </upperReachability>
+    </subproperty>
+</constraint>

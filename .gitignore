@@ -1,0 +1,13 @@
+/.classpath
+/.settings/
+*.DS_Store
+*.metadata/*
+CHIALTLIOltl2ba
+/target/
+/IncompleteAutomataBasedModelCheckingGUI/
+/src/
+/CHIAVisualization/
+/.project
+/CHIAReplacementCheckerltl2ba
+/CHIAScalabilityEvaluatorltl2ba
+/CHIAFrameworkltl2ba
