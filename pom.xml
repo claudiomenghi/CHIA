@@ -52,7 +52,7 @@
 						<target>1.7</target>
 					</configuration>
 				</plugin>
-				<!-- 
+
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-javadoc-plugin</artifactId>
@@ -70,7 +70,7 @@
 							</configuration>
 						</execution>
 					</executions>
-				</plugin> -->
+				</plugin>
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
@@ -143,14 +143,14 @@
 								<include>**/*</include>
 							</includes>
 							<path></path>
-							<repositoryName>CHIA</repositoryName>     
-							<repositoryOwner>claudiomenghi</repositoryOwner>    
+							<repositoryName>CHIA</repositoryName>
+							<repositoryOwner>claudiomenghi</repositoryOwner>
 						</configuration>
 						<phase>site</phase>
 						<goals>
 							<goal>site</goal>
 						</goals>
-					</execution> 
+					</execution>
 				</executions>
 			</plugin>
 			<plugin>
@@ -292,7 +292,38 @@
 		</repository>
 	</distributionManagement>
 
-
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.3</version>
+				<configuration>
+					<!-- Default configuration for all reports -->
+				</configuration>
+				<reportSets>
+					<reportSet>
+						<id>non-aggregate</id>
+						<configuration>
+							<!-- Specific configuration for the non aggregate report -->
+						</configuration>
+						<reports>
+							<report>javadoc</report>
+						</reports>
+					</reportSet>
+					<reportSet>
+						<id>aggregate</id>
+						<configuration>
+							<!-- Specific configuration for the aggregate report -->
+						</configuration>
+						<reports>
+							<report>aggregate</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+		</plugins>
+	</reporting>
 	<modules>
 		<module>CHIAAction</module>
 		<module>CHIAAutomata</module>
