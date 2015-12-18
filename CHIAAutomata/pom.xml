@@ -145,8 +145,8 @@
 	</profiles>
 	<repositories>
 		<repository>
-			<id>it.polimi.chia</id>
-			<url>https://github.com/deib-polimi/deib-polimi-mvn-repo/raw/master/releases</url>
+			<id>CHIA</id>
+			<url>https://github.com/claudiomenghi</url>
 		</repository>
 	</repositories>
 	<distributionManagement>

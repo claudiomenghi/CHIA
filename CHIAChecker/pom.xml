@@ -230,7 +230,7 @@
 	<repositories>
 		<repository>
 			<id>CHIA</id>
-			<url>https://raw.github.com/claudiomenghi/CHIA/mvn-repo/</url>
+			<url>https://github.com/claudiomenghi</url>
 			<snapshots>
 				<enabled>true</enabled>
 				<updatePolicy>always</updatePolicy>

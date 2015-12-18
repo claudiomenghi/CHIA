@@ -52,6 +52,7 @@
 						<target>1.7</target>
 					</configuration>
 				</plugin>
+				<!-- 
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-javadoc-plugin</artifactId>
@@ -66,11 +67,10 @@
 							</goals>
 							<phase>site</phase>
 							<configuration>
-								<!-- Specific configuration for the aggregate report -->
 							</configuration>
 						</execution>
 					</executions>
-				</plugin>
+				</plugin> -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
@@ -137,20 +137,20 @@
 							<merge>false</merge>
 							<message>Javadocs for ${project.name}
 								${project.version}-b${buildNumber}</message>
-							<outputDirectory>${user.dir}/target/site/apidocs/it/polimi/automata</outputDirectory>
+							<outputDirectory>${user.dir}/target/site</outputDirectory>
 							<branch>refs/heads/gh-pages</branch>
 							<includes>
 								<include>**/*</include>
 							</includes>
 							<path></path>
-							<repositoryName>CHIA</repositoryName>      <!-- github repo name -->
-							<repositoryOwner>claudiomenghi</repositoryOwner>    <!-- github username -->
+							<repositoryName>CHIA</repositoryName>     
+							<repositoryOwner>claudiomenghi</repositoryOwner>    
 						</configuration>
 						<phase>site</phase>
 						<goals>
 							<goal>site</goal>
 						</goals>
-					</execution>
+					</execution> 
 				</executions>
 			</plugin>
 			<plugin>
@@ -211,8 +211,8 @@
 			<url>https://github.com/deib-polimi/deib-polimi-mvn-repo/raw/master/releases</url>
 		</repository>
 		<repository>
-			<id>it.polimi.chia</id>
-			<url>https://github.com/deib-polimi/deib-polimi-mvn-repo/raw/master/releases</url>
+			<id>CHIA</id>
+			<url>https://github.com/claudiomenghi</url>
 		</repository>
 	</repositories>
 
