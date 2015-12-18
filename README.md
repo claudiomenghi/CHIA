@@ -16,6 +16,8 @@ It provides a command-line shell which allows the developer to
 
 The tool is developed as a <code>Maven</code> multi-module project. It is composed by different modules which encapsulate different parts of the CHIA logic. The core of the framework is the [<code>CHIAFramework</code>](https://github.com/claudiomenghi/CHIA/tree/master/CHIA/CHIAFramework) Module.
 
+The CHIA javadoc is available at <a href="https://claudiomenghi.github.io/CHIA/">https://claudiomenghi.github.io/CHIA/</a>
+
 ## Installing CHIA
 
 To install CHIA:
