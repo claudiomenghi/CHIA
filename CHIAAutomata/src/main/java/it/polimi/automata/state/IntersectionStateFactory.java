@@ -44,6 +44,9 @@ public class IntersectionStateFactory extends AbstractStateFactory {
 		State s = new State(modelState.getId() + " - " + claimState.getId()
 				+ " - " + num, StateFactory.stateCount);
 		StateFactory.stateCount = StateFactory.stateCount + 1;
+		if(StateFactory.stateCount<0){
+			StateFactory.stateCount=1;
+		}
 		return s;
 	}
 }

@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 import it.polimi.automata.BA;
 import it.polimi.automata.state.State;
 import it.polimi.automata.state.StateFactory;
+import it.polimi.chia.scalability.randomGenerators.BARandomGenerator;
 
 import java.util.HashSet;
 import java.util.Random;

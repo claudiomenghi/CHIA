@@ -55,19 +55,19 @@ public class RefinementGenerator extends CHIAAction<IBA> {
 	 * @throws Exception
 	 *             if the replacement is not a valid replacement for the model
 	 */
-	public void checkValidReplacement() throws Exception {
+	public void checkValidReplacement()  {
 		if (!model.getBlackBoxStates().contains(replacement.getModelState())) {
-			throw new Exception(
+			throw new IllegalArgumentException(
 					"The state of the replacement must be a black box state of the original model");
 		}
 		if (!model.getAcceptStates().contains(replacement.getModelState())
 				&& !replacement.getAutomaton().getAcceptStates().isEmpty()) {
-			throw new Exception(
+			throw new IllegalArgumentException(
 					"The automaton that refines a black box state wich is not accepting cannot contain accepting states");
 		}
 		if (!model.getInitialStates().contains(replacement.getModelState())
 				&& !replacement.getAutomaton().getInitialStates().isEmpty()) {
-			throw new Exception(
+			throw new IllegalArgumentException(
 					"The automaton that refines a black box state wich is not accepting cannot contain initial states");
 		}
 		this.checkInTransitions();
@@ -80,7 +80,7 @@ public class RefinementGenerator extends CHIAAction<IBA> {
 	 * @return
 	 * @throws Exception
 	 */
-	public IBA perform() throws Exception {
+	public IBA perform()  {
 		this.checkValidReplacement();
 		IBA refinement = model.clone();
 
@@ -141,7 +141,7 @@ public class RefinementGenerator extends CHIAAction<IBA> {
 	 * 
 	 * @throws Exception
 	 */
-	private void checkInTransitions() throws Exception {
+	private void checkInTransitions() {
 		for (Transition incomingTransition : model.getInTransitions(replacement
 				.getModelState())) {
 			boolean founded = false;
@@ -154,7 +154,7 @@ public class RefinementGenerator extends CHIAAction<IBA> {
 				}
 			}
 			if (!founded) {
-				throw new Exception(
+				throw new IllegalArgumentException(
 						"The incoming transition <"
 								+ incomingTransition
 								+ "> of the model is not associated with an incoming transition of the replacement");
@@ -173,7 +173,7 @@ public class RefinementGenerator extends CHIAAction<IBA> {
 				}
 			}
 			if (!founded) {
-				throw new Exception(
+				throw new IllegalArgumentException(
 						"The incoming transition <"
 								+ inTransition
 								+ "> of the replacement is not associated with an incoming transition of the model");
@@ -186,7 +186,7 @@ public class RefinementGenerator extends CHIAAction<IBA> {
 	 * 
 	 * @throws Exception
 	 */
-	private void checkOutTransitions() throws Exception {
+	private void checkOutTransitions()  {
 		for (Transition outgoingTransition : model
 				.getOutTransitions(replacement.getModelState())) {
 			boolean founded = false;
@@ -201,7 +201,7 @@ public class RefinementGenerator extends CHIAAction<IBA> {
 				}
 			}
 			if (!founded) {
-				throw new Exception(
+				throw new IllegalArgumentException(
 						"The outgoing transition <"
 								+ outgoingTransition
 								+ "> of the black box state <"+replacement.getModelState()+"> of the model is not associated with an outgoing transition of the replacement");
@@ -222,7 +222,7 @@ public class RefinementGenerator extends CHIAAction<IBA> {
 				}
 			}
 			if (!founded) {
-				throw new Exception(
+				throw new IllegalArgumentException(
 						"The outgoing transition <"
 								+ outTransition
 								+ "> of the replacement is not associated with an outgoing transition of the model");

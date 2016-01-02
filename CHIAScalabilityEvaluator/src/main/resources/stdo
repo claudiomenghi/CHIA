@@ -1,0 +1,7 @@
+Test directory: ./Ex1
+--------------------------- STARTING THE TEST: ------------------------
+Exception in thread "main" java.io.IOException: No such file or directory
+	at java.io.UnixFileSystem.createFileExclusively(Native Method)
+	at java.io.File.createNewFile(File.java:1006)
+	at it.polimi.chia.scalability.experiments.Experiment1.performTests(Experiment1.java:91)
+	at it.polimi.chia.scalability.experiments.Experiment1.main(Experiment1.java:103)

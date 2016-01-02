@@ -27,6 +27,9 @@ public class StateFactory extends AbstractStateFactory implements VertexFactory<
 		State s = new State(Integer.toString(StateFactory.stateCount),
 				StateFactory.stateCount);
 		StateFactory.stateCount = StateFactory.stateCount + 1;
+		if(StateFactory.stateCount<0){
+			StateFactory.stateCount=1;
+		}
 		return s;
 	}
 
@@ -46,6 +49,9 @@ public class StateFactory extends AbstractStateFactory implements VertexFactory<
 
 		State s = new State(name, StateFactory.stateCount);
 		StateFactory.stateCount = StateFactory.stateCount + 1;
+		if(StateFactory.stateCount<0){
+			StateFactory.stateCount=1;
+		}
 		return s;
 	}
 
@@ -71,6 +77,9 @@ public class StateFactory extends AbstractStateFactory implements VertexFactory<
 
 		State s = new State(name, id);
 		StateFactory.stateCount = Math.max(StateFactory.stateCount + 1, id + 1);
+		if(StateFactory.stateCount<0){
+			StateFactory.stateCount=1;
+		}
 		return s;
 	}
 

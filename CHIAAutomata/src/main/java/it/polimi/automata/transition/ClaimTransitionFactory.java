@@ -7,9 +7,9 @@ import java.util.Set;
 
 import org.jgrapht.graph.ClassBasedEdgeFactory;
 
-import com.google.common.base.Preconditions;
-
 import rwth.i2.ltl2ba4j.model.IGraphProposition;
+
+import com.google.common.base.Preconditions;
 
 /**
  * is the factory that allows to create transitions of the type
@@ -36,7 +36,9 @@ public class ClaimTransitionFactory  extends ClassBasedEdgeFactory<State, Transi
 		Transition t = new Transition(new HashSet<IGraphProposition>(),
 				Transition.transition_counter);
 		Transition.transition_counter = Transition.transition_counter+1;
-
+		if(Transition.transition_counter<0){
+			Transition.transition_counter=1;
+		}
 		return t;
 	}
 
@@ -49,7 +51,9 @@ public class ClaimTransitionFactory  extends ClassBasedEdgeFactory<State, Transi
 
 		Transition t = new Transition(labels,Transition.transition_counter);
 		Transition.transition_counter = Transition.transition_counter+1;
-
+		if(Transition.transition_counter<0){
+			Transition.transition_counter=1;
+		}
 		return t;
 	}
 
@@ -64,7 +68,9 @@ public class ClaimTransitionFactory  extends ClassBasedEdgeFactory<State, Transi
 		Transition t = new Transition(labels, id);
 		Transition.transition_counter = Math.max(
 				Transition.transition_counter+1, id+1);
-
+		if(Transition.transition_counter<0){
+			Transition.transition_counter=1;
+		}
 		return t;
 	}
 

@@ -9,65 +9,134 @@ import com.google.common.base.Preconditions;
 
 public class RandomConfigurationGenerator implements Iterator<Configuration> {
 
-	// N STATES
-	// protected static final int INIT_NSTATES = 10;
-	// protected static final int FINAL_NSTATES = 100;
-	// protected static final int INCREMENT_NSTATES = 10;
-	protected static final int INIT_NSTATES = 10;
-	protected static final int FINAL_NSTATES = 100;
-	protected static final int INCREMENT_NSTATES = 10;
+	// NUMBER OF STATES
+	/**
+	 * contains the initial number of states
+	 */
+	private final int initialNumberOfStates;
 
-	
-	// TRANSITIONS DENSITIES
-	protected static final double INIT_TRANSITION_DENSITY = 1.0;
-	protected static final double FINAL_TRANSITION_DENSITY = 4.0;
-	protected static final double INCREMENT_TRANSITION_DENSITY = 1.0;
+	/**
+	 * contains the final number of states
+	 */
+	private final int finalNumberOfStates;
+
+	/**
+	 * contains the increment that is performed over the number of states
+	 */
+	private final int incrementNumberOfStates;
+
+	// TRANSITION DENSITY
+	/**
+	 * contains the initial number of transitions
+	 */
+	private final double initialTransitionDensity;
+	/**
+	 * contains the final transition density
+	 */
+	private final double finalTransitionDensity;
+	/**
+	 * contains the increment over the transition density
+	 */
+	private final double incrementTransitionDensity;
 
 	// ACCEPTING DENSITIES
-	protected static final double INIT_ACCEPTING_DENSITY = 0.2;
-	protected static final double FINAL_ACCEPTING_DENSITY = 0.5;
-	protected static final double INCREMENT_ACCEPTING_DENSITY = 0.1;
+	/**
+	 * the initial density of accepting states
+	 */
+	private final double initialAcceptingDensity;
+	/**
+	 * the final density of accepting states
+	 */
+	private final double finalAcceptingDensity;
+	/**
+	 * the increment over the number of accepting states
+	 */
+	private final double incrementAcceptingDensity;
 
 	// TRANSPARENT DENSITIES
-	protected static final double INIT_TRANSPARENT_DENSITY = 0.1;
-	protected static final double FINAL_TRANSPARENT_DENSITY = 0.5;
-	protected static final double INCREMENT_TRANSPARENT_DENSITY = 0.1;
+	/**
+	 * the initial density of transparent states
+	 */
+	private double initialTransparentDensity;
+	/**
+	 * the final density of transparent states
+	 */
+	private double finalTransparentDensity;
+	/**
+	 * the increment over the density of transparent states
+	 */
+	private double incrementTransparentDensity;
 
 	// REPLACEMENT DENSITIES
-	protected static final double INIT_REPLACEMENT_DENSITY = 0.1;
-	protected static final double FINAL_REPLACEMENT_DENSITY = 0.5;
-	protected static final double INCREMENT_REPLACEMENT_DENSITY = 0.1;
+	/**
+	 * the initial replacement density
+	 */
+	private double initialReplacementDensity;
+	/**
+	 * the final replacement density
+	 */
+	private double finalreplacementDensity;
+	/**
+	 * increment replacement density
+	 */
+	private double incrementReplacementDensity;
 
-	protected static final int N_TESTS = 20;
+	private int numberOfTests;
+
+	// CURRENT configuration
 	private int configurationNumber;
-	private int totalCondigurations;
-	private int currentClaim;
 
-	private int currentNumberOfStates;
-	private double transitionDensity;
-	private double acceptingDensity;
-	private double transparentDensity;
-	private double replacementDensity;
-	private int testNumber;
+	/**
+	 * @return the configurationNumber
+	 */
+	public int getConfigurationNumber() {
+		return configurationNumber;
+	}
+
+	// REPLACEMENT DENSITIES
+	private int totalCondigurations;
 
 	protected List<BA> claims;
 
-	public RandomConfigurationGenerator(List<BA> claims) {
+	public RandomConfigurationGenerator(List<BA> claims,
+			int initialNumberOfStates, int finalNumberOfStates,
+			int incrementNumberOfStates, double initialTransitionDensity,
+			double finalTransitionDensity, double incrementTransitionDensity,
+			double initialAcceptingDensity, double finalAcceptingDensity,
+			double incrementAcceptingDensity, double initialTransparentDensity,
+			double finalTransparentDensity, double incrementTransparentDensity,
+			double initialReplacementDensity, double finalreplacementDensity,
+			double incrementReplacementDensity, int numberOfTests,
+			int currentConfiguration) {
 		Preconditions.checkNotNull(claims,
 				"The list of the claims cannot be null");
 		Preconditions.checkArgument(claims.size() >= 1,
 				"There must be at least a claim in the list");
 		this.claims = claims;
 
-		this.testNumber = 1;
-		this.configurationNumber = 1;
-		this.currentNumberOfStates = INIT_NSTATES;
-		this.transitionDensity = INIT_TRANSITION_DENSITY;
-		this.acceptingDensity = INIT_ACCEPTING_DENSITY;
-		this.transparentDensity = INIT_TRANSPARENT_DENSITY;
-		this.replacementDensity = INIT_REPLACEMENT_DENSITY;
-		this.currentClaim=0;
+		this.configurationNumber = currentConfiguration;
+		this.initialNumberOfStates = initialNumberOfStates;
+		this.finalNumberOfStates = finalNumberOfStates;
+		this.incrementNumberOfStates = incrementNumberOfStates;
+		this.initialTransitionDensity = initialTransitionDensity;
+		this.finalTransitionDensity = finalTransitionDensity;
+		this.incrementTransitionDensity = incrementTransitionDensity;
+		// accepting density
+		this.initialAcceptingDensity = initialAcceptingDensity;
+		this.finalAcceptingDensity = finalAcceptingDensity;
+		this.incrementAcceptingDensity = incrementAcceptingDensity;
 
+		// transparent density
+		this.initialTransparentDensity = initialTransparentDensity;
+		this.finalTransparentDensity = finalTransparentDensity;
+		this.incrementTransparentDensity = incrementTransparentDensity;
+
+		// replacement density
+		this.initialReplacementDensity = initialReplacementDensity;
+		this.finalreplacementDensity = finalreplacementDensity;
+		this.incrementReplacementDensity = incrementReplacementDensity;
+
+		this.numberOfTests = numberOfTests;
 		this.totalCondigurations = this.getNumberOfPossibleConfigurations();
 
 	}
@@ -77,69 +146,80 @@ public class RandomConfigurationGenerator implements Iterator<Configuration> {
 		return configurationNumber <= totalCondigurations;
 	}
 
-
 	@Override
 	public Configuration next() {
 
+		int testNumber = (this.configurationNumber % this.numberOfTests) + 1;
+
+		int currentClaim = (this.configurationNumber % (this.numberOfTests * this.claims
+				.size())) / this.numberOfTests;
+
+		
+		int currentNumberOfStates = (this.configurationNumber % (this.numberOfTests
+				* this.claims.size() * this.numberStatesConfigurations()))
+				/ (this.numberOfTests * this.claims.size())
+				* this.incrementNumberOfStates + this.initialNumberOfStates;
+
+		double transitionDensity = (this.configurationNumber % (this.numberOfTests
+				* this.claims.size() * this.numberStatesConfigurations() * this
+					.transitionDensity()))
+				/ (this.numberOfTests * this.claims.size() * this
+						.numberStatesConfigurations())
+				* this.incrementTransitionDensity
+				+ this.initialTransitionDensity;
+
+		double acceptingDensity = (this.configurationNumber % (this.numberOfTests
+				* this.claims.size()
+				* this.numberStatesConfigurations()
+				* this.transitionDensity() * this
+					.numberAcceptingStatesConfigurations()))
+				/ (this.numberOfTests * this.claims.size()
+						* this.numberStatesConfigurations() * this
+							.transitionDensity())
+				* this.incrementAcceptingDensity + this.initialAcceptingDensity;
+
+		double transparentDensity = (this.configurationNumber % (this.numberOfTests
+				* this.claims.size()
+				* this.numberStatesConfigurations()
+				* this.transitionDensity()
+				* this.numberAcceptingStatesConfigurations() * this
+					.transparentStatesConfigurations()))
+				/ (this.numberOfTests * this.claims.size()
+						* this.numberStatesConfigurations()
+						* this.transitionDensity() * this
+							.numberAcceptingStatesConfigurations())
+				* this.incrementTransparentDensity
+				+ this.initialTransparentDensity;
+
+		double replacementDensity = (this.configurationNumber % (this.numberOfTests
+				* this.claims.size()
+				* this.numberStatesConfigurations()
+				* this.transitionDensity()
+				* this.numberAcceptingStatesConfigurations()
+				* this.transparentStatesConfigurations() * this
+					.replacementStatesConfigurations()))
+				/ (this.numberOfTests * this.claims.size()
+						* this.numberStatesConfigurations()
+						* this.transitionDensity()
+						* this.numberAcceptingStatesConfigurations() * this
+							.transparentStatesConfigurations())
+				* this.incrementReplacementDensity
+				+ this.initialReplacementDensity;
+
 		Configuration testConfiguration = new Configuration(
-				configurationNumber, currentNumberOfStates, transitionDensity,
-				acceptingDensity, transparentDensity, replacementDensity,
-				this.claims.get(currentClaim), testNumber, currentClaim);
+				configurationNumber, currentNumberOfStates,
+				roundDouble(transitionDensity), roundDouble(acceptingDensity),
+				roundDouble(transparentDensity),
+				roundDouble(replacementDensity), this.claims.get(currentClaim),
+				testNumber, currentClaim);
 
 		this.configurationNumber++;
-		if (this.hasNext()) {
-
-			testNumber++;
-			if (testNumber > N_TESTS) {
-				testNumber = 1;
-				currentClaim++;
-				if(currentClaim>=claims.size()){
-					currentClaim=0;
-
-					this.transitionDensity = roundDouble(transitionDensity
-							+ INCREMENT_TRANSITION_DENSITY);
-
-					if (this.transitionDensity > FINAL_TRANSITION_DENSITY) {
-						this.transitionDensity = INIT_TRANSITION_DENSITY;
-						this.acceptingDensity = roundDouble(this.acceptingDensity
-								+ INCREMENT_ACCEPTING_DENSITY);
-						if (this.acceptingDensity > FINAL_ACCEPTING_DENSITY) {
-							this.acceptingDensity = INIT_ACCEPTING_DENSITY;
-							this.transparentDensity = roundDouble(this.transparentDensity
-									+ INCREMENT_TRANSPARENT_DENSITY);
-							if (this.transparentDensity > FINAL_TRANSPARENT_DENSITY) {
-								this.transparentDensity = INIT_TRANSPARENT_DENSITY;
-								this.replacementDensity = roundDouble(this.replacementDensity
-										+ INCREMENT_REPLACEMENT_DENSITY);
-								if (this.replacementDensity > FINAL_REPLACEMENT_DENSITY) {
-									this.replacementDensity = INIT_REPLACEMENT_DENSITY;
-									currentNumberOfStates = currentNumberOfStates
-											+ INCREMENT_NSTATES;
-
-									if (currentNumberOfStates > FINAL_NSTATES) {
-										System.out.println(testNumber + "\t"
-												+ transitionDensity + "\t"
-												+ acceptingDensity + "\t"
-												+ transparentDensity + "\t"
-												+ replacementDensity + "\t"
-												+ currentNumberOfStates + "\t");
-										throw new InternalError(
-												"The number of configurations generated is too high");
-
-									}
-
-								}
-							}
-						}
-					}
-				}
-			}
-
-		}
 
 		return testConfiguration;
 
 	}
+
+
 
 	private double roundDouble(double number) {
 		return Math.abs((number * 100.0) / 100.0);
@@ -147,10 +227,8 @@ public class RandomConfigurationGenerator implements Iterator<Configuration> {
 
 	public int getNumberOfPossibleConfigurations() {
 
-		return N_TESTS 
-				* this.claims.size() 
-				* this.numberStatesConfigurations()
-				* this.transitionDensity()
+		return this.numberOfTests * this.claims.size()
+				* this.numberStatesConfigurations() * this.transitionDensity()
 				* this.numberAcceptingStatesConfigurations()
 				* this.transparentStatesConfigurations()
 				* this.replacementStatesConfigurations();
@@ -158,23 +236,27 @@ public class RandomConfigurationGenerator implements Iterator<Configuration> {
 	}
 
 	private int numberStatesConfigurations() {
-		return ((FINAL_NSTATES - INIT_NSTATES + INCREMENT_NSTATES) / INCREMENT_NSTATES);
+		return ((this.finalNumberOfStates - this.initialNumberOfStates + this.incrementNumberOfStates) / this.incrementNumberOfStates);
 	}
 
 	private int transitionDensity() {
-		return (int) ((FINAL_TRANSITION_DENSITY - INIT_TRANSITION_DENSITY + INCREMENT_TRANSITION_DENSITY) / INCREMENT_TRANSITION_DENSITY);
+		return (int) ((this.finalTransitionDensity
+				- this.initialTransitionDensity + this.incrementTransitionDensity) / this.incrementTransitionDensity);
 	}
 
 	private int numberAcceptingStatesConfigurations() {
-		return (int) ((FINAL_ACCEPTING_DENSITY - INIT_ACCEPTING_DENSITY + INCREMENT_ACCEPTING_DENSITY) / INCREMENT_ACCEPTING_DENSITY);
+		return (int) ((this.finalAcceptingDensity
+				- this.initialAcceptingDensity + this.incrementAcceptingDensity) / this.incrementAcceptingDensity);
 	}
 
 	private int transparentStatesConfigurations() {
-		return (int) ((FINAL_TRANSPARENT_DENSITY - INIT_TRANSPARENT_DENSITY + INCREMENT_TRANSPARENT_DENSITY) / INCREMENT_TRANSPARENT_DENSITY);
+		return (int) ((this.finalTransparentDensity
+				- this.initialTransparentDensity + this.incrementTransparentDensity) / this.incrementTransparentDensity);
 	}
 
 	private int replacementStatesConfigurations() {
-		return (int) ((FINAL_REPLACEMENT_DENSITY - INIT_REPLACEMENT_DENSITY + INCREMENT_REPLACEMENT_DENSITY) / INCREMENT_REPLACEMENT_DENSITY);
+		return (int) ((this.finalreplacementDensity
+				- this.initialReplacementDensity + this.incrementReplacementDensity) / this.incrementReplacementDensity);
 	}
 
 	@Override
@@ -184,17 +266,9 @@ public class RandomConfigurationGenerator implements Iterator<Configuration> {
 
 	@Override
 	public String toString() {
-		return "RandomConfigurationGenerator [configurationNumber=" + configurationNumber
-				+ ", totalCondigurations=" + totalCondigurations
-				+ ", currentNumberOfStates=" + currentNumberOfStates
-				+ ", transitionDensity=" + transitionDensity
-				+ ", acceptingDensity=" + acceptingDensity
-				+ ", transparentDensity=" + transparentDensity
-				+ ", replacementDensity=" + replacementDensity
-				+ ", testNumber=" + testNumber + ", claim="
-				+ currentClaim + "]";
+		return "RandomConfigurationGenerator [configurationNumber="
+				+ configurationNumber + ", totalCondigurations="
+				+ totalCondigurations + ", currentNumberOfStates=" + "]";
 	}
-
-	
 
 }

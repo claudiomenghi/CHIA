@@ -10,7 +10,6 @@ import it.polimi.checker.Checker;
 import it.polimi.constraints.components.SubProperty;
 import it.polimi.constraints.transitions.Label;
 import it.polimi.constraints.transitions.LabeledPluggingTransition;
-import it.polimi.constraints.transitions.PluggingTransition;
 
 import java.util.Collections;
 import java.util.HashMap;

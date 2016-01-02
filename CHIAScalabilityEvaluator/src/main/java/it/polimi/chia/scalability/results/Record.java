@@ -7,40 +7,51 @@ import com.google.common.base.Preconditions;
 
 public class Record {
 
-	private final Configuration configuration;
-	private final SatisfactionValue initialSatisfactioValue;
-	private final SatisfactionValue finalSatisfactioValue;
-	private final int sizeOfTheRefinementVerification;
-	private final int sizeOfTheReplacementVerification;
-	private final long replacementVerificationTime;
-	private final long refinementVerificationTime;
-	private final boolean triviallySatisfied;
-	private final int numReplacementStates;
-	private final int numReplacementIncomingTransitions;
-	private final int numReplacementOutgoingTransitions;
-	private final int subPropertyStates;
-	private final int subPropertyGreenIncomingTransitions;
-	private final int subPropertyYellowIncomingTransitions;
-	private final int subPropertyNumIncomingTransitions;
-	private final int subPropertyRedOutgoingTransitions;
-	private final int subPropertyYellowOutgingTransition;
-	private final int subPropertyNumOutgoingTransition;
-	private final int sizeModel;
-	private final int numTransparentStatesModel;
+	private Configuration configuration;
+	private SatisfactionValue initialSatisfactioValue;
 
+	private SatisfactionValue finalSatisfactioValue;
+	private int sizeOfTheRefinementVerification;
+	private int sizeOfTheReplacementVerification;
+
+	
+	private SatisfactionValue replacementSatisfactionValue;
+	private SatisfactionValue refinementSatisfactionValue;
+	
+	private boolean triviallySatisfied;
+	private int numReplacementStates;
+	private int numReplacementIncomingTransitions;
+	private int numReplacementOutgoingTransitions;
+	private int subPropertyStates;
+	private int subPropertyGreenIncomingTransitions;
+	private int subPropertyYellowIncomingTransitions;
+	private int subPropertyNumIncomingTransitions;
+	private int subPropertyRedOutgoingTransitions;
+	private int subPropertyYellowOutgingTransition;
+	private int subPropertyNumOutgoingTransition;
+	private int sizeModel;
+	private int numTransparentStatesModel;
+
+	// time
+	private long replacementVerificationTime;
+	private long refinementVerificationTime;
+	private long constraintComputationTime;
+
+	public Record(Configuration configuration){
+		this.configuration=configuration;
+	}
 	public Record(Configuration configuration,
 			SatisfactionValue initialSatisfactioValue) {
 		this(configuration, initialSatisfactioValue, null, false, 0, 0, 0, 0,
-				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 	}
 
 	public Record(Configuration configuration,
 			SatisfactionValue initialSatisfactioValue,
 			SatisfactionValue finalSatisfactioValue,
 			boolean triviallySatisfied, int sizeOfTheRefinementVerification,
-			int sizeOfTheReplacementVerification,
-			long refinementVerificationTime, long replacementVerificationTime,
-			int numReplacementStates, int numReplacementIncomingTransitions,
+			int sizeOfTheReplacementVerification, int numReplacementStates,
+			int numReplacementIncomingTransitions,
 			int numReplacementOutgoingTransitions, int subPropertyStates,
 			int subPropertyGreenIncomingTransitions,
 			int subPropertyYellowIncomingTransitions,
@@ -48,7 +59,8 @@ public class Record {
 			int subPropertyRedOutgoingTransitions,
 			int subPropertyYellowOutgingTransition,
 			int subPropertyNumOutgoingTransition, int sizeModel,
-			int numTransparentStatesModel) {
+			int numTransparentStatesModel, long refinementVerificationTime,
+			long replacementVerificationTime, long constraintComputationTime) {
 		Preconditions.checkNotNull(configuration,
 				"The condiguration under analysis cannot be null");
 		Preconditions.checkNotNull(initialSatisfactioValue,
@@ -71,13 +83,15 @@ public class Record {
 		this.finalSatisfactioValue = finalSatisfactioValue;
 		this.sizeOfTheRefinementVerification = sizeOfTheRefinementVerification;
 		this.sizeOfTheReplacementVerification = sizeOfTheReplacementVerification;
-		this.replacementVerificationTime = replacementVerificationTime;
-		this.refinementVerificationTime = refinementVerificationTime;
 		this.triviallySatisfied = triviallySatisfied;
 		this.numReplacementStates = numReplacementStates;
 		this.numReplacementIncomingTransitions = numReplacementIncomingTransitions;
 		this.numReplacementOutgoingTransitions = numReplacementOutgoingTransitions;
 		this.subPropertyStates = subPropertyStates;
+
+		this.replacementVerificationTime = replacementVerificationTime;
+		this.refinementVerificationTime = refinementVerificationTime;
+		this.constraintComputationTime = constraintComputationTime;
 
 		if (!(subPropertyGreenIncomingTransitions
 				+ subPropertyYellowIncomingTransitions <= subPropertyNumIncomingTransitions)) {
@@ -229,6 +243,238 @@ public class Record {
 	 */
 	public int getNumTransparentStatesModel() {
 		return numTransparentStatesModel;
+	}
+
+	/**
+	 * @return the constraintComputationTime
+	 */
+	public long getConstraintComputationTime() {
+		return constraintComputationTime;
+	}
+	
+	/**
+	 * @return the numReplacementStates
+	 */
+	public int getNumReplacementStates() {
+		return numReplacementStates;
+	}
+
+	/**
+	 * @param numReplacementStates the numReplacementStates to set
+	 */
+	public void setNumReplacementStates(int numReplacementStates) {
+		this.numReplacementStates = numReplacementStates;
+	}
+
+	/**
+	 * @return the numReplacementIncomingTransitions
+	 */
+	public int getNumReplacementIncomingTransitions() {
+		return numReplacementIncomingTransitions;
+	}
+
+	/**
+	 * @param numReplacementIncomingTransitions the numReplacementIncomingTransitions to set
+	 */
+	public void setNumReplacementIncomingTransitions(
+			int numReplacementIncomingTransitions) {
+		this.numReplacementIncomingTransitions = numReplacementIncomingTransitions;
+	}
+
+	/**
+	 * @return the numReplacementOutgoingTransitions
+	 */
+	public int getNumReplacementOutgoingTransitions() {
+		return numReplacementOutgoingTransitions;
+	}
+
+	/**
+	 * @param numReplacementOutgoingTransitions the numReplacementOutgoingTransitions to set
+	 */
+	public void setNumReplacementOutgoingTransitions(
+			int numReplacementOutgoingTransitions) {
+		this.numReplacementOutgoingTransitions = numReplacementOutgoingTransitions;
+	}
+
+	/**
+	 * @return the subPropertyStates
+	 */
+	public int getSubPropertyStates() {
+		return subPropertyStates;
+	}
+
+	/**
+	 * @param subPropertyStates the subPropertyStates to set
+	 */
+	public void setSubPropertyStates(int subPropertyStates) {
+		this.subPropertyStates = subPropertyStates;
+	}
+
+	/**
+	 * @return the subPropertyNumIncomingTransitions
+	 */
+	public int getSubPropertyNumIncomingTransitions() {
+		return subPropertyNumIncomingTransitions;
+	}
+
+	/**
+	 * @param subPropertyNumIncomingTransitions the subPropertyNumIncomingTransitions to set
+	 */
+	public void setSubPropertyNumIncomingTransitions(
+			int subPropertyNumIncomingTransitions) {
+		this.subPropertyNumIncomingTransitions = subPropertyNumIncomingTransitions;
+	}
+
+	/**
+	 * @return the subPropertyNumOutgoingTransition
+	 */
+	public int getSubPropertyNumOutgoingTransition() {
+		return subPropertyNumOutgoingTransition;
+	}
+
+	/**
+	 * @param subPropertyNumOutgoingTransition the subPropertyNumOutgoingTransition to set
+	 */
+	public void setSubPropertyNumOutgoingTransition(
+			int subPropertyNumOutgoingTransition) {
+		this.subPropertyNumOutgoingTransition = subPropertyNumOutgoingTransition;
+	}
+
+	/**
+	 * @param configuration the configuration to set
+	 */
+	public void setConfiguration(Configuration configuration) {
+		this.configuration = configuration;
+	}
+
+	/**
+	 * @param initialSatisfactioValue the initialSatisfactioValue to set
+	 */
+	public void setInitialSatisfactioValue(SatisfactionValue initialSatisfactioValue) {
+		this.initialSatisfactioValue = initialSatisfactioValue;
+	}
+
+	/**
+	 * @param finalSatisfactioValue the finalSatisfactioValue to set
+	 */
+	public void setFinalSatisfactioValue(SatisfactionValue finalSatisfactioValue) {
+		this.finalSatisfactioValue = finalSatisfactioValue;
+	}
+
+	/**
+	 * @param sizeOfTheRefinementVerification the sizeOfTheRefinementVerification to set
+	 */
+	public void setSizeOfTheRefinementVerification(
+			int sizeOfTheRefinementVerification) {
+		this.sizeOfTheRefinementVerification = sizeOfTheRefinementVerification;
+	}
+
+	/**
+	 * @param sizeOfTheReplacementVerification the sizeOfTheReplacementVerification to set
+	 */
+	public void setSizeOfTheReplacementVerification(
+			int sizeOfTheReplacementVerification) {
+		this.sizeOfTheReplacementVerification = sizeOfTheReplacementVerification;
+	}
+
+	/**
+	 * @param triviallySatisfied the triviallySatisfied to set
+	 */
+	public void setTriviallySatisfied(boolean triviallySatisfied) {
+		this.triviallySatisfied = triviallySatisfied;
+	}
+
+	/**
+	 * @param subPropertyGreenIncomingTransitions the subPropertyGreenIncomingTransitions to set
+	 */
+	public void setSubPropertyGreenIncomingTransitions(
+			int subPropertyGreenIncomingTransitions) {
+		this.subPropertyGreenIncomingTransitions = subPropertyGreenIncomingTransitions;
+	}
+
+	/**
+	 * @param subPropertyYellowIncomingTransitions the subPropertyYellowIncomingTransitions to set
+	 */
+	public void setSubPropertyYellowIncomingTransitions(
+			int subPropertyYellowIncomingTransitions) {
+		this.subPropertyYellowIncomingTransitions = subPropertyYellowIncomingTransitions;
+	}
+
+	/**
+	 * @param subPropertyRedOutgoingTransitions the subPropertyRedOutgoingTransitions to set
+	 */
+	public void setSubPropertyRedOutgoingTransitions(
+			int subPropertyRedOutgoingTransitions) {
+		this.subPropertyRedOutgoingTransitions = subPropertyRedOutgoingTransitions;
+	}
+
+	/**
+	 * @param subPropertyYellowOutgingTransition the subPropertyYellowOutgingTransition to set
+	 */
+	public void setSubPropertyYellowOutgingTransition(
+			int subPropertyYellowOutgingTransition) {
+		this.subPropertyYellowOutgingTransition = subPropertyYellowOutgingTransition;
+	}
+
+	/**
+	 * @param sizeModel the sizeModel to set
+	 */
+	public void setSizeModel(int sizeModel) {
+		this.sizeModel = sizeModel;
+	}
+
+	/**
+	 * @param numTransparentStatesModel the numTransparentStatesModel to set
+	 */
+	public void setNumTransparentStatesModel(int numTransparentStatesModel) {
+		this.numTransparentStatesModel = numTransparentStatesModel;
+	}
+
+	/**
+	 * @param replacementVerificationTime the replacementVerificationTime to set
+	 */
+	public void setReplacementVerificationTime(long replacementVerificationTime) {
+		this.replacementVerificationTime = replacementVerificationTime;
+	}
+
+	/**
+	 * @param refinementVerificationTime the refinementVerificationTime to set
+	 */
+	public void setRefinementVerificationTime(long refinementVerificationTime) {
+		this.refinementVerificationTime = refinementVerificationTime;
+	}
+
+	/**
+	 * @param constraintComputationTime the constraintComputationTime to set
+	 */
+	public void setConstraintComputationTime(long constraintComputationTime) {
+		this.constraintComputationTime = constraintComputationTime;
+	}
+	/**
+	 * @return the replacementSatisfactionValue
+	 */
+	public SatisfactionValue getReplacementSatisfactionValue() {
+		return replacementSatisfactionValue;
+	}
+	/**
+	 * @param replacementSatisfactionValue the replacementSatisfactionValue to set
+	 */
+	public void setReplacementSatisfactionValue(
+			SatisfactionValue replacementSatisfactionValue) {
+		this.replacementSatisfactionValue = replacementSatisfactionValue;
+	}
+	/**
+	 * @return the refinementSatisfactionValue
+	 */
+	public SatisfactionValue getRefinementSatisfactionValue() {
+		return refinementSatisfactionValue;
+	}
+	/**
+	 * @param refinementSatisfactionValue the refinementSatisfactionValue to set
+	 */
+	public void setRefinementSatisfactionValue(
+			SatisfactionValue refinementSatisfactionValue) {
+		this.refinementSatisfactionValue = refinementSatisfactionValue;
 	}
 
 }

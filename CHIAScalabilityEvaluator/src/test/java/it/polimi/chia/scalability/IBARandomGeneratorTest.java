@@ -7,6 +7,7 @@ import static org.junit.Assert.*;
 import it.polimi.automata.BA;
 import it.polimi.automata.IBA;
 import it.polimi.automata.state.StateFactory;
+import it.polimi.chia.scalability.randomGenerators.IBARandomGenerator;
 import it.polimi.constraints.components.Replacement;
 
 import org.junit.Test;

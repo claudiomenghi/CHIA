@@ -143,6 +143,13 @@
 			</dependencies>
 		</profile>
 	</profiles>
+	<dependencies>
+		<dependency>
+			<groupId>it.polimi.chia</groupId>
+			<artifactId>CHIALogging</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
 	<repositories>
 		<repository>
 			<id>CHIA</id>

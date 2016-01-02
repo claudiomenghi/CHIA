@@ -115,16 +115,23 @@ public class Checker extends CHIAAction<SatisfactionValue> {
 				return SatisfactionValue.NOTSATISFIED;
 			}
 
-			// COMPUTES THE INTERSECTION BETWEEN THE MODEL AND THE CLAIM
-			boolean emptyIntersection = this.checkEmptyIntersection();
-			this.performed();
-			if (!emptyIntersection) {
-				this.satisfactionValue = SatisfactionValue.POSSIBLYSATISFIED;
-				return SatisfactionValue.POSSIBLYSATISFIED;
-			} else {
-
+			if(this.model.getBlackBoxStates().size()==0){
+				this.performed();
 				this.satisfactionValue = SatisfactionValue.SATISFIED;
 				return SatisfactionValue.SATISFIED;
+			}
+			else{
+				// COMPUTES THE INTERSECTION BETWEEN THE MODEL AND THE CLAIM
+				boolean emptyIntersection = this.checkEmptyIntersection();
+				this.performed();
+				if (!emptyIntersection) {
+					this.satisfactionValue = SatisfactionValue.POSSIBLYSATISFIED;
+					return SatisfactionValue.POSSIBLYSATISFIED;
+				} else {
+
+					this.satisfactionValue = SatisfactionValue.SATISFIED;
+					return SatisfactionValue.SATISFIED;
+				}
 			}
 		}
 		return this.satisfactionValue;

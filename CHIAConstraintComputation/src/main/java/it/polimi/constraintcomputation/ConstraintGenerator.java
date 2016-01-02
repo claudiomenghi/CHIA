@@ -2,7 +2,6 @@ package it.polimi.constraintcomputation;
 
 import it.polimi.action.CHIAAction;
 import it.polimi.automata.IBA;
-import it.polimi.automata.io.out.ElementToStringTransformer;
 import it.polimi.automata.state.State;
 import it.polimi.checker.Checker;
 import it.polimi.checker.SatisfactionValue;
@@ -12,13 +11,11 @@ import it.polimi.constraintcomputation.subpropertyidentifier.SubPropertyIdentifi
 import it.polimi.constraintcomputation.subpropertyidentifier.labeling.TransitionLabeler;
 import it.polimi.constraints.Constraint;
 import it.polimi.constraints.components.SubProperty;
-import it.polimi.constraints.io.out.constraint.ConstraintToElementTransformer;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.log4j.Logger;
 
@@ -273,17 +270,7 @@ public class ConstraintGenerator extends CHIAAction<Constraint> {
                 .entrySet()) {
             LOGGER.debug("Computing the reachability of the sub-property: "
                     + e.getKey().getModelState());
-            /*try {
-                System.out.println(new ElementToStringTransformer()
-                        .transform(new ConstraintToElementTransformer()
-                                .transform(this.constraint)));
-            } catch (ParserConfigurationException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            } catch (Exception e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }*/
+            
             ReachabilityIdentifier reachability = new ReachabilityIdentifier(
                     e.getValue());
             reachability.perform();

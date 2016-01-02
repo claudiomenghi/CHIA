@@ -5,19 +5,25 @@ import it.polimi.automata.IBA;
 import it.polimi.automata.io.in.ClaimReader;
 import it.polimi.automata.io.out.BAToElementTrasformer;
 import it.polimi.automata.io.out.IBAToElementTrasformer;
-import it.polimi.automata.io.out.ModelToStringTrasformer;
 import it.polimi.automata.io.out.XMLWriter;
 import it.polimi.automata.state.State;
 import it.polimi.automata.state.StateFactory;
 import it.polimi.checker.Checker;
 import it.polimi.checker.SatisfactionValue;
-import it.polimi.checker.intersection.acceptingpolicies.AcceptingPolicy;
 import it.polimi.checker.intersection.acceptingpolicies.AcceptingPolicy.AcceptingType;
 import it.polimi.chia.scalability.configuration.Configuration;
 import it.polimi.chia.scalability.configuration.RandomConfigurationGenerator;
+import it.polimi.chia.scalability.parsers.ConfParser;
+import it.polimi.chia.scalability.parsers.ConfWriter;
+import it.polimi.chia.scalability.randomGenerators.BARandomGenerator;
+import it.polimi.chia.scalability.randomGenerators.IBARandomGenerator;
 import it.polimi.chia.scalability.results.Record;
 import it.polimi.chia.scalability.results.ResultWriter;
 import it.polimi.chia.scalability.results.Statistics;
+import it.polimi.chia.scalability.tasks.Task1;
+import it.polimi.chia.scalability.tasks.Task2;
+import it.polimi.chia.scalability.tasks.Task3;
+import it.polimi.chia.scalability.tasks.Task4;
 import it.polimi.constraintcomputation.ConstraintGenerator;
 import it.polimi.constraints.Constraint;
 import it.polimi.constraints.components.RefinementGenerator;
@@ -25,7 +31,6 @@ import it.polimi.constraints.components.Replacement;
 import it.polimi.constraints.components.SubProperty;
 import it.polimi.constraints.io.out.constraint.ConstraintToElementTransformer;
 import it.polimi.constraints.io.out.replacement.ReplacementToElementTransformer;
-import it.polimi.constraints.io.out.replacement.ReplacementToStringTransformer;
 import it.polimi.replacementchecker.ReplacementChecker;
 
 import java.io.File;
@@ -37,327 +42,390 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 
+import com.google.common.base.Preconditions;
 import com.google.common.base.Stopwatch;
 
+/**
+ * 
+ * The ScalabilityTest reads the scalability configuration from an appropriate
+ * XML file
+ * 
+ * @author Claudio Menghi
+ *
+ */
 public class ScalabilityTest {
 
-    private static final Logger LOGGER = Logger
-            .getLogger(ScalabilityTest.class);
+	private static final Logger LOGGER = Logger
+			.getLogger(ScalabilityTest.class);
 
-    private final static String resultsFile = "results.txt";
-    private final static String resultsFilePossibly = "resultsPossibly.txt";
+	/**
+	 * The accepting policy to be used
+	 */
+	private final static AcceptingType acceptingPolicy = AcceptingType.BA;
 
-    private final static int N_TESTS = 20;
+	private final ConfParser confParser;
 
-    private final static AcceptingType acceptingPolicy = AcceptingType.BA;
+	/**
+	 * creates a new scalability test
+	 * 
+	 * @param confParser
+	 *            the parser to be used to get the configuration
+	 */
+	public ScalabilityTest(ConfParser confParser) {
+		Preconditions.checkNotNull(confParser, "The configuration parser");
+		this.confParser = confParser;
 
-    public static void main(String[] args) throws Exception {
+	}
 
-        String testDirectory = args[0];
-        System.out
-                .println("--------------------------- STARTING THE TEST: ------------------------");
+	/**
+	 * runs the tests
+	 * 
+	 * @throws Exception
+	 */
+	public void performTests() throws Exception {
+		System.out
+				.println("--------------------------- STARTING THE TEST: ------------------------");
 
-        Stopwatch timer = Stopwatch.createUnstarted();
+		Stopwatch timer = Stopwatch.createUnstarted();
 
-        // BA claim = generateRandomClaim(new RandomConfiguration(3, 2, 0.5, 0,
-        // 0));
-        List<BA> claims = ScalabilityTest.getClaimToBeConsidered();
+		// BA claim = generateRandomClaim(new RandomConfiguration(3, 2, 0.5, 0,
+		// 0));
+		List<BA> claims = this.getClaimToBeConsidered();
 
-        for (int testNumber = 1; testNumber <= N_TESTS; testNumber++) {
+		for (int testNumber = 1; testNumber <= confParser.getNumberOfTests(); testNumber++) {
 
-            File dir = new File(testDirectory + "Test" + testNumber);
-            dir.mkdir();
-            for (int claimNum = 0; claimNum < claims.size(); claimNum++) {
-                File claimdir = new File(testDirectory + "Test" + testNumber
-                        + "/Claim" + claimNum);
-                claimdir.mkdir();
-            }
-        }
+			File dir = new File(confParser.getTestDirectory() + "/Test"
+					+ testNumber);
+			dir.mkdir();
+			for (int claimNum = 0; claimNum < claims.size(); claimNum++) {
+				File claimdir = new File(confParser.getTestDirectory()
+						+ "/Test" + testNumber + "/Claim" + claimNum);
+				claimdir.mkdir();
+				File filePossibly = new File(confParser.getTestDirectory()
+						+ "/Test" + testNumber + "/Claim" + claimNum + "/"
+						+ confParser.getResultsFilePossibly());
+				filePossibly.createNewFile();
+				File file = new File(confParser.getTestDirectory() + "/Test"
+						+ testNumber + "/Claim" + claimNum + "/"
+						+ confParser.getResultsFile());
+				file.createNewFile();
 
-        ScalabilityTest.test(testDirectory, timer);
+			}
+		}
 
-    }
+		test(timer);
+	}
 
-    private static List<BA> getClaimToBeConsidered() throws Exception {
+	public static void main(String[] args) throws Exception {
+		ConfParser parser = new ConfParser(args[0]);
 
-        List<BA> claims = new ArrayList<BA>();
-        /*
-         * claims.add(new ClaimReader(new File("Claim1.xml")).perform());
-         * 
-         * claims.add(new ClaimReader(new File("Claim2.xml")).perform());
-         * 
-         * claims.add(new ClaimReader(new File("Claim3.xml")).perform());
-         */
-        claims.add(new ClaimReader(new File(ClassLoader.getSystemResource(
-                "Claim1.xml").getPath())).perform());
+		ScalabilityTest scalabilityTest = new ScalabilityTest(parser);
+		scalabilityTest.performTests();
+	}
 
-        claims.add(new ClaimReader(new File(ClassLoader.getSystemResource(
-                "Claim2.xml").getPath())).perform());
+	private List<BA> getClaimToBeConsidered() throws Exception {
 
-        claims.add(new ClaimReader(new File(ClassLoader.getSystemResource(
-                "Claim3.xml").getPath())).perform());
+		List<BA> claims = new ArrayList<BA>();
 
-        return claims;
+		claims.add(new ClaimReader(new File(ClassLoader.getSystemResource(
+				"Claim1.xml").getPath())).perform());
 
-    }
+		// claims.add(new ClaimReader(new File(ClassLoader.getSystemResource(
+		// "Claim2.xml").getPath())).perform());
 
-    private static void test(String testDirectory, Stopwatch timer)
-            throws Exception {
+		// claims.add(new ClaimReader(new File(ClassLoader.getSystemResource(
+		// "Claim3.xml").getPath())).perform());
 
-        RandomConfigurationGenerator randomConfigurationGenerator = new RandomConfigurationGenerator(
-                ScalabilityTest.getClaimToBeConsidered());
+		return claims;
 
-        Statistics stat = new Statistics();
+	}
 
-        long initTime = System.currentTimeMillis();
-        while (randomConfigurationGenerator.hasNext()) {
+	private void test(Stopwatch timer) throws Exception {
 
-            Record record;
+		RandomConfigurationGenerator randomConfigurationGenerator = new RandomConfigurationGenerator(
+				this.getClaimToBeConsidered(),
+				confParser.getInitialNumberOfStates(),
+				confParser.getFinalNumberOfStates(),
+				confParser.getIncrementNumberOfStates(),
+				confParser.getInitialTransitionDensity(),
+				confParser.getFinalTransitionDensity(),
+				confParser.getIncrementTransitionDensity(),
+				confParser.getInitAcceptingDensity(),
+				confParser.getFinalAcceptingDensity(),
+				confParser.getIncrementAcceptingDensity(),
+				confParser.getInitialTransparentDensity(),
+				confParser.getFinalTransparentDensity(),
+				confParser.getIncrementTransparentDensity(),
+				confParser.getInitialReplacementDensity(),
+				confParser.getFinalReplacementDensity(),
+				confParser.getIncrementReplacementDensity(),
+				confParser.getNumberOfTests(),
+				confParser.getCurrentConfiguration());
 
-            Configuration configuration = randomConfigurationGenerator.next();
+		Statistics stat = new Statistics();
 
-            ResultWriter resultWriter = new ResultWriter(testDirectory + "Test"
-                    + configuration.getTestNumber() + "/Claim"
-                    + configuration.getClaimNumber() + "/" + resultsFile);
-            ResultWriter resultPossiblyWriter = new ResultWriter(testDirectory
-                    + "Test" + configuration.getTestNumber() + "/Claim"
-                    + configuration.getClaimNumber() + "/"
-                    + resultsFilePossibly);
+		System.out.println("Number of configurations to be considered:"
+				+ randomConfigurationGenerator
+						.getNumberOfPossibleConfigurations());
+		Stopwatch testTimer = Stopwatch.createUnstarted();
 
-            if (configuration.getConfigurationId() % 100 == 0) {
-                LOGGER.info("--------------------------- CONFIGURATION: "
-                        + configuration.getConfigurationId()
-                        + "------------------------");
-                LOGGER.info(randomConfigurationGenerator.toString());
-                LOGGER.info(stat.toString());
+		testTimer.start();
+		while (randomConfigurationGenerator.hasNext()) {
 
-            }
+			Stopwatch totalTimer = Stopwatch.createUnstarted();
+			totalTimer.start();
 
-            // BA claim = generateRandomClaim(randomConfiguration);
+			Record record;
 
-            // BAToElementTrasformer claimToElementTransformer = new
-            // BAToElementTrasformer();
+			Configuration configuration = randomConfigurationGenerator.next();
 
-            // XMLWriter claimWriter = new XMLWriter(new File(testDirectory
-            // + "Test" + configuration.getTestNumber() + "/Claim" +
-            // configuration.getClaimNumber() + "/"
-            // + "/Experiment" + configuration.getConfigurationId() +
-            // "/claim.xml"),
-            // claimToElementTransformer.transform(configuration.getCurrentClaim()));
-            // claimWriter.perform();
+			record = new Record(configuration);
+			ResultWriter resultWriter = new ResultWriter(
+					confParser.getTestDirectory() + "/Test"
+							+ configuration.getTestNumber() + "/Claim"
+							+ configuration.getClaimNumber() + "/"
+							+ confParser.getResultsFile());
+			ResultWriter resultPossiblyWriter = new ResultWriter(
+					confParser.getTestDirectory() + "/Test"
+							+ configuration.getTestNumber() + "/Claim"
+							+ configuration.getClaimNumber() + "/"
+							+ confParser.getResultsFilePossibly());
 
-            BARandomGenerator modelBAgenerator = new BARandomGenerator(
-                    configuration.getPropositions(), new StateFactory(),
-                    configuration.getTransitionDensity(),
-                    configuration.getAcceptingDensity(),
-                    configuration.getnStates(), new Random());
+			if (configuration.getConfigurationId() % 100 == 0) {
+				LOGGER.info("--------------------------- CONFIGURATION: "
+						+ configuration.getConfigurationId()
+						+ "------------------------");
+				LOGGER.info(randomConfigurationGenerator.toString());
+				LOGGER.info(stat.toString());
 
-            BA modelBA = modelBAgenerator.perform();
+			}
+			System.out.println(configuration.toString());
+			BARandomGenerator modelBAgenerator = new BARandomGenerator(
+					configuration.getPropositions(), new StateFactory(),
+					configuration.getTransitionDensity(),
+					configuration.getAcceptingDensity(),
+					configuration.getnStates(), new Random());
 
-            IBARandomGenerator ibaGenerator = new IBARandomGenerator(modelBA,
-                    new StateFactory(), configuration.getTransparentDensity(),
-                    configuration.getReplacementDensity());
+			BA modelBA = modelBAgenerator.perform();
 
-            IBA model = ibaGenerator.perform();
+			/**
+			 * checks the refined model of the system
+			 */
+			new Task1(configuration, modelBA, acceptingPolicy).perform();
 
-            // check whether the model possibly satisfies the claim
-            Checker checker = new Checker(model,
-                    configuration.getCurrentClaim(),
-                    AcceptingPolicy.getAcceptingPolicy(acceptingPolicy, model,
-                            configuration.getCurrentClaim()));
-            SatisfactionValue value = checker.perform();
+			IBARandomGenerator ibaGenerator = new IBARandomGenerator(modelBA,
+					new StateFactory(), configuration.getTransparentDensity(),
+					configuration.getReplacementDensity());
 
-            if (value == SatisfactionValue.POSSIBLYSATISFIED) {
-                stat.incNumPossibly();
-                // compute the constraint
+			IBA model = ibaGenerator.perform();
 
-                // choose a random replacement
-                List<Replacement> replacements = ibaGenerator
-                        .getNonEmptyReplacements();
-                if (replacements.isEmpty()) {
-                    throw new InternalError(
-                            "There are no non empty replacements");
-                }
-                Collections.shuffle(replacements);
+			/**
+			 * checks the incomplete model
+			 */
+			Checker checker = new Task2(configuration, model, record,
+					acceptingPolicy).perform();
+			SatisfactionValue value = checker.perform();
 
-                Replacement replacement = replacements.iterator().next();
-                Constraint constraint = computeConstraint(
-                        configuration.getCurrentClaim(), model, checker,
-                        replacement.getModelState());
+			if (value == SatisfactionValue.POSSIBLYSATISFIED) {
+				stat.incNumPossibly();
+				// compute the constraint
 
-                // VERIFICATION OF THE REFINEMENT
-                IBA refinedModel;
-                try {
-                    refinedModel = new RefinementGenerator(model, replacement)
-                            .perform();
-                } catch (Exception e) {
-                    System.out.println(new ModelToStringTrasformer(model)
-                            .perform());
+				// choose a random replacement
+				List<Replacement> replacements = ibaGenerator
+						.getNonEmptyReplacements();
+				if (replacements.isEmpty()) {
+					throw new InternalError(
+							"There are no non empty replacements");
+				}
+				Collections.shuffle(replacements);
 
-                    System.out.println(new ReplacementToStringTransformer(
-                            replacement).perform());
-                    System.out.println(e.getMessage());
-                    return;
-                }
-                Checker refinementChecker = new Checker(refinedModel,
-                        configuration.getCurrentClaim(),
-                        AcceptingPolicy.getAcceptingPolicy(acceptingPolicy,
-                                refinedModel, configuration.getCurrentClaim()));
+				Replacement replacement = getReplacement(record, replacements);
 
-                timer.reset();
-                timer.start();
-                SatisfactionValue refinementSatisfactionvalue = refinementChecker
-                        .perform();
-                timer.stop();
-                long refinementVerificationTime = timer
-                        .elapsed(TimeUnit.NANOSECONDS);
+				Constraint constraint = computeConstraint(configuration, model,
+						checker, replacement, record);
 
-                SubProperty subProperty1 = constraint
-                        .getSubProperty(replacement.getModelState());
-                // VERIFICATION OF THE REPLACEMENT
-                ReplacementChecker replacementChecker = new ReplacementChecker(
-                        replacement, subProperty1,
-                        AcceptingPolicy.getAcceptingPolicy(acceptingPolicy,
-                                replacement.getAutomaton(),
-                                subProperty1.getAutomaton()));
+				// VERIFICATION OF THE REFINEMENT
+				IBA refinedModel = new RefinementGenerator(model, replacement)
+						.perform();
+				Checker refinementChecker = new Task3(configuration,
+						refinedModel, replacement, record, acceptingPolicy)
+						.perform();
 
-                timer.reset();
-                timer.start();
-                SatisfactionValue replacementSatisfactionvalue = replacementChecker
-                        .perform();
-                timer.stop();
+				// VERIFICATION OF THE REPLACEMENT
+				ReplacementChecker replacementChecker = new Task4(replacement,
+						constraint, record, acceptingPolicy).perform();
 
-                long replacementVerificationTime = timer
-                        .elapsed(TimeUnit.NANOSECONDS);
-                if (refinementChecker.getIntersectionAutomataSize() >= replacementChecker
-                        .getIntersectionAutomataSize()) {
-                    stat.incRepIsMoreEfficientSpace();
-                }
-                if (refinementVerificationTime >= replacementVerificationTime) {
-                    stat.incRepIsMoreEfficientTime();
-                }
+				// result comparison
+				if (refinementChecker.getIntersectionAutomataSize() >= replacementChecker
+						.getIntersectionAutomataSize()) {
+					stat.incRepIsMoreEfficientSpace();
+				}
+				if (record.getRefinementVerificationTime() >= record
+						.getReplacementVerificationTime()) {
+					stat.incRepIsMoreEfficientTime();
+				}
 
-                SubProperty subProperty = constraint.getSubProperty(replacement
-                        .getModelState());
-                record = new Record(configuration, value,
-                        refinementSatisfactionvalue,
-                        replacementChecker.isTriviallyPossiblySatisfied(),
-                        refinementChecker.getIntersectionAutomataSize(),
-                        replacementChecker.getIntersectionAutomataSize(),
-                        refinementVerificationTime,
-                        replacementVerificationTime, replacement.getAutomaton()
-                                .size(), replacement.getIncomingTransitions()
-                                .size(), replacement.getOutgoingTransitions()
-                                .size(), subProperty.getAutomaton().size(),
-                        subProperty.getGreenIncomingTransitions().size(),
-                        subProperty.getNumYellowIncomingTransitions(),
-                        subProperty.getNumIncomingTransitions(),
-                        subProperty.getNumRedOutgoingTransitions(),
-                        subProperty.getNumYellowOutgoingTransitions(),
-                        subProperty.getNumOutgoingTransitions(), model.size(),
-                        model.getBlackBoxStates().size());
-                resultPossiblyWriter.append(record);
-                if (refinementSatisfactionvalue != replacementSatisfactionvalue) {
-                    printError(testDirectory, configuration, replacement,
-                            refinedModel, constraint, model,
-                            configuration.getCurrentClaim(),
-                            refinementSatisfactionvalue,
-                            replacementSatisfactionvalue);
-                }
-            } else {
-                if (value.equals(SatisfactionValue.NOTSATISFIED)) {
-                    stat.incNumUnsat();
-                }
-                if (value.equals(SatisfactionValue.SATISFIED)) {
-                    stat.incNumSat();
-                }
-                record = new Record(configuration, value);
-            }
-            resultWriter.append(record);
-            System.gc();
-            System.runFinalization();
-        }
-        long endTime = System.currentTimeMillis();
-        System.out.println("One test one claim performed in: "
-                + (endTime - initTime) + " ms ");
+				resultPossiblyWriter.append(record);
+				if (record.getRefinementSatisfactionValue() != record
+						.getReplacementSatisfactionValue()) {
+					printError(confParser.getTestDirectory(), configuration,
+							replacement, refinedModel, constraint, model,
+							configuration.getCurrentClaim(),
+							record.getRefinementSatisfactionValue(),
+							record.getReplacementSatisfactionValue());
+				}
+			} else {
+				if (value.equals(SatisfactionValue.NOTSATISFIED)) {
+					stat.incNumUnsat();
+				}
+				if (value.equals(SatisfactionValue.SATISFIED)) {
+					stat.incNumSat();
+				}
+				record = new Record(configuration, value);
+			}
+			resultWriter.append(record);
+			System.gc();
+			System.runFinalization();
+			ConfWriter cw = new ConfWriter(confParser,
+					randomConfigurationGenerator, confParser.getTestDirectory()
+							+ "/confFile.txt");
+			cw.write();
+			totalTimer.stop();
+			System.out.println("Configuration evaluated in: "
+					+ totalTimer.elapsed(TimeUnit.MINUTES) + " m ");
+		}
+		testTimer.stop();
+		System.out.println("Test performed in: "
+				+ testTimer.elapsed(TimeUnit.MINUTES) + " m ");
 
-    }
+	}
 
-    /**
-     * @param testDirectory
-     * @param configuration
-     * @param refinementSatisfactionvalue
-     * @param replacementSatisfactionvalue
-     * @throws InternalError
-     * @throws Exception
-     */
-    private static void printError(String testDirectory,
-            Configuration configuration, Replacement replacement,
-            IBA refinedModel, Constraint constraint, IBA model, BA claim,
-            SatisfactionValue refinementSatisfactionvalue,
-            SatisfactionValue replacementSatisfactionvalue)
-            throws InternalError, Exception {
+	private Replacement getReplacement(Record record,
+			List<Replacement> replacements) {
+		Replacement replacement = replacements.iterator().next();
 
-        File dir = new File(testDirectory + "Test"
-                + configuration.getTestNumber() + "/Claim"
-                + configuration.getClaimNumber() + "/Experiment"
-                + configuration.getConfigurationId());
-        dir.mkdir();
+		record.setNumReplacementIncomingTransitions(replacement
+				.getIncomingTransitions().size());
+		record.setNumReplacementOutgoingTransitions(replacement
+				.getOutgoingTransitions().size());
 
-        ReplacementToElementTransformer replacementTransformer = new ReplacementToElementTransformer();
-        XMLWriter replacementWriter = new XMLWriter(new File(testDirectory
-                + "Test" + configuration.getTestNumber() + "/Claim"
-                + configuration.getClaimNumber() + "/" + "/Experiment"
-                + configuration.getConfigurationId() + "/replacement.xml"),
-                replacementTransformer.transform(replacement));
-        replacementWriter.perform();
+		record.setNumReplacementStates(replacement.getAutomaton().size());
+		return replacement;
+	}
 
-        IBAToElementTrasformer refinementTransformer = new IBAToElementTrasformer();
-        XMLWriter refinementWriter = new XMLWriter(new File(testDirectory
-                + "Test" + configuration.getTestNumber() + "/Claim"
-                + configuration.getClaimNumber() + "/" + "/Experiment"
-                + configuration.getConfigurationId() + "/refinement.xml"),
-                refinementTransformer.transform(refinedModel));
-        refinementWriter.perform();
+	private Constraint computeConstraint(Configuration configuration,
+			IBA model, Checker checker, Replacement replacement, Record record) {
+		Stopwatch constraintComputationTimer = Stopwatch.createUnstarted();
 
-        ConstraintToElementTransformer constraintTransformer = new ConstraintToElementTransformer();
-        XMLWriter constraintWriter = new XMLWriter(new File(testDirectory
-                + "Test" + configuration.getTestNumber() + "/Claim"
-                + configuration.getClaimNumber() + "/" + "/Experiment"
-                + configuration.getConfigurationId() + "/constraint.xml"),
-                constraintTransformer.transform(constraint));
-        constraintWriter.perform();
+		constraintComputationTimer.start();
+		Constraint constraint = computeConstraint(
+				configuration.getCurrentClaim(), model, checker,
+				replacement.getModelState());
+		constraintComputationTimer.stop();
 
-        IBAToElementTrasformer modelToElementTransformer = new IBAToElementTrasformer();
+		record.setConstraintComputationTime(constraintComputationTimer
+				.elapsed(TimeUnit.NANOSECONDS));
+		SubProperty subProperty = constraint.getSubProperty(replacement
+				.getModelState());
 
-        XMLWriter writer = new XMLWriter(new File(testDirectory + "Test"
-                + configuration.getTestNumber() + "/Claim"
-                + configuration.getClaimNumber() + "/" + "/Experiment"
-                + configuration.getConfigurationId() + "/model.xml"),
-                modelToElementTransformer.transform(model));
-        writer.perform();
+		record.setSubPropertyYellowIncomingTransitions(subProperty
+				.getNumYellowIncomingTransitions());
+		record.setSubPropertyNumIncomingTransitions(subProperty
+				.getNumIncomingTransitions());
+		record.setSubPropertyGreenIncomingTransitions(subProperty
+				.getGreenIncomingTransitions().size());
 
-        BAToElementTrasformer claimToElementTransformer = new BAToElementTrasformer();
+		record.setSubPropertyRedOutgoingTransitions(subProperty
+				.getNumRedOutgoingTransitions());
+		record.setSubPropertyYellowOutgingTransition(subProperty
+				.getNumYellowOutgoingTransitions());
+		record.setSubPropertyNumOutgoingTransition(subProperty
+				.getNumOutgoingTransitions());
 
-        XMLWriter claimWriter = new XMLWriter(new File(testDirectory + "Test"
-                + configuration.getTestNumber() + "/Claim"
-                + configuration.getClaimNumber() + "/" + "/Experiment"
-                + configuration.getConfigurationId() + "/claim.xml"),
-                claimToElementTransformer.transform(claim));
-        claimWriter.perform();
+		record.setSubPropertyStates(subProperty.getAutomaton().size());
+		record.setConstraintComputationTime(constraintComputationTimer
+				.elapsed(TimeUnit.MILLISECONDS));
+		System.out.println("Constraint computed in: "
+				+ constraintComputationTimer.elapsed(TimeUnit.MINUTES));
+		return constraint;
+	}
 
-        throw new InternalError("Test Number " + configuration.getTestNumber()
-                + " \t Claim Number " + configuration.getClaimNumber()
-                + " \t Configuration " + configuration.getConfigurationId()
-                + "\t refinement " + refinementSatisfactionvalue
-                + " \t replacement: " + replacementSatisfactionvalue);
-    }
+	/**
+	 * @param testDirectory
+	 * @param configuration
+	 * @param refinementSatisfactionvalue
+	 * @param replacementSatisfactionvalue
+	 * @throws InternalError
+	 * @throws Exception
+	 */
+	private static void printError(String testDirectory,
+			Configuration configuration, Replacement replacement,
+			IBA refinedModel, Constraint constraint, IBA model, BA claim,
+			SatisfactionValue refinementSatisfactionvalue,
+			SatisfactionValue replacementSatisfactionvalue)
+			throws InternalError, Exception {
 
-    private static Constraint computeConstraint(BA claim, IBA model,
-            Checker checker, State transparentState) {
-        ConstraintGenerator cg = new ConstraintGenerator(checker);
-        Constraint constraint = cg.perform();
+		File dir = new File(testDirectory + "Test"
+				+ configuration.getTestNumber() + "/Claim"
+				+ configuration.getClaimNumber() + "/Experiment"
+				+ configuration.getConfigurationId());
+		dir.mkdir();
 
-        return constraint;
-    }
+		ReplacementToElementTransformer replacementTransformer = new ReplacementToElementTransformer();
+		XMLWriter replacementWriter = new XMLWriter(new File(testDirectory
+				+ "Test" + configuration.getTestNumber() + "/Claim"
+				+ configuration.getClaimNumber() + "/" + "/Experiment"
+				+ configuration.getConfigurationId() + "/replacement.xml"),
+				replacementTransformer.transform(replacement));
+		replacementWriter.perform();
+
+		IBAToElementTrasformer refinementTransformer = new IBAToElementTrasformer();
+		XMLWriter refinementWriter = new XMLWriter(new File(testDirectory
+				+ "Test" + configuration.getTestNumber() + "/Claim"
+				+ configuration.getClaimNumber() + "/" + "/Experiment"
+				+ configuration.getConfigurationId() + "/refinement.xml"),
+				refinementTransformer.transform(refinedModel));
+		refinementWriter.perform();
+
+		ConstraintToElementTransformer constraintTransformer = new ConstraintToElementTransformer();
+		XMLWriter constraintWriter = new XMLWriter(new File(testDirectory
+				+ "Test" + configuration.getTestNumber() + "/Claim"
+				+ configuration.getClaimNumber() + "/" + "/Experiment"
+				+ configuration.getConfigurationId() + "/constraint.xml"),
+				constraintTransformer.transform(constraint));
+		constraintWriter.perform();
+
+		IBAToElementTrasformer modelToElementTransformer = new IBAToElementTrasformer();
+
+		XMLWriter writer = new XMLWriter(new File(testDirectory + "Test"
+				+ configuration.getTestNumber() + "/Claim"
+				+ configuration.getClaimNumber() + "/" + "/Experiment"
+				+ configuration.getConfigurationId() + "/model.xml"),
+				modelToElementTransformer.transform(model));
+		writer.perform();
+
+		BAToElementTrasformer claimToElementTransformer = new BAToElementTrasformer();
+
+		XMLWriter claimWriter = new XMLWriter(new File(testDirectory + "Test"
+				+ configuration.getTestNumber() + "/Claim"
+				+ configuration.getClaimNumber() + "/" + "/Experiment"
+				+ configuration.getConfigurationId() + "/claim.xml"),
+				claimToElementTransformer.transform(claim));
+		claimWriter.perform();
+
+		throw new InternalError("Test Number " + configuration.getTestNumber()
+				+ " \t Claim Number " + configuration.getClaimNumber()
+				+ " \t Configuration " + configuration.getConfigurationId()
+				+ "\t refinement " + refinementSatisfactionvalue
+				+ " \t replacement: " + replacementSatisfactionvalue);
+	}
+
+	private static Constraint computeConstraint(BA claim, IBA model,
+			Checker checker, State blackBoxState) {
+		ConstraintGenerator cg = new ConstraintGenerator(checker);
+		Constraint constraint = cg.perform(blackBoxState);
+
+		return constraint;
+	}
+
 }

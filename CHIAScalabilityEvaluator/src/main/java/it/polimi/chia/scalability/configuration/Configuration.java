@@ -24,7 +24,7 @@ public class Configuration {
 
 	
 	private final int testNumber;
-	
+
 	private final int claimNumber;
 	/**
 	 * is the identifier of the configuration
@@ -50,7 +50,7 @@ public class Configuration {
 	 * the density of the states to be inserted into the replacement
 	 */
 	private final double replacementDensity;
-	
+
 	/**
 	 * The set of propositions to be considered in the generation of the random
 	 * automaton
@@ -77,10 +77,12 @@ public class Configuration {
 	 *             accepting or the transparent states or the replacement
 	 *             density is less than zero
 	 */
-	public Configuration(int configurationId,int nStates, double transitionDensity,
-			double acceptingDensity, double transparentDensity,
-			double replacementDensity, BA currentClaim, int testNumber, int claimNumber) {
-		Preconditions.checkArgument(claimNumber>=0, "The claim number: "+claimNumber+"must be grater or equal to 1");
+	public Configuration(int configurationId, int nStates,
+			double transitionDensity, double acceptingDensity,
+			double transparentDensity, double replacementDensity,
+			BA currentClaim, int testNumber, int claimNumber) {
+		Preconditions.checkArgument(claimNumber >= 0, "The claim number: "
+				+ claimNumber + "must be grater or equal to 1");
 		Preconditions.checkArgument(nStates >= 0,
 				"The number of the states must be grather or equal to zero");
 		Preconditions.checkArgument(transitionDensity >= 0,
@@ -94,19 +96,19 @@ public class Configuration {
 		Preconditions.checkArgument(replacementDensity >= 0,
 				"The replacement density must be grather or equal to zero");
 
-		this.configurationId=configurationId;
+		this.configurationId = configurationId;
 		this.propositions = new HashSet<IGraphProposition>();
 		this.propositions.add(new GraphProposition("a", false));
 		this.propositions.add(new GraphProposition("b", false));
 
-		this.transitionDensity = transitionDensity;
-		this.acceptingDensity = acceptingDensity;
+		this.transitionDensity = Math.round(transitionDensity * 10)/10.0;
+		this.acceptingDensity =  Math.round(acceptingDensity * 10)/10.0;
 		this.nStates = nStates;
-		this.transparentDensity = transparentDensity;
-		this.replacementDensity = replacementDensity;
-		this.currentClaim=currentClaim;
-		this.testNumber=testNumber;
-		this.claimNumber=claimNumber;
+		this.transparentDensity = Math.round(transparentDensity * 10)/10.0;
+		this.replacementDensity = Math.round(replacementDensity * 10)/10.0;
+		this.currentClaim = currentClaim;
+		this.testNumber = testNumber;
+		this.claimNumber = claimNumber;
 	}
 
 	/**
@@ -149,23 +151,23 @@ public class Configuration {
 	 * automaton
 	 * 
 	 * @return the set of the propositions to be used in the generation of the
-	 * automaton
+	 *         automaton
 	 */
 	public Set<IGraphProposition> getPropositions() {
 		return Collections.unmodifiableSet(propositions);
 	}
 
-	
+	public String getHeader() {
+		return "configurationId \t testNumber \t claimNumber \t nStates \t  transitionDensity \t acceptingDensity "
+				+ " \t transparentDensity \t replacementDensity \t propositions \t ";
+	}
 
 	@Override
 	public String toString() {
-		return "Configuration [testNumber=" + testNumber + ", claimNumber="
-				+ claimNumber + ", configurationId=" + configurationId
-				+ ", transitionDensity=" + transitionDensity
-				+ ", acceptingDensity=" + acceptingDensity + ", nStates="
-				+ nStates + ", transparentDensity=" + transparentDensity
-				+ ", replacementDensity=" + replacementDensity
-				+ ", propositions=" + propositions +"]";
+		return configurationId + "\t" + testNumber + "\t" + claimNumber + "\t"
+				+ nStates + "\t" + +transitionDensity + "\t" + acceptingDensity
+				+ "\t" + transparentDensity + "\t" + replacementDensity + "\t"
+				+ propositions + "\t";
 	}
 
 	/**

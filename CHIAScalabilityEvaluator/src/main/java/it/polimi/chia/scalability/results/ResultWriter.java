@@ -65,7 +65,9 @@ public class ResultWriter {
 					.write("tRefv: refinementVerificationTime the time required to verify the refinement \n");
 			this.fileWriter
 					.write("tRepv: replacementVerificationTime the time required to verify the replacement \n ");
-			
+			this.fileWriter
+					.write("tCC: constraintComputationTime the time required to compute a constraint \n ");
+	
 			this.fileWriter
 			.write("modSize: size of the model \n ");
 
@@ -119,6 +121,7 @@ public class ResultWriter {
 		stringRecord += record.getSizeOfTheReplacementVerification() + "\t";
 		stringRecord += record.getRefinementVerificationTime() + "\t";
 		stringRecord += record.getReplacementVerificationTime() + "\t";
+		stringRecord += record.getConstraintComputationTime() + "\t";
 		stringRecord += record.getReplacementAutomataSize() + "\t";
 		stringRecord += record.getReplacementIncomingTransitions() + "\t";
 		stringRecord += record.getReplacementOutgoingTransitions() + "\t";

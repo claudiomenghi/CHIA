@@ -37,11 +37,26 @@
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
+				<targetPath>${project.build.directory}</targetPath>
 				<includes>
 					<include>Claim1.xml</include>
 					<include>Claim2.xml</include>
 					<include>Claim3.xml</include>
+					<include>config.txt</include>
+					<include>configEx1.txt</include>
+					<include>configEx2.txt</include>
 				</includes>
+				<filtering>false</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<targetPath>${basedir}/target/classes</targetPath>
+				<includes>
+					<include>History.txt</include>
+					<include>log4j.properties</include>
+					<include>logFile.log</include>
+				</includes>
+				<filtering>false</filtering>
 			</resource>
 		</resources>
 
@@ -59,7 +74,7 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>it.polimi.chia.scalability.ScalabilityTest</mainClass>
+					<mainClass>it.polimi.chia.scalability.experiments.Experiment1</mainClass>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -69,7 +84,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>it.polimi.chia.scalability.ScalabilityTest</mainClass>
+							<mainClass>it.polimi.chia.scalability.experiments.Experiment1</mainClass>
 						</manifest>
 						<manifestEntries>
 							<Class-Path>.</Class-Path>
@@ -83,7 +98,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>it.polimi.chia.scalability.ScalabilityTest</mainClass>
+							<mainClass>it.polimi.chia.scalability.experiments.Experiment1</mainClass>
 						</manifest>
 						<manifestEntries>
 							<Class-Path>.</Class-Path>
@@ -140,7 +155,7 @@
 						</descriptorRefs>
 						<archive>
 							<manifest>
-								<mainClass>it.polimi.scalability.ScalabilityTest</mainClass>
+								<mainClass>it.polimi.chia.scalability.experiments.Experiment1</mainClass>
 							</manifest>
 							<manifestEntries>
 								<Class-Path>.</Class-Path>
@@ -270,6 +285,11 @@
 			<groupId>org.codehaus.mojo</groupId>
 			<artifactId>exec-maven-plugin</artifactId>
 			<version>1.4.0</version>
+		</dependency>
+		<dependency>
+			<groupId>it.polimi.chia</groupId>
+			<artifactId>CHIALogging</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 	<distributionManagement>

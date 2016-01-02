@@ -1,4 +1,4 @@
-package it.polimi.chia.scalability;
+package it.polimi.chia.scalability.randomGenerators;
 
 import it.polimi.action.CHIAAction;
 import it.polimi.automata.BA;
