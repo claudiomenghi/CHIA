@@ -2,8 +2,11 @@ package it.polimi.chia.scalability.claimLoader;
 
 import it.polimi.automata.BA;
 import it.polimi.automata.io.in.ClaimReader;
+import it.polimi.automata.io.out.BAToElementTrasformer;
+import it.polimi.automata.io.out.ElementToStringTransformer;
 import it.polimi.model.ltltoba.LTLtoBATransformer;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,13 +20,15 @@ public class ClaimLoader {
 
 		List<BA> claims = new ArrayList<BA>();
 
-		claims.add(new LTLtoBATransformer(claim0).perform());
-		claims.add(new LTLtoBATransformer(claim1).perform());
-		claims.add(new LTLtoBATransformer(claim2).perform());
-
+		//claims.add(new LTLtoBATransformer(claim0).perform());
+		//claims.add(new LTLtoBATransformer(claim1).perform());
+		//claims.add(new LTLtoBATransformer(claim2).perform());
+		
+		claims.add(new ClaimReader(new File(ClassLoader.getSystemResource("Claim1.xml").toURI())).perform());
+		claims.add(new ClaimReader(new File(ClassLoader.getSystemResource("Claim2.xml").toURI())).perform());
+		claims.add(new ClaimReader(new File(ClassLoader.getSystemResource("Claim3.xml").toURI())).perform());
 		return claims;
 
 	}
-	
-	
+
 }

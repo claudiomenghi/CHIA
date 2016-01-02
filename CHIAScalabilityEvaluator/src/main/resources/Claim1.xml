@@ -1,17 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- !((a)U(b)) -->
-<ba>
+<?xml version="1.0" encoding="UTF-8"?><ba>
     <propositions>
         <proposition name="b"/>
         <proposition name="a"/>
     </propositions>
     <states>
-        <state accepting="true" id="1" name="1"/>
-        <state accepting="true" id="2" initial="true" name="2"/>
+        <state accepting="true" id="4" name="4"/>
+        <state id="5" name="5"/>
+        <state id="6" initial="true" name="6"/>
     </states>
     <transitions>
-        <transition destination="1" id="1" propositions="SIGMA" source="1"/>
-        <transition destination="2" id="2" propositions="!b" source="2"/>
-        <transition destination="1" id="3" propositions="!b^!a" source="2"/>
+        <transition destination="4" id="8" propositions="SIGMA" source="4"/>
+        <transition destination="5" id="9" propositions="SIGMA" source="5"/>
+        <transition destination="4" id="10" propositions="b" source="5"/>
+        <transition destination="6" id="11" propositions="SIGMA" source="6"/>
+        <transition destination="4" id="12" propositions="!a" source="6"/>
+        <transition destination="5" id="13" propositions="SIGMA" source="6"/>
+        <transition destination="4" id="14" propositions="b" source="6"/>
     </transitions>
 </ba>

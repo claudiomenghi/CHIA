@@ -1,17 +1,38 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- !([](a->(<>b))) -->
-<ba>
+<?xml version="1.0" encoding="UTF-8"?><ba>
     <propositions>
         <proposition name="b"/>
         <proposition name="a"/>
     </propositions>
     <states>
-        <state accepting="true" id="3" name="3"/>
-        <state id="4" initial="true" name="4"/>
+        <state id="12" name="12"/>
+        <state id="13" name="13"/>
+        <state accepting="true" id="14" initial="true" name="14"/>
+        <state id="15" name="15"/>
+        <state accepting="true" id="16" name="16"/>
     </states>
     <transitions>
-        <transition destination="3" id="4" propositions="!b" source="3"/>
-        <transition destination="4" id="5" propositions="SIGMA" source="4"/>
-        <transition destination="3" id="6" propositions="!b^a" source="4"/>
+        <transition destination="12" id="38" propositions="!a" source="12"/>
+        <transition destination="13" id="39" propositions="SIGMA" source="12"/>
+        <transition destination="12" id="40" propositions="a" source="12"/>
+        <transition destination="14" id="41" propositions="b^!a" source="12"/>
+        <transition destination="15" id="42" propositions="b" source="12"/>
+        <transition destination="14" id="43" propositions="b^a" source="12"/>
+        <transition destination="13" id="44" propositions="SIGMA" source="13"/>
+        <transition destination="12" id="45" propositions="a" source="13"/>
+        <transition destination="15" id="46" propositions="b" source="13"/>
+        <transition destination="14" id="47" propositions="b^a" source="13"/>
+        <transition destination="12" id="48" propositions="!a" source="16"/>
+        <transition destination="13" id="49" propositions="SIGMA" source="16"/>
+        <transition destination="12" id="50" propositions="a" source="16"/>
+        <transition destination="14" id="51" propositions="b^!a" source="16"/>
+        <transition destination="15" id="52" propositions="b" source="16"/>
+        <transition destination="14" id="53" propositions="b^a" source="16"/>
+        <transition destination="15" id="54" propositions="SIGMA" source="15"/>
+        <transition destination="16" id="55" propositions="a" source="15"/>
+        <transition destination="14" id="56" propositions="b^a" source="15"/>
+        <transition destination="14" id="57" propositions="!a" source="14"/>
+        <transition destination="15" id="58" propositions="SIGMA" source="14"/>
+        <transition destination="12" id="59" propositions="a" source="14"/>
+        <transition destination="14" id="60" propositions="b^a" source="14"/>
     </transitions>
 </ba>

@@ -1,13 +1,51 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- !(<>((a)U(b))) -->
-<ba>
+<?xml version="1.0" encoding="UTF-8"?><ba>
     <propositions>
         <proposition name="b"/>
+        <proposition name="a"/>
     </propositions>
     <states>
-        <state accepting="true" id="5" initial="true" name="5"/>
+        <state accepting="true" id="33" name="33"/>
+        <state accepting="true" id="34" name="34"/>
+        <state accepting="true" id="35" name="35"/>
+        <state accepting="true" id="36" name="36"/>
+        <state accepting="true" id="37" name="37"/>
+        <state accepting="true" id="38" name="38"/>
+        <state id="39" name="39"/>
+        <state id="40" name="40"/>
+        <state id="41" name="41"/>
+        <state accepting="true" id="42" name="42"/>
+        <state accepting="true" id="43" name="43"/>
+        <state accepting="true" id="44" name="44"/>
+        <state id="45" name="45"/>
+        <state id="46" name="46"/>
+        <state id="47" name="47"/>
+        <state id="48" initial="true" name="48"/>
     </states>
     <transitions>
-        <transition destination="5" id="7" propositions="!b" source="5"/>
+        <transition destination="34" id="86" propositions="b^a" source="33"/>
+        <transition destination="33" id="87" propositions="b^a" source="35"/>
+        <transition destination="37" id="88" propositions="b^a" source="36"/>
+        <transition destination="34" id="89" propositions="b" source="37"/>
+        <transition destination="37" id="90" propositions="b" source="38"/>
+        <transition destination="39" id="91" propositions="SIGMA" source="39"/>
+        <transition destination="38" id="92" propositions="b" source="39"/>
+        <transition destination="39" id="93" propositions="a" source="40"/>
+        <transition destination="38" id="94" propositions="b^a" source="40"/>
+        <transition destination="40" id="95" propositions="a" source="41"/>
+        <transition destination="36" id="96" propositions="b^a" source="41"/>
+        <transition destination="43" id="97" propositions="b^a" source="42"/>
+        <transition destination="34" id="98" propositions="SIGMA" source="34"/>
+        <transition destination="34" id="99" propositions="a" source="43"/>
+        <transition destination="43" id="100" propositions="a" source="44"/>
+        <transition destination="45" id="101" propositions="SIGMA" source="45"/>
+        <transition destination="44" id="102" propositions="a" source="45"/>
+        <transition destination="45" id="103" propositions="b" source="46"/>
+        <transition destination="44" id="104" propositions="b^a" source="46"/>
+        <transition destination="46" id="105" propositions="b" source="47"/>
+        <transition destination="42" id="106" propositions="b^a" source="47"/>
+        <transition destination="48" id="107" propositions="SIGMA" source="48"/>
+        <transition destination="47" id="108" propositions="b" source="48"/>
+        <transition destination="41" id="109" propositions="a" source="48"/>
+        <transition destination="35" id="110" propositions="b^a" source="48"/>
     </transitions>
 </ba>
