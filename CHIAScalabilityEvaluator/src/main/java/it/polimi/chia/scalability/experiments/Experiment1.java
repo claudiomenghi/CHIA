@@ -97,7 +97,7 @@ public class Experiment1 {
 	}
 
 	public static void main(String[] args) throws Exception {
-		ConfParser parser = new ConfParser("./configEx1.txt");
+		ConfParser parser = new ConfParser("configEx1.txt");
 
 		Experiment1 scalabilityTest = new Experiment1(parser);
 		scalabilityTest.performTests();

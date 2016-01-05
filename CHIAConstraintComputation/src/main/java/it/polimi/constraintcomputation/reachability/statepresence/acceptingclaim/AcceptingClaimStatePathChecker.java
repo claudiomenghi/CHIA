@@ -47,7 +47,7 @@ public class AcceptingClaimStatePathChecker {
      *             into the set of the states of the intersection automaton
      */
     public AcceptingClaimStatePathChecker(Set<State> allowedStates,
-            IntersectionBuilder intersectionBuilder) {
+            IntersectionBuilder intersectionBuilder, Set<State> interestingSourceStates, Set<State> interestingDestinationState) {
 
         Preconditions.checkNotNull(allowedStates,
                 "The set of the states that can be crossed cannot be null");
@@ -64,7 +64,7 @@ public class AcceptingClaimStatePathChecker {
         statePresencePathChecker = new StatePresencePathChecker(
                 intersectionBuilder.getIntersectionAutomaton(), allowedStates,
                 interestingStates);
-        statePresencePathChecker.perform();
+        statePresencePathChecker.perform(interestingSourceStates, interestingDestinationState);
     }
 
     /**

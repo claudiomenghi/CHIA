@@ -42,7 +42,7 @@ public class AcceptingClaimStatePathCheckerTest {
                         ba));
         intersectionBuilder.perform();
         assertNotNull(new AcceptingClaimStatePathChecker(null,
-                intersectionBuilder));
+                intersectionBuilder, intersectionBuilder.getIntersectionAutomaton().getStates(), intersectionBuilder.getIntersectionAutomaton().getStates()));
     }
 
     /**
@@ -60,7 +60,7 @@ public class AcceptingClaimStatePathCheckerTest {
                         ba));
         intersectionBuilder.perform();
         assertNotNull(new AcceptingClaimStatePathChecker(new HashSet<State>(),
-                null));
+                null, intersectionBuilder.getIntersectionAutomaton().getStates(), intersectionBuilder.getIntersectionAutomaton().getStates()));
     }
 
     /**
@@ -80,7 +80,7 @@ public class AcceptingClaimStatePathCheckerTest {
         Set<State> states = new HashSet<State>();
         states.add(new StateFactory().create());
         assertNotNull(new AcceptingClaimStatePathChecker(states,
-                intersectionBuilder));
+                intersectionBuilder, intersectionBuilder.getIntersectionAutomaton().getStates(), intersectionBuilder.getIntersectionAutomaton().getStates()));
     }
 
     /**
@@ -98,7 +98,7 @@ public class AcceptingClaimStatePathCheckerTest {
                         ba));
         intersectionBuilder.perform();
         assertNotNull(new AcceptingClaimStatePathChecker(new HashSet<State>(),
-                intersectionBuilder));
+                intersectionBuilder, intersectionBuilder.getIntersectionAutomaton().getStates(), intersectionBuilder.getIntersectionAutomaton().getStates()));
     }
 
     /**
@@ -144,7 +144,7 @@ public class AcceptingClaimStatePathCheckerTest {
 
         AcceptingClaimStatePathChecker pathChecker = new AcceptingClaimStatePathChecker(
                 intersectionBuilder.getIntersectionAutomaton()
-                        .getPurelyRegularStates(), intersectionBuilder);
+                        .getPurelyRegularStates(), intersectionBuilder, intersectionBuilder.getIntersectionAutomaton().getStates(), intersectionBuilder.getIntersectionAutomaton().getStates());
 
         for (State stateSource : intersectionBuilder.getIntersectionAutomaton()
                 .getPurelyRegularStates()) {
@@ -195,7 +195,7 @@ public class AcceptingClaimStatePathCheckerTest {
 
         AcceptingClaimStatePathChecker pathChecker = new AcceptingClaimStatePathChecker(
                 intersectionBuilder.getIntersectionAutomaton()
-                        .getPurelyRegularStates(), intersectionBuilder);
+                        .getPurelyRegularStates(), intersectionBuilder, intersectionBuilder.getIntersectionAutomaton().getStates(), intersectionBuilder.getIntersectionAutomaton().getStates());
 
         for (State stateSource : intersectionBuilder.getIntersectionAutomaton()
                 .getPurelyRegularStates()) {

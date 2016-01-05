@@ -1,6 +1,6 @@
 RESULTS: results.txt
 RESULTSPOSSIBLY: resultsPossibly.txt
-TESTDIRECTORY: ./Ex1
+TESTDIRECTORY: /Users/Claudio1/Desktop/SCALABILITYTEST/Ex1
 N_TESTS: 20
 
 # N STATES

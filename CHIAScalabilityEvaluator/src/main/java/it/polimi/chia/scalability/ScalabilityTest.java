@@ -253,7 +253,7 @@ public class ScalabilityTest {
 
 				// VERIFICATION OF THE REPLACEMENT
 				ReplacementChecker replacementChecker = new Task4(replacement,
-						constraint, record, acceptingPolicy).perform();
+						constraint,  acceptingPolicy).perform();
 
 				// result comparison
 				if (refinementChecker.getIntersectionAutomataSize() >= replacementChecker
@@ -274,25 +274,18 @@ public class ScalabilityTest {
 							record.getRefinementSatisfactionValue(),
 							record.getReplacementSatisfactionValue());
 				}
-			} else {
-				if (value.equals(SatisfactionValue.NOTSATISFIED)) {
-					stat.incNumUnsat();
-				}
-				if (value.equals(SatisfactionValue.SATISFIED)) {
-					stat.incNumSat();
-				}
-				record = new Record(configuration, value);
-			}
-			resultWriter.append(record);
-			System.gc();
-			System.runFinalization();
-			ConfWriter cw = new ConfWriter(confParser,
-					randomConfigurationGenerator, confParser.getTestDirectory()
-							+ "/confFile.txt");
-			cw.write();
-			totalTimer.stop();
-			System.out.println("Configuration evaluated in: "
-					+ totalTimer.elapsed(TimeUnit.MINUTES) + " m ");
+				resultWriter.append(record);
+				System.gc();
+				System.runFinalization();
+				ConfWriter cw = new ConfWriter(confParser,
+						randomConfigurationGenerator, confParser.getTestDirectory()
+								+ "/confFile.txt");
+				cw.write();
+				totalTimer.stop();
+				System.out.println("Configuration evaluated in: "
+						+ totalTimer.elapsed(TimeUnit.MINUTES) + " m ");
+			} 
+			
 		}
 		testTimer.stop();
 		System.out.println("Test performed in: "

@@ -3,12 +3,9 @@ package it.polimi.constraintcomputation.reachability.statepresence;
 import it.polimi.automata.BA;
 import it.polimi.automata.state.State;
 
-import java.util.AbstractMap;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import com.google.common.base.Preconditions;
@@ -41,23 +38,12 @@ public class StatePresencePathChecker {
      */
     private final Set<State> intersetingStates;
 
-    /**
-     * This map specifies for each interesting state the set of the states that
-     * are reachable through a backward search
-     */
-    private final Map<State, Set<State>> interestingStateBackwardReachability;
-
-    /**
-     * This map specifies for each interesting state the set of the states that
-     * are reachable through a forward search
-     */
-    private final Map<State, Set<State>> interestingStateForwardReachability;
 
     /**
      * specifies that from the first state of the entry it is possible to reach
      * the second state of the entry by crossing at least an interesting state
      */
-    private final Set<Entry<State, State>> reachable;
+    private final Map<State, Set<State>> reachable;
 
     /**
      * specifies if the search has been performed
@@ -112,21 +98,14 @@ public class StatePresencePathChecker {
                         states.containsAll(intersetingStates),
                         "The set of interesting states is not included into the set of the states that can be traversed");
         this.ba = ba;
-        this.interestingStateBackwardReachability = new HashMap<State, Set<State>>();
-        this.interestingStateForwardReachability = new HashMap<State, Set<State>>();
-        this.states = Collections.unmodifiableSet(states);
-        this.intersetingStates = Collections.unmodifiableSet(intersetingStates);
+        this.states = new HashSet<State>(states);
+        this.intersetingStates = new HashSet<State>(intersetingStates);
 
-        this.reachable = new HashSet<Map.Entry<State, State>>();
+        this.reachable = new HashMap<State, Set<State>>();
         this.performed = false;
         // creates for each of the intersting state an entry in the backward and
         // in the forward map
-        for (State state : intersetingStates) {
-            this.interestingStateBackwardReachability.put(state,
-                    new HashSet<State>());
-            this.interestingStateForwardReachability.put(state,
-                    new HashSet<State>());
-        }
+     
     }
 
     /**
@@ -171,28 +150,38 @@ public class StatePresencePathChecker {
                         this.states.contains(destination),
                         "The destination state must be contained into the set of the states that can be traversed");
 
-        return this.reachable
-                .contains(new AbstractMap.SimpleEntry<State, State>(source,
-                        destination));
+        if(!this.reachable.containsKey(source)){
+        	return false;
+        	
+        }
+        return this.reachable.get(source).contains(destination);
     }
 
     /**
      * computes whether there exists a path from every possible source to
      * destination state that contains at least a state of interest
      */
-    public void perform() {
+    public void perform(Set<State> interestingSourceStates, Set<State> interestingDestinationState) {
 
+    	System.out.println("Heap size: "+Runtime.getRuntime().totalMemory());
+    	System.out.println("Heap max size: "+Runtime.getRuntime().maxMemory());
+    	System.out.println("Free Heap size: "+Runtime.getRuntime().freeMemory());
+    	Set<State> forwardReachableStates=new HashSet<State>(this.intersetingStates.size());
+    	Set<State> backwardStates=new HashSet<State>(this.intersetingStates.size());
         // for each state of interest computes the backward and the forward
         // reachable states
         for (State interestingState : this.intersetingStates) {
-            backwardCheck(interestingState);
-            forwardCheck(interestingState);
+            backwardCheck(interestingState, backwardStates);
+            forwardCheck(interestingState, forwardReachableStates);
+            this.findConnectedStates(backwardStates, forwardReachableStates, interestingSourceStates, interestingDestinationState);
+            forwardReachableStates.clear();
+            backwardStates.clear();
+           
         }
 
-        for (State interstingState : this.intersetingStates) {
-            this.findConnectedStates(interstingState);
-        }
+        this.intersetingStates.clear();
         this.performed = true;
+        System.out.println("End");
     }
 
     /**
@@ -202,14 +191,16 @@ public class StatePresencePathChecker {
      * @param interstingState
      *            the state that is currently analyzed
      */
-    private void findConnectedStates(State interstingState) {
-        for (State sourceState : this.interestingStateBackwardReachability
-                .get(interstingState)) {
-            for (State destinationState : this.interestingStateForwardReachability
-                    .get(interstingState)) {
-                this.reachable.add(new AbstractMap.SimpleEntry<State, State>(
-                        sourceState, destinationState));
-            }
+    private void findConnectedStates(Set<State> backwardStates, Set<State> forwardStates, Set<State> interestingSourceStates, Set<State> interestingDestinationState) {
+    	backwardStates.retainAll(interestingSourceStates);
+    	forwardStates.retainAll(interestingDestinationState);
+    	for (State sourceState : backwardStates) {
+        	if(this.reachable.containsKey(sourceState)){
+        		this.reachable.get(sourceState).addAll(forwardStates);
+        	}
+        	else{
+        		this.reachable.put(sourceState, forwardStates);
+        	}
         }
     }
 
@@ -221,9 +212,9 @@ public class StatePresencePathChecker {
      * @throws NullPointerException
      *             if the specified state is null
      */
-    private void backwardCheck(State state) {
+    private void backwardCheck(State state, Set<State> backwardStates) {
 
-        this.interestingStateBackwardReachability.get(state).add(state);
+    	backwardStates.add(state);
         // the set of the states to be analyzed next
         Set<State> nextStates = new HashSet<State>();
         nextStates.add(state);
@@ -235,13 +226,11 @@ public class StatePresencePathChecker {
             for (State predecessor : this.ba.getPredecessors(next)) {
                 if (this.states.contains(predecessor)
                         && !visitedStates.contains(predecessor)) {
-                    this.interestingStateBackwardReachability.get(state).add(
-                            predecessor);
+                	backwardStates.add(predecessor);
                     nextStates.add(predecessor);
                 }
             }
         }
-
     }
 
     /**
@@ -252,9 +241,9 @@ public class StatePresencePathChecker {
      * @throws NullPointerException
      *             if the specified state is null
      */
-    private void forwardCheck(State state) {
-
-        this.interestingStateForwardReachability.get(state).add(state);
+    private void forwardCheck(State state, Set<State> forwardStates) {
+ 
+    	forwardStates.add(state);
         Set<State> nextStates = new HashSet<State>();
         nextStates.add(state);
         Set<State> visitedStates = new HashSet<State>();
@@ -265,11 +254,11 @@ public class StatePresencePathChecker {
             for (State successorState : this.ba.getSuccessors(next)) {
                 if (this.states.contains(successorState)
                         && !visitedStates.contains(successorState)) {
-                    this.interestingStateForwardReachability.get(state).add(
-                            successorState);
+                	forwardStates.add(successorState);
                     nextStates.add(successorState);
                 }
             }
         }
     }
+    
 }

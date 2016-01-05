@@ -105,26 +105,7 @@ public class ConstraintGenerator extends CHIAAction<Constraint> {
     @Override
     public Constraint perform() {
 
-        LOGGER.debug("starting the cleaning phase");
-        /*
-         * computes the states of the intersection automaton from which it is
-         * not possible to reach an accepting state since these states are not
-         * useful in the constraint computation
-         */
-        AutomatonCleaner intersectionCleaner = new AutomatonCleaner(
-                this.checker.getUpperIntersectionBuilder()
-                        .getIntersectionAutomaton());
-        Set<State> removedStates = intersectionCleaner.clean();
-
-        LOGGER.debug("The Automaton cleaner has removed: "
-                + removedStates.size());
-
-        // removing the removed states from the intersection and the
-        // intersection builder
-        for (State s : removedStates) {
-            this.checker.getUpperIntersectionBuilder().removeIntersectionState(
-                    s);
-        }
+        this.cleanIntersectionAutomaton();
 
         for (State blackBoxState : this.checker.getUpperIntersectionBuilder()
                 .getModel().getBlackBoxStates()) {
@@ -149,20 +130,8 @@ public class ConstraintGenerator extends CHIAAction<Constraint> {
 
     }
 
-    /**
-     * computes the constraint considering only the specific black box state
-     * 
-     * @param blackBoxState
-     *            the black box state to be considered
-     * @return the constraint containing only the sub-property associated with
-     *         the black box state
-     * @throws NullPointerException
-     *             if the black box state is null
-     */
-    public Constraint perform(State blackBoxState) {
-        Preconditions.checkNotNull(blackBoxState,
-                "The black box state to be considered cannot be null");
-        LOGGER.debug("starting the cleaning phase");
+	private void cleanIntersectionAutomaton() {
+		LOGGER.debug("starting the cleaning phase");
         /*
          * computes the states of the intersection automaton from which it is
          * not possible to reach an accepting state since these states are not
@@ -182,6 +151,22 @@ public class ConstraintGenerator extends CHIAAction<Constraint> {
             this.checker.getUpperIntersectionBuilder().removeIntersectionState(
                     s);
         }
+	}
+
+    /**
+     * computes the constraint considering only the specific black box state
+     * 
+     * @param blackBoxState
+     *            the black box state to be considered
+     * @return the constraint containing only the sub-property associated with
+     *         the black box state
+     * @throws NullPointerException
+     *             if the black box state is null
+     */
+    public Constraint perform(State blackBoxState) {
+        Preconditions.checkNotNull(blackBoxState,
+                "The black box state to be considered cannot be null");
+        cleanIntersectionAutomaton();
 
         LOGGER.debug("Computing the sub-property for the blak box state:"
                 + blackBoxState);

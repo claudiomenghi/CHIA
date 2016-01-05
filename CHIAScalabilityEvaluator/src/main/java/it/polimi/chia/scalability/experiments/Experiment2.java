@@ -22,7 +22,6 @@ import it.polimi.constraints.components.Replacement;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -100,6 +99,7 @@ public class Experiment2 {
 	}
 
 	public static void main(String[] args) throws Exception {
+		
 		ConfParser parser = new ConfParser("configEx2.txt");
 
 		Experiment2 scalabilityTest = new Experiment2(parser);
