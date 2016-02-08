@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>LabeledPluggingTransition.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CHIAConstraint</a> &gt; <a href="index.source.html" class="el_package">it.polimi.constraints.transitions</a> &gt; <span class="el_source">LabeledPluggingTransition.java</span></div><h1>LabeledPluggingTransition.java</h1><pre class="source lang-java linenums">package it.polimi.constraints.transitions;
+
+import it.polimi.automata.state.State;
+import it.polimi.automata.transition.Transition;
+
+import com.google.common.base.Preconditions;
+
+/**
+ * The Port class is used to describe how the IBA/BA that refers to the
+ * sub-property/replacement to the a black box state of the model is connected
+ * with the states of the original model. The port class stores in the source,
+ * destination and transition attributes, the source and the destinations state
+ * of the port, and the corresponding transition. Depending on whether the port
+ * represents an in-coming or an out-coming transition the source or the
+ * destination state corresponds with a state of the model. The port is also
+ * associated with a color which specifies whether from the port is possible to
+ * reach an accepting state or is reached from an initial state.
+ * 
+ * The port class contains the source and the destinations state of the port, a
+ * boolean flag that specifies if the port is in-coming or out-coming and the
+ * corresponding transition
+ * 
+ * @author Claudio Menghi
+ *
+ */
+public class LabeledPluggingTransition extends PluggingTransition {
+
+	/**
+	 * Is the counter which is used to associate to each new port a new Id
+	 */
+<span class="fc" id="L31">	public static int ID_COUNTER = 1;</span>
+
+	/**
+	 * The port is also associated with a color which specifies whether from the
+	 * port is possible to reach an accepting state or is reached from an
+	 * initial state.
+	 */
+	private Label color;
+
+	/**
+	 * creates a new {@link LabeledPluggingTransition}
+	 * 
+	 * @param id
+	 *            the id of the transition to be plugged
+	 * @param source
+	 *            is the source of the transition of the port it can be a state
+	 *            of the refinement of the model or an already specified state
+	 *            of the model
+	 * @param destination
+	 *            is the destination of the transition of the port it can be a
+	 *            state of the refinement of the model or an already specified
+	 *            state of the model
+	 * @param transition
+	 *            is the transition that connect the source with the destination
+	 * @param incoming
+	 *            true if the plugging transition is an incoming transition
+	 * @param color
+	 *            the color of the LabeledPluggingTransition
+	 * @throws NullPointerException
+	 *             if one of the parameters is null
+	 */
+	public LabeledPluggingTransition(int id, State source, State destination,
+			Transition transition, boolean incoming, Label color) {
+<span class="fc" id="L64">		super(id, source, destination, transition, incoming);</span>
+<span class="fc" id="L65">		Preconditions.checkNotNull(color,</span>
+<span class="fc" id="L66">				&quot;The color of the transitionc cannot be null&quot;);</span>
+
+<span class="fc" id="L68">		this.setLabel(color);</span>
+<span class="fc" id="L69">	}</span>
+
+	/**
+	 * creates a new port
+	 * 
+	 * @param source
+	 *            is the source of the transition of the port it can be a state
+	 *            of the refinement of the model or an already specified state
+	 *            of the model
+	 * @param destination
+	 *            is the destination of the transition of the port it can be a
+	 *            state of the refinement of the model or an already specified
+	 *            state of the model
+	 * @param transition
+	 *            is the transition that connect the source with the destination
+	 * @param incoming
+	 *            true if the labeled transition is an incoming transition
+	 * @param label
+	 *            is the label to be associated with the transition
+	 * @throws NullPointerException
+	 *             if one of the parameters is null
+	 */
+	public LabeledPluggingTransition(State source, State destination,
+			Transition transition, boolean incoming, Label label) {
+<span class="fc" id="L93">		this(LabeledPluggingTransition.ID_COUNTER, source, destination,</span>
+<span class="fc" id="L94">				transition, incoming, label);</span>
+<span class="fc" id="L95">		LabeledPluggingTransition.ID_COUNTER = LabeledPluggingTransition.ID_COUNTER + 1;</span>
+
+<span class="fc" id="L97">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+<span class="fc" id="L104">		return &quot;Plugging transition [source=&quot; + this.getSource()</span>
+<span class="fc" id="L105">				+ &quot;, incoming=&quot; + this.isIncoming() + &quot;, destination=&quot;</span>
+<span class="fc" id="L106">				+ this.getDestination() + &quot;, transition=&quot;</span>
+<span class="fc" id="L107">				+ this.getTransition() + &quot;, color=&quot; + color + &quot;]&quot;;</span>
+	}
+
+	/**
+	 * returns the label associated with the incoming/outgoing transition
+	 * 
+	 * @return the label associated with the incoming/outgoing transition
+	 */
+	public Label getLabel() {
+<span class="fc" id="L116">		return color;</span>
+	}
+
+	/**
+	 * sets label of the incoming/outgoing transition
+	 * 
+	 * @param label
+	 *            the label to be set
+	 * @throws NullPointerException
+	 *             if the color is null
+	 */
+	public void setLabel(Label label) {
+<span class="fc" id="L128">		Preconditions.checkNotNull(label,</span>
+<span class="fc" id="L129">				&quot;The color of the port cannot be null&quot;);</span>
+<span class="fc" id="L130">		this.color = label;</span>
+<span class="fc" id="L131">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

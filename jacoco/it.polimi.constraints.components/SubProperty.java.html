@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>SubProperty.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CHIAConstraint</a> &gt; <a href="index.source.html" class="el_package">it.polimi.constraints.components</a> &gt; <span class="el_source">SubProperty.java</span></div><h1>SubProperty.java</h1><pre class="source lang-java linenums">package it.polimi.constraints.components;
+
+import it.polimi.automata.BA;
+import it.polimi.automata.state.State;
+import it.polimi.constraints.reachability.ReachabilityRelation;
+import it.polimi.constraints.transitions.Label;
+import it.polimi.constraints.transitions.LabeledPluggingTransition;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import com.google.common.base.Preconditions;
+
+/**
+ * The SubProperty class contains the description of a sub-property. The
+ * Sub-property class extends the Component by specifying the IBA which
+ * describes the claim the developer must consider in the refinement process.
+ * 
+ * @author claudiomenghi
+ * 
+ */
+public class SubProperty extends Component {
+
+	/**
+	 * contains the IBA corresponding to the sub-property
+	 */
+	private final BA automaton;
+
+	/**
+	 * contains the incoming ports of the component
+	 */
+	private final Map&lt;Integer, LabeledPluggingTransition&gt; incomingTransitions;
+
+	/**
+	 * contains the set of the green incoming transitions
+	 */
+	private final Set&lt;LabeledPluggingTransition&gt; greenIncomingTransitions;
+	private final Set&lt;LabeledPluggingTransition&gt; yellowIncomingTransitions;
+
+	private int numRedOutgoingTransitions;
+	private int numYellowOutgoingTransitions;
+	private int numOutgoingTransitions;
+	/**
+	 * contains the out-coming ports of the component
+	 */
+	private final Map&lt;Integer, LabeledPluggingTransition&gt; outgoingTransitions;
+
+	/**
+	 * contains the self-reachability relation based on purely regular states
+	 * between the outgoing and the incoming ports of the sub-property
+	 */
+	private final ReachabilityRelation lowerApproximationReachabilityRelation;
+
+	/**
+	 * contains the self-reachability relation based on purely regular and mixed
+	 * states between the outgoing and the incoming ports of the sub-property
+	 */
+	private final ReachabilityRelation overApproximationReachabilityRelation;
+
+	private boolean indispensable;
+
+	/**
+	 * creates a new sub-property that refers to a specific model state and
+	 * contains the corresponding IBA
+	 * 
+	 * @param modelState
+	 *            is the state of the model to which the sub-property
+	 *            corresponds with
+	 * @param automaton
+	 *            is the automaton related with the sub-property
+	 * 
+	 * @throws NullPointerException
+	 *             is generated when the name of the state or when the state of
+	 *             the model is null
+	 */
+	public SubProperty(State modelState, BA automaton) {
+<span class="fc" id="L80">		super(modelState);</span>
+
+<span class="fc" id="L82">		Preconditions.checkNotNull(automaton,</span>
+<span class="fc" id="L83">				&quot;The name of the state cannot be null&quot;);</span>
+<span class="fc" id="L84">		this.automaton = automaton;</span>
+<span class="fc" id="L85">		this.incomingTransitions = new HashMap&lt;Integer, LabeledPluggingTransition&gt;();</span>
+<span class="fc" id="L86">		this.outgoingTransitions = new HashMap&lt;Integer, LabeledPluggingTransition&gt;();</span>
+<span class="fc" id="L87">		this.greenIncomingTransitions = new HashSet&lt;LabeledPluggingTransition&gt;();</span>
+<span class="fc" id="L88">		this.yellowIncomingTransitions = new HashSet&lt;LabeledPluggingTransition&gt;();</span>
+
+<span class="fc" id="L90">		this.lowerApproximationReachabilityRelation = new ReachabilityRelation();</span>
+<span class="fc" id="L91">		this.overApproximationReachabilityRelation = new ReachabilityRelation();</span>
+<span class="fc" id="L92">		this.setIndispensable(true);</span>
+<span class="fc" id="L93">		numRedOutgoingTransitions = 0;</span>
+<span class="fc" id="L94">		numYellowOutgoingTransitions = 0;</span>
+<span class="fc" id="L95">		numOutgoingTransitions = 0;</span>
+<span class="fc" id="L96">	}</span>
+
+	/**
+	 * returns the incomplete Buchi automaton associated with the subProperty
+	 * 
+	 * @return the IBA associated with the sub-property
+	 */
+	public BA getAutomaton() {
+<span class="fc" id="L104">		return this.automaton;</span>
+	}
+
+	/**
+	 * return a not modifiable set which contains the set of the out-coming
+	 * ports of the component
+	 * 
+	 * @return a not modifiable set which contains the outcomingPorts of the
+	 *         component
+	 */
+	public Set&lt;LabeledPluggingTransition&gt; getOutgoingTransitions() {
+<span class="fc" id="L115">		return Collections</span>
+<span class="fc" id="L116">				.unmodifiableSet(new HashSet&lt;LabeledPluggingTransition&gt;(</span>
+<span class="fc" id="L117">						outgoingTransitions.values()));</span>
+	}
+
+	/**
+	 * return a not modifiable set which contains the incoming ports of the
+	 * component
+	 * 
+	 * @return a not modificable set which contains the incomingPorts of the
+	 *         component
+	 */
+	public Set&lt;LabeledPluggingTransition&gt; getIncomingTransitions() {
+<span class="fc" id="L128">		return Collections</span>
+<span class="fc" id="L129">				.unmodifiableSet(new HashSet&lt;LabeledPluggingTransition&gt;(</span>
+<span class="fc" id="L130">						incomingTransitions.values()));</span>
+	}
+
+	/**
+	 * adds an incoming transition to the sub-property
+	 * 
+	 * @param transition
+	 *            is the incoming transition to be added to the sub-property *
+	 * @throws NullPointerException
+	 *             if the port is null
+	 */
+	public void addIncomingTransition(LabeledPluggingTransition transition) {
+
+<span class="fc" id="L143">		Preconditions.checkNotNull(transition,</span>
+<span class="fc" id="L144">				&quot;The incoming transition to be added cannot be null&quot;);</span>
+		// updating the number of green incoming transitions
+<span class="pc bpc" id="L146" title="1 of 2 branches missed.">		if (transition.getLabel().equals(Label.G)) {</span>
+<span class="nc" id="L147">			this.greenIncomingTransitions.add(transition);</span>
+		}
+		// updating the number of yellow incoming transitions
+<span class="pc bpc" id="L150" title="1 of 2 branches missed.">		if (transition.getLabel().equals(Label.Y)) {</span>
+<span class="fc" id="L151">			this.yellowIncomingTransitions.add(transition);</span>
+		}
+
+<span class="fc" id="L154">		this.incomingTransitions.put(transition.hashCode(), transition);</span>
+
+<span class="fc" id="L156">	}</span>
+
+	public LabeledPluggingTransition getIncomingTransition(
+			LabeledPluggingTransition port) {
+<span class="nc" id="L160">		Preconditions.checkNotNull(port,</span>
+<span class="nc" id="L161">				&quot;The incoming transition cannot be null&quot;);</span>
+		Preconditions
+<span class="nc" id="L163">				.checkArgument(</span>
+<span class="nc" id="L164">						this.incomingTransitions.containsKey(port.hashCode()),</span>
+<span class="nc" id="L165">						&quot;The incoming transition must be contained into the incoming transitions of the sub-property&quot;);</span>
+<span class="nc" id="L166">		return this.incomingTransitions.get(port.hashCode());</span>
+	}
+
+	public LabeledPluggingTransition getOutgoingTransition(
+			LabeledPluggingTransition port) {
+<span class="nc" id="L171">		Preconditions.checkNotNull(port,</span>
+<span class="nc" id="L172">				&quot;The outgoing transition cannot be null&quot;);</span>
+		Preconditions
+<span class="nc" id="L174">				.checkArgument(</span>
+<span class="nc" id="L175">						this.outgoingTransitions.containsKey(port.hashCode()),</span>
+<span class="nc" id="L176">						&quot;The outgoing transition must be contained into the outgoing transitions of the sub-property&quot;);</span>
+<span class="nc" id="L177">		return this.outgoingTransitions.get(port.hashCode());</span>
+	}
+
+	/**
+	 * adds an out-coming port to the component
+	 * 
+	 * @param port
+	 *            is the port to be added as an out-coming port
+	 * @throws NullPointerException
+	 *             if the port is null
+	 */
+	public void addOutgoingTransition(LabeledPluggingTransition port) {
+
+<span class="pc bpc" id="L190" title="1 of 2 branches missed.">		if (port.getLabel().equals(Label.R)) {</span>
+<span class="nc" id="L191">			this.setNumRedOutgoingTransitions(this</span>
+<span class="nc" id="L192">					.getNumRedOutgoingTransitions() + 1);</span>
+		}
+<span class="pc bpc" id="L194" title="1 of 2 branches missed.">		if (port.getLabel().equals(Label.Y)) {</span>
+<span class="fc" id="L195">			this.setNumYellowOutgoingTransitions(this</span>
+<span class="fc" id="L196">					.getNumYellowOutgoingTransitions() + 1);</span>
+		}
+<span class="fc" id="L198">		this.setNumOutgoingTransitions(this.getNumOutgoingTransitions() + 1);</span>
+<span class="fc" id="L199">		Preconditions.checkNotNull(port, &quot;The port to be added cannot be null&quot;);</span>
+<span class="fc" id="L200">		this.outgoingTransitions.put(port.hashCode(), port);</span>
+<span class="fc" id="L201">	}</span>
+
+	/**
+	 * removes the port from the set of incoming or outcoming port
+	 * 
+	 * @param p
+	 *            is the port to be removed
+	 * @throws NullPointerException
+	 *             if the port p is null
+	 * @throws IllegalArgumentException
+	 *             if the port is not contained into the set of incoming or
+	 *             outcoming ports
+	 */
+	public void removePluggingTransition(LabeledPluggingTransition p) {
+<span class="nc" id="L215">		Preconditions.checkNotNull(p, &quot;The port p cannot be null&quot;);</span>
+		Preconditions
+<span class="nc bnc" id="L217" title="All 2 branches missed.">				.checkArgument(this.getIncomingTransitions().contains(p)</span>
+<span class="nc bnc" id="L218" title="All 2 branches missed.">						|| this.getOutgoingTransitions().contains(p),</span>
+<span class="nc" id="L219">						&quot;The port must be contained in the set of incoming or utcoming ports&quot;);</span>
+<span class="nc bnc" id="L220" title="All 2 branches missed.">		if (this.getIncomingTransitions().contains(p)) {</span>
+<span class="nc" id="L221">			this.incomingTransitions.remove(p);</span>
+		}
+<span class="nc bnc" id="L223" title="All 2 branches missed.">		if (this.getOutgoingTransitions().contains(p)) {</span>
+<span class="nc" id="L224">			this.outgoingTransitions.remove(p);</span>
+		}
+<span class="nc" id="L226">	}</span>
+
+	/**
+	 * add a reachability entity, specifies that the destination port is
+	 * reachable from the sourcePort through a path that only involves purely
+	 * regular states
+	 * 
+	 * @param outgoingTransition
+	 *            is the source port
+	 * @param incomingTransition
+	 *            is the destination
+	 * @param modelAcceptingState
+	 *            true if an accepting state is present from the
+	 *            outgoingTransition to the incomingTransition
+	 * @param claimAcceptingState
+	 *            true if an accepting state is present from the outgoing
+	 *            transition to the incomingTransition
+	 * @throws NullPointerException
+	 *             if one of the ports is null
+	 * @throws IllegalArgumentException
+	 *             if the source port is not an outgoing port of the
+	 *             sub-property
+	 * @throws IllegalArgumentException
+	 *             if the destination port is not an incoming port of the
+	 *             sub-property
+	 */
+	public void addReachabilityRelation(
+			LabeledPluggingTransition outgoingTransition,
+			LabeledPluggingTransition incomingTransition,
+			Boolean modelAcceptingState, Boolean claimAcceptingState) {
+		// validates the parameters
+<span class="nc" id="L257">		Preconditions.checkNotNull(outgoingTransition,</span>
+<span class="nc" id="L258">				&quot;The incomingPort port cannot be null&quot;);</span>
+<span class="nc" id="L259">		Preconditions.checkNotNull(incomingTransition,</span>
+<span class="nc" id="L260">				&quot;The outcomingPort port cannot be null&quot;);</span>
+		Preconditions
+<span class="nc" id="L262">				.checkArgument(</span>
+<span class="nc" id="L263">						this.getOutgoingTransitions().contains(</span>
+<span class="nc" id="L264">								outgoingTransition),</span>
+<span class="nc" id="L265">						&quot;The outgoing transition &quot;</span>
+<span class="nc" id="L266">								+ outgoingTransition</span>
+<span class="nc" id="L267">								+ &quot; must be contained into the set of the outgoing transitions of the sub-property&quot;);</span>
+		Preconditions
+<span class="nc" id="L269">				.checkArgument(</span>
+<span class="nc" id="L270">						this.getIncomingTransitions().contains(</span>
+<span class="nc" id="L271">								incomingTransition),</span>
+<span class="nc" id="L272">						&quot;The destination transition &quot;</span>
+<span class="nc" id="L273">								+ incomingTransition</span>
+<span class="nc" id="L274">								+ &quot; must be contained into the set of the incoming transitions of the sub-property&quot;);</span>
+
+<span class="nc" id="L276">		this.lowerApproximationReachabilityRelation.addTransition(</span>
+<span class="nc" id="L277">				outgoingTransition, incomingTransition, modelAcceptingState,</span>
+<span class="nc" id="L278">				claimAcceptingState);</span>
+<span class="nc" id="L279">	}</span>
+
+	public ReachabilityRelation getLowerReachabilityRelation() {
+<span class="nc" id="L282">		return this.lowerApproximationReachabilityRelation;</span>
+	}
+
+	public ReachabilityRelation getUpperReachabilityRelation() {
+<span class="nc" id="L286">		return this.overApproximationReachabilityRelation;</span>
+	}
+
+	/**
+	 * add a reachability entity, specifies that the destination port is
+	 * reachable from the sourcePort through a path that only involves purely
+	 * regular and mixed states
+	 * 
+	 * @param outgoingTransition
+	 *            is the source port
+	 * @param incomingTransition
+	 *            is the destination
+	 * @param modelAcceptingState
+	 *            true if an accepting state of the model is present from the
+	 *            outgoing transition to the incoming transition
+	 * @param claimAcceptingState
+	 *            true if an accepting state of the claim is present from the
+	 *            outgoing transition to the incoming transition
+	 * @throws NullPointerException
+	 *             if one of the ports is null
+	 * @throws IllegalArgumentException
+	 *             if the source port is not an outgoing port of the
+	 *             sub-property
+	 * @throws IllegalArgumentException
+	 *             if the destination port is not an incoming port of the
+	 *             sub-property
+	 */
+	public void addPossibleReachabilityRelation(
+			LabeledPluggingTransition outgoingTransition,
+			LabeledPluggingTransition incomingTransition,
+			Boolean modelAcceptingState, Boolean claimAcceptingState) {
+		// validates the parameters
+<span class="nc" id="L318">		Preconditions.checkNotNull(outgoingTransition,</span>
+<span class="nc" id="L319">				&quot;The incomingPort port cannot be null&quot;);</span>
+<span class="nc" id="L320">		Preconditions.checkNotNull(incomingTransition,</span>
+<span class="nc" id="L321">				&quot;The outcomingPort port cannot be null&quot;);</span>
+		Preconditions
+<span class="nc" id="L323">				.checkArgument(</span>
+<span class="nc" id="L324">						this.getOutgoingTransitions().contains(</span>
+<span class="nc" id="L325">								outgoingTransition),</span>
+<span class="nc" id="L326">						&quot;The source port &quot;</span>
+<span class="nc" id="L327">								+ outgoingTransition</span>
+<span class="nc" id="L328">								+ &quot; must be contained into the set of the outgoing port of the sub-property&quot;);</span>
+		Preconditions
+<span class="nc" id="L330">				.checkArgument(</span>
+<span class="nc" id="L331">						this.getIncomingTransitions().contains(</span>
+<span class="nc" id="L332">								incomingTransition),</span>
+<span class="nc" id="L333">						&quot;The destination port &quot;</span>
+<span class="nc" id="L334">								+ incomingTransition</span>
+<span class="nc" id="L335">								+ &quot; must be contained into the set of the incoming port of the sub-property&quot;);</span>
+
+<span class="nc" id="L337">		this.overApproximationReachabilityRelation.addTransition(</span>
+<span class="nc" id="L338">				outgoingTransition, incomingTransition, modelAcceptingState,</span>
+<span class="nc" id="L339">				claimAcceptingState);</span>
+<span class="nc" id="L340">	}</span>
+
+	@Override
+	public String toString() {
+<span class="nc" id="L344">		return &quot;SubProperty [automaton=&quot; + automaton + &quot;,\n &quot;</span>
+<span class="nc" id="L345">				+ &quot;incomingTransitions=&quot; + incomingTransitions + &quot;,\n &quot;</span>
+<span class="nc" id="L346">				+ &quot;outgoingTransitions=&quot; + outgoingTransitions + &quot;,\n&quot;</span>
+<span class="nc" id="L347">				+ &quot;lowerReachability&quot; + lowerApproximationReachabilityRelation</span>
+<span class="nc" id="L348">				+ &quot;,\n&quot; + &quot;upperReachability&quot;</span>
+<span class="nc" id="L349">				+ overApproximationReachabilityRelation + &quot;,\n&quot;</span>
+<span class="nc" id="L350">				+ &quot; indispensable=&quot; + indispensable + &quot;]&quot;;</span>
+	}
+
+	public boolean isIndispensable() {
+<span class="nc" id="L354">		return indispensable;</span>
+	}
+
+	public void setIndispensable(boolean indispensable) {
+<span class="fc" id="L358">		this.indispensable = indispensable;</span>
+<span class="fc" id="L359">	}</span>
+
+	/**
+	 * returns the set of the green incoming transitions
+	 * 
+	 * @return the set of the green incoming transitions
+	 */
+	public Set&lt;LabeledPluggingTransition&gt; getGreenIncomingTransitions() {
+<span class="nc" id="L367">		return Collections.unmodifiableSet(this.greenIncomingTransitions);</span>
+	}
+
+	/**
+	 * sets the color of the incoming transition to green. The incoming
+	 * transition must already be inserted into the set of the incoming
+	 * transitions of the sub-property. If the incoming transition was already a
+	 * yellow transition it is removed from the set of the yellow transitions
+	 * 
+	 * @param incomingTransition
+	 *            the incoming transition whose color must be modified to green
+	 * @throws NullPointerException
+	 *             if the incoming transition is green
+	 * @throws IllegalArgumentException
+	 *             if the incoming transition is not contained into the set of
+	 *             incoming transitions of the sub-property
+	 */
+	public void setGreenIncomingTransition(
+			LabeledPluggingTransition incomingTransition) {
+<span class="nc" id="L386">		Preconditions.checkNotNull(incomingTransition,</span>
+<span class="nc" id="L387">				&quot;The incoming transition cannot be null&quot;);</span>
+		Preconditions
+<span class="nc" id="L389">				.checkArgument(</span>
+<span class="nc" id="L390">						this.incomingTransitions.values().contains(</span>
+<span class="nc" id="L391">								incomingTransition),</span>
+<span class="nc" id="L392">						&quot;The incoming transition must be contained into the set of incoming transitions of the sub-property&quot;);</span>
+<span class="nc bnc" id="L393" title="All 2 branches missed.">		if (this.yellowIncomingTransitions.contains(incomingTransition)) {</span>
+<span class="nc" id="L394">			this.yellowIncomingTransitions.remove(incomingTransition);</span>
+		}
+<span class="nc" id="L396">		this.greenIncomingTransitions.add(incomingTransition);</span>
+
+<span class="nc" id="L398">	}</span>
+
+	public void setYellowIncomingTransition(
+			LabeledPluggingTransition incomingTransition) {
+<span class="nc" id="L402">		Preconditions.checkNotNull(incomingTransition,</span>
+<span class="nc" id="L403">				&quot;The incoming transition cannot be null&quot;);</span>
+		Preconditions
+<span class="nc" id="L405">				.checkArgument(</span>
+<span class="nc" id="L406">						this.incomingTransitions.values().contains(</span>
+<span class="nc" id="L407">								incomingTransition),</span>
+<span class="nc" id="L408">						&quot;The incoming transition must be contained into the set of incoming transitions of the sub-property&quot;);</span>
+<span class="nc bnc" id="L409" title="All 2 branches missed.">		if (this.greenIncomingTransitions.contains(incomingTransition)) {</span>
+<span class="nc" id="L410">			throw new InternalError(</span>
+<span class="nc" id="L411">					&quot;It is not possible to change the label of an incoming transition from G to Y&quot;);</span>
+		}
+<span class="nc" id="L413">		this.yellowIncomingTransitions.add(incomingTransition);</span>
+
+<span class="nc" id="L415">	}</span>
+
+	public void incrementNumberRedOutgoingTransitions() {
+<span class="nc" id="L418">		this.numRedOutgoingTransitions++;</span>
+<span class="nc" id="L419">	}</span>
+
+	public void incrementNumberYellowOutgoingTransitions() {
+<span class="nc" id="L422">		this.numYellowOutgoingTransitions++;</span>
+<span class="nc" id="L423">	}</span>
+
+	public void decrementNumberYellowOutgoingTransitions() {
+<span class="nc" id="L426">		this.numYellowOutgoingTransitions--;</span>
+<span class="nc" id="L427">	}</span>
+
+	/**
+	 * @return the numYellowIncomingTransitions
+	 */
+	public int getNumYellowIncomingTransitions() {
+<span class="nc" id="L433">		return this.yellowIncomingTransitions.size();</span>
+	}
+
+	/**
+	 * @return the numIncomingTransitions
+	 */
+	public int getNumIncomingTransitions() {
+<span class="nc" id="L440">		return this.incomingTransitions.size();</span>
+	}
+
+	/**
+	 * @return the numRedOutgoingTransitions
+	 */
+	public int getNumRedOutgoingTransitions() {
+<span class="nc" id="L447">		return numRedOutgoingTransitions;</span>
+	}
+
+	/**
+	 * @param numRedOutgoingTransitions
+	 *            the numRedOutgoingTransitions to set
+	 */
+	public void setNumRedOutgoingTransitions(int numRedOutgoingTransitions) {
+<span class="nc" id="L455">		this.numRedOutgoingTransitions = numRedOutgoingTransitions;</span>
+<span class="nc" id="L456">	}</span>
+
+	/**
+	 * @return the numYellowOutgoingTransitions
+	 */
+	public int getNumYellowOutgoingTransitions() {
+<span class="fc" id="L462">		return numYellowOutgoingTransitions;</span>
+	}
+
+	/**
+	 * @param numYellowOutgoingTransitions
+	 *            the numYellowOutgoingTransitions to set
+	 */
+	public void setNumYellowOutgoingTransitions(int numYellowOutgoingTransitions) {
+<span class="fc" id="L470">		this.numYellowOutgoingTransitions = numYellowOutgoingTransitions;</span>
+<span class="fc" id="L471">	}</span>
+
+	/**
+	 * @return the numOutgoingTransitions
+	 */
+	public int getNumOutgoingTransitions() {
+<span class="fc" id="L477">		return numOutgoingTransitions;</span>
+	}
+
+	/**
+	 * @param numOutgoingTransitions
+	 *            the numOutgoingTransitions to set
+	 */
+	public void setNumOutgoingTransitions(int numOutgoingTransitions) {
+<span class="fc" id="L485">		this.numOutgoingTransitions = numOutgoingTransitions;</span>
+<span class="fc" id="L486">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>
