@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>EmptinessChecker.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CHIAChecker</a> &gt; <a href="index.source.html" class="el_package">it.polimi.checker.emptiness</a> &gt; <span class="el_source">EmptinessChecker.java</span></div><h1>EmptinessChecker.java</h1><pre class="source lang-java linenums">package it.polimi.checker.emptiness;
+
+import it.polimi.automata.BA;
+import it.polimi.automata.state.State;
+import it.polimi.automata.transition.Transition;
+
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.Stack;
+
+import com.google.common.base.Preconditions;
+
+/**
+ * Checks the emptiness of a BA automaton. An automaton is empty when it does
+ * not exists an infinite run that contains an accepting state of the automaton
+ * which is entered infinitely often. See {@link BA}&lt;br&gt;
+ * 
+ * @author Claudio Menghi
+ */
+public class EmptinessChecker {
+
+	/**
+	 * contains the automaton to be considered by the {@link EmptinessChecker}
+	 */
+	private final BA automaton;
+
+	/**
+	 * contains the set of the states that has been encountered by &lt;i&gt;some&lt;i&gt;
+	 * invocation of the first DFS
+	 */
+	private final Set&lt;State&gt; hashedStates;
+
+	/**
+	 * contains the set of the states that has been encountered by &lt;i&gt;some&lt;i&gt;
+	 * invocation of the second DFS
+	 */
+	private final Set&lt;State&gt; flaggedStates;
+
+	/**
+	 * contains the set of couple state, next transition that allow reaching an
+	 * accepting states
+	 */
+	private Stack&lt;Entry&lt;State, Transition&gt;&gt; firstStack;
+
+	/**
+	 * The first stack used in the emptiness checking
+	 */
+	private Stack&lt;State&gt; stack1;
+
+	/**
+	 * The second stack used in the emptiness checking
+	 */
+	private Stack&lt;State&gt; stack2;
+
+	/**
+	 * contains the set of couple state, next transition that allow looping over
+	 * an accepting states
+	 */
+	private Stack&lt;Entry&lt;State, Transition&gt;&gt; secondStack;
+
+	/**
+	 * contains a flag that indicates whether a counterexample has been founded
+	 * or not
+	 */
+	private boolean counterexampleFounded;
+
+	/**
+	 * creates a new Emptiness checker
+	 * 
+	 * @param automaton
+	 *            is the automaton to be considered
+	 * @throws NullPointerException
+	 *             if the automaton to be considered is null
+	 */
+<span class="fc" id="L79">	public EmptinessChecker(BA automaton) {</span>
+<span class="fc" id="L80">		Preconditions.checkNotNull(automaton,</span>
+<span class="fc" id="L81">				&quot;The automaton to be considered cannot be null&quot;);</span>
+
+<span class="fc" id="L83">		this.automaton = automaton;</span>
+<span class="fc" id="L84">		this.hashedStates = new HashSet&lt;State&gt;();</span>
+<span class="fc" id="L85">		this.flaggedStates = new HashSet&lt;State&gt;();</span>
+<span class="fc" id="L86">		this.firstStack = new Stack&lt;Entry&lt;State, Transition&gt;&gt;();</span>
+<span class="fc" id="L87">		this.stack1 = new Stack&lt;State&gt;();</span>
+<span class="fc" id="L88">		this.stack2 = new Stack&lt;State&gt;();</span>
+<span class="fc" id="L89">		this.counterexampleFounded = false;</span>
+<span class="fc" id="L90">	}</span>
+
+	/**
+	 * returns true if the automaton is empty, i.e., when it does not exists an
+	 * infinite path that contains an accepting state that can be accessed
+	 * infinitely often, false otherwise
+	 * 
+	 * @return true if the automaton is empty, false otherwise
+	 */
+	public boolean isEmpty() {
+
+<span class="fc bfc" id="L101" title="All 2 branches covered.">		for (State init : this.automaton.getInitialStates()) {</span>
+<span class="fc" id="L102">			this.firstStack = new Stack&lt;Entry&lt;State, Transition&gt;&gt;();</span>
+<span class="fc bfc" id="L103" title="All 2 branches covered.">			if (!firstDFS(init, this.firstStack)) {</span>
+<span class="fc" id="L104">				this.counterexampleFounded = true;</span>
+<span class="fc" id="L105">				return false;</span>
+			}
+		}
+<span class="fc" id="L108">		return true;</span>
+	}
+
+	/**
+	 * returns true if an accepting path is found
+	 * 
+	 * @param currState
+	 *            is the current states under analysis
+	 * @param firstDFSStack
+	 *            is the first DFS stack
+	 * @return true if an accepting path is found, false otherwise
+	 * @throws NullPointerException
+	 *             if one of the parameters is null
+	 */
+	private boolean firstDFS(State currState,
+			Stack&lt;Entry&lt;State, Transition&gt;&gt; firstDFSStack) {
+<span class="fc" id="L124">		Preconditions.checkNotNull(currState,</span>
+<span class="fc" id="L125">				&quot;The current state cannot be null&quot;);</span>
+<span class="fc" id="L126">		Preconditions.checkNotNull(firstDFSStack, &quot;The stack cannot be null&quot;);</span>
+
+<span class="fc" id="L128">		this.hashedStates.add(currState);</span>
+<span class="fc" id="L129">		this.stack1.push(currState);</span>
+
+<span class="fc bfc" id="L131" title="All 2 branches covered.">		for (Transition t : automaton.getOutTransitions(currState)) {</span>
+<span class="fc" id="L132">			firstDFSStack.push(new AbstractMap.SimpleEntry&lt;State, Transition&gt;(</span>
+<span class="fc" id="L133">					currState, t));</span>
+<span class="fc" id="L134">			State next = automaton.getTransitionDestination(t);</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">			if (!this.hashedStates.contains(next)) {</span>
+<span class="fc bfc" id="L136" title="All 2 branches covered.">				if (!this.firstDFS(next, firstDFSStack))</span>
+<span class="fc" id="L137">					return false;</span>
+			}
+<span class="fc" id="L139">			firstDFSStack.pop();</span>
+
+		}
+
+<span class="fc bfc" id="L143" title="All 2 branches covered.">		if (this.automaton.getAcceptStates().contains(currState)) {</span>
+<span class="fc" id="L144">			secondStack = new Stack&lt;Entry&lt;State, Transition&gt;&gt;();</span>
+<span class="fc bfc" id="L145" title="All 2 branches covered.">			if (!this.secondDFS(currState, firstDFSStack)) {</span>
+<span class="fc" id="L146">				return false;</span>
+			}
+		}
+<span class="fc" id="L149">		this.stack1.pop();</span>
+<span class="fc" id="L150">		return true;</span>
+	}
+
+	/**
+	 * returns true if an accepting path is found
+	 * 
+	 * @param currState
+	 *            is the current states under analysis
+	 * @param firstDFSStack
+	 *            is the first DFS stack
+	 * @return true if an accepting path is found, false otherwise
+	 * @throws NullPointerException
+	 *             if the current state, the graph or the stack is null
+	 */
+	private boolean secondDFS(State currState,
+			Stack&lt;Entry&lt;State, Transition&gt;&gt; firstDFSStack) {
+<span class="fc" id="L166">		Preconditions.checkNotNull(currState,</span>
+<span class="fc" id="L167">				&quot;The current state cannot be null&quot;);</span>
+<span class="fc" id="L168">		Preconditions.checkNotNull(firstDFSStack,</span>
+<span class="fc" id="L169">				&quot;The first stack cannot be null&quot;);</span>
+
+<span class="fc" id="L171">		this.stack2.push(currState);</span>
+
+<span class="fc" id="L173">		this.flaggedStates.add(currState);</span>
+
+<span class="fc bfc" id="L175" title="All 2 branches covered.">		for (Transition t : automaton.getOutTransitions(currState)) {</span>
+
+<span class="fc" id="L177">			State next = automaton.getTransitionDestination(t);</span>
+
+<span class="fc bfc" id="L179" title="All 2 branches covered.">			if (this.stack1.contains(next)) {</span>
+<span class="fc" id="L180">				secondStack</span>
+<span class="fc" id="L181">						.push(new AbstractMap.SimpleEntry&lt;State, Transition&gt;(</span>
+<span class="fc" id="L182">								currState, t));</span>
+<span class="fc" id="L183">				return false;</span>
+			} else {
+<span class="fc" id="L185">				secondStack</span>
+<span class="fc" id="L186">						.push(new AbstractMap.SimpleEntry&lt;State, Transition&gt;(</span>
+<span class="fc" id="L187">								currState, t));</span>
+<span class="fc bfc" id="L188" title="All 2 branches covered.">				if (!this.flaggedStates.contains(next)</span>
+<span class="fc bfc" id="L189" title="All 2 branches covered.">						&amp;&amp; !this.secondDFS(next, firstDFSStack)) {</span>
+<span class="fc" id="L190">					return false;</span>
+
+				}
+<span class="fc" id="L193">				secondStack.pop();</span>
+			}
+		}
+
+<span class="fc" id="L197">		this.stack2.pop();</span>
+
+<span class="fc" id="L199">		return true;</span>
+	}
+
+	/**
+	 * returns a stack of states and transitions that contains the
+	 * counterexample It must be used after the method is empty is run
+	 * 
+	 * @return a stack of states and transitions that contains the
+	 *         counterexample
+	 */
+	public List&lt;Entry&lt;State, Transition&gt;&gt; getCounterExample() {
+
+<span class="fc bfc" id="L211" title="All 2 branches covered.">		if (!counterexampleFounded) {</span>
+<span class="fc" id="L212">			throw new InternalError(</span>
+<span class="fc" id="L213">					&quot;A counterexample has not been founder or you must run the emptiness checker before getting the counterexample&quot;);</span>
+		}
+<span class="fc" id="L215">		List&lt;Entry&lt;State, Transition&gt;&gt; counterexample = new ArrayList&lt;Entry&lt;State, Transition&gt;&gt;();</span>
+<span class="fc" id="L216">		counterexample.addAll(firstStack);</span>
+<span class="fc" id="L217">		counterexample.addAll(secondStack);</span>
+<span class="fc" id="L218">		return counterexample;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>
