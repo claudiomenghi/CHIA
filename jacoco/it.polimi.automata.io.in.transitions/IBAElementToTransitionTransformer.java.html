@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>IBAElementToTransitionTransformer.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CHIAAutomataIO</a> &gt; <a href="index.source.html" class="el_package">it.polimi.automata.io.in.transitions</a> &gt; <span class="el_source">IBAElementToTransitionTransformer.java</span></div><h1>IBAElementToTransitionTransformer.java</h1><pre class="source lang-java linenums">package it.polimi.automata.io.in.transitions;
+
+import it.polimi.automata.AutomataIOConstants;
+import it.polimi.automata.IBA;
+import it.polimi.automata.io.Transformer;
+import it.polimi.automata.io.in.propositions.StringToClaimPropositions;
+import it.polimi.automata.state.State;
+import it.polimi.automata.transition.ModelTransitionFactory;
+import it.polimi.automata.transition.Transition;
+
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import org.w3c.dom.Element;
+
+import rwth.i2.ltl2ba4j.model.IGraphProposition;
+
+import com.google.common.base.Preconditions;
+
+/**
+ * Transforms a transition element into the corresponding Transition and adds
+ * the transition to the Incomplete Buchi Automaton
+ * 
+ * @author Claudio Menghi
+ *
+ */
+public class IBAElementToTransitionTransformer implements
+		Transformer&lt;Element, Transition&gt; {
+
+	/**
+	 * is the factory which is used to create the transitions of the Buchi
+	 * automaton
+	 */
+	private final ModelTransitionFactory transitionFactory;
+
+	/**
+	 * is the IBA to be populated
+	 */
+	private final IBA iba;
+	
+	/**
+	 * contains a map which associates the id of the state (Integer) to the
+	 * corresponding state
+	 */
+	private final Map&lt;Integer, State&gt; idStateMap;
+
+	/**
+	 * creates a new {@link IBAElementToTransitionTransformer}
+	 * 
+	 * @param iba
+	 *            is the automaton to be populated
+	 * @param idStateMap
+	 *            is a map which associates the id of the state (Integer) to the
+	 *            corresponding state
+	 * @throws NullPointerException
+	 *             if the automaton or the map is empty
+	 * @throws IllegalArgumentException if
+	 *             the set of the states in the map does not corresponds to the
+	 *             states of the automaton
+	 */
+<span class="fc" id="L62">	public IBAElementToTransitionTransformer(IBA iba,</span>
+			Map&lt;Integer, State&gt; idStateMap) {
+<span class="fc" id="L64">		Preconditions.checkNotNull(iba,</span>
+<span class="fc" id="L65">				&quot;The IBA to be populated cannot be null&quot;);</span>
+<span class="fc" id="L66">		Preconditions.checkNotNull(idStateMap,</span>
+<span class="fc" id="L67">				&quot;The map between the id and the states cannot be null&quot;);</span>
+		Preconditions
+<span class="fc" id="L69">				.checkArgument(</span>
+
+<span class="fc" id="L71">						iba.getStates().equals(</span>
+<span class="fc" id="L72">								new HashSet&lt;State&gt;(idStateMap.values())),</span>
+<span class="fc" id="L73">						&quot;All the state of the automaton must be contained into the map&quot;);</span>
+<span class="fc" id="L74">		this.transitionFactory = new ModelTransitionFactory();</span>
+<span class="fc" id="L75">		this.iba = iba;</span>
+<span class="fc" id="L76">		this.idStateMap = idStateMap;</span>
+<span class="fc" id="L77">	}</span>
+
+	/**
+	 * transforms an Element into the corresponding transition and add the
+	 * transition to the IBA
+	 * 
+	 * @param eElement
+	 *            the element to be transformed
+	 * @throws NullPointerException
+	 *             if the element passed as parameter is null
+	 * @throws IllegalArgumentException
+	 *             if the transition does not have a source attribute if the
+	 *             transition does not have a destination attribute
+	 *             if the transition is not associated with an id
+	 * @throws NumberFormatException
+	 *             if the source attribute is not an integer if the destination
+	 *             attribute is not an integer
+	 */
+	@Override
+	public Transition transform(Element eElement) {
+<span class="fc" id="L97">		Preconditions.checkNotNull(eElement,</span>
+<span class="fc" id="L98">				&quot;The element to consider cannot be null&quot;);</span>
+<span class="fc" id="L99">		Preconditions.checkArgument(eElement</span>
+<span class="fc" id="L100">				.hasAttribute(AutomataIOConstants.XML_ATTRIBUTE_TRANSITION_ID),</span>
+<span class="fc" id="L101">				&quot;The transition must contain an id attribute&quot;);</span>
+		Preconditions
+<span class="fc" id="L103">				.checkArgument(</span>
+<span class="fc" id="L104">						eElement.hasAttribute(AutomataIOConstants.XML_ATTRIBUTE_TRANSITION_SOURCE),</span>
+<span class="fc" id="L105">						&quot;The transition must have a source&quot;);</span>
+		Preconditions
+<span class="fc" id="L107">				.checkArgument(</span>
+<span class="fc" id="L108">						eElement.hasAttribute(AutomataIOConstants.XML_ATTRIBUTE_TRANSITION_DESTINATION),</span>
+<span class="fc" id="L109">						&quot;The transition must have a destination&quot;);</span>
+
+<span class="fc" id="L111">		int sourceId = Integer</span>
+<span class="fc" id="L112">				.parseInt(eElement</span>
+<span class="fc" id="L113">						.getAttribute(AutomataIOConstants.XML_ATTRIBUTE_TRANSITION_SOURCE));</span>
+<span class="fc" id="L114">		int destinationId = Integer</span>
+<span class="fc" id="L115">				.parseInt(eElement</span>
+<span class="fc" id="L116">						.getAttribute(AutomataIOConstants.XML_ATTRIBUTE_TRANSITION_DESTINATION));</span>
+		Preconditions
+<span class="fc" id="L118">				.checkArgument(</span>
+<span class="fc" id="L119">						idStateMap.containsKey(sourceId),</span>
+<span class="fc" id="L120">						&quot;The id: &quot;</span>
+<span class="fc" id="L121">								+ sourceId</span>
+<span class="fc" id="L122">								+ &quot; is not contained into the set of the id of the states&quot;);</span>
+		Preconditions
+<span class="fc" id="L124">				.checkArgument(</span>
+<span class="fc" id="L125">						idStateMap.containsKey(destinationId),</span>
+<span class="fc" id="L126">						&quot;The id: &quot;</span>
+<span class="fc" id="L127">								+ destinationId</span>
+<span class="fc" id="L128">								+ &quot; is not contained into the set of the id of the states&quot;);</span>
+
+<span class="fc" id="L130">		int id = 0;</span>
+		try {
+<span class="fc" id="L132">			id = Integer</span>
+<span class="fc" id="L133">					.parseInt(eElement</span>
+<span class="fc" id="L134">							.getAttribute(AutomataIOConstants.XML_ATTRIBUTE_TRANSITION_ID));</span>
+<span class="fc" id="L135">		} catch (NumberFormatException e) {</span>
+<span class="fc" id="L136">			throw new IllegalArgumentException(</span>
+<span class="fc" id="L137">					eElement.getAttribute(AutomataIOConstants.XML_ATTRIBUTE_TRANSITION_ID)</span>
+<span class="fc" id="L138">							+ &quot; is not a valid id for a transition. The id must be an integer.&quot;);</span>
+		}
+
+<span class="fc" id="L141">		Set&lt;IGraphProposition&gt; propositions = new HashSet&lt;IGraphProposition&gt;();</span>
+<span class="fc" id="L142">		if (eElement</span>
+<span class="fc bfc" id="L143" title="All 2 branches covered.">				.hasAttribute(AutomataIOConstants.XML_ATTRIBUTE_TRANSITION_PROPOSITIONS)) {</span>
+<span class="fc" id="L144">			propositions = new StringToClaimPropositions()</span>
+<span class="fc" id="L145">					.transform(eElement</span>
+<span class="fc" id="L146">							.getAttribute(AutomataIOConstants.XML_ATTRIBUTE_TRANSITION_PROPOSITIONS));</span>
+
+		}
+
+<span class="fc" id="L150">		Transition t = transitionFactory.create(id, propositions);</span>
+
+<span class="fc" id="L152">		iba.addTransition(idStateMap.get(sourceId),</span>
+<span class="fc" id="L153">				idStateMap.get(destinationId), t);</span>
+<span class="fc" id="L154">		return t;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>
