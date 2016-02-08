@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>StringToClaimPropositions.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CHIAAutomataIO</a> &gt; <a href="index.source.html" class="el_package">it.polimi.automata.io.in.propositions</a> &gt; <span class="el_source">StringToClaimPropositions.java</span></div><h1>StringToClaimPropositions.java</h1><pre class="source lang-java linenums">package it.polimi.automata.io.in.propositions;
+
+import it.polimi.automata.AutomataIOConstants;
+import it.polimi.automata.io.Transformer;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import rwth.i2.ltl2ba4j.model.IGraphProposition;
+import rwth.i2.ltl2ba4j.model.impl.GraphProposition;
+import rwth.i2.ltl2ba4j.model.impl.SigmaProposition;
+
+import com.google.common.base.Preconditions;
+
+/**
+ * Transforms the input string into the corresponding transition label, i.e., it
+ * computes the set of propositions that must label the transition of the claim
+ * 
+ * @author Claudio Menghi
+ *
+ */
+<span class="fc" id="L22">public class StringToClaimPropositions implements</span>
+		Transformer&lt;String, Set&lt;IGraphProposition&gt;&gt; {
+
+	/**
+	 * Starting from the string computes the corresponding proposition. The
+	 * string must satisfy the regular expression
+	 * {@link AutomataIOConstants#APREGEX} or the regular expression
+	 * {@link AutomataIOConstants#NOTAPREGEX}
+	 * 
+	 * @param input
+	 *            is the input to be computed
+	 * @throws NullPointerException
+	 *             if the input is null
+	 * @throws IllegalArgumentException
+	 *             if the input does not match the regular expression
+	 *             {@link AutomataIOConstants#APREGEX} nor the regular
+	 *             expression {@link AutomataIOConstants#NOTAPREGEX}
+	 */
+	public Set&lt;IGraphProposition&gt; transform(String input) {
+
+<span class="fc" id="L42">		Preconditions.checkNotNull(&quot;The input must be not null&quot;);</span>
+<span class="fc" id="L43">		Preconditions.checkArgument(</span>
+<span class="fc" id="L44">				input.matches(AutomataIOConstants.CLAIM_PROPOSITIONAL_FORMULA),</span>
+				&quot;The input &quot; + input
+						+ &quot; must match the claim regular expression: &quot;
+						+ AutomataIOConstants.CLAIM_PROPOSITIONAL_FORMULA);
+
+<span class="fc" id="L49">		Set&lt;IGraphProposition&gt; propositions = new HashSet&lt;IGraphProposition&gt;();</span>
+
+<span class="fc bfc" id="L51" title="All 2 branches covered.">		if (input.equals(AutomataIOConstants.SIGMA)) {</span>
+<span class="fc" id="L52">			propositions.add(new SigmaProposition());</span>
+		} else {
+<span class="fc" id="L54">			String[] apsStrings = input.split(AutomataIOConstants.AND);</span>
+
+<span class="fc bfc" id="L56" title="All 2 branches covered.">			for (String ap : apsStrings) {</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">				if (ap.startsWith(AutomataIOConstants.NOT)) {</span>
+<span class="fc" id="L58">					propositions</span>
+<span class="fc" id="L59">							.add(new GraphProposition(</span>
+<span class="fc" id="L60">									ap.substring(AutomataIOConstants.NOT</span>
+<span class="fc" id="L61">											.length()), true));</span>
+				} else {
+<span class="fc" id="L63">					propositions.add(new GraphProposition(ap, false));</span>
+				}
+			}
+		}
+
+<span class="fc" id="L68">		return propositions;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>
