@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>CHIAAutomata</artifactId>
+
+	<parent>
+		<groupId>it.polimi.chia</groupId>
+		<artifactId>CHIA</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<packaging>jar</packaging>
+	<name>CHIAAutomata</name>
+	<url>http://maven.apache.org</url>
+
+	<build>
+		<!-- contains the directory where the source code is placed -->
+		<sourceDirectory>src/main/java</sourceDirectory>
+		<!-- contains the directory where the test cases are located -->
+		<testSourceDirectory>src/test/java</testSourceDirectory>
+
+		<resources>
+			<resource>
+				<directory>src/test/resources</directory>
+			</resource>
+		</resources>
+	</build>
+</project>
