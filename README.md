@@ -1,8 +1,8 @@
 # CHIA
 
 
-[![CHecher for Incomplete Automata](https://github.com/claudiomenghi/CHIA/blob/master/CHIALogo.tif
-)](https://youtu.be/8tO__yMIAT8 "CHecher for Incomplete Automata")
+[![CHecher for Incomplete Automata](https://youtu.be/Kjs7uJqVIos/0.jpg
+)](https://youtu.be/Kjs7uJqVIos "CHecher for Incomplete Automata")
 
 CHIA (CHecker for Incompete Automata) is a prototype tool realized as a Java 7 stand-alone application.  
 
