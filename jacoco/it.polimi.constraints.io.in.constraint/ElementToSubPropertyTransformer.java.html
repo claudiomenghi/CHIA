@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ElementToSubPropertyTransformer.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CHIAConstraintIO</a> &gt; <a href="index.source.html" class="el_package">it.polimi.constraints.io.in.constraint</a> &gt; <span class="el_source">ElementToSubPropertyTransformer.java</span></div><h1>ElementToSubPropertyTransformer.java</h1><pre class="source lang-java linenums">package it.polimi.constraints.io.in.constraint;
+
+import it.polimi.automata.AutomataIOConstants;
+import it.polimi.automata.BA;
+import it.polimi.automata.io.Transformer;
+import it.polimi.automata.io.in.ElementToBATransformer;
+import it.polimi.automata.state.State;
+import it.polimi.automata.state.StateFactory;
+import it.polimi.constraints.components.SubProperty;
+import it.polimi.constraints.io.ConstraintsIOConstants;
+
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
+import com.google.common.base.Preconditions;
+
+/**
+ * Transforms an XML element passed as input into the corresponding sub-property
+ * 
+ * @author Claudio Menghi
+ *
+ */
+public class ElementToSubPropertyTransformer implements
+		Transformer&lt;Element, SubProperty&gt; {
+
+	/**
+	 * Creates a new ElementToSubPropertyTransformer. The transformer given an
+	 * XML element generates the corresponding sub-property
+	 */
+<span class="fc" id="L30">	public ElementToSubPropertyTransformer() {</span>
+
+<span class="fc" id="L32">	}</span>
+
+	/**
+	 * Given an XML element returns the corresponding sub-property
+	 * 
+	 * @param input
+	 *            the XML input element to be transformed
+	 * @throws NullPointerException
+	 *             if the element in input is null
+	 */
+	@Override
+	public SubProperty transform(Element input) {
+
+<span class="fc" id="L45">		Preconditions.checkNotNull(input,</span>
+				&quot;The subproperty to be converted cannot be null&quot;);
+<span class="fc" id="L47">		int componentId = Integer</span>
+<span class="fc" id="L48">				.parseInt(input</span>
+<span class="fc" id="L49">						.getAttribute(ConstraintsIOConstants.XML_ATTRIBUTE_MODEL_STATE_ID));</span>
+
+<span class="fc" id="L51">		boolean indispensable = Boolean</span>
+<span class="fc" id="L52">				.parseBoolean(input</span>
+<span class="fc" id="L53">						.getAttribute(ConstraintsIOConstants.XML_ATTRIBUTE_SUBPROPERTY_INDISPESNABLE));</span>
+
+<span class="fc" id="L55">		String stateName = input</span>
+<span class="fc" id="L56">				.getAttribute(AutomataIOConstants.XML_ATTRIBUTE_NAME);</span>
+
+<span class="fc" id="L58">		ElementToBATransformer elementToBATransformer = new ElementToBATransformer();</span>
+
+<span class="fc" id="L60">		NodeList list = input</span>
+<span class="fc" id="L61">				.getElementsByTagName(AutomataIOConstants.XML_ELEMENT_BA);</span>
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">		if (list.getLength() == 0) {</span>
+<span class="nc" id="L63">			throw new InternalError(&quot;No BA element inside the component&quot;);</span>
+		}
+<span class="fc" id="L65">		BA ba = elementToBATransformer.transform((Element) (input</span>
+<span class="fc" id="L66">				.getElementsByTagName(AutomataIOConstants.XML_ELEMENT_BA)</span>
+<span class="fc" id="L67">				.item(0)));</span>
+
+<span class="fc" id="L69">		State modelState = new StateFactory().create(stateName, componentId);</span>
+<span class="fc" id="L70">		SubProperty subproperty = new SubProperty(modelState, ba);</span>
+<span class="fc" id="L71">		subproperty.setIndispensable(indispensable);</span>
+<span class="fc" id="L72">		return subproperty;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>
