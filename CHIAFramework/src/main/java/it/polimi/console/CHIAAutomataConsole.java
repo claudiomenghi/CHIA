@@ -209,14 +209,19 @@ public class CHIAAutomataConsole {
 				LOGGER.info("The convertion of an LTL formula into the corresponding automaton is based on the LTL2BA4J library.");
 				LOGGER.info("The LTL2BA4J library uses the ltl2ba tool. ltl2ba is written in ANSI C");
 				LOGGER.info("The library must be available at the specified path");
+				LOGGER.info("For additional informations see http://www.sable.mcgill.ca/~ebodde/rv/ltl2ba4j/");
+				LOGGER.info("If you do not want to install the library you can load the claim directly from a BA using the command lp");
 
 			} catch (Exception e) {
+				LOGGER.info(e.getMessage());
 				LOGGER.info(e.toString());
 				LOGGER.info("The convertion of an LTL formula into the corresponding automaton is based on the LTL2BA4J library.");
 				LOGGER.info("The LTL2BA4J library uses the ltl2ba tool. ltl2ba is written in ANSI C");
 				LOGGER.info("If the compiled version of the library is not compatible with your operating system "
 						+ "you must download the source of ltl2ba from http://www.sable.mcgill.ca/~ebodde/rv/ltl2ba4j/ltl2ba4j.tgz"
 						+ " and recompile the source of ltl2ba");
+				LOGGER.info("For additional informations see http://www.sable.mcgill.ca/~ebodde/rv/ltl2ba4j/");
+				LOGGER.info("If you do not want to install the library you can load the claim directly from a BA using the command lp");
 			} catch (NoClassDefFoundError e) {
 				LOGGER.info(e.toString());
 				LOGGER.info("The convertion of an LTL formula into the corresponding automaton is based on the LTL2BA4J library.");
@@ -224,6 +229,8 @@ public class CHIAAutomataConsole {
 				LOGGER.info("If the compiled version of the library is not compatible with your operating system "
 						+ "you must download the source of ltl2ba from http://www.sable.mcgill.ca/~ebodde/rv/ltl2ba4j/ltl2ba4j.tgz"
 						+ " and recompile the source of ltl2ba");
+				LOGGER.info("For additional informations see http://www.sable.mcgill.ca/~ebodde/rv/ltl2ba4j/");
+				LOGGER.info("If you do not want to install the library you can load the claim directly from a BA using the command lp");
 			}
 		}
 	}
