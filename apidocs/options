@@ -4,7 +4,7 @@
 'UTF-8'
 -protected
 -sourcepath
-'/Users/Claudio1/git/CHIA/CHIAAction/src/main/java'
+'/Users/Claudio1/git/CHIA/CHIAAutomata/src/main/java'
 -Xdoclint:none
 -author
 -bottom
@@ -12,14 +12,14 @@
 -charset
 'UTF-8'
 -d
-'/Users/Claudio1/git/CHIA/CHIAAction/target/site/apidocs'
+'/Users/Claudio1/git/CHIA/CHIAAutomata/target/site/apidocs'
 -docencoding
 'UTF-8'
 -doctitle
-'CHIAAction 0.0.1-SNAPSHOT API'
+'CHIAAutomata 0.0.1-SNAPSHOT API'
 -linkoffline
-'http://docs.oracle.com/javase/8/docs/api' '/Users/Claudio1/git/CHIA/CHIAAction/target/javadoc-bundle-options'
+'http://docs.oracle.com/javase/8/docs/api' '/Users/Claudio1/git/CHIA/CHIAAutomata/target/javadoc-bundle-options'
 -use
 -version
 -windowtitle
-'CHIAAction 0.0.1-SNAPSHOT API'
+'CHIAAutomata 0.0.1-SNAPSHOT API'
