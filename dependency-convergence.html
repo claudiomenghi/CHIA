@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>CHIAReplacementChecker - Dependency Convergence</title>
+    <title>CHIAFramework - Dependency Convergence</title>
     <style type="text/css" media="all">
       @import url("./css/maven-base.css");
       @import url("./css/maven-theme.css");
@@ -17,7 +17,7 @@
   <body class="composite">
     <div id="banner">
                     <div id="bannerLeft">
-                CHIAReplacementChecker
+                CHIAFramework
                 </div>
                     <div class="clear">
         <hr/>
@@ -30,7 +30,7 @@
         <span id="publishDate">Last Published: 2016-02-09</span>
                   &nbsp;| <span id="projectVersion">Version: 0.0.1-SNAPSHOT</span>
                       </div>
-            <div class="xright">                    <a href="./" title="CHIAReplacementChecker">CHIAReplacementChecker</a>
+            <div class="xright">                    <a href="./" title="CHIAFramework">CHIAFramework</a>
               
                     
       </div>
@@ -105,24 +105,92 @@
 </caption>
 <tr class="b">
 <th>Number of dependencies (NOD):</th>
-<td>25</td></tr>
+<td>78</td></tr>
 <tr class="a">
 <th>Number of unique artifacts (NOA):</th>
-<td>25</td></tr>
+<td>89</td></tr>
 <tr class="b">
 <th>Number of version-conflicting artifacts (NOC):</th>
-<td>0</td></tr>
+<td>4</td></tr>
 <tr class="a">
 <th>Number of SNAPSHOT artifacts (NOS):</th>
-<td>8</td></tr>
+<td>10</td></tr>
 <tr class="b">
 <th>Convergence (NOD/NOA):</th>
-<td><img alt="success" src="images/icon_success_sml.gif" />&#160;<b>100 %</b></td></tr>
+<td><img alt="error" src="images/icon_error_sml.gif" />&#160;<b>87 %</b></td></tr>
 <tr class="a">
 <th>Ready for release (100 % convergence and no SNAPSHOTS):</th>
-<td><img alt="error" src="images/icon_error_sml.gif" />&#160;<b>Error</b><br />You have SNAPSHOT dependencies.</td></tr></table></div>
+<td><img alt="error" src="images/icon_error_sml.gif" />&#160;<b>Error</b><br />You do not have 100 % convergence.<br />You have SNAPSHOT dependencies.</td></tr></table></div>
 <div class="section">
 <h3>Dependencies used in this project<a name="Dependencies_used_in_this_project"></a></h3>
+<div class="section">
+<h4>junit:junit<a name="junit:junit"></a></h4>
+<table border="0" class="bodyTable">
+<tr class="b">
+<td><img alt="error" src="images/icon_error_sml.gif" /></td>
+<td>
+<table border="0" class="bodyTable">
+<tr class="a">
+<td width="25%">3.8.1</td>
+<td>
+<ol style="list-style-type: decimal">it.polimi.chia:CHIAFramework:jar:0.0.1-SNAPSHOT<br />\-&#160;org.codehaus.mojo:exec-maven-plugin:jar:1.4.0:compile<br />&#160;&#160;&#160;\-&#160;org.apache.maven:maven-project:jar:2.2.1:compile<br />&#160;&#160;&#160;&#160;&#160;&#160;\-&#160;org.codehaus.plexus:plexus-container-default:jar:1.0-alpha-9-stable-1:compile<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;\-&#160;(junit:junit:jar:3.8.1:compile - omitted for conflict with 4.8.1)<br /><br /></ol></td></tr>
+<tr class="b">
+<td width="25%">4.8.1</td>
+<td>
+<ol style="list-style-type: decimal">it.polimi.chia:CHIAFramework:jar:0.0.1-SNAPSHOT<br />\-&#160;junit:junit:jar:4.8.1:test (scope not updated to compile)<br /><br /></ol></td></tr></table></td></tr></table></div>
+<div class="section">
+<h4>org.apache.maven:maven-artifact<a name="org.apache.maven:maven-artifact"></a></h4>
+<table border="0" class="bodyTable">
+<tr class="a">
+<td><img alt="error" src="images/icon_error_sml.gif" /></td>
+<td>
+<table border="0" class="bodyTable">
+<tr class="b">
+<td width="25%">2.0.6</td>
+<td>
+<ol style="list-style-type: decimal">it.polimi.chia:CHIAFramework:jar:0.0.1-SNAPSHOT<br />\-&#160;org.codehaus.mojo:exec-maven-plugin:jar:1.4.0:compile<br />&#160;&#160;&#160;\-&#160;org.apache.maven:maven-toolchain:jar:1.0:compile<br />&#160;&#160;&#160;&#160;&#160;&#160;\-&#160;(org.apache.maven:maven-artifact:jar:2.0.6:compile - omitted for conflict with 2.2.1)<br /><br /></ol></td></tr>
+<tr class="a">
+<td width="25%">2.2.1</td>
+<td>
+<ol style="list-style-type: decimal">it.polimi.chia:CHIAFramework:jar:0.0.1-SNAPSHOT<br />\-&#160;org.codehaus.mojo:exec-maven-plugin:jar:1.4.0:compile<br />&#160;&#160;&#160;+-&#160;org.apache.maven:maven-project:jar:2.2.1:compile<br />&#160;&#160;&#160;|&#160;&#160;\-&#160;(org.apache.maven:maven-artifact:jar:2.2.1:compile - omitted for conflict with 2.0.6)<br />&#160;&#160;&#160;+-&#160;org.apache.maven:maven-artifact:jar:2.2.1:compile<br />&#160;&#160;&#160;+-&#160;org.apache.maven:maven-artifact-manager:jar:2.2.1:compile<br />&#160;&#160;&#160;|&#160;&#160;\-&#160;(org.apache.maven:maven-artifact:jar:2.2.1:compile - omitted for duplicate)<br />&#160;&#160;&#160;\-&#160;org.apache.maven:maven-core:jar:2.2.1:compile<br />&#160;&#160;&#160;&#160;&#160;&#160;+-&#160;(org.apache.maven:maven-artifact:jar:2.2.1:compile - omitted for duplicate)<br />&#160;&#160;&#160;&#160;&#160;&#160;\-&#160;org.apache.maven:maven-plugin-descriptor:jar:2.2.1:compile<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;\-&#160;(org.apache.maven:maven-artifact:jar:2.2.1:compile - omitted for duplicate)<br /><br /></ol></td></tr></table></td></tr></table></div>
+<div class="section">
+<h4>org.apache.maven:maven-core<a name="org.apache.maven:maven-core"></a></h4>
+<table border="0" class="bodyTable">
+<tr class="b">
+<td><img alt="error" src="images/icon_error_sml.gif" /></td>
+<td>
+<table border="0" class="bodyTable">
+<tr class="a">
+<td width="25%">2.0.6</td>
+<td>
+<ol style="list-style-type: decimal">it.polimi.chia:CHIAFramework:jar:0.0.1-SNAPSHOT<br />\-&#160;org.codehaus.mojo:exec-maven-plugin:jar:1.4.0:compile<br />&#160;&#160;&#160;\-&#160;org.apache.maven:maven-toolchain:jar:1.0:compile<br />&#160;&#160;&#160;&#160;&#160;&#160;\-&#160;(org.apache.maven:maven-core:jar:2.0.6:compile - omitted for conflict with 2.2.1)<br /><br /></ol></td></tr>
+<tr class="b">
+<td width="25%">2.2.1</td>
+<td>
+<ol style="list-style-type: decimal">it.polimi.chia:CHIAFramework:jar:0.0.1-SNAPSHOT<br />\-&#160;org.codehaus.mojo:exec-maven-plugin:jar:1.4.0:compile<br />&#160;&#160;&#160;\-&#160;org.apache.maven:maven-core:jar:2.2.1:compile<br /><br /></ol></td></tr></table></td></tr></table></div>
+<div class="section">
+<h4>org.codehaus.plexus:plexus-utils<a name="org.codehaus.plexus:plexus-utils"></a></h4>
+<table border="0" class="bodyTable">
+<tr class="a">
+<td><img alt="error" src="images/icon_error_sml.gif" /></td>
+<td>
+<table border="0" class="bodyTable">
+<tr class="b">
+<td width="25%">1.0.4</td>
+<td>
+<ol style="list-style-type: decimal">it.polimi.chia:CHIAFramework:jar:0.0.1-SNAPSHOT<br />\-&#160;org.codehaus.mojo:exec-maven-plugin:jar:1.4.0:compile<br />&#160;&#160;&#160;\-&#160;org.apache.maven:maven-project:jar:2.2.1:compile<br />&#160;&#160;&#160;&#160;&#160;&#160;\-&#160;org.codehaus.plexus:plexus-container-default:jar:1.0-alpha-9-stable-1:compile<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;\-&#160;(org.codehaus.plexus:plexus-utils:jar:1.0.4:compile - omitted for conflict with 1.5.15)<br /><br /></ol></td></tr>
+<tr class="a">
+<td width="25%">1.4.2</td>
+<td>
+<ol style="list-style-type: decimal">it.polimi.chia:CHIAFramework:jar:0.0.1-SNAPSHOT<br />\-&#160;org.codehaus.mojo:exec-maven-plugin:jar:1.4.0:compile<br />&#160;&#160;&#160;+-&#160;org.apache.maven:maven-artifact-manager:jar:2.2.1:compile<br />&#160;&#160;&#160;|&#160;&#160;\-&#160;org.apache.maven.wagon:wagon-provider-api:jar:1.0-beta-6:compile<br />&#160;&#160;&#160;|&#160;&#160;&#160;&#160;&#160;\-&#160;(org.codehaus.plexus:plexus-utils:jar:1.4.2:compile - omitted for conflict with 1.5.15)<br />&#160;&#160;&#160;\-&#160;org.apache.maven:maven-core:jar:2.2.1:compile<br />&#160;&#160;&#160;&#160;&#160;&#160;+-&#160;org.apache.maven.wagon:wagon-ssh-external:jar:1.0-beta-6:runtime<br />&#160;&#160;&#160;&#160;&#160;&#160;|&#160;&#160;\-&#160;(org.codehaus.plexus:plexus-utils:jar:1.4.2:runtime - omitted for conflict with 1.5.15)<br />&#160;&#160;&#160;&#160;&#160;&#160;\-&#160;org.apache.maven.wagon:wagon-ssh:jar:1.0-beta-6:compile<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;+-&#160;(org.codehaus.plexus:plexus-utils:jar:1.4.2:compile - omitted for conflict with 1.5.15)<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;\-&#160;org.apache.maven.wagon:wagon-ssh-common:jar:1.0-beta-6:compile<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;\-&#160;(org.codehaus.plexus:plexus-utils:jar:1.4.2:compile - omitted for conflict with 1.5.15)<br /><br /></ol></td></tr>
+<tr class="b">
+<td width="25%">1.5.15</td>
+<td>
+<ol style="list-style-type: decimal">it.polimi.chia:CHIAFramework:jar:0.0.1-SNAPSHOT<br />\-&#160;org.codehaus.mojo:exec-maven-plugin:jar:1.4.0:compile<br />&#160;&#160;&#160;+-&#160;org.apache.maven:maven-project:jar:2.2.1:compile<br />&#160;&#160;&#160;|&#160;&#160;+-&#160;org.apache.maven:maven-settings:jar:2.2.1:compile<br />&#160;&#160;&#160;|&#160;&#160;|&#160;&#160;\-&#160;(org.codehaus.plexus:plexus-utils:jar:1.5.15:compile - omitted for conflict with 1.4.1)<br />&#160;&#160;&#160;|&#160;&#160;+-&#160;org.apache.maven:maven-profile:jar:2.2.1:compile<br />&#160;&#160;&#160;|&#160;&#160;|&#160;&#160;\-&#160;(org.codehaus.plexus:plexus-utils:jar:1.5.15:compile - omitted for conflict with 1.4.1)<br />&#160;&#160;&#160;|&#160;&#160;+-&#160;org.apache.maven:maven-plugin-registry:jar:2.2.1:compile<br />&#160;&#160;&#160;|&#160;&#160;|&#160;&#160;\-&#160;(org.codehaus.plexus:plexus-utils:jar:1.5.15:compile - omitted for conflict with 1.4.1)<br />&#160;&#160;&#160;|&#160;&#160;\-&#160;(org.codehaus.plexus:plexus-utils:jar:1.5.15:compile - omitted for conflict with 3.0.20)<br />&#160;&#160;&#160;+-&#160;org.apache.maven:maven-model:jar:2.2.1:compile<br />&#160;&#160;&#160;|&#160;&#160;\-&#160;(org.codehaus.plexus:plexus-utils:jar:1.5.15:compile - omitted for duplicate)<br />&#160;&#160;&#160;+-&#160;org.apache.maven:maven-artifact:jar:2.2.1:compile<br />&#160;&#160;&#160;|&#160;&#160;\-&#160;(org.codehaus.plexus:plexus-utils:jar:1.5.15:compile - omitted for duplicate)<br />&#160;&#160;&#160;+-&#160;org.apache.maven:maven-artifact-manager:jar:2.2.1:compile<br />&#160;&#160;&#160;|&#160;&#160;+-&#160;org.apache.maven:maven-repository-metadata:jar:2.2.1:compile<br />&#160;&#160;&#160;|&#160;&#160;|&#160;&#160;\-&#160;(org.codehaus.plexus:plexus-utils:jar:1.5.15:compile - omitted for duplicate)<br />&#160;&#160;&#160;|&#160;&#160;\-&#160;(org.codehaus.plexus:plexus-utils:jar:1.5.15:compile - omitted for duplicate)<br />&#160;&#160;&#160;\-&#160;org.apache.maven:maven-core:jar:2.2.1:compile<br />&#160;&#160;&#160;&#160;&#160;&#160;+-&#160;org.apache.maven:maven-plugin-parameter-documenter:jar:2.2.1:compile<br />&#160;&#160;&#160;&#160;&#160;&#160;|&#160;&#160;\-&#160;(org.codehaus.plexus:plexus-utils:jar:1.5.15:compile - omitted for duplicate)<br />&#160;&#160;&#160;&#160;&#160;&#160;\-&#160;(org.codehaus.plexus:plexus-utils:jar:1.5.15:compile - omitted for duplicate)<br /><br /></ol></td></tr>
+<tr class="a">
+<td width="25%">3.0.20</td>
+<td>
+<ol style="list-style-type: decimal">it.polimi.chia:CHIAFramework:jar:0.0.1-SNAPSHOT<br />\-&#160;org.codehaus.mojo:exec-maven-plugin:jar:1.4.0:compile<br />&#160;&#160;&#160;\-&#160;org.codehaus.plexus:plexus-utils:jar:3.0.20:compile<br /><br /></ol></td></tr></table></td></tr></table></div>
 <div class="section">
 <h4>it.polimi.chia:CHIAAction<a name="it.polimi.chia:CHIAAction"></a></h4>
 <table border="0" class="bodyTable">
@@ -133,7 +201,7 @@
 <tr class="a">
 <td width="25%">0.0.1-SNAPSHOT</td>
 <td>
-<ol style="list-style-type: decimal">it.polimi.chia:CHIAReplacementChecker:jar:0.0.1-SNAPSHOT<br />\-&#160;it.polimi.chia:CHIAChecker:jar:0.0.1-SNAPSHOT:compile<br />&#160;&#160;&#160;+-&#160;it.polimi.chia:CHIAAction:jar:0.0.1-SNAPSHOT:compile<br />&#160;&#160;&#160;+-&#160;it.polimi.chia:CHIAAutomataIO:jar:0.0.1-SNAPSHOT:compile<br />&#160;&#160;&#160;|&#160;&#160;\-&#160;(it.polimi.chia:CHIAAction:jar:0.0.1-SNAPSHOT:compile - omitted for duplicate)<br />&#160;&#160;&#160;\-&#160;it.polimi.chia:CHIALTLIO:jar:0.0.1-SNAPSHOT:compile<br />&#160;&#160;&#160;&#160;&#160;&#160;\-&#160;(it.polimi.chia:CHIAAction:jar:0.0.1-SNAPSHOT:compile - omitted for duplicate)<br /><br /></ol></td></tr></table></td></tr></table></div>
+<ol style="list-style-type: decimal">it.polimi.chia:CHIAFramework:jar:0.0.1-SNAPSHOT<br />\-&#160;it.polimi.chia:CHIAChecker:jar:0.0.1-SNAPSHOT:compile<br />&#160;&#160;&#160;+-&#160;it.polimi.chia:CHIAAction:jar:0.0.1-SNAPSHOT:compile<br />&#160;&#160;&#160;+-&#160;it.polimi.chia:CHIAAutomataIO:jar:0.0.1-SNAPSHOT:compile<br />&#160;&#160;&#160;|&#160;&#160;\-&#160;(it.polimi.chia:CHIAAction:jar:0.0.1-SNAPSHOT:compile - omitted for duplicate)<br />&#160;&#160;&#160;\-&#160;it.polimi.chia:CHIALTLIO:jar:0.0.1-SNAPSHOT:compile<br />&#160;&#160;&#160;&#160;&#160;&#160;\-&#160;(it.polimi.chia:CHIAAction:jar:0.0.1-SNAPSHOT:compile - omitted for duplicate)<br /><br /></ol></td></tr></table></td></tr></table></div>
 <div class="section">
 <h4>it.polimi.chia:CHIAAutomata<a name="it.polimi.chia:CHIAAutomata"></a></h4>
 <table border="0" class="bodyTable">
@@ -144,7 +212,7 @@
 <tr class="a">
 <td width="25%">0.0.1-SNAPSHOT</td>
 <td>
-<ol style="list-style-type: decimal">it.polimi.chia:CHIAReplacementChecker:jar:0.0.1-SNAPSHOT<br />+-&#160;it.polimi.chia:CHIAChecker:jar:0.0.1-SNAPSHOT:compile<br />|&#160;&#160;+-&#160;(it.polimi.chia:CHIAAutomata:jar:0.0.1-SNAPSHOT:compile - omitted for duplicate)<br />|&#160;&#160;+-&#160;it.polimi.chia:CHIAAutomataIO:jar:0.0.1-SNAPSHOT:compile<br />|&#160;&#160;|&#160;&#160;\-&#160;(it.polimi.chia:CHIAAutomata:jar:0.0.1-SNAPSHOT:compile - omitted for duplicate)<br />|&#160;&#160;\-&#160;it.polimi.chia:CHIALTLIO:jar:0.0.1-SNAPSHOT:compile<br />|&#160;&#160;&#160;&#160;&#160;\-&#160;(it.polimi.chia:CHIAAutomata:jar:0.0.1-SNAPSHOT:compile - omitted for duplicate)<br />+-&#160;it.polimi.chia:CHIAAutomata:jar:0.0.1-SNAPSHOT:compile<br />+-&#160;it.polimi.chia:CHIAConstraint:jar:0.0.1-SNAPSHOT:compile<br />|&#160;&#160;\-&#160;(it.polimi.chia:CHIAAutomata:jar:0.0.1-SNAPSHOT:compile - omitted for duplicate)<br />+-&#160;it.polimi.chia:CHIAConstraintIO:jar:0.0.1-SNAPSHOT:compile<br />|&#160;&#160;\-&#160;(it.polimi.chia:CHIAAutomata:jar:0.0.1-SNAPSHOT:compile - omitted for duplicate)<br />\-&#160;it.polimi.chia:CHIAConstraintComputation:jar:0.0.1-SNAPSHOT:compile<br />&#160;&#160;&#160;\-&#160;(it.polimi.chia:CHIAAutomata:jar:0.0.1-SNAPSHOT:compile - omitted for duplicate)<br /><br /></ol></td></tr></table></td></tr></table></div>
+<ol style="list-style-type: decimal">it.polimi.chia:CHIAFramework:jar:0.0.1-SNAPSHOT<br />+-&#160;it.polimi.chia:CHIAChecker:jar:0.0.1-SNAPSHOT:compile<br />|&#160;&#160;+-&#160;(it.polimi.chia:CHIAAutomata:jar:0.0.1-SNAPSHOT:compile - omitted for duplicate)<br />|&#160;&#160;+-&#160;it.polimi.chia:CHIAAutomataIO:jar:0.0.1-SNAPSHOT:compile<br />|&#160;&#160;|&#160;&#160;\-&#160;(it.polimi.chia:CHIAAutomata:jar:0.0.1-SNAPSHOT:compile - omitted for duplicate)<br />|&#160;&#160;\-&#160;it.polimi.chia:CHIALTLIO:jar:0.0.1-SNAPSHOT:compile<br />|&#160;&#160;&#160;&#160;&#160;\-&#160;(it.polimi.chia:CHIAAutomata:jar:0.0.1-SNAPSHOT:compile - omitted for duplicate)<br />+-&#160;it.polimi.chia:CHIAConstraintIO:jar:0.0.1-SNAPSHOT:compile<br />|&#160;&#160;+-&#160;it.polimi.chia:CHIAConstraint:jar:0.0.1-SNAPSHOT:compile<br />|&#160;&#160;|&#160;&#160;\-&#160;(it.polimi.chia:CHIAAutomata:jar:0.0.1-SNAPSHOT:compile - omitted for duplicate)<br />|&#160;&#160;\-&#160;(it.polimi.chia:CHIAAutomata:jar:0.0.1-SNAPSHOT:compile - omitted for duplicate)<br />+-&#160;it.polimi.chia:CHIAConstraintComputation:jar:0.0.1-SNAPSHOT:compile<br />|&#160;&#160;\-&#160;(it.polimi.chia:CHIAAutomata:jar:0.0.1-SNAPSHOT:compile - omitted for duplicate)<br />+-&#160;it.polimi.chia:CHIAAutomata:jar:0.0.1-SNAPSHOT:compile<br />\-&#160;it.polimi.chia:CHIAReplacementChecker:jar:0.0.1-SNAPSHOT:compile<br />&#160;&#160;&#160;\-&#160;(it.polimi.chia:CHIAAutomata:jar:0.0.1-SNAPSHOT:compile - omitted for duplicate)<br /><br /></ol></td></tr></table></td></tr></table></div>
 <div class="section">
 <h4>it.polimi.chia:CHIAAutomataIO<a name="it.polimi.chia:CHIAAutomataIO"></a></h4>
 <table border="0" class="bodyTable">
@@ -155,7 +223,7 @@
 <tr class="a">
 <td width="25%">0.0.1-SNAPSHOT</td>
 <td>
-<ol style="list-style-type: decimal">it.polimi.chia:CHIAReplacementChecker:jar:0.0.1-SNAPSHOT<br />+-&#160;it.polimi.chia:CHIAChecker:jar:0.0.1-SNAPSHOT:compile<br />|&#160;&#160;\-&#160;it.polimi.chia:CHIAAutomataIO:jar:0.0.1-SNAPSHOT:compile<br />+-&#160;it.polimi.chia:CHIAConstraint:jar:0.0.1-SNAPSHOT:compile<br />|&#160;&#160;\-&#160;(it.polimi.chia:CHIAAutomataIO:jar:0.0.1-SNAPSHOT:compile - omitted for duplicate)<br />+-&#160;it.polimi.chia:CHIAConstraintIO:jar:0.0.1-SNAPSHOT:compile<br />|&#160;&#160;\-&#160;(it.polimi.chia:CHIAAutomataIO:jar:0.0.1-SNAPSHOT:compile - omitted for duplicate)<br />\-&#160;it.polimi.chia:CHIAConstraintComputation:jar:0.0.1-SNAPSHOT:compile<br />&#160;&#160;&#160;\-&#160;(it.polimi.chia:CHIAAutomataIO:jar:0.0.1-SNAPSHOT:compile - omitted for duplicate)<br /><br /></ol></td></tr></table></td></tr></table></div>
+<ol style="list-style-type: decimal">it.polimi.chia:CHIAFramework:jar:0.0.1-SNAPSHOT<br />+-&#160;it.polimi.chia:CHIAChecker:jar:0.0.1-SNAPSHOT:compile<br />|&#160;&#160;\-&#160;it.polimi.chia:CHIAAutomataIO:jar:0.0.1-SNAPSHOT:compile<br />+-&#160;it.polimi.chia:CHIAConstraintIO:jar:0.0.1-SNAPSHOT:compile<br />|&#160;&#160;+-&#160;it.polimi.chia:CHIAConstraint:jar:0.0.1-SNAPSHOT:compile<br />|&#160;&#160;|&#160;&#160;\-&#160;(it.polimi.chia:CHIAAutomataIO:jar:0.0.1-SNAPSHOT:compile - omitted for duplicate)<br />|&#160;&#160;\-&#160;(it.polimi.chia:CHIAAutomataIO:jar:0.0.1-SNAPSHOT:compile - omitted for duplicate)<br />\-&#160;it.polimi.chia:CHIAConstraintComputation:jar:0.0.1-SNAPSHOT:compile<br />&#160;&#160;&#160;\-&#160;(it.polimi.chia:CHIAAutomataIO:jar:0.0.1-SNAPSHOT:compile - omitted for duplicate)<br /><br /></ol></td></tr></table></td></tr></table></div>
 <div class="section">
 <h4>it.polimi.chia:CHIAChecker<a name="it.polimi.chia:CHIAChecker"></a></h4>
 <table border="0" class="bodyTable">
@@ -166,7 +234,7 @@
 <tr class="a">
 <td width="25%">0.0.1-SNAPSHOT</td>
 <td>
-<ol style="list-style-type: decimal">it.polimi.chia:CHIAReplacementChecker:jar:0.0.1-SNAPSHOT<br />+-&#160;it.polimi.chia:CHIAChecker:jar:0.0.1-SNAPSHOT:compile<br />\-&#160;it.polimi.chia:CHIAConstraintComputation:jar:0.0.1-SNAPSHOT:compile<br />&#160;&#160;&#160;\-&#160;(it.polimi.chia:CHIAChecker:jar:0.0.1-SNAPSHOT:compile - omitted for duplicate)<br /><br /></ol></td></tr></table></td></tr></table></div>
+<ol style="list-style-type: decimal">it.polimi.chia:CHIAFramework:jar:0.0.1-SNAPSHOT<br />+-&#160;it.polimi.chia:CHIAChecker:jar:0.0.1-SNAPSHOT:compile<br />+-&#160;it.polimi.chia:CHIAConstraintComputation:jar:0.0.1-SNAPSHOT:compile<br />|&#160;&#160;\-&#160;(it.polimi.chia:CHIAChecker:jar:0.0.1-SNAPSHOT:compile - omitted for duplicate)<br />\-&#160;it.polimi.chia:CHIAReplacementChecker:jar:0.0.1-SNAPSHOT:compile<br />&#160;&#160;&#160;\-&#160;(it.polimi.chia:CHIAChecker:jar:0.0.1-SNAPSHOT:compile - omitted for duplicate)<br /><br /></ol></td></tr></table></td></tr></table></div>
 <div class="section">
 <h4>it.polimi.chia:CHIAConstraint<a name="it.polimi.chia:CHIAConstraint"></a></h4>
 <table border="0" class="bodyTable">
@@ -177,7 +245,7 @@
 <tr class="a">
 <td width="25%">0.0.1-SNAPSHOT</td>
 <td>
-<ol style="list-style-type: decimal">it.polimi.chia:CHIAReplacementChecker:jar:0.0.1-SNAPSHOT<br />+-&#160;it.polimi.chia:CHIAConstraint:jar:0.0.1-SNAPSHOT:compile<br />+-&#160;it.polimi.chia:CHIAConstraintIO:jar:0.0.1-SNAPSHOT:compile<br />|&#160;&#160;\-&#160;(it.polimi.chia:CHIAConstraint:jar:0.0.1-SNAPSHOT:compile - omitted for duplicate)<br />\-&#160;it.polimi.chia:CHIAConstraintComputation:jar:0.0.1-SNAPSHOT:compile<br />&#160;&#160;&#160;\-&#160;(it.polimi.chia:CHIAConstraint:jar:0.0.1-SNAPSHOT:compile - omitted for duplicate)<br /><br /></ol></td></tr></table></td></tr></table></div>
+<ol style="list-style-type: decimal">it.polimi.chia:CHIAFramework:jar:0.0.1-SNAPSHOT<br />+-&#160;it.polimi.chia:CHIAConstraintIO:jar:0.0.1-SNAPSHOT:compile<br />|&#160;&#160;\-&#160;it.polimi.chia:CHIAConstraint:jar:0.0.1-SNAPSHOT:compile<br />+-&#160;it.polimi.chia:CHIAConstraintComputation:jar:0.0.1-SNAPSHOT:compile<br />|&#160;&#160;\-&#160;(it.polimi.chia:CHIAConstraint:jar:0.0.1-SNAPSHOT:compile - omitted for duplicate)<br />\-&#160;it.polimi.chia:CHIAReplacementChecker:jar:0.0.1-SNAPSHOT:compile<br />&#160;&#160;&#160;\-&#160;(it.polimi.chia:CHIAConstraint:jar:0.0.1-SNAPSHOT:compile - omitted for duplicate)<br /><br /></ol></td></tr></table></td></tr></table></div>
 <div class="section">
 <h4>it.polimi.chia:CHIAConstraintComputation<a name="it.polimi.chia:CHIAConstraintComputation"></a></h4>
 <table border="0" class="bodyTable">
@@ -188,7 +256,7 @@
 <tr class="a">
 <td width="25%">0.0.1-SNAPSHOT</td>
 <td>
-<ol style="list-style-type: decimal">it.polimi.chia:CHIAReplacementChecker:jar:0.0.1-SNAPSHOT<br />\-&#160;it.polimi.chia:CHIAConstraintComputation:jar:0.0.1-SNAPSHOT:compile<br /><br /></ol></td></tr></table></td></tr></table></div>
+<ol style="list-style-type: decimal">it.polimi.chia:CHIAFramework:jar:0.0.1-SNAPSHOT<br />+-&#160;it.polimi.chia:CHIAConstraintComputation:jar:0.0.1-SNAPSHOT:compile<br />\-&#160;it.polimi.chia:CHIAReplacementChecker:jar:0.0.1-SNAPSHOT:compile<br />&#160;&#160;&#160;\-&#160;(it.polimi.chia:CHIAConstraintComputation:jar:0.0.1-SNAPSHOT:compile - omitted for duplicate)<br /><br /></ol></td></tr></table></td></tr></table></div>
 <div class="section">
 <h4>it.polimi.chia:CHIAConstraintIO<a name="it.polimi.chia:CHIAConstraintIO"></a></h4>
 <table border="0" class="bodyTable">
@@ -199,7 +267,7 @@
 <tr class="a">
 <td width="25%">0.0.1-SNAPSHOT</td>
 <td>
-<ol style="list-style-type: decimal">it.polimi.chia:CHIAReplacementChecker:jar:0.0.1-SNAPSHOT<br />+-&#160;it.polimi.chia:CHIAConstraintIO:jar:0.0.1-SNAPSHOT:compile<br />\-&#160;it.polimi.chia:CHIAConstraintComputation:jar:0.0.1-SNAPSHOT:compile<br />&#160;&#160;&#160;\-&#160;(it.polimi.chia:CHIAConstraintIO:jar:0.0.1-SNAPSHOT:compile - omitted for duplicate)<br /><br /></ol></td></tr></table></td></tr></table></div>
+<ol style="list-style-type: decimal">it.polimi.chia:CHIAFramework:jar:0.0.1-SNAPSHOT<br />+-&#160;it.polimi.chia:CHIAConstraintIO:jar:0.0.1-SNAPSHOT:compile<br />+-&#160;it.polimi.chia:CHIAConstraintComputation:jar:0.0.1-SNAPSHOT:compile<br />|&#160;&#160;\-&#160;(it.polimi.chia:CHIAConstraintIO:jar:0.0.1-SNAPSHOT:compile - omitted for duplicate)<br />\-&#160;it.polimi.chia:CHIAReplacementChecker:jar:0.0.1-SNAPSHOT:compile<br />&#160;&#160;&#160;\-&#160;(it.polimi.chia:CHIAConstraintIO:jar:0.0.1-SNAPSHOT:compile - omitted for duplicate)<br /><br /></ol></td></tr></table></td></tr></table></div>
 <div class="section">
 <h4>it.polimi.chia:CHIALTLIO<a name="it.polimi.chia:CHIALTLIO"></a></h4>
 <table border="0" class="bodyTable">
@@ -210,7 +278,29 @@
 <tr class="a">
 <td width="25%">0.0.1-SNAPSHOT</td>
 <td>
-<ol style="list-style-type: decimal">it.polimi.chia:CHIAReplacementChecker:jar:0.0.1-SNAPSHOT<br />\-&#160;it.polimi.chia:CHIAChecker:jar:0.0.1-SNAPSHOT:compile<br />&#160;&#160;&#160;\-&#160;it.polimi.chia:CHIALTLIO:jar:0.0.1-SNAPSHOT:compile<br /><br /></ol></td></tr></table></td></tr></table></div></div>
+<ol style="list-style-type: decimal">it.polimi.chia:CHIAFramework:jar:0.0.1-SNAPSHOT<br />\-&#160;it.polimi.chia:CHIAChecker:jar:0.0.1-SNAPSHOT:compile<br />&#160;&#160;&#160;\-&#160;it.polimi.chia:CHIALTLIO:jar:0.0.1-SNAPSHOT:compile<br /><br /></ol></td></tr></table></td></tr></table></div>
+<div class="section">
+<h4>it.polimi.chia:CHIALogging<a name="it.polimi.chia:CHIALogging"></a></h4>
+<table border="0" class="bodyTable">
+<tr class="b">
+<td><img alt="error" src="images/icon_error_sml.gif" /></td>
+<td>
+<table border="0" class="bodyTable">
+<tr class="a">
+<td width="25%">0.0.1-SNAPSHOT</td>
+<td>
+<ol style="list-style-type: decimal">it.polimi.chia:CHIAFramework:jar:0.0.1-SNAPSHOT<br />\-&#160;it.polimi.chia:CHIALogging:jar:0.0.1-SNAPSHOT:compile<br /><br /></ol></td></tr></table></td></tr></table></div>
+<div class="section">
+<h4>it.polimi.chia:CHIAReplacementChecker<a name="it.polimi.chia:CHIAReplacementChecker"></a></h4>
+<table border="0" class="bodyTable">
+<tr class="b">
+<td><img alt="error" src="images/icon_error_sml.gif" /></td>
+<td>
+<table border="0" class="bodyTable">
+<tr class="a">
+<td width="25%">0.0.1-SNAPSHOT</td>
+<td>
+<ol style="list-style-type: decimal">it.polimi.chia:CHIAFramework:jar:0.0.1-SNAPSHOT<br />\-&#160;it.polimi.chia:CHIAReplacementChecker:jar:0.0.1-SNAPSHOT:compile<br /><br /></ol></td></tr></table></td></tr></table></div></div>
       </div>
     </div>
     <div class="clear">

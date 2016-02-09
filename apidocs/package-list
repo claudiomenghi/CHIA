@@ -1,4 +1,4 @@
-it.polimi.replacementchecker
-it.polimi.replacementchecker.acceptingpolicy
-it.polimi.replacementchecker.intersectionbuilder
-it.polimi.replacementchecker.utils
+it.polimi
+it.polimi.console
+it.polimi.statemachine.events
+it.polimi.statemachine.states
