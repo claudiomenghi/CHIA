@@ -1,3 +1,7 @@
 GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
-CHIALTLIO,it.polimi.model.ltltoba,LTLtoBATransformer,22,201,3,11,4,50,3,9,0,5
-CHIALTLIO,it.polimi.model.ltltoba,ClaimLTLReader,92,0,8,0,21,0,6,0,2,0
+CHIAReplacementChecker,it.polimi.replacementchecker.acceptingpolicy,ReplacementAcceptingPolicy,0,272,0,48,0,62,0,28,0,4
+CHIAReplacementChecker,it.polimi.replacementchecker.utils,Utils,0,59,0,8,0,22,0,7,0,3
+CHIAReplacementChecker,it.polimi.replacementchecker,ReplacementChecker,0,312,0,24,0,84,0,25,0,13
+CHIAReplacementChecker,it.polimi.replacementchecker.intersectionbuilder,OverApproximationBuilder,0,27,0,0,0,7,0,2,0,2
+CHIAReplacementChecker,it.polimi.replacementchecker.intersectionbuilder,UnderApproximationBuilder,0,42,0,0,0,13,0,5,0,5
+CHIAReplacementChecker,it.polimi.replacementchecker.intersectionbuilder,ReplacementIntersectionBuilder,0,1219,0,104,0,309,0,75,0,23

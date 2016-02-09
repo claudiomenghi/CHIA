@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Utils.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CHIAReplacementChecker</a> &gt; <a href="index.source.html" class="el_package">it.polimi.replacementchecker.utils</a> &gt; <span class="el_source">Utils.java</span></div><h1>Utils.java</h1><pre class="source lang-java linenums">package it.polimi.replacementchecker.utils;
+
+import it.polimi.constraints.transitions.LabeledPluggingTransition;
+import it.polimi.constraints.transitions.PluggingTransition;
+
+import com.google.common.base.Preconditions;
+
+public class Utils {
+
+<span class="fc" id="L10">    private Utils() throws InstantiationException{</span>
+<span class="fc" id="L11">        throw new InstantiationException(&quot;Instances of this type are forbidden.&quot;);</span>
+    }
+    /**
+     * returns true if and only if the two transitions are labeled with the same
+     * propositions and have the same destination state
+     * 
+     * @param replacementTransition
+     *            is the outgoing transition of the replacement to be considered
+     * @param subPropertyTransition
+     *            is the outgoing transition of the sub-property to be
+     *            considered
+     * @return true if and only if the two transitions are labeled with the same
+     *         propositions and have the destination source state
+     * @throws NullPointerException
+     *             if one of the transitions is null
+     */
+    public static boolean isOutgoingEqual(
+            PluggingTransition replacementTransition,
+            LabeledPluggingTransition subPropertyTransition) {
+
+<span class="fc" id="L31">        Preconditions.checkNotNull(replacementTransition,</span>
+                &quot;The transition of the replacement cannot be null&quot;);
+<span class="fc" id="L33">        Preconditions.checkNotNull(subPropertyTransition,</span>
+                &quot;The transition of the sub-property cannot be null&quot;);
+
+<span class="fc" id="L36">        if (replacementTransition</span>
+<span class="fc" id="L37">                .getTransition()</span>
+<span class="fc" id="L38">                .getPropositions()</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">                .equals(subPropertyTransition.getTransition().getPropositions())) {</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">            if (replacementTransition.getDestination().equals(</span>
+<span class="fc" id="L41">                    subPropertyTransition.getDestination())) {</span>
+<span class="fc" id="L42">                return true;</span>
+            }
+        }
+<span class="fc" id="L45">        return false;</span>
+    }
+
+    /**
+     * returns true if and only if the two transitions are labeled with the same
+     * propositions and have the same source state
+     * 
+     * @param replacementTransition
+     *            is the incoming transition of the replacement to be considered
+     * @param subPropertyTransition
+     *            is the incoming transition of the sub-property to be
+     *            considered
+     * @return true if and only if the two transitions are labeled with the same
+     *         propositions and have the same source state
+     * @throws NullPointerException
+     *             if one of the transitions is null
+     */
+    public static boolean isIncomingEqual(
+            PluggingTransition replacementTransition,
+            LabeledPluggingTransition subPropertyTransition) {
+
+<span class="fc" id="L66">        Preconditions.checkNotNull(replacementTransition,</span>
+                &quot;The transition of the replacement cannot be null&quot;);
+<span class="fc" id="L68">        Preconditions.checkNotNull(subPropertyTransition,</span>
+                &quot;The transition of the sub-property cannot be null&quot;);
+
+<span class="fc" id="L71">        if (replacementTransition</span>
+<span class="fc" id="L72">                .getTransition()</span>
+<span class="fc" id="L73">                .getPropositions()</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">                .equals(subPropertyTransition.getTransition().getPropositions())) {</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">            if (replacementTransition.getSource().equals(</span>
+<span class="fc" id="L76">                    subPropertyTransition.getSource())) {</span>
+<span class="fc" id="L77">                return true;</span>
+            }
+        }
+<span class="fc" id="L80">        return false;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>
