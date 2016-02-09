@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>LTLtoBATransformer.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CHIALTLIO</a> &gt; <a href="index.source.html" class="el_package">it.polimi.model.ltltoba</a> &gt; <span class="el_source">LTLtoBATransformer.java</span></div><h1>LTLtoBATransformer.java</h1><pre class="source lang-java linenums">package it.polimi.model.ltltoba;
+
+import it.polimi.action.CHIAAction;
+import it.polimi.automata.BA;
+import it.polimi.automata.state.State;
+import it.polimi.automata.state.StateFactory;
+import it.polimi.automata.transition.ClaimTransitionFactory;
+import it.polimi.automata.transition.Transition;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
+import rwth.i2.ltl2ba4j.internal.jnibridge.BAJni;
+import rwth.i2.ltl2ba4j.model.IGraphProposition;
+import rwth.i2.ltl2ba4j.model.IState;
+import rwth.i2.ltl2ba4j.model.ITransition;
+import rwth.i2.ltl2ba4j.model.impl.GraphProposition;
+
+import com.google.common.base.Preconditions;
+
+/**
+ * contains the transformer which transforms an LTL formula into the
+ * corresponding Buchi automaton
+ * 
+ * @author Claudio Menghi
+ *
+ */
+public class LTLtoBATransformer extends CHIAAction&lt;BA&gt; {
+
+	/**
+	 * The name of the LTLtoBaTransformer action
+	 */
+	private static final String NAME = &quot;CONVERTING LTL TO AUTOMATON&quot;;
+
+	/**
+	 * contains the formula to be converted
+	 */
+	protected final String ltlFormula;
+
+<span class="fc" id="L42">	protected final String syntax = &quot;Propositonal Symbols:\r\n&quot;</span>
+			+ &quot;        true, false\r\n&quot; + &quot;        any lowercase string\r\n&quot;
+			+ &quot;\r\n&quot; + &quot;Boolean operators:\r\n&quot; + &quot;        !   (negation)\r\n&quot;
+			+ &quot;        -&gt;  (implication)\r\n&quot; + &quot;        &lt;-&gt; (equivalence)\r\n&quot;
+			+ &quot;        ^  (and)\r\n&quot; + &quot;        V  (or)\r\n&quot; + &quot;\r\n&quot;
+			+ &quot;Temporal operators:\r\n&quot; + &quot;        []  (always)\r\n&quot;
+			+ &quot;        &lt;&gt;  (eventually)\r\n&quot; + &quot;        U   (until)\r\n&quot;
+			+ &quot;        V   (release)\r\n&quot; + &quot;        X   (next)&quot;;
+
+	/**
+	 * creates the LTL to Buchi automaton transformer
+	 * 
+	 * @param ltlFormula
+	 *            is the formula to be converted
+	 * @throws NullPointerException
+	 *             if the ltlFormula is null
+	 */
+	public LTLtoBATransformer(String ltlFormula) {
+<span class="fc" id="L60">		super(NAME);</span>
+<span class="fc" id="L61">		Preconditions.checkNotNull(ltlFormula,</span>
+				&quot;The LTL formula to be converted cannot be null&quot;);
+<span class="fc" id="L63">		String tmpltlFormula = ltlFormula.replace(&quot;^&quot;, &quot;&amp;&amp;&quot;);</span>
+<span class="fc" id="L64">		this.ltlFormula = tmpltlFormula.replace(&quot;V&quot;, &quot;||&quot;);</span>
+<span class="fc" id="L65">	}</span>
+
+	/**
+	 * transforms the LTL formula into the corresponding Buchi Automaton
+	 * 
+	 * @return the BA corresponding to the LTL formula specified as parameter
+	 * @throws SecurityException
+	 * @throws Exception
+	 */
+	public BA perform() throws Exception {
+
+		/*
+		 * creates a new Buchi automaton
+		 */
+<span class="fc" id="L79">		BA ba = new BA(new ClaimTransitionFactory());</span>
+
+		try {
+			/*
+			 * calls the LTL2BA4J that transforms the LTL formula into the
+			 * corresponding automaton. The tool returns the transitions of the
+			 * Buchi automaton
+			 */
+			// call ltl2ba over JNI
+<span class="fc" id="L88">			BAJni b = new BAJni(ltlFormula);</span>
+
+<span class="fc" id="L90">			Collection&lt;ITransition&gt; transitions = b.getTransitions();</span>
+			// Collection&lt;ITransition&gt; transitions = LTL2BA4J
+			// .formulaToBA(ltlFormula);
+			/*
+			 * populates the BA to be returned with the specified set of
+			 * transitions
+			 */
+<span class="fc" id="L97">			this.addTransitionsToTheBA(ba, transitions);</span>
+<span class="nc" id="L98">		} catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L99">			throw new IllegalArgumentException(</span>
+					&quot;Your string must be consistent with the following syntax\\&quot;
+<span class="nc" id="L101">							+ syntax + &quot;\\&quot; + e.getMessage());</span>
+<span class="fc" id="L102">		}</span>
+
+		// returns the Buchi automaton
+<span class="fc" id="L105">		return ba;</span>
+	}
+
+	/**
+	 * populates the Buchi Automaton with the set of transitions specified as
+	 * parameter
+	 * 
+	 * @param ba
+	 *            is the Buchi Automaton to be populated
+	 * @param transitions
+	 *            contains the transitions to be added to the Buchi Automaton
+	 * 
+	 * @throws NullPointerException
+	 *             if the Buchi automaton or the set of transitions is null
+	 */
+	private void addTransitionsToTheBA(BA ba,
+			Collection&lt;ITransition&gt; transitions) {
+<span class="fc" id="L122">		Preconditions.checkNotNull(ba,</span>
+				&quot;The Buchi automaton to be converted cannot be null&quot;);
+
+<span class="fc" id="L125">		Preconditions.checkNotNull(transitions,</span>
+				&quot;The set of transitions cannot be null&quot;);
+
+		/*
+		 * maps each end point (state) of an ITransition to the corresponding
+		 * state of the Buchi Automaton
+		 */
+<span class="fc" id="L132">		Map&lt;IState, State&gt; map = new HashMap&lt;IState, State&gt;();</span>
+
+		/*
+		 * analyzes each transition and populates the Buchi Automaton with the
+		 * corresponding states. i.e., the end points of the transitions
+		 */
+<span class="fc bfc" id="L138" title="All 2 branches covered.">		for (ITransition t : transitions) {</span>
+<span class="fc" id="L139">			this.analyzeState(t.getSourceState(), map, ba);</span>
+<span class="fc" id="L140">			this.analyzeState(t.getTargetState(), map, ba);</span>
+<span class="fc" id="L141">		}</span>
+
+		/*
+		 * analyzes each transition and populates the corresponding Buchi
+		 * Automaton
+		 */
+<span class="fc bfc" id="L147" title="All 2 branches covered.">		for (ITransition t : transitions) {</span>
+<span class="fc" id="L148">			this.analyzeTransition(t, map, ba);</span>
+<span class="fc" id="L149">		}</span>
+<span class="fc" id="L150">	}</span>
+
+	/**
+	 * analyzes the end point state of a transition if the end Point has been
+	 * already visited no action is performed, otherwise a new state of the BA
+	 * is created and added to the map
+	 * 
+	 * @param endPoint
+	 *            is the endPoint state of a transition
+	 * @param map
+	 *            is the map which maps each end point state to the
+	 *            corresponding state of the Buchi automaton
+	 * @param ba
+	 *            is the Buchi automaton to be populated
+	 * @throws NullPointerException
+	 *             if the endPoint, the map or the buchi automaton is null
+	 */
+	private void analyzeState(IState endPoint, Map&lt;IState, State&gt; map, BA ba) {
+<span class="fc" id="L168">		Preconditions.checkNotNull(endPoint,</span>
+				&quot;The end point state cannot be null&quot;);
+
+<span class="fc" id="L171">		Preconditions.checkNotNull(map, &quot;The map cannot be null&quot;);</span>
+<span class="fc" id="L172">		Preconditions.checkNotNull(ba, &quot;The Buchi Automaton cannot be null&quot;);</span>
+
+<span class="fc" id="L174">		StateFactory stateFactory = new StateFactory();</span>
+<span class="fc bfc" id="L175" title="All 2 branches covered.">		if (!map.containsKey(endPoint)) {</span>
+			// a new state which correspond to the source state is created
+<span class="fc" id="L177">			State s = stateFactory.create();</span>
+			// the source state and the state created are added to the map
+<span class="fc" id="L179">			map.put(endPoint, s);</span>
+<span class="fc" id="L180">			ba.addState(s);</span>
+			// if the endPoint is initial
+<span class="pc bpc" id="L182" title="1 of 2 branches missed.">			if (endPoint.isInitial()) {</span>
+				/*
+				 * the state created is also added to the set of initial states
+				 */
+<span class="fc" id="L186">				ba.addInitialState(s);</span>
+			}
+			// if the endPoing is final
+<span class="pc bpc" id="L189" title="1 of 2 branches missed.">			if (endPoint.isFinal()) {</span>
+				/*
+				 * the state which has been created is also added to the set of
+				 * accepting states
+				 */
+<span class="fc" id="L194">				ba.addAcceptState(s);</span>
+			}
+		}
+<span class="fc" id="L197">	}</span>
+
+	/**
+	 * analyzes a transition of the returned automaton and encodes it into a
+	 * transition of the CHIA automaton and add the transition to the Buchi
+	 * Automaton
+	 * 
+	 * @param transition
+	 *            is the transition to be converted and added to the Buchi
+	 *            Automaton
+	 * @param map
+	 *            is the map which maps each end point state to the
+	 *            corresponding state of the Buchi automaton
+	 * @param ba
+	 *            is the Buchi Automaton to be populated
+	 * @throws NullPointerException
+	 *             if the transition, the map or the Buchi Automaton is null
+	 */
+	private void analyzeTransition(ITransition transition,
+			Map&lt;IState, State&gt; map, BA ba) {
+<span class="fc" id="L217">		Preconditions.checkNotNull(transition,</span>
+				&quot;The transition to be added cannot be null&quot;);
+<span class="fc" id="L219">		Preconditions.checkNotNull(map, &quot;The map cannot be null&quot;);</span>
+<span class="fc" id="L220">		Preconditions.checkNotNull(ba, &quot;The Buchi automaton cannot be null&quot;);</span>
+
+<span class="fc" id="L222">		ClaimTransitionFactory transitionFactory = new ClaimTransitionFactory();</span>
+		// returns the source state of the transition
+<span class="fc" id="L224">		State source = map.get(transition.getSourceState());</span>
+
+		// returns the destination state of the transition
+<span class="fc" id="L227">		State destination = map.get(transition.getTargetState());</span>
+
+		// returns the label of the transition
+<span class="fc" id="L230">		Set&lt;IGraphProposition&gt; label = transition.getLabels();</span>
+
+		// creates a new transition
+<span class="fc" id="L233">		Transition t = transitionFactory.create(label);</span>
+
+		// adds the label to the current buchi automaton
+
+<span class="fc bfc" id="L237" title="All 2 branches covered.">		for (IGraphProposition p : t.getPropositions()) {</span>
+<span class="pc bpc" id="L238" title="1 of 2 branches missed.">			if (!p.isNegated()) {</span>
+<span class="fc" id="L239">				ba.addProposition(p);</span>
+			} else {
+<span class="nc" id="L241">				ba.addProposition(new GraphProposition(p.getLabel(), false));</span>
+			}
+<span class="fc" id="L243">		}</span>
+
+		// add the transition from the source state to the destination state
+<span class="fc" id="L246">		ba.addTransition(source, destination, t);</span>
+
+<span class="fc" id="L248">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

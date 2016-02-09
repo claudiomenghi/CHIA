@@ -1,12 +1,3 @@
 GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
-CHIAContraintComputation,it.polimi.constraintcomputation.subpropertyidentifier,SubPropertyIdentifier,28,472,2,30,2,146,2,29,0,15
-CHIAContraintComputation,it.polimi.constraintcomputation.subpropertyidentifier.labeling,ForwardLabeler,0,131,0,12,0,42,0,9,0,3
-CHIAContraintComputation,it.polimi.constraintcomputation.subpropertyidentifier.labeling,TransitionLabeler,0,152,0,4,0,45,0,8,0,6
-CHIAContraintComputation,it.polimi.constraintcomputation.subpropertyidentifier.labeling,BackwardLabeler,4,194,2,24,1,58,2,14,0,3
-CHIAContraintComputation,it.polimi.constraintcomputation.reachability.statepresence.acceptingmodel,AcceptingModelStatePathChecker,0,63,0,4,0,15,0,4,0,2
-CHIAContraintComputation,it.polimi.constraintcomputation.reachability,ReachableStatesIdentifier,0,81,0,10,0,21,0,7,0,2
-CHIAContraintComputation,it.polimi.constraintcomputation.reachability,ReachabilityIdentifier,0,689,4,42,0,179,4,29,0,10
-CHIAContraintComputation,it.polimi.constraintcomputation.reachability.statepresence,StatePresencePathChecker,0,334,0,24,0,87,0,18,0,6
-CHIAContraintComputation,it.polimi.constraintcomputation.cleaner,AutomatonCleaner,0,156,0,10,0,36,0,8,0,3
-CHIAContraintComputation,it.polimi.constraintcomputation.reachability.statepresence.acceptingclaim,AcceptingClaimStatePathChecker,0,63,0,4,0,15,0,4,0,2
-CHIAContraintComputation,it.polimi.constraintcomputation,ConstraintGenerator,10,499,2,22,2,123,2,22,0,12
+CHIALTLIO,it.polimi.model.ltltoba,LTLtoBATransformer,22,201,3,11,4,50,3,9,0,5
+CHIALTLIO,it.polimi.model.ltltoba,ClaimLTLReader,92,0,8,0,21,0,6,0,2,0
