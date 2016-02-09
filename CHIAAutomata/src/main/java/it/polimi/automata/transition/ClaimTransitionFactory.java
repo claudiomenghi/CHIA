@@ -12,16 +12,14 @@ import rwth.i2.ltl2ba4j.model.IGraphProposition;
 import com.google.common.base.Preconditions;
 
 /**
- * is the factory that allows to create transitions of the type
- * Transition<LABEL>
- * 
- * @see {@link Transition}. It implements the {@link TransitionFactory}
- *      interface
+ * is the factory that allows to create transitions of the type Transition. See
+ * {@link Transition}. It implements the {@link TransitionFactory} interface.
  * 
  * @author claudiomenghi
  */
 @SuppressWarnings("serial")
-public class ClaimTransitionFactory  extends ClassBasedEdgeFactory<State, Transition> implements
+public class ClaimTransitionFactory extends
+		ClassBasedEdgeFactory<State, Transition> implements
 		TransitionFactory<State, Transition> {
 
 	public ClaimTransitionFactory() {
@@ -32,12 +30,12 @@ public class ClaimTransitionFactory  extends ClassBasedEdgeFactory<State, Transi
 	 * {@inheritDoc}
 	 */
 	public Transition create() {
-		
+
 		Transition t = new Transition(new HashSet<IGraphProposition>(),
 				Transition.transition_counter);
-		Transition.transition_counter = Transition.transition_counter+1;
-		if(Transition.transition_counter<0){
-			Transition.transition_counter=1;
+		Transition.transition_counter = Transition.transition_counter + 1;
+		if (Transition.transition_counter < 0) {
+			Transition.transition_counter = 1;
 		}
 		return t;
 	}
@@ -47,12 +45,13 @@ public class ClaimTransitionFactory  extends ClassBasedEdgeFactory<State, Transi
 	 */
 	@Override
 	public Transition create(Set<IGraphProposition> labels) {
-		Preconditions.checkNotNull(labels, "The labels to be added at the Transition cannot be null");
+		Preconditions.checkNotNull(labels,
+				"The labels to be added at the Transition cannot be null");
 
-		Transition t = new Transition(labels,Transition.transition_counter);
-		Transition.transition_counter = Transition.transition_counter+1;
-		if(Transition.transition_counter<0){
-			Transition.transition_counter=1;
+		Transition t = new Transition(labels, Transition.transition_counter);
+		Transition.transition_counter = Transition.transition_counter + 1;
+		if (Transition.transition_counter < 0) {
+			Transition.transition_counter = 1;
 		}
 		return t;
 	}
@@ -62,17 +61,18 @@ public class ClaimTransitionFactory  extends ClassBasedEdgeFactory<State, Transi
 	 */
 	@Override
 	public Transition create(int id, Set<IGraphProposition> labels) {
-		Preconditions.checkArgument(id >=0, "The id must be grater than or equal to zero");
-		Preconditions.checkNotNull(labels, "The labels to be added at the Transition cannot be null");
+		Preconditions.checkArgument(id >= 0,
+				"The id must be grater than or equal to zero");
+		Preconditions.checkNotNull(labels,
+				"The labels to be added at the Transition cannot be null");
 
 		Transition t = new Transition(labels, id);
 		Transition.transition_counter = Math.max(
-				Transition.transition_counter+1, id+1);
-		if(Transition.transition_counter<0){
-			Transition.transition_counter=1;
+				Transition.transition_counter + 1, id + 1);
+		if (Transition.transition_counter < 0) {
+			Transition.transition_counter = 1;
 		}
 		return t;
 	}
-
 
 }

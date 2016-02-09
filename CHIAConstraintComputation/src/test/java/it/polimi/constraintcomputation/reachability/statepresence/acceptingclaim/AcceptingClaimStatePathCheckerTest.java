@@ -5,7 +5,6 @@ package it.polimi.constraintcomputation.reachability.statepresence.acceptingclai
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import it.polimi.automata.BA;
 import it.polimi.automata.IBA;
 import it.polimi.automata.state.State;
@@ -155,54 +154,5 @@ public class AcceptingClaimStatePathCheckerTest {
         }
     }
 
-    @Test
-    public void testPerform2() {
-        IBA iba = new IBA(new ModelTransitionFactory());
-        BA ba = new BA(new ClaimTransitionFactory());
-
-        State modelState1 = new StateFactory().create("black1", 1);
-        State modelState4 = new StateFactory().create("black1", 4);
-        State modelState2 = new StateFactory().create("reg1", 2);
-        State modelState3 = new StateFactory().create("reg1", 3);
-
-        iba.addInitialState(modelState1);
-        iba.addBlackBoxState(modelState1);
-        iba.addAcceptState(modelState4);
-        iba.addBlackBoxState(modelState4);
-        
-        iba.addAcceptState(modelState2);
-        iba.addAcceptState(modelState3);
-
-        iba.addTransition(modelState1, modelState4,
-                new ModelTransitionFactory().create());
-        iba.addTransition(modelState4, modelState2,
-                new ModelTransitionFactory().create());
-        iba.addTransition(modelState2, modelState3,
-                new ModelTransitionFactory().create());
-        iba.addTransition(modelState3, modelState2,
-                new ModelTransitionFactory().create());
-
-        State claimState = new StateFactory().create();
-        ba.addInitialState(claimState);
-        ba.addAcceptState(claimState);
-        ba.addTransition(claimState, claimState,
-                new ClaimTransitionFactory().create());
-
-        IntersectionBuilder intersectionBuilder = new IntersectionBuilder(iba,
-                ba, AcceptingPolicy.getAcceptingPolicy(AcceptingType.BA, iba,
-                        ba));
-        intersectionBuilder.perform();
-
-        AcceptingClaimStatePathChecker pathChecker = new AcceptingClaimStatePathChecker(
-                intersectionBuilder.getIntersectionAutomaton()
-                        .getPurelyRegularStates(), intersectionBuilder, intersectionBuilder.getIntersectionAutomaton().getStates(), intersectionBuilder.getIntersectionAutomaton().getStates());
-
-        for (State stateSource : intersectionBuilder.getIntersectionAutomaton()
-                .getPurelyRegularStates()) {
-            for (State stateDestination : intersectionBuilder
-                    .getIntersectionAutomaton().getPurelyRegularStates()) {
-                assertTrue(pathChecker.perform(stateSource, stateDestination));
-            }
-        }
-    }
+  
 }

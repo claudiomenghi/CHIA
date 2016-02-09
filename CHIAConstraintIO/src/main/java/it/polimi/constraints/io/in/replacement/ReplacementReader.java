@@ -48,7 +48,7 @@ public class ReplacementReader extends XMLReader<Replacement> {
 	/**
 	 * creates a new constraint reader
 	 * 
-	 * @param f
+	 * @param file
 	 *            is the file from which the constraint must be read
 	 * @throws NullPointerException
 	 *             if one of the parameters is null

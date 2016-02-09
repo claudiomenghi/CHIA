@@ -52,7 +52,7 @@ public abstract class AcceptingPolicy {
 	public BA getModel() {
 		return this.model;
 	}
-	
+
 	/**
 	 * given the number of the previous state, the current model state, the
 	 * claim state and the model and the claim returns the number to be
@@ -77,7 +77,12 @@ public abstract class AcceptingPolicy {
 	 * 
 	 * @param acceptingType
 	 *            is the type of accepting policy to be used
+	 * @param model
+	 *            the model to be considered
+	 * @param claim
+	 *            the claim to be considered
 	 * @return a new accepting policy corresponding to the specified
+	 * 
 	 *         acceptingType
 	 * @throws NullPointerException
 	 *             if the acceptingType is null
@@ -85,7 +90,8 @@ public abstract class AcceptingPolicy {
 	 *             if the accepting type does not correspond to any accepting
 	 *             policy
 	 */
-	public static AcceptingPolicy getAcceptingPolicy(AcceptingType acceptingType, BA model, BA claim) {
+	public static AcceptingPolicy getAcceptingPolicy(
+			AcceptingType acceptingType, BA model, BA claim) {
 		Preconditions.checkNotNull(acceptingType,
 				"The accepting policy to be considered cannot be null");
 		if (acceptingType.equals(AcceptingType.KRIPKE)) {

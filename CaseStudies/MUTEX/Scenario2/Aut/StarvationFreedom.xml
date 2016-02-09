@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- CONTAINS A CLAIM FOR THE MUTEX EXAMPLE To load it perform lp StarvationFreedom.xml -->
+<ba>
+	<propositions>
+		<!-- z stays for zero -->
+		<!-- o stays for one -->
+
+		<!-- PROCESS 0 -->
+		<proposition name="crz" />
+		<proposition name="ntz" />
+		<!-- PROCESS 1 -->
+		<proposition name="cro" />
+		<proposition name="nto" />
+	</propositions>
+	<states>
+		<state id="1" name="p1" initial="true" />
+		<state id="2" name="p2" />
+		<state id="3" name="p3" />
+		<state id="4" name="p4" accepting="true" />
+		<state id="5" name="p5"  />
+		<state id="6" name="p6" />
+		<state id="7" name="p7" accepting="true" />
+	</states>
+	<transitions>
+		<transition id="1" source="1" destination="1" propositions="SIGMA" />
+		<transition id="2" source="1" destination="2" propositions="!cro" />
+		<transition id="3" source="1" destination="3" propositions="SIGMA" />
+		<transition id="4" source="3" destination="3" propositions="SIGMA" />	
+		<transition id="5" source="3" destination="2" propositions="!cro" />
+		<transition id="6" source="2" destination="4" propositions="!cro" />
+		<transition id="7" source="4" destination="2" propositions="nto^!cro" />
+		<transition id="8" source="4" destination="4" propositions="nto^!cro" />
+		<transition id="9" source="1" destination="5" propositions="!crz" />
+		<transition id="10" source="5" destination="5" propositions="!crz" />
+		<transition id="11" source="1" destination="6" propositions="SIGMA" />
+		<transition id="12" source="6" destination="6" propositions="SIGMA" />
+		<transition id="13" source="6" destination="5" propositions="!crz" />
+		<transition id="14" source="5" destination="7" propositions="!crz" />
+		<transition id="15" source="7" destination="5" propositions="ntz^!crz" />
+		<transition id="16" source="7" destination="7" propositions="ntz^!crz" />
+	</transitions>
+</ba>

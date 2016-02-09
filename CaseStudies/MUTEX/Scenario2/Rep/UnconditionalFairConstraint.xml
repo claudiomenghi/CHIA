@@ -1,0 +1,385 @@
+<!-- CONTAINS A CLAIM FOR THE MUTEX EXAMPLE To load it perform lC /Users/Claudio1/Desktop/CHIAExamples/MUTEX/Scenario2/Rep/UnconditionalFairConstraint.xml -->
+<constraint>
+    <subproperty indispensable="false" modelstateId="11" name="t11">
+        <ba>
+            <propositions>
+                <proposition name="crz"/>
+                <proposition name="cro"/>
+            </propositions>
+            <states>
+                <state id="1130" name="11 - 2 - 1"/>
+                <state id="1118" name="11 - 1 - 1"/>
+                <state id="1127" name="11 - 2 - 0"/>
+                <state accepting="true" id="1123" name="11 - 2 - 2"/>
+            </states>
+            <transitions>
+                <transition destination="1123" id="3068" propositions="!crz^!cro" source="1118"/>
+                <transition destination="1123" id="3027" propositions="!crz^!cro" source="1130"/>
+                <transition destination="1130" id="3028" propositions="!crz^!cro" source="1127"/>
+                <transition destination="1118" id="3067" propositions="SIGMA" source="1118"/>
+                <transition destination="1127" id="3029" propositions="!crz^!cro" source="1123"/>
+            </transitions>
+        </ba>
+        <intransitions>
+            <labeledplugtransition label="Y" id="703">
+                <sourcestate>
+                    <state id="10" name="t10"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="1123" name="11 - 2 - 2"/>
+                </destinationstate>
+                <trans id="3032" propositions="tz^nto^trz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="697">
+                <sourcestate>
+                    <state id="10" name="t10"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="1127" name="11 - 2 - 0"/>
+                </destinationstate>
+                <trans id="3034" propositions="tz^ntz^nto"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="691">
+                <sourcestate>
+                    <state id="10" name="t10"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="1118" name="11 - 1 - 1"/>
+                </destinationstate>
+                <trans id="3017" propositions="tz^ntz^nto"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="685">
+                <sourcestate>
+                    <state id="10" name="t10"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="1130" name="11 - 2 - 1"/>
+                </destinationstate>
+                <trans id="3036" propositions="tz^ntz^nto"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="693">
+                <sourcestate>
+                    <state id="10" name="t10"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="1118" name="11 - 1 - 1"/>
+                </destinationstate>
+                <trans id="3031" propositions="tz^nto^trz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="699">
+                <sourcestate>
+                    <state id="10" name="t10"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="1127" name="11 - 2 - 0"/>
+                </destinationstate>
+                <trans id="3035" propositions="tz^nto^trz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="701">
+                <sourcestate>
+                    <state id="10" name="t10"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="1123" name="11 - 2 - 2"/>
+                </destinationstate>
+                <trans id="3030" propositions="tz^ntz^nto"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="687">
+                <sourcestate>
+                    <state id="10" name="t10"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="1130" name="11 - 2 - 1"/>
+                </destinationstate>
+                <trans id="3037" propositions="tz^nto^trz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="G" id="695">
+                <sourcestate>
+                    <state id="1" name="q1"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="1118" name="11 - 1 - 1"/>
+                </destinationstate>
+                <trans id="3069" propositions="tz^ntz^nto"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="G" id="689">
+                <sourcestate>
+                    <state id="1" name="q1"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="1130" name="11 - 2 - 1"/>
+                </destinationstate>
+                <trans id="3070" propositions="tz^ntz^nto"/>
+            </labeledplugtransition>
+        </intransitions>
+        <outtransitions>
+            <labeledplugtransition label="Y" id="711">
+                <sourcestate>
+                    <state id="1118" name="11 - 1 - 1"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="5" name="q5"/>
+                </destinationstate>
+                <trans id="3051" propositions="tro^tz^trz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="709">
+                <sourcestate>
+                    <state id="1118" name="11 - 1 - 1"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="3" name="q3"/>
+                </destinationstate>
+                <trans id="3049" propositions="tro^tz^ntz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="713">
+                <sourcestate>
+                    <state id="1118" name="11 - 1 - 1"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="6" name="q6"/>
+                </destinationstate>
+                <trans id="3066" propositions="tz^crz^nto"/>
+            </labeledplugtransition>
+        </outtransitions>
+        <lowerReachability>
+            <reachabilityElements/>
+        </lowerReachability>
+        <upperReachability>
+            <reachabilityElements>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="701" source="711"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="703" source="713"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="687" source="711"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="703" source="711"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="703" source="713"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="691" source="709"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="701" source="711"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="701" source="713"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="699" source="711"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="693" source="709"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="697" source="711"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="699" source="713"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="693" source="713"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="697" source="709"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="703" source="709"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="701" source="713"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="703" source="711"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="691" source="711"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="687" source="709"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="701" source="709"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="685" source="709"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="693" source="711"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="685" source="713"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="699" source="709"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="697" source="713"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="703" source="709"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="687" source="713"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="701" source="709"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="685" source="711"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="691" source="713"/>
+            </reachabilityElements>
+        </upperReachability>
+    </subproperty>
+    <subproperty indispensable="false" modelstateId="10" name="t10">
+        <ba>
+            <propositions>
+                <proposition name="crz"/>
+                <proposition name="cro"/>
+            </propositions>
+            <states>
+                <state id="1134" name="10 - 2 - 1"/>
+                <state id="1122" name="10 - 1 - 1"/>
+                <state id="1133" name="10 - 2 - 0"/>
+                <state accepting="true" id="1132" name="10 - 2 - 2"/>
+            </states>
+            <transitions>
+                <transition destination="1134" id="3041" propositions="!crz^!cro" source="1133"/>
+                <transition destination="1122" id="3033" propositions="SIGMA" source="1122"/>
+                <transition destination="1133" id="3042" propositions="!crz^!cro" source="1132"/>
+                <transition destination="1132" id="3043" propositions="!crz^!cro" source="1122"/>
+                <transition destination="1132" id="3040" propositions="!crz^!cro" source="1134"/>
+            </transitions>
+        </ba>
+        <intransitions>
+            <labeledplugtransition label="G" id="719">
+                <sourcestate>
+                    <state id="9" name="q9"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="1122" name="10 - 1 - 1"/>
+                </destinationstate>
+                <trans id="3054" propositions="tro^to^trz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="727">
+                <sourcestate>
+                    <state id="7" name="q7"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="1132" name="10 - 2 - 2"/>
+                </destinationstate>
+                <trans id="3045" propositions="tro^to^ntz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="715">
+                <sourcestate>
+                    <state id="9" name="q9"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="1134" name="10 - 2 - 1"/>
+                </destinationstate>
+                <trans id="3062" propositions="tro^to^trz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="G" id="723">
+                <sourcestate>
+                    <state id="9" name="q9"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="1133" name="10 - 2 - 0"/>
+                </destinationstate>
+                <trans id="3057" propositions="tro^to^trz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="717">
+                <sourcestate>
+                    <state id="7" name="q7"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="1122" name="10 - 1 - 1"/>
+                </destinationstate>
+                <trans id="3044" propositions="tro^to^ntz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="G" id="729">
+                <sourcestate>
+                    <state id="9" name="q9"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="1132" name="10 - 2 - 2"/>
+                </destinationstate>
+                <trans id="3055" propositions="tro^to^trz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="G" id="731">
+                <sourcestate>
+                    <state id="8" name="q8"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="1132" name="10 - 2 - 2"/>
+                </destinationstate>
+                <trans id="3060" propositions="tro^to^ntz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="725">
+                <sourcestate>
+                    <state id="8" name="q8"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="1133" name="10 - 2 - 0"/>
+                </destinationstate>
+                <trans id="3064" propositions="tro^to^ntz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="G" id="721">
+                <sourcestate>
+                    <state id="8" name="q8"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="1122" name="10 - 1 - 1"/>
+                </destinationstate>
+                <trans id="3059" propositions="tro^to^ntz"/>
+            </labeledplugtransition>
+        </intransitions>
+        <outtransitions>
+            <labeledplugtransition label="Y" id="743">
+                <sourcestate>
+                    <state id="1122" name="10 - 1 - 1"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="11" name="t11"/>
+                </destinationstate>
+                <trans id="3031" propositions="tz^nto^trz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="749">
+                <sourcestate>
+                    <state id="1133" name="10 - 2 - 0"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="11" name="t11"/>
+                </destinationstate>
+                <trans id="3037" propositions="tz^nto^trz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="739">
+                <sourcestate>
+                    <state id="1122" name="10 - 1 - 1"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="11" name="t11"/>
+                </destinationstate>
+                <trans id="3017" propositions="tz^ntz^nto"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="751">
+                <sourcestate>
+                    <state id="1132" name="10 - 2 - 2"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="11" name="t11"/>
+                </destinationstate>
+                <trans id="3034" propositions="tz^ntz^nto"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="737">
+                <sourcestate>
+                    <state id="1134" name="10 - 2 - 1"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="11" name="t11"/>
+                </destinationstate>
+                <trans id="3039" propositions="tz^nto^trz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="735">
+                <sourcestate>
+                    <state id="1134" name="10 - 2 - 1"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="11" name="t11"/>
+                </destinationstate>
+                <trans id="3038" propositions="tz^ntz^nto"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="753">
+                <sourcestate>
+                    <state id="1132" name="10 - 2 - 2"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="11" name="t11"/>
+                </destinationstate>
+                <trans id="3035" propositions="tz^nto^trz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="747">
+                <sourcestate>
+                    <state id="1133" name="10 - 2 - 0"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="11" name="t11"/>
+                </destinationstate>
+                <trans id="3036" propositions="tz^ntz^nto"/>
+            </labeledplugtransition>
+        </outtransitions>
+        <lowerReachability>
+            <reachabilityElements/>
+        </lowerReachability>
+        <upperReachability>
+            <reachabilityElements>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="717" source="743"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="715" source="743"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="721" source="743"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="723" source="739"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="727" source="743"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="729" source="743"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="719" source="739"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="725" source="739"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="717" source="739"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="731" source="739"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="721" source="739"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="725" source="743"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="719" source="743"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="727" source="739"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="731" source="743"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="715" source="739"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="729" source="739"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="723" source="743"/>
+            </reachabilityElements>
+        </upperReachability>
+    </subproperty>
+</constraint>

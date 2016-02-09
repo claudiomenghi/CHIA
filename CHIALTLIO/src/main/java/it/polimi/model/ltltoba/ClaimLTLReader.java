@@ -76,7 +76,6 @@ public class ClaimLTLReader extends CHIAAction<BA> {
 			br.close();
 		}
 
-		System.out.println(ltlFormula);
 		BA ba = new LTLtoBATransformer("!(" + ltlFormula + ")").perform();
 
 		return ba;

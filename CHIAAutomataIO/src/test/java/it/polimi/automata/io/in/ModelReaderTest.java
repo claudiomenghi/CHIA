@@ -137,7 +137,6 @@ public class ModelReaderTest {
 		assertTrue(sendingMessage.getBlackBoxStates().contains(stateFactory.create("send2", 3)));
 		assertTrue(sendingMessage.getBlackBoxStates().size()==2);
 		
-		System.out.println(sendingMessage.getTransitions());
 		assertTrue(sendingMessage.getTransitions().contains(t1));
 		assertTrue(sendingMessage.getTransitions().contains(t2));
 		assertTrue(sendingMessage.getTransitions().contains(t3));

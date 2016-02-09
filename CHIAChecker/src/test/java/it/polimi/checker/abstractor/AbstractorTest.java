@@ -98,13 +98,11 @@ public class AbstractorTest {
 		states.add(state5);
 		BA anstractedBa=new Abstractor<BA>().perform(ba, states);
 		
-		System.out.println(anstractedBa);
 		assertTrue("The abstracted automaton contains three states", anstractedBa.getStates().size()==3);
 		assertTrue("The abstracted automaton contains the initial state state1", anstractedBa.getInitialStates().contains(state1));
 		assertTrue("The abstracted automaton contains the state state2", anstractedBa.getStates().contains(state3));
 		assertTrue("The abstracted automaton contains the accepting state state5", anstractedBa.getAcceptStates().contains(state5));
 		
-		System.out.println(anstractedBa.getTransitions());
 		assertTrue("The abstracted automaton contains the accepting state state5", anstractedBa.getTransitions().size()==3);
 		assertTrue(anstractedBa.isSuccessor(state5, state1));
 		assertTrue(anstractedBa.isSuccessor(state5, state5));

@@ -5,14 +5,11 @@ import it.polimi.automata.BA;
 import it.polimi.automata.IBA;
 import it.polimi.automata.io.in.ClaimReader;
 import it.polimi.automata.io.in.ModelReader;
-import it.polimi.automata.io.out.ElementToStringTransformer;
 import it.polimi.checker.Checker;
 import it.polimi.checker.SatisfactionValue;
 import it.polimi.checker.intersection.acceptingpolicies.AcceptingPolicy;
 import it.polimi.checker.intersection.acceptingpolicies.AcceptingPolicy.AcceptingType;
-import it.polimi.constraintcomputation.ConstraintGenerator;
 import it.polimi.constraints.Constraint;
-import it.polimi.constraints.io.out.constraint.ConstraintToElementTransformer;
 
 import java.io.File;
 
@@ -43,11 +40,9 @@ public class ConstraintComputation1Test {
 		SatisfactionValue returnValue=checker.perform();
 		assertTrue("The property must be possibly satisfied", returnValue==SatisfactionValue.POSSIBLYSATISFIED);
 		
-		System.out.println(checker.getUpperIntersectionBA().toString());
 		ConstraintGenerator cg=new ConstraintGenerator(checker);
 		Constraint constraint=cg.perform();
 		
-		System.out.println(new ElementToStringTransformer().transform(new ConstraintToElementTransformer().transform(constraint)));
 		assertTrue(constraint.getSubProperties().size()==1);
 		assertTrue(constraint.getSubProperties().iterator().next().isIndispensable()==true);
 		assertTrue(constraint.getSubProperties().iterator().next().getAutomaton().getStates().size()==6);

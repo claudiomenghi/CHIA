@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.jgrapht.graph.DefaultEdge;
 
 import com.google.common.base.Preconditions;
@@ -12,10 +13,9 @@ import rwth.i2.ltl2ba4j.model.IGraphProposition;
 
 /**
  * Represents a transition of an automaton. <br>
- * A transition is identified by an id and is labeled by propositions </p>
+ * A transition is identified by an id and is labeled by propositions. See {@link Transition}.
  * 
  * @author claudio menghi
- * @see {@link Transition}
  */
 @SuppressWarnings("serial")
 public class Transition extends DefaultEdge {
@@ -29,7 +29,7 @@ public class Transition extends DefaultEdge {
 	 * contains the labels of the transition the transition can be fired if one
 	 * of the label is satisfied
 	 */
-	private final Set<IGraphProposition> labels;
+	private final @NonNull Set<@NonNull IGraphProposition> labels;
 
 	/**
 	 * contains the id of the last transition created
@@ -63,7 +63,7 @@ public class Transition extends DefaultEdge {
 	 *             if one of the label is not made by lower case character or
 	 *             the especial proposition SIGMA
 	 */
-	protected Transition(Set<IGraphProposition> labels, int id) {
+	protected Transition(@NonNull Set<@NonNull IGraphProposition> labels, int id) {
 		Preconditions.checkNotNull(labels,
 				"The character that labels the transition cannot be null");
 		Preconditions.checkArgument(id >= 0,
@@ -85,7 +85,7 @@ public class Transition extends DefaultEdge {
 	 * 
 	 * @return the <b>label</b> associated with the transition
 	 */
-	public Set<IGraphProposition> getPropositions() {
+	public @NonNull Set<@NonNull IGraphProposition> getPropositions() {
 		return Collections.unmodifiableSet(this.labels);
 	}
 
@@ -140,14 +140,14 @@ public class Transition extends DefaultEdge {
 	 * @return true if the two transitions are equals, false otherwise
 	 */
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
+	public boolean equals(Object otherTransition) {
+		if (this == otherTransition)
 			return true;
-		if (obj == null)
+		if (otherTransition == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if (getClass() != otherTransition.getClass())
 			return false;
-		Transition other = (Transition) obj;
+		Transition other = (Transition) otherTransition;
 		if (id != other.id)
 			return false;
 		if(!this.labels.equals(other.labels)){

@@ -52,6 +52,8 @@ public class LabeledPluggingTransition extends PluggingTransition {
 	 *            state of the model
 	 * @param transition
 	 *            is the transition that connect the source with the destination
+	 * @param incoming
+	 *            true if the plugging transition is an incoming transition
 	 * @param color
 	 *            the color of the LabeledPluggingTransition
 	 * @throws NullPointerException
@@ -79,15 +81,17 @@ public class LabeledPluggingTransition extends PluggingTransition {
 	 *            state of the model
 	 * @param transition
 	 *            is the transition that connect the source with the destination
-	 * @param component
-	 *            the component to which the port belongs
+	 * @param incoming
+	 *            true if the labeled transition is an incoming transition
+	 * @param label
+	 *            is the label to be associated with the transition
 	 * @throws NullPointerException
 	 *             if one of the parameters is null
 	 */
 	public LabeledPluggingTransition(State source, State destination,
-			Transition transition, boolean incoming, Label color) {
+			Transition transition, boolean incoming, Label label) {
 		this(LabeledPluggingTransition.ID_COUNTER, source, destination,
-				transition, incoming, color);
+				transition, incoming, label);
 		LabeledPluggingTransition.ID_COUNTER = LabeledPluggingTransition.ID_COUNTER + 1;
 
 	}
@@ -97,10 +101,10 @@ public class LabeledPluggingTransition extends PluggingTransition {
 	 */
 	@Override
 	public String toString() {
-		return "Plugging transition [source=" + this.getSource() + ", incoming="
-				+ this.isIncoming() + ", destination=" + this.getDestination()
-				+ ", transition=" + this.getTransition() + ", color=" + color
-				+ "]";
+		return "Plugging transition [source=" + this.getSource()
+				+ ", incoming=" + this.isIncoming() + ", destination="
+				+ this.getDestination() + ", transition="
+				+ this.getTransition() + ", color=" + color + "]";
 	}
 
 	/**

@@ -56,7 +56,6 @@ public class ConstraintComputation4Test {
 		Constraint constraint = cg.perform();
 
 		
-		System.out.println(constraint);
 		for (LabeledPluggingTransition incomingTransition : this
 				.getIncomingTransitions(constraint)) {
 			assertEquals(Label.R, incomingTransition.getLabel());

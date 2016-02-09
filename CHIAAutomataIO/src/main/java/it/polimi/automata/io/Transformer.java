@@ -3,7 +3,7 @@ package it.polimi.automata.io;
 /**
  * transforms an object of type I into an object of type O
  * 
- * @author claudiomenghi
+ * @author Claudio Menghi
  *
  * @param <I>
  *            is the type of the input object to be transformed
@@ -20,6 +20,8 @@ public interface Transformer<I, O> {
 	 * @return the object of type O which corresponds to the input
 	 * @throws NullPointerException
 	 *             if the input is null
+	 * @throws Exception
+	 *             if an exception occurs in the transformation
 	 */
 	public O transform(I input) throws Exception;
 }

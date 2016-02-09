@@ -25,14 +25,12 @@ public class IBARandomGeneratorTest {
 		double replacementDensity = 0.5;
 		BARandomGeneratorTest baRndGn = new BARandomGeneratorTest();
 		BA ba = baRndGn.setUp();
-		System.out.println(ba);
-
+		
 		StateFactory stateFactory = new StateFactory();
 		IBARandomGenerator ibaRndGen = new IBARandomGenerator(ba, stateFactory,
 				transparentStateDensity, replacementDensity);
 		IBA iba = ibaRndGen.perform();
-		System.out.println(iba);
-
+		
 		/*assertTrue(
 				"The number of transparent states of the iba must be consistent with the transparent state density",
 				iba.getBlackBoxStates().size() == Math.round(ba.getStates()

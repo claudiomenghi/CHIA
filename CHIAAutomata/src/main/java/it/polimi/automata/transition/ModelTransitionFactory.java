@@ -7,18 +7,13 @@ import rwth.i2.ltl2ba4j.model.IGraphProposition;
 import com.google.common.base.Preconditions;
 
 /**
- * is the factory that allows to create transitions of the type Transition
+ * is the factory that allows to create transitions of the type Transition. See
+ * {@link Transition}. It implements the {@link TransitionFactory} interface.
  * 
- * @see {@link Transition}. It implements the {@link TransitionFactory}
- *      interface
- * 
- * @author claudiomenghi
- * @param <S>
- *            is the type of the states of the automaton
+ * @author Claudio Menghi
  */
 @SuppressWarnings("serial")
-public class ModelTransitionFactory extends
-		ClaimTransitionFactory {
+public class ModelTransitionFactory extends ClaimTransitionFactory {
 
 	public ModelTransitionFactory() {
 		super();
@@ -33,9 +28,11 @@ public class ModelTransitionFactory extends
 	 */
 	@Override
 	public Transition create(Set<IGraphProposition> labels) {
-		Preconditions.checkNotNull(labels, "The labels to be added at the Transition cannot be null");
+		Preconditions.checkNotNull(labels,
+				"The labels to be added at the Transition cannot be null");
 		for (IGraphProposition p : labels) {
-			Preconditions.checkArgument(!p.isNegated(), "The propositions of the model cannot be negated");
+			Preconditions.checkArgument(!p.isNegated(),
+					"The propositions of the model cannot be negated");
 		}
 		return super.create(labels);
 	}
@@ -49,10 +46,12 @@ public class ModelTransitionFactory extends
 	 */
 	@Override
 	public Transition create(int id, Set<IGraphProposition> labels) {
-		Preconditions.checkNotNull(labels, "The labels to be added at the Transition cannot be null");
+		Preconditions.checkNotNull(labels,
+				"The labels to be added at the Transition cannot be null");
 
 		for (IGraphProposition p : labels) {
-			Preconditions.checkArgument(!p.isNegated(), "The propositions of the model cannot be negated");
+			Preconditions.checkArgument(!p.isNegated(),
+					"The propositions of the model cannot be negated");
 		}
 
 		return super.create(id, labels);

@@ -23,41 +23,41 @@ import com.google.common.base.Preconditions;
 public class Configuration {
 
 	
-	private final int testNumber;
+	protected final int testNumber;
 
-	private final int claimNumber;
+	protected final int claimNumber;
 	/**
 	 * is the identifier of the configuration
 	 */
-	private final int configurationId;
+	protected final int configurationId;
 	/**
 	 * the number of transitions of the BA
 	 */
-	private final double transitionDensity;
+	protected final double transitionDensity;
 	/**
 	 * the number of accepting states of the BA
 	 */
-	private final double acceptingDensity;
+	protected final double acceptingDensity;
 	/**
 	 * the number of states of the BA
 	 */
-	private final int nStates;
+	protected final int nStates;
 	/**
 	 * the density of the transparent states of the IBA
 	 */
-	private final double transparentDensity;
+	protected final double transparentDensity;
 	/**
 	 * the density of the states to be inserted into the replacement
 	 */
-	private final double replacementDensity;
+	protected final double replacementDensity;
 
 	/**
 	 * The set of propositions to be considered in the generation of the random
 	 * automaton
 	 */
-	private final Set<IGraphProposition> propositions;
+	protected final Set<IGraphProposition> propositions;
 
-	private final BA currentClaim;
+	protected final BA currentClaim;
 
 	/**
 	 * creates a new test configuration

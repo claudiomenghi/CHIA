@@ -47,8 +47,6 @@ public class ConstraintWriter extends CHIAAction<Void> {
 	 * creates a new Writer which is in charge of writing the constraint to an XML file
 	 * @param constraint is the constraint to be written
 	 * @param filePath is the path where the constraint must be written
-	 * @param model is the model to be considered
-	 * @param intersectionBA
 	 */
 	public ConstraintWriter(Constraint constraint, String filePath){
 		super("CONSTRAINT WRITING");
@@ -64,8 +62,8 @@ public class ConstraintWriter extends CHIAAction<Void> {
 	/**
 	 * creates a new RefinementWriter for the set of components
 	 * 
-	 * @param components
-	 *            is the set of components to be written
+	 * @param constraint
+	 *            is the constraintcle to be written
 	 * @param f
 	 *            is the file to which the intersection automaton must be
 	 *            written

@@ -15,14 +15,12 @@ import org.w3c.dom.Element;
  * @author Claudio1
  *
  */
-public class ConstraintToElementTransformer extends XMLTrasformer<Constraint, Element> {
-
+public class ConstraintToElementTransformer extends
+		XMLTrasformer<Constraint, Element> {
 
 	public ConstraintToElementTransformer() throws ParserConfigurationException {
 		super();
 	}
-	
- 
 
 	/**
 	 * takes as input a constraint and returns the corresponding XML element
@@ -31,16 +29,17 @@ public class ConstraintToElementTransformer extends XMLTrasformer<Constraint, El
 	 *            the constraint to be converted into the corresponding XML
 	 *            element
 	 * @throws Exception
+	 *             if an error occurs in the transformation of the constraint
 	 */
 	@Override
 	public Element transform(Constraint constraint) throws Exception {
 
-		Element rootElement = this.getDocument()
-				.createElement(AutomataIOConstants.XML_ELEMENT_CONSTRAINT);
-		 this.getDocument().appendChild(rootElement);
+		Element rootElement = this.getDocument().createElement(
+				AutomataIOConstants.XML_ELEMENT_CONSTRAINT);
+		this.getDocument().appendChild(rootElement);
 
 		SubPropertyToElementTrasformer subPropertyTransformer = new SubPropertyToElementTrasformer(
-				 this.getDocument());
+				this.getDocument());
 		for (SubProperty subProperty : constraint.getSubProperties()) {
 
 			Element componentElement = subPropertyTransformer

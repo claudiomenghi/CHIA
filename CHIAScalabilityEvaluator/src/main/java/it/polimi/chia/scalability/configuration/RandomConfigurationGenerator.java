@@ -13,78 +13,78 @@ public class RandomConfigurationGenerator implements Iterator<Configuration> {
 	/**
 	 * contains the initial number of states
 	 */
-	private final int initialNumberOfStates;
+	protected final int initialNumberOfStates;
 
 	/**
 	 * contains the final number of states
 	 */
-	private final int finalNumberOfStates;
+	protected final int finalNumberOfStates;
 
 	/**
 	 * contains the increment that is performed over the number of states
 	 */
-	private final int incrementNumberOfStates;
+	protected final int incrementNumberOfStates;
 
 	// TRANSITION DENSITY
 	/**
 	 * contains the initial number of transitions
 	 */
-	private final double initialTransitionDensity;
+	protected final double initialTransitionDensity;
 	/**
 	 * contains the final transition density
 	 */
-	private final double finalTransitionDensity;
+	protected final double finalTransitionDensity;
 	/**
 	 * contains the increment over the transition density
 	 */
-	private final double incrementTransitionDensity;
+	protected final double incrementTransitionDensity;
 
 	// ACCEPTING DENSITIES
 	/**
 	 * the initial density of accepting states
 	 */
-	private final double initialAcceptingDensity;
+	protected final double initialAcceptingDensity;
 	/**
 	 * the final density of accepting states
 	 */
-	private final double finalAcceptingDensity;
+	protected final double finalAcceptingDensity;
 	/**
 	 * the increment over the number of accepting states
 	 */
-	private final double incrementAcceptingDensity;
+	protected final double incrementAcceptingDensity;
 
 	// TRANSPARENT DENSITIES
 	/**
 	 * the initial density of transparent states
 	 */
-	private double initialTransparentDensity;
+	protected double initialTransparentDensity;
 	/**
 	 * the final density of transparent states
 	 */
-	private double finalTransparentDensity;
+	protected double finalTransparentDensity;
 	/**
 	 * the increment over the density of transparent states
 	 */
-	private double incrementTransparentDensity;
+	protected double incrementTransparentDensity;
 
 	// REPLACEMENT DENSITIES
 	/**
 	 * the initial replacement density
 	 */
-	private double initialReplacementDensity;
+	protected double initialReplacementDensity;
 	/**
 	 * the final replacement density
 	 */
-	private double finalreplacementDensity;
+	protected double finalreplacementDensity;
 	/**
 	 * increment replacement density
 	 */
-	private double incrementReplacementDensity;
+	protected double incrementReplacementDensity;
 
-	private int numberOfTests;
+	protected int numberOfTests;
 
 	// CURRENT configuration
-	private int configurationNumber;
+	protected int configurationNumber;
 
 	/**
 	 * @return the configurationNumber
@@ -94,7 +94,7 @@ public class RandomConfigurationGenerator implements Iterator<Configuration> {
 	}
 
 	// REPLACEMENT DENSITIES
-	private int totalCondigurations;
+	protected int totalCondigurations;
 
 	protected List<BA> claims;
 
@@ -235,26 +235,26 @@ public class RandomConfigurationGenerator implements Iterator<Configuration> {
 
 	}
 
-	private int numberStatesConfigurations() {
+	protected int numberStatesConfigurations() {
 		return ((this.finalNumberOfStates - this.initialNumberOfStates + this.incrementNumberOfStates) / this.incrementNumberOfStates);
 	}
 
-	private int transitionDensity() {
+	protected int transitionDensity() {
 		return (int) ((this.finalTransitionDensity
 				- this.initialTransitionDensity + this.incrementTransitionDensity) / this.incrementTransitionDensity);
 	}
 
-	private int numberAcceptingStatesConfigurations() {
+	protected int numberAcceptingStatesConfigurations() {
 		return (int) ((this.finalAcceptingDensity
 				- this.initialAcceptingDensity + this.incrementAcceptingDensity) / this.incrementAcceptingDensity);
 	}
 
-	private int transparentStatesConfigurations() {
+	protected int transparentStatesConfigurations() {
 		return (int) ((this.finalTransparentDensity
 				- this.initialTransparentDensity + this.incrementTransparentDensity) / this.incrementTransparentDensity);
 	}
 
-	private int replacementStatesConfigurations() {
+	protected int replacementStatesConfigurations() {
 		return (int) ((this.finalreplacementDensity
 				- this.initialReplacementDensity + this.incrementReplacementDensity) / this.incrementReplacementDensity);
 	}

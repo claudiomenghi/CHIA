@@ -5,6 +5,10 @@ import it.polimi.automata.state.State;
 
 import java.util.Set;
 
+import javax.validation.constraints.NotNull;
+
+import org.checkerframework.checker.nullness.qual.NonNull;
+
 import com.google.common.base.Preconditions;
 
 /**
@@ -32,7 +36,7 @@ public class Abstractor<A extends BA> {
 	 * @throws IllegalArgumentException
 	 *             if the set of the states is not contained in the automaton
 	 */
-	public A perform(A ba, Set<State> states) {
+	public @NotNull A perform(@NotNull A ba, @NonNull  Set<@NonNull State> states) {
 		Preconditions.checkNotNull(ba,
 				"The automaton to be considered cannot be null");
 		Preconditions.checkNotNull(states,

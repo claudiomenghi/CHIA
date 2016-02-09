@@ -332,8 +332,6 @@ public class Experiment3 {
 		record.setSubPropertyStates(subProperty.getAutomaton().size());
 		record.setConstraintComputationTime(constraintComputationTimer
 				.elapsed(TimeUnit.MINUTES));
-		System.out.println("Constraint computed in: "
-				+ constraintComputationTimer.elapsed(TimeUnit.MINUTES));
 		return constraint;
 	}
 	
@@ -341,7 +339,6 @@ public class Experiment3 {
 			Checker checker, State blackBoxState) {
 		ConstraintGenerator cg = new ConstraintGenerator(checker);
 		Constraint constraint = cg.perform(blackBoxState);
-
 		return constraint;
 	}
 }

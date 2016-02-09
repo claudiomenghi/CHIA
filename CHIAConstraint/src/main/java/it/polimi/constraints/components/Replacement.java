@@ -153,6 +153,10 @@ public class Replacement extends Component {
 	 * @param modelState
 	 *            the state of the replacement from which the outgoing
 	 *            transitions are fired
+	 * @param destinationState
+	 *            the destination of the outgoing transitions to be returned
+	 * @param propositions
+	 *            the propositions that label the outgoing transitions
 	 * @return the collection of the outgoing transitions which have the
 	 *         modelState as source state
 	 * @throws NullPointerException
@@ -185,6 +189,10 @@ public class Replacement extends Component {
 	 * @param modelState
 	 *            the state of the replacement from which the outgoing
 	 *            transitions are fired
+	 * @param destinationState
+	 *            the destination of the outgoing transition
+	 * @param propositions
+	 *            the propositions that must label the outgoing transition
 	 * @return the collection of the outgoing transitions which have the
 	 *         modelState as source state
 	 * @throws NullPointerException
@@ -258,11 +266,10 @@ public class Replacement extends Component {
 	 * propositions an empty collection is returned
 	 * 
 	 * @param modelState
-	 *            the state of the model which is the source from which the incoming transitions is
-	 *            fired
-	 * @param destinationState
-	 *            the state of the automaton which is reached by the specified
-	 *            transition
+	 *            the state of the model which is the source from which the
+	 *            incoming transitions is fired
+	 * @param propositions
+	 *            the set of propositions that label the incoming transition
 	 * @return the collection of the incoming transitions which have the
 	 *         specifiedmodelState, destinationState and the set of propositions
 	 * @throws NullPointerException
@@ -286,8 +293,8 @@ public class Replacement extends Component {
 	 * specified propositions
 	 * 
 	 * @param modelState
-	 *            the state of the model which is the source of the
-	 *            incoming transition
+	 *            the state of the model which is the source of the incoming
+	 *            transition
 	 * @param propositions
 	 *            the propositions that label the replacement
 	 * @return true if there is whose destination is the specified state and the
@@ -328,21 +335,27 @@ public class Replacement extends Component {
 						"The port must be contained in the set of incoming or utcoming ports");
 		if (this.getIncomingTransitions().contains(p)) {
 			this.incomingTransitions.remove(p);
-			
-			this.mapIncomingTransitions
-					.get(new AbstractMap.SimpleEntry<State, Set<IGraphProposition>>(p
-							.getDestination(), p.getTransition().getPropositions())).remove(p);
+
+			this.mapIncomingTransitions.get(
+					new AbstractMap.SimpleEntry<State, Set<IGraphProposition>>(
+							p.getDestination(), p.getTransition()
+									.getPropositions())).remove(p);
 		}
 		if (this.getOutgoingTransitions().contains(p)) {
 			this.outgoingTransitions.remove(p);
 			this.mapOutgoingTransitions.remove(
-					new ImmutableTriple<State, State, Set<IGraphProposition>>(
-							p.getSource(), p.getDestination(),
-							p.getTransition().getPropositions())
-					, p);
-			
+					new ImmutableTriple<State, State, Set<IGraphProposition>>(p
+							.getSource(), p.getDestination(), p.getTransition()
+							.getPropositions()), p);
+
 		}
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Replacement [automaton=" + automaton + ",\n "
+				+ "incomingTransitions=" + incomingTransitions + ",\n "
+				+ "outgoingTransitions=" + outgoingTransitions + "\n ]";
+	}
 
 }

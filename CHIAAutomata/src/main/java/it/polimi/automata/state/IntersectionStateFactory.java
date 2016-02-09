@@ -1,5 +1,8 @@
 package it.polimi.automata.state;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 import com.google.common.base.Preconditions;
 
 /**
@@ -32,7 +35,7 @@ public class IntersectionStateFactory extends AbstractStateFactory {
 	 *             if the number associated with the state is not between 0 and
 	 *             2 included
 	 */
-	public State create(State modelState, State claimState, int num) {
+	public State create(@NotNull State modelState, @NotNull State claimState,  @Min(0) int num) {
 		Preconditions.checkNotNull(modelState,
 				"The state of the model cannot be null");
 		Preconditions.checkNotNull(claimState,

@@ -52,9 +52,8 @@ public class ClaimReader extends XMLReader<BA> {
 
 	/**
 	 * creates a new Buchi automaton reader which can be used to read a Buchi
-	 * automaton through the method
-	 * 
-	 * @see ClaimReader#read()
+	 * automaton through the method.  See {@link ClaimReader#perform()}
+	 *
 	 * 
 	 * @param filePath
 	 *            is the path of the file from which the automaton must be read
@@ -70,9 +69,7 @@ public class ClaimReader extends XMLReader<BA> {
 
 	/**
 	 * creates a new Buchi automaton reader which can be used to read a Buchi
-	 * automaton through the method
-	 * 
-	 * @see ClaimReader#read()
+	 * automaton through the method. See {@link ClaimReader#perform()}
 	 * 
 	 * @param file
 	 *            is the file from which the automaton must be read

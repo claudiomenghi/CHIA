@@ -191,7 +191,6 @@ public class ReplacementIntersectionBuilderTest {
 
         State greenState = builder.getIntersectionAutomaton()
                 .getInitialStates().iterator().next();
-        System.out.println(greenState);
         assertTrue(builder.isGreenState(greenState));
         assertEquals(
                 intersection.getTransitionDestination(intersection
@@ -242,7 +241,6 @@ public class ReplacementIntersectionBuilderTest {
 
         State greenState = builder.getIntersectionAutomaton()
                 .getInitialStates().iterator().next();
-        System.out.println(greenState);
         assertTrue(builder.isGreenState(greenState));
         assertTrue(intersection.getSuccessors(greenState).size() == 0);
     }
@@ -287,7 +285,6 @@ public class ReplacementIntersectionBuilderTest {
 
         State greenState = builder.getIntersectionAutomaton()
                 .getInitialStates().iterator().next();
-        System.out.println(greenState);
         assertTrue(builder.isGreenState(greenState));
         assertTrue(intersection.getSuccessors(greenState).size() == 0);
     }
@@ -327,10 +324,8 @@ public class ReplacementIntersectionBuilderTest {
         ReplacementIntersectionBuilder builder = new ReplacementIntersectionBuilder(
                 replacement, sub, false);
         IntersectionBA intersection = builder.perform();
-
-        State greenState = builder.getIntersectionAutomaton()
+        builder.getIntersectionAutomaton()
                 .getInitialStates().iterator().next();
-        System.out.println(greenState);
         State yellowInitialState = builder.getYellowInitialState();
         State greenInitialState = builder.getGreenState();
         assertTrue(intersection.getOutTransitions(greenInitialState).size() == 0);
@@ -384,9 +379,8 @@ public class ReplacementIntersectionBuilderTest {
                 replacement, sub, false);
         IntersectionBA intersection = builder.perform();
 
-        State greenState = builder.getIntersectionAutomaton()
+        builder.getIntersectionAutomaton()
                 .getInitialStates().iterator().next();
-        System.out.println(greenState);
         State yellowInitialState = builder.getYellowInitialState();
         State greenInitialState = builder.getGreenState();
         assertTrue(intersection.getOutTransitions(greenInitialState).size() == 0);
@@ -1021,7 +1015,6 @@ public class ReplacementIntersectionBuilderTest {
         State intersectionState = builder
                 .getIntersectionStates(replacementState, subPropertyState)
                 .iterator().next();
-        System.out.println("---"+automaton.getSuccessors(intersectionState));
         assertTrue(automaton.getSuccessors(intersectionState).contains(
                 intersectionState));
         assertTrue(new EmptinessChecker(automaton).isEmpty());
@@ -2280,7 +2273,6 @@ public class ReplacementIntersectionBuilderTest {
         states.remove(builder.getYellowAcceptingState());
         states.remove(builder.getRedState());
 
-        System.out.println(states);
         assertNotNull(builder.getModelState(states.iterator().next()));
     }
 }

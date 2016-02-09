@@ -234,6 +234,12 @@ public class SubProperty extends Component {
 	 *            is the source port
 	 * @param incomingTransition
 	 *            is the destination
+	 * @param modelAcceptingState
+	 *            true if an accepting state is present from the
+	 *            outgoingTransition to the incomingTransition
+	 * @param claimAcceptingState
+	 *            true if an accepting state is present from the outgoing
+	 *            transition to the incomingTransition
 	 * @throws NullPointerException
 	 *             if one of the ports is null
 	 * @throws IllegalArgumentException
@@ -289,6 +295,12 @@ public class SubProperty extends Component {
 	 *            is the source port
 	 * @param incomingTransition
 	 *            is the destination
+	 * @param modelAcceptingState
+	 *            true if an accepting state of the model is present from the
+	 *            outgoing transition to the incoming transition
+	 * @param claimAcceptingState
+	 *            true if an accepting state of the claim is present from the
+	 *            outgoing transition to the incoming transition
 	 * @throws NullPointerException
 	 *             if one of the ports is null
 	 * @throws IllegalArgumentException
@@ -331,10 +343,12 @@ public class SubProperty extends Component {
 	public String toString() {
 		return "SubProperty [automaton=" + automaton + ",\n "
 				+ "incomingTransitions=" + incomingTransitions + ",\n "
-				+ "outgoingTransitions=" + outgoingTransitions +",\n"
+				+ "outgoingTransitions=" + outgoingTransitions + ",\n"
+				+ "lowerReachability" + lowerApproximationReachabilityRelation
+				+ ",\n" + "upperReachability"
+				+ overApproximationReachabilityRelation + ",\n"
 				+ " indispensable=" + indispensable + "]";
 	}
-
 
 	public boolean isIndispensable() {
 		return indispensable;

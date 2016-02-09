@@ -104,7 +104,7 @@ public class Injector extends CHIAAction<IBA> {
 	/**
 	 * inject the incoming transitions of the replacement into the IBA
 	 * 
-	 * @param newIba
+	 * @param newIBA
 	 *            is the IBA where the incoming transitions of the replacement
 	 *            must be injected
 	 * @throws NullPointerException
@@ -125,7 +125,7 @@ public class Injector extends CHIAAction<IBA> {
 	/**
 	 * inject the outgoing transitions of the replacement into the IBA
 	 * 
-	 * @param newIba
+	 * @param newIBA
 	 *            is the IBA where the incoming transitions of the replacement
 	 *            must be injected
 	 * @throws NullPointerException

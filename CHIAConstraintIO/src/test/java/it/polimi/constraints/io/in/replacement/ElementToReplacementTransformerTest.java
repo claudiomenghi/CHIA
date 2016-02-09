@@ -122,7 +122,6 @@ public class ElementToReplacementTransformerTest {
 				.getClassLoader().getResource(path + "/test01/replacement.xml")
 				.getFile())).perform();
 
-		System.out.println(replacement.getOutgoingTransitions());
 		Set<PluggingTransition> pluggingTransitions = new HashSet<PluggingTransition>();
 
 		Set<IGraphProposition> propositions = new HashSet<IGraphProposition>();

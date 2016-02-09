@@ -17,9 +17,7 @@ import com.google.common.base.Preconditions;
 /**
  * Checks the emptiness of a BA automaton. An automaton is empty when it does
  * not exists an infinite run that contains an accepting state of the automaton
- * which is entered infinitely often.<br>
- * 
- * @see {@link BA}
+ * which is entered infinitely often. See {@link BA}<br>
  * 
  * @author Claudio Menghi
  */

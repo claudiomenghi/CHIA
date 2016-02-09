@@ -1,5 +1,8 @@
 package it.polimi.constraints.components;
 
+import org.checkerframework.checker.igj.qual.Immutable;
+import org.checkerframework.checker.nullness.qual.NonNull;
+
 import it.polimi.automata.state.State;
 
 import com.google.common.base.Preconditions;
@@ -28,7 +31,7 @@ public abstract class Component {
 	/**
 	 * is the state of the original model to which this component is associated
 	 */
-	private final State modelState;
+	private @Immutable final State modelState;
 
 	/**
 	 * creates a new component which refers to a specific model state has a set
@@ -36,14 +39,10 @@ public abstract class Component {
 	 * 
 	 * @param modelState
 	 *            is the state of the model to which the component refers to
-	 * @param incomingPorts
-	 *            is the set of the in-coming ports
-	 * @param outcomingPorts
-	 *            is the set of the out-coming ports
 	 * @throws NullPointerException
 	 *             if one of the parameters is null
 	 */
-	public Component(State modelState) {
+	public Component(@NonNull State modelState) {
 		Preconditions.checkNotNull(modelState,
 				"The name of the state cannot be null");
 

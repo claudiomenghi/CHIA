@@ -49,7 +49,7 @@ public class ReplacementChecker01Test {
 						subproperty.getAutomaton()));
 
 		SatisfactionValue retValue = replacementChecker.perform();
-		System.out.println(replacementChecker.getLowerIntersectionBA());
+		
 		assertTrue(retValue == SatisfactionValue.SATISFIED);
 	}
 

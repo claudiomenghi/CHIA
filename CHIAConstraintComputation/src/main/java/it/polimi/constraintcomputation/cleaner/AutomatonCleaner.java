@@ -17,9 +17,12 @@ import com.google.common.base.Preconditions;
 
 /**
  * The intersection cleaner  returns  the states from which it is not possible to reach an accepting
- * state from the intersection automaton. <br/> 
+ * state from the intersection automaton.
+ * 
+ * <p>
  * Indeed, the states from which it is not possible to reach an accepting state are not useful in the
- * constraint computation.<br>
+ * constraint computation.
+ * </p>
  *  
  * @author Claudio Menghi
  * 
@@ -55,7 +58,7 @@ public class AutomatonCleaner {
 
     /**
      * Returns  the states from which it is not possible to reach an accepting
-     * state from the intersection automaton. <br/>
+     * state from the intersection automaton.
      * The procedure has a temporal complexity |S|+|T|, where |S| is the
      * cardinality of the set of the states of the automaton and |T| is the
      * cardinality of the set of transitions of the automaton

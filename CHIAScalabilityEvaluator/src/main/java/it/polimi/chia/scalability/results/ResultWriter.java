@@ -19,7 +19,7 @@ public class ResultWriter {
 	 * creates a new {@link ResultWriter} which is in charge of writing the
 	 * verification results on a file
 	 * 
-	 * @param file
+	 * @param filePath
 	 *            the file where the verification results must b written
 	 * @throws IOException
 	 *             if opening a file writer over the specified file generates an

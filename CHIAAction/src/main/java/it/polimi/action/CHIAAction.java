@@ -1,5 +1,7 @@
 package it.polimi.action;
 
+import javax.validation.constraints.NotNull;
+
 import com.google.common.base.Preconditions;
 
 /**
@@ -19,7 +21,7 @@ public abstract class CHIAAction<O> {
 	/**
 	 * is the name of the CHIAAction
 	 */
-	private final String name;
+	private @NotNull final String name;
 
 	/**
 	 * creates a new CHIAAction with the specified name
@@ -29,7 +31,8 @@ public abstract class CHIAAction<O> {
 	 * @throws NullPointerException
 	 *             if the name of the action is null
 	 */
-	public CHIAAction(String name) {
+	//@ requires  name!=null
+	public CHIAAction(@NotNull  String  name) {
 		Preconditions.checkNotNull(name,
 				"The name of the action cannot be null");
 		performed = false;
@@ -43,6 +46,7 @@ public abstract class CHIAAction<O> {
 	 * @return a boolean which specifies whether the action has been performed
 	 *         or not
 	 */
+	/*@ pure */
 	public boolean isPerformed() {
 		return performed;
 	}
@@ -54,11 +58,12 @@ public abstract class CHIAAction<O> {
 	 * @throws Exception
 	 *             if an exception in the execution of the action is thrown
 	 */
-	public abstract O perform() throws Exception;
+	@NotNull public abstract O perform() throws Exception;
 
 	/**
 	 * specifies that the action has been performed
 	 */
+	/*@ ensures isPerformed()==true*/
 	public void performed() {
 		this.performed = true;
 	}
@@ -68,7 +73,7 @@ public abstract class CHIAAction<O> {
 	 * 
 	 * @return the name of the action
 	 */
-	public String getName() {
+	@NotNull public String getName() {
 		return this.name;
 	}
 }

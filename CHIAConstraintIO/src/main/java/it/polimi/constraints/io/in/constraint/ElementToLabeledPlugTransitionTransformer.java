@@ -24,12 +24,17 @@ import com.google.common.base.Preconditions;
 public class ElementToLabeledPlugTransitionTransformer {
 
 	private final boolean incoming;
+
 	/**
-	 * creates a new Transformer which converts an XML element into the corresponding
-	 * port
+	 * creates a new Transformer which converts an XML element into the
+	 * corresponding port
+	 * 
+	 * @param incoming
+	 *            true if and only if the transitions to be considered are
+	 *            incoming transitions
 	 */
-	public ElementToLabeledPlugTransitionTransformer( boolean incoming) {
-		this.incoming=incoming;
+	public ElementToLabeledPlugTransitionTransformer(boolean incoming) {
+		this.incoming = incoming;
 	}
 
 	/**
@@ -45,55 +50,65 @@ public class ElementToLabeledPlugTransitionTransformer {
 		Preconditions.checkNotNull(e,
 				"The element to be converted cannot be null");
 
-		
 		int portId = Integer.parseInt(e
 				.getAttribute(AutomataIOConstants.XML_ATTRIBUTE_ID));
-		
-		
-		LabeledPluggingTransition.ID_COUNTER = Math.max(LabeledPluggingTransition.ID_COUNTER, portId + 1);
-		
-		
-		Element sourceStateElement=(Element) e.getElementsByTagName(ConstraintsIOConstants.XML_ELEMENT_PORT_SOURCE_STATE).item(0);
-		State sourceState=this.loadState(sourceStateElement);
-		
-		Element destinationStateElement=(Element) e.getElementsByTagName(ConstraintsIOConstants.XML_ELEMENT_PORT_DESTINATION_STATE).item(0);
-		State destinationState=this.loadState(destinationStateElement);
-		
-		Element transitionElement=(Element) e.getElementsByTagName(ConstraintsIOConstants.XML_ELEMENT_PORT_TRANSITION).item(0);
-		Transition transition=this.loadTransition(transitionElement);
-		
-		try{
+
+		LabeledPluggingTransition.ID_COUNTER = Math.max(
+				LabeledPluggingTransition.ID_COUNTER, portId + 1);
+
+		Element sourceStateElement = (Element) e.getElementsByTagName(
+				ConstraintsIOConstants.XML_ELEMENT_PORT_SOURCE_STATE).item(0);
+		State sourceState = this.loadState(sourceStateElement);
+
+		Element destinationStateElement = (Element) e.getElementsByTagName(
+				ConstraintsIOConstants.XML_ELEMENT_PORT_DESTINATION_STATE)
+				.item(0);
+		State destinationState = this.loadState(destinationStateElement);
+
+		Element transitionElement = (Element) e.getElementsByTagName(
+				ConstraintsIOConstants.XML_ELEMENT_PORT_TRANSITION).item(0);
+		Transition transition = this.loadTransition(transitionElement);
+
+		try {
 			Label label = Label.valueOf(e
-				.getAttribute(ConstraintsIOConstants.XML_ATTRIBUTE_LABEL));
-			return new LabeledPluggingTransition(portId, sourceState, destinationState, transition, incoming,
-					label);
+					.getAttribute(ConstraintsIOConstants.XML_ATTRIBUTE_LABEL));
+			return new LabeledPluggingTransition(portId, sourceState,
+					destinationState, transition, incoming, label);
+		} catch (IllegalArgumentException exception) {
+			throw new IllegalArgumentException(
+					"The value \""
+							+ e.getAttribute(ConstraintsIOConstants.XML_ATTRIBUTE_LABEL)
+							+ "\" of the plugging transition "
+							+ portId
+							+ " is not a valid label for the incoming/outgoing transition ",
+					exception);
 		}
-		catch(IllegalArgumentException exception){
-			throw new IllegalArgumentException("The value \""+e
-					.getAttribute(ConstraintsIOConstants.XML_ATTRIBUTE_LABEL)+"\" of the plugging transition "+portId+" is not a valid label for the incoming/outgoing transition ", exception);
-		}
-		
-		
-		
+
 	}
-	
-	private State loadState(Element sourceStateElement){
-		Preconditions.checkNotNull(sourceStateElement, "The state element cannot be null");
-		
-		Element stateElement=(Element) sourceStateElement.getElementsByTagName(AutomataIOConstants.XML_ELEMENT_STATE).item(0);
+
+	private State loadState(Element sourceStateElement) {
+		Preconditions.checkNotNull(sourceStateElement,
+				"The state element cannot be null");
+
+		Element stateElement = (Element) sourceStateElement
+				.getElementsByTagName(AutomataIOConstants.XML_ELEMENT_STATE)
+				.item(0);
 		int sourceStateId = Integer.parseInt(stateElement
 				.getAttribute(AutomataIOConstants.XML_ATTRIBUTE_ID));
-		String stateName=stateElement
+		String stateName = stateElement
 				.getAttribute(AutomataIOConstants.XML_ATTRIBUTE_NAME);
-		
+
 		State state = new StateFactory().create(stateName, sourceStateId);
-		
+
 		return state;
 	}
-	
-	private Transition loadTransition(Element transitionElement){
-		int transitionId=Integer.parseInt(transitionElement.getAttribute(ConstraintsIOConstants.XML_ATTRIBUTE_TRANSITION_ID));
-		String propositions=transitionElement.getAttribute(ConstraintsIOConstants.XML_ATTRIBUTE_PROPOSITIONS);
+
+	private Transition loadTransition(Element transitionElement) {
+		int transitionId = Integer
+				.parseInt(transitionElement
+						.getAttribute(ConstraintsIOConstants.XML_ATTRIBUTE_TRANSITION_ID));
+		String propositions = transitionElement
+				.getAttribute(ConstraintsIOConstants.XML_ATTRIBUTE_PROPOSITIONS);
 		StringToModelPropositions propositionsParser = new StringToModelPropositions();
 
 		Transition transition = new ModelTransitionFactory().create(

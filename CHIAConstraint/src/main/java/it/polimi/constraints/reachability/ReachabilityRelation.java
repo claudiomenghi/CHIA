@@ -40,10 +40,16 @@ public class ReachabilityRelation {
 	 * can be reached. The destinationTransition is the incoming port of the
 	 * subproperty which is reachable from the sourceTransition
 	 * 
-	 * @param sourceTransition
-	 *            is the source of the transition
-	 * @param destinationTransition
-	 *            is the destination of the transition
+	 * @param outgoingTransition
+	 *            the outgoing transition to be considered
+	 * @param incomingTransition
+	 *            the incoming transition to be considered
+	 * @param modelAccepting
+	 *            true if an accepting state of the model is present from the
+	 *            outgoing to the incoming transition
+	 * @param claimAccepting
+	 *            true if an accepting state of the claim is present from the
+	 *            outgoint to the incoming transition
 	 * @throws NullPointerException
 	 *             if one of the two transitions is null
 	 * @throws IllegalArgumentException
@@ -67,8 +73,8 @@ public class ReachabilityRelation {
 		ReachabilityEntry reachabilityEntry = new ReachabilityEntry(
 				incomingTransition, outgoingTransition, modelAccepting,
 				claimAccepting);
-		this.reachabilityMap
-				.put(outgoingTransition.getSource(), reachabilityEntry);
+		this.reachabilityMap.put(outgoingTransition.getSource(),
+				reachabilityEntry);
 	}
 
 	/**
@@ -95,7 +101,7 @@ public class ReachabilityRelation {
 	}
 
 	/**
-	 * {@inheritDoc} 
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toString() {

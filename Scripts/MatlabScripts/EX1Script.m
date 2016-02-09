@@ -1,6 +1,10 @@
-testNumber=input('insert the numer of tests: ');
-testFolder=input('insert the path of the folder that contains the tests between apixes: ');
-claimNumber=input('insert the number of claims: ');
+clear
+% the folder where the results of the tests are stored
+testFolder='Ex1';
+% the number of the tests
+testNumber=20;
+% the number of the claims condidered in the tests
+claimNumber=3;
 
 initialStatesNumber=100;
 incrementStatesNumber=100;
@@ -109,11 +113,5 @@ end
 
 average=[casetime(1, :)./number(1,:); casetime(2, :)./number(2,:); casetime(3, :)./number(3,:); casetime(4, :)./number(4,:)];
 
-xValues=initialStatesNumber:incrementStatesNumber:finalStatesNumber;
-ex1plot=figure();
+PlotEx1
 
-plot(xValues, average, '--o');
-legend('TS1=T, TS2=T', 'TS1=T, TS2=M', 'TS1=F, TS2=F', 'TS1=F, TS2=M');
-grid on;
-xlabel('Number of states')
-ylabel('T_{TS1}/T_{TS2}')

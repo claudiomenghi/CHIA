@@ -5,7 +5,6 @@ import it.polimi.automata.BA;
 import it.polimi.automata.IBA;
 import it.polimi.automata.io.in.ClaimReader;
 import it.polimi.automata.io.in.ModelReader;
-import it.polimi.automata.io.out.ElementToStringTransformer;
 import it.polimi.automata.state.IntersectionStateFactory;
 import it.polimi.checker.Checker;
 import it.polimi.checker.SatisfactionValue;
@@ -17,7 +16,6 @@ import it.polimi.constraints.components.RefinementGenerator;
 import it.polimi.constraints.components.Replacement;
 import it.polimi.constraints.components.SubProperty;
 import it.polimi.constraints.io.in.replacement.ReplacementReader;
-import it.polimi.constraints.io.out.constraint.ConstraintToElementTransformer;
 import it.polimi.constraints.transitions.LabeledPluggingTransition;
 import it.polimi.replacementchecker.ReplacementChecker;
 
@@ -79,9 +77,6 @@ public class ReplacementChecker16Test {
         ConstraintGenerator cg = new ConstraintGenerator(modelChecker);
         Constraint constraint = cg.perform();
 
-        System.out.println(new ElementToStringTransformer()
-                .transform(new ConstraintToElementTransformer()
-                        .transform(constraint)));
         SubProperty subproperty = constraint.getSubProperty(this.replacement
                 .getModelState());
         ReplacementChecker replacementChecker = new ReplacementChecker(

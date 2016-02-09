@@ -63,6 +63,8 @@ public class ConfParser {
 	private static final String FINAL_REPLACEMENT_DENSITY = "FINAL_REPLACEMENT_DENSITY";
 	private static final String INCREMENT_REPLACEMENT_DENSITY = "INCREMENT_REPLACEMENT_DENSITY";
 
+
+
 	private static final String CURRENT_CONFIGURATION = "CURRENT_CONFIGURATION";
 	/**
 	 * the file where the results must be written
@@ -165,7 +167,8 @@ public class ConfParser {
 	 * increment replacement density
 	 */
 	private double incrementReplacementDensity;
-
+	
+	
 	/**
 	 * The current configuration
 	 */
@@ -221,10 +224,12 @@ public class ConfParser {
 			this.numberOfTests = Integer.parseInt(line.substring(N_TESTS
 					.length() + 2));
 		}
+		
 		if (line.startsWith(CURRENT_CONFIGURATION)) {
 			this.currentConfiguration = Integer.parseInt(line
 					.substring(CURRENT_CONFIGURATION.length() + 2));
 		}
+		
 		checkNumberOfStates(line);
 		checkTransitionDensities(line);
 		// ACCEPTING DENSITY
@@ -232,7 +237,8 @@ public class ConfParser {
 		checkTransparentStates(line);
 		checkReplacementDensity(line);
 	}
-
+	
+	
 	private void checkReplacementDensity(String line) {
 		if (line.startsWith(INIT_REPLACEMENT_DENSITY)) {
 			this.initialReplacementDensity = Double.parseDouble(line
@@ -467,5 +473,4 @@ public class ConfParser {
 	public int getCurrentConfiguration() {
 		return currentConfiguration;
 	}
-
 }

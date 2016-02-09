@@ -48,7 +48,7 @@ public class IBAElementToTransitionTransformer implements
 	/**
 	 * creates a new {@link IBAElementToTransitionTransformer}
 	 * 
-	 * @param automaton
+	 * @param iba
 	 *            is the automaton to be populated
 	 * @param idStateMap
 	 *            is a map which associates the id of the state (Integer) to the

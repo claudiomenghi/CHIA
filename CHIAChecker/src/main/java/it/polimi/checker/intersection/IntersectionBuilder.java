@@ -112,17 +112,8 @@ public class IntersectionBuilder extends CHIAAction<IntersectionBA> {
 	 *            is the model to be considered in the intersection procedure
 	 * @param claim
 	 *            is the claim to be considered in the intersection procedure
-	 * @param intersectionStateFactory
-	 *            is the factory which is used to create the states of the
-	 *            intersection automaton
-	 * @param intersectionTransitionBuilder
-	 *            is used to compute the intersection transitions from the
-	 *            transition of the model and of the claim
 	 * @throws NullPointerException
 	 *             if one of the parameters is null
-	 * @throws IllegalArgumentException
-	 *             if the accepting policy is a {@link KripkeAcceptingPolicy}
-	 *             and not all the states of the model are accepting
 	 */
 	public IntersectionBuilder(IBA model, BA claim,
 			AcceptingPolicy acceptingPolicy) {

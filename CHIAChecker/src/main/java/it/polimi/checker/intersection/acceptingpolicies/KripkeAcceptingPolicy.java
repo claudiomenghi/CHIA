@@ -76,17 +76,17 @@ public class KripkeAcceptingPolicy extends AcceptingPolicy {
 	 * @return is the number to be associated to the new intersection state
 	 */
 	@Override
-	public int comuteInitNumber(State modelState, State claimInitialState) {
+	public int comuteInitNumber(State modelState, State claimState) {
 		Preconditions.checkNotNull(modelState,
 				"The state of the model to be considered cannot be null");
-		Preconditions.checkNotNull(claimInitialState,
+		Preconditions.checkNotNull(claimState,
 				"The state of the claim to be considered cannot be null");
 		Preconditions.checkArgument(
 				this.model.getStates().contains(modelState), "The state "
 						+ modelState + " mus be a state of the model");
 		Preconditions.checkArgument(
-				this.claim.getStates().contains(claimInitialState), "The state "
-						+ claimInitialState + " mus be a state of the claim");
+				this.claim.getStates().contains(claimState), "The state "
+						+ claimState + " mus be a state of the claim");
 
 		return 1;
 	}

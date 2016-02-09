@@ -49,7 +49,6 @@ public class ConstraintComputation3Test {
         assertTrue("The property must be possibly satisfied",
                 returnValue == SatisfactionValue.POSSIBLYSATISFIED);
 
-        System.out.println(checker.getUpperIntersectionBA().toString());
         IntersectionBA upperIntersectionBA = checker.getUpperIntersectionBA();
         assertTrue(upperIntersectionBA.size()==31);
 

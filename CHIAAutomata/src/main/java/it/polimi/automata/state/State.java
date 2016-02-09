@@ -1,5 +1,8 @@
 package it.polimi.automata.state;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 import com.google.common.base.Preconditions;
 
 /**
@@ -17,11 +20,13 @@ public class State {
 	/**
 	 * contains the id of the state
 	 */
+	@Min(0)
 	private final int id;
 
 	/**
 	 * contains the name of the state
 	 */
+	@NotNull
 	private final String name;
 
 	/**
@@ -32,7 +37,7 @@ public class State {
 	 * @throws IllegalArgumentException
 	 *             if the value of the id is less than 0
 	 */
-	protected State(int id) {
+	protected State(@Min(0) int id) {
 		Preconditions.checkArgument(id >= 0, "The id cannot be < 0");
 
 		this.id = id;
@@ -51,7 +56,7 @@ public class State {
 	 * @throws NullPointerException
 	 *             is generated when the name of the state is null
 	 */
-	protected State(String name, int id) {
+	protected State(@NotNull String name, @Min(0) int id) {
 		Preconditions
 				.checkNotNull(name, "The name of the state cannot be null");
 		Preconditions.checkArgument(id >= 0, "The id cannot be < 0");
@@ -61,24 +66,19 @@ public class State {
 
 	/**
 	 * <p>
-	 * returns the <br>
-	 * id</br> of the state<br>
-	 * The id uniquely identifies the state.
+	 * returns the id of the state. The id uniquely identifies the state.
 	 * </p>
 	 * 
-	 * @return the <br>
-	 *         id</br> of the state.
+	 * @return the id of the state.
 	 */
 	public int getId() {
 		return this.id;
 	}
 
 	/**
-	 * returns the <br>
-	 * name</br> of the state
+	 * returns the name of the state
 	 * 
-	 * @return the <br>
-	 *         name</br> of the state
+	 * @return the name of the state
 	 */
 	public String getName() {
 		return name;
@@ -106,21 +106,20 @@ public class State {
 	}
 
 	/**
-	 * returns true if the current state is equal to the other state
-	 * 
-	 * @param otherState
-	 *            is the state to which the current state must be compare with
-	 * @return true if the current state is equal to the other state
+	 * @param state
+	 *            the state from which the current state must be compared with
+	 * @return true if and only if the current state is equal to the state
+	 *         passed as parameter
 	 */
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
+	public boolean equals(Object state) {
+		if (this == state)
 			return true;
-		if (obj == null)
+		if (state == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if (getClass() != state.getClass())
 			return false;
-		State other = (State) obj;
+		State other = (State) state;
 		if (id != other.id)
 			return false;
 		return true;

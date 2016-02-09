@@ -16,8 +16,10 @@ import org.jgrapht.alg.StrongConnectivityInspector;
 import com.google.common.base.Preconditions;
 
 /**
+ * <p>
  * it is used to label with the specified label all the outgoing transitions of
- * a sub-property <br />
+ * a sub-property 
+ * </p>
  * 
  * It modifies the sub-property contained in the {@link SubPropertyIdentifier}
  * passed as parameter
@@ -95,8 +97,10 @@ public class BackwardLabeler {
     }
 
     /**
+     * <p>
      * modifies the outgoing transitions of the sub-property with the following
-     * policy: <br>
+     * policy: 
+     * </p>
      * 
      * if the outgoing transition allows to reach a SSC that contains an
      * accepting state that can be entered infinitely often, the outgoing

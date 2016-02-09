@@ -29,9 +29,9 @@ import org.apache.log4j.PropertyConfigurator;
  */
 public class CHIA {
 
-    /**
-     * The console reader
-     */
+	/**
+	 * The console reader
+	 */
 	private ConsoleReader console;
 
 	/**
@@ -62,7 +62,6 @@ public class CHIA {
 				.append("********************************************************************\n");
 		stringBuilder.append("aut: automata mode enabled\n");
 		out.println(stringBuilder);
-		
 
 	}
 
@@ -80,8 +79,14 @@ public class CHIA {
 			LOGGER.warn("The History file cannot be loaded");
 		}
 		LOGGER.info("CHIA Started");
-		PropertyConfigurator.configure(ClassLoader
-				.getSystemResource("log4j.properties"));
+		if (ClassLoader.getSystemResource("log4j.properties") != null) {
+
+			PropertyConfigurator.configure(ClassLoader
+					.getSystemResource("log4j.properties"));
+		} else {
+			LOGGER.warn("The logging file cannot be loaded");
+		}
+		
 
 	}
 
@@ -110,7 +115,7 @@ public class CHIA {
 					chiaCompletors = ReplacementEvent.computeCompleters();
 					chiaCompletors.add(new StringsCompleter("aut"));
 					console.addCompleter(new AggregateCompleter(chiaCompletors));
-					LOGGER.info("replacement mode enabled");
+					out.println("replacement mode enabled");
 
 				} else {
 					if (line.equals("aut")) {
@@ -120,12 +125,12 @@ public class CHIA {
 						chiaCompletors.add(new StringsCompleter("rep"));
 						console.addCompleter(new AggregateCompleter(
 								chiaCompletors));
-						LOGGER.info("automata mode enabled");
+						out.println("automata mode enabled");
 
 					} else {
 						if (line.equalsIgnoreCase("quit")
 								|| line.equalsIgnoreCase("exit")) {
-
+							System.exit(0);
 						} else {
 							if (line.equalsIgnoreCase("cls")) {
 								console.clearScreen();
@@ -135,6 +140,7 @@ public class CHIA {
 										ReplacementEvent.parse(line,
 												chiaReplacementConsole);
 									} catch (ParseException e) {
+										out.println(e.getMessage());
 										LOGGER.info(e.getMessage());
 									}
 
@@ -145,6 +151,7 @@ public class CHIA {
 											AutomataEvent.parse(line,
 													chiaAutomataConsole);
 										} catch (ParseException e) {
+											out.println(e.getMessage());
 											LOGGER.info(e.getMessage());
 										}
 
@@ -170,6 +177,7 @@ public class CHIA {
 
 	public static void main(String[] args) throws IOException {
 		CHIA chia = new CHIA();
+		
 		chia.run();
 	}
 

@@ -17,12 +17,16 @@ import com.google.common.base.Preconditions;
 public class ElementToPluggingTransitionTransformer {
 
 	private final boolean incoming;
+
 	/**
-	 * creates a new Transformer which converts an XML element into the corresponding
-	 * port
+	 * creates a new Transformer which converts an XML element into the
+	 * corresponding port
+	 * 
+	 * @param incoming
+	 *            true iff the transition is an incoming transition
 	 */
-	public ElementToPluggingTransitionTransformer( boolean incoming) {
-		this.incoming=incoming;
+	public ElementToPluggingTransitionTransformer(boolean incoming) {
+		this.incoming = incoming;
 	}
 
 	/**
@@ -38,44 +42,53 @@ public class ElementToPluggingTransitionTransformer {
 		Preconditions.checkNotNull(e,
 				"The element to be converted cannot be null");
 
-		
 		int portId = Integer.parseInt(e
 				.getAttribute(AutomataIOConstants.XML_ATTRIBUTE_ID));
-		
-		
-		LabeledPluggingTransition.ID_COUNTER = Math.max(LabeledPluggingTransition.ID_COUNTER, portId + 1);
-		
-		
-		Element sourceStateElement=(Element) e.getElementsByTagName(ConstraintsIOConstants.XML_ELEMENT_PORT_SOURCE_STATE).item(0);
-		State sourceState=this.loadState(sourceStateElement);
-		
-		Element destinationStateElement=(Element) e.getElementsByTagName(ConstraintsIOConstants.XML_ELEMENT_PORT_DESTINATION_STATE).item(0);
-		State destinationState=this.loadState(destinationStateElement);
-		
-		Element transitionElement=(Element) e.getElementsByTagName(ConstraintsIOConstants.XML_ELEMENT_PORT_TRANSITION).item(0);
-		Transition transition=this.loadTransition(transitionElement);
-		
-		return new PluggingTransition(portId, sourceState, destinationState, transition, incoming);
-		
+
+		LabeledPluggingTransition.ID_COUNTER = Math.max(
+				LabeledPluggingTransition.ID_COUNTER, portId + 1);
+
+		Element sourceStateElement = (Element) e.getElementsByTagName(
+				ConstraintsIOConstants.XML_ELEMENT_PORT_SOURCE_STATE).item(0);
+		State sourceState = this.loadState(sourceStateElement);
+
+		Element destinationStateElement = (Element) e.getElementsByTagName(
+				ConstraintsIOConstants.XML_ELEMENT_PORT_DESTINATION_STATE)
+				.item(0);
+		State destinationState = this.loadState(destinationStateElement);
+
+		Element transitionElement = (Element) e.getElementsByTagName(
+				ConstraintsIOConstants.XML_ELEMENT_PORT_TRANSITION).item(0);
+		Transition transition = this.loadTransition(transitionElement);
+
+		return new PluggingTransition(portId, sourceState, destinationState,
+				transition, incoming);
+
 	}
-	
-	private State loadState(Element sourceStateElement){
-		Preconditions.checkNotNull(sourceStateElement, "The state element cannot be null");
-		
-		Element stateElement=(Element) sourceStateElement.getElementsByTagName(AutomataIOConstants.XML_ELEMENT_STATE).item(0);
+
+	private State loadState(Element sourceStateElement) {
+		Preconditions.checkNotNull(sourceStateElement,
+				"The state element cannot be null");
+
+		Element stateElement = (Element) sourceStateElement
+				.getElementsByTagName(AutomataIOConstants.XML_ELEMENT_STATE)
+				.item(0);
 		int sourceStateId = Integer.parseInt(stateElement
 				.getAttribute(AutomataIOConstants.XML_ATTRIBUTE_ID));
-		String stateName=stateElement
+		String stateName = stateElement
 				.getAttribute(AutomataIOConstants.XML_ATTRIBUTE_NAME);
-		
+
 		State state = new StateFactory().create(stateName, sourceStateId);
-		
+
 		return state;
 	}
-	
-	private Transition loadTransition(Element transitionElement){
-		int transitionId=Integer.parseInt(transitionElement.getAttribute(ConstraintsIOConstants.XML_ATTRIBUTE_TRANSITION_ID));
-		String propositions=transitionElement.getAttribute(ConstraintsIOConstants.XML_ATTRIBUTE_PROPOSITIONS);
+
+	private Transition loadTransition(Element transitionElement) {
+		int transitionId = Integer
+				.parseInt(transitionElement
+						.getAttribute(ConstraintsIOConstants.XML_ATTRIBUTE_TRANSITION_ID));
+		String propositions = transitionElement
+				.getAttribute(ConstraintsIOConstants.XML_ATTRIBUTE_PROPOSITIONS);
 		StringToModelPropositions propositionsParser = new StringToModelPropositions();
 
 		Transition transition = new ModelTransitionFactory().create(

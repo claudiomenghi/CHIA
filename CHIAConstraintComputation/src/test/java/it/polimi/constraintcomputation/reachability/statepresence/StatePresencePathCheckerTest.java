@@ -342,6 +342,8 @@ public class StatePresencePathCheckerTest {
         
         Set<State> interestingStates=new HashSet<State>();
         interestingStates.add(state2);
+        interestingStates.add(state1);
+        interestingStates.add(state3);
         StatePresencePathChecker stateChecker=new StatePresencePathChecker(ba, statesThatCanBeVisited, interestingStates);
         stateChecker.perform(interestingStates, interestingStates);
         assertTrue(stateChecker.isReachableByPassingAnInterestingState(state1, state3));
@@ -379,7 +381,11 @@ public class StatePresencePathCheckerTest {
         statesThatCanBeVisited.add(state5);
         
         Set<State> interestingStates=new HashSet<State>();
+      
+        interestingStates.add(state1);
         interestingStates.add(state2);
+        interestingStates.add(state3);
+        interestingStates.add(state4);
         StatePresencePathChecker stateChecker=new StatePresencePathChecker(ba, statesThatCanBeVisited, interestingStates);
         stateChecker.perform(interestingStates, interestingStates);
         assertTrue(stateChecker.isReachableByPassingAnInterestingState(state1, state3));
@@ -421,11 +427,36 @@ public class StatePresencePathCheckerTest {
         Set<State> interestingStates=new HashSet<State>();
         interestingStates.add(state2);
         StatePresencePathChecker stateChecker=new StatePresencePathChecker(ba, statesThatCanBeVisited, interestingStates);
-        stateChecker.perform(interestingStates, interestingStates);
+       
+        Set<State> sourceStates=new HashSet<State>();
+        sourceStates.add(state1);
+        Set<State> destinationStates=new HashSet<State>();
+        destinationStates.add(state3);
+        stateChecker.perform(sourceStates, destinationStates);
         assertTrue(stateChecker.isReachableByPassingAnInterestingState(state1, state3));
+        
+        stateChecker=new StatePresencePathChecker(ba, statesThatCanBeVisited, interestingStates);
+        sourceStates=new HashSet<State>();
+        sourceStates.add(state1);
+        destinationStates=new HashSet<State>();
+        destinationStates.add(state1);
+        stateChecker.perform(sourceStates, destinationStates);
         assertTrue(stateChecker.isReachableByPassingAnInterestingState(state1, state1));
         
+        stateChecker=new StatePresencePathChecker(ba, statesThatCanBeVisited, interestingStates);
+        sourceStates=new HashSet<State>();
+        sourceStates.add(state5);
+        destinationStates=new HashSet<State>();
+        destinationStates.add(state3);
+        stateChecker.perform(sourceStates, destinationStates);
         assertTrue(stateChecker.isReachableByPassingAnInterestingState(state5, state3));
+        
+        stateChecker=new StatePresencePathChecker(ba, statesThatCanBeVisited, interestingStates);
+        sourceStates=new HashSet<State>();
+        sourceStates.add(state4);
+        destinationStates=new HashSet<State>();
+        destinationStates.add(state3);
+        stateChecker.perform(sourceStates, destinationStates);
         assertFalse(stateChecker.isReachableByPassingAnInterestingState(state4, state3));
     }
     
@@ -464,8 +495,31 @@ public class StatePresencePathCheckerTest {
         interestingStates.add(state2);
         StatePresencePathChecker stateChecker=new StatePresencePathChecker(ba, statesThatCanBeVisited, interestingStates);
         stateChecker.perform(interestingStates, interestingStates);
+        
+        Set<State> sourceStates;
+        Set<State> destinationStates;
+        stateChecker=new StatePresencePathChecker(ba, statesThatCanBeVisited, interestingStates);
+        sourceStates=new HashSet<State>();
+        sourceStates.add(state1);
+        destinationStates=new HashSet<State>();
+        destinationStates.add(state3);
+        stateChecker.perform(sourceStates, destinationStates);
         assertTrue(stateChecker.isReachableByPassingAnInterestingState(state1, state3));
+        
+        stateChecker=new StatePresencePathChecker(ba, statesThatCanBeVisited, interestingStates);
+        sourceStates=new HashSet<State>();
+        sourceStates.add(state5);
+        destinationStates=new HashSet<State>();
+        destinationStates.add(state3);
+        stateChecker.perform(sourceStates, destinationStates);
         assertTrue(stateChecker.isReachableByPassingAnInterestingState(state5, state3));
+        
+        stateChecker=new StatePresencePathChecker(ba, statesThatCanBeVisited, interestingStates);
+        sourceStates=new HashSet<State>();
+        sourceStates.add(state4);
+        destinationStates=new HashSet<State>();
+        destinationStates.add(state3);
+        stateChecker.perform(sourceStates, destinationStates);
         assertFalse(stateChecker.isReachableByPassingAnInterestingState(state4, state3));
     }
     

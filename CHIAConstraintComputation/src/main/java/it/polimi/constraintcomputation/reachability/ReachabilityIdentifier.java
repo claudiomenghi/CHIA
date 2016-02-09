@@ -12,7 +12,6 @@ import it.polimi.constraints.transitions.LabeledPluggingTransition;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -23,22 +22,30 @@ import org.apache.log4j.Logger;
 import com.google.common.base.Preconditions;
 
 /**
+ * <p>
  * The ReachabilityIdentifier class allows to compute the reachability between
  * the incoming and outgoing transitions of the sub-properties and the
  * corresponding labels, through the internal private methods
- * computeLowerReachability and computeUpperReachability. <br/>
+ * computeLowerReachability and computeUpperReachability. 
+ * </p>
  * 
+ * <p>
  * The computeLowerReachability computes whether from an outgoing transition it
  * is possible to reach an incoming transition through a path that only involves
- * purely regular states of the intersection automaton. <br/>
+ * purely regular states of the intersection automaton. 
+ * </p>
  * 
+ * <p>
  * The computeUpperReachability computes for each sub-property whether from an
  * outgoing transition it is possible to reach an incoming transition through a
  * path that involves purely regular and mixed states which do not involve mixed
- * states of the sub-property. <br/>
+ * states of the sub-property. 
+ * </p>
  * 
+ * <p>
  * The ReachabilityIdentifier class modifies the SubProperty identifier in
  * relation with the lower and the upper reachability relations computed
+ * </p>
  * 
  * @author Claudio Menghi
  *
@@ -154,18 +161,18 @@ public class ReachabilityIdentifier {
 				.perform(intersectionAutomaton,
 						intersectionAutomaton.getPurelyRegularStates());
 
-		Set<State> interestingSourceStates=this.getInterestingSourceStates(mapStateOutGoingTransitionsAssociatedOutgoingTransition, intersectionAutomaton);
-		Set<State> interestingDestinationStates=this.getInterestingDestinationStates(mapStateIncomingTransitionsAssociatedIncomingTransition, intersectionAutomaton);
+		Set<State> interestingSourceStates=this.getInterestingDestinationsStates(mapStateOutGoingTransitionsAssociatedOutgoingTransition, intersectionAutomaton);
+		
+		// contains the source states of the incoming transitions
+		Set<State> interestingDestinationStates=this.getInterestingSourceStates(mapStateIncomingTransitionsAssociatedIncomingTransition, intersectionAutomaton);
 		
 		// computes the presence of accepting states of the claim in the
 		// corresponding abstracted graph
-		System.out.println("lower: accepting claim states: "+dateFormat.format(new Date()));
 		LOGGER.debug("lower: accepting claim states: ");
 		AcceptingClaimStatePathChecker acceptingClaimStatePathChecker = new AcceptingClaimStatePathChecker(
 				abstractedIntersection.getPurelyRegularStates(),
 				intersectionBuilder, interestingSourceStates, interestingDestinationStates);
 
-		System.out.println("lower: accepting model states: "+dateFormat.format(new Date()));
 		LOGGER.debug("lower: accepting model states: ");
 		// computes the presence of accepting states of the model in the
 		// corresponding abstracted graph
@@ -184,7 +191,6 @@ public class ReachabilityIdentifier {
 				mapStateIncomingTransitionsAssociatedIncomingTransition
 						.keySet());
 
-		System.out.println("lower: Reachability"+dateFormat.format(new Date()));
 		for (State sourceState : reachabilityMap.keySet()) {
 			for (State destinationState : reachabilityMap.get(sourceState)) {
 				if (mapStateOutGoingTransitionsAssociatedOutgoingTransition
@@ -225,7 +231,6 @@ public class ReachabilityIdentifier {
 				}
 			}
 		}
-		System.out.println("end: "+dateFormat.format(new Date()));
 	}
 
 	/**
@@ -253,8 +258,8 @@ public class ReachabilityIdentifier {
 		IntersectionBA abstractedIntersection = new Abstractor<IntersectionBA>()
 				.perform(intersectionAutomaton, analyzedStates);
 
-		Set<State> interestingSourceStates=this.getInterestingSourceStates(mapStateOutGoingTransitionsAssociatedOutgoingTransition, intersectionAutomaton);
-		Set<State> interestingDestinationStates=this.getInterestingDestinationStates(mapStateIncomingTransitionsAssociatedIncomingTransition, intersectionAutomaton);
+		Set<State> interestingSourceStates=this.getInterestingDestinationsStates(mapStateOutGoingTransitionsAssociatedOutgoingTransition, intersectionAutomaton);
+		Set<State> interestingDestinationStates=this.getInterestingSourceStates(mapStateIncomingTransitionsAssociatedIncomingTransition, intersectionAutomaton);
 		// computes the presence states of accepting states of the claim
 		// considering the set of analyzed states
 		LOGGER.debug("upper: Accepting states");
@@ -329,7 +334,7 @@ public class ReachabilityIdentifier {
 		LOGGER.debug("end: reachability");
 	}
 
-	private Set<State> getInterestingSourceStates(
+	private Set<State> getInterestingDestinationsStates(
 			Map<State, Set<Transition>> mapStateOutGoingTransitionsAssociatedOutgoingTransition,
 			IntersectionBA intersectionAutomaton) {
 		Set<State> interestingSourceStates = new HashSet<State>();
@@ -346,7 +351,7 @@ public class ReachabilityIdentifier {
 		return interestingSourceStates;
 	}
 	
-	private Set<State> getInterestingDestinationStates(
+	private Set<State> getInterestingSourceStates(
 			Map<State, Set<Transition>> mapStateOutGoingTransitionsAssociatedIncomingTransition,
 			IntersectionBA intersectionAutomaton) {
 		Set<State> interestingDestinationStates = new HashSet<State>();
@@ -354,8 +359,7 @@ public class ReachabilityIdentifier {
 				.values()) {
 
 			for (Transition inTransition : inTransitions) {
-				State source = intersectionAutomaton
-						.getTransitionDestination(inTransition);
+				State source = intersectionAutomaton.getTransitionSource(inTransition);
 				interestingDestinationStates.add(source);
 
 			}
@@ -449,7 +453,6 @@ public class ReachabilityIdentifier {
 
 		// computes the reachability between the shortest paths between the
 		// states of the graph
-		System.out.println("lower: Floyd warshall"+dateFormat.format(new Date()));
 		LOGGER.debug("lower: Floyd warshall");
 		
 		ReachableStatesIdentifier identifier=new ReachableStatesIdentifier(abstractedIntersection);
@@ -462,7 +465,6 @@ public class ReachabilityIdentifier {
 		
 		LOGGER.debug("reachability entries to be analyzed:"
 				+ reachabilityMap.size());
-		System.out.println("reachability: "+dateFormat.format(new Date()));
 		return reachabilityMap;
 	}
 	/*private Map<State, Set<State>> getReachabilityRelation(IntersectionBA abstractedIntersection,
@@ -477,7 +479,6 @@ public class ReachabilityIdentifier {
 
 		// computes the reachability between the shortest paths between the
 		// states of the graph
-		System.out.println("lower: Floyd warshall"+dateFormat.format(new Date()));
 		LOGGER.debug("lower: Floyd warshall");
 		
 		Collection<GraphPath<State, Transition>> paths = new FloydWarshallShortestPaths<State, Transition>(
@@ -516,7 +517,6 @@ public class ReachabilityIdentifier {
 		}
 		LOGGER.debug("reachability entries to be analyzed:"
 				+ reachabilityMap.size());
-		System.out.println("reachability: "+dateFormat.format(new Date()));
 		return reachabilityMap;
 	}*/
 }

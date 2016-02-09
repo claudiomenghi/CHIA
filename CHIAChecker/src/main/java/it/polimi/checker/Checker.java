@@ -11,6 +11,8 @@ import it.polimi.checker.ibablackboxstateremove.IBABlackBoxRemover;
 import it.polimi.checker.intersection.IntersectionBuilder;
 import it.polimi.checker.intersection.acceptingpolicies.AcceptingPolicy;
 
+import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -50,12 +52,12 @@ public class Checker extends CHIAAction<SatisfactionValue> {
 	 * The accepting policy to be used in the model checking procedure
 	 */
 	private final AcceptingPolicy acceptingPolicy;
-	
+
 	/**
 	 * the result of the model checking procedure
 	 */
 	private SatisfactionValue satisfactionValue;
-	
+
 	/**
 	 * The counterexample in the case in which the property is not satisfied
 	 */
@@ -92,9 +94,6 @@ public class Checker extends CHIAAction<SatisfactionValue> {
 	/**
 	 * checks if the model against is specification
 	 * 
-	 * @param returnConstraint
-	 *            contains the computed constraints (if any) after the
-	 *            verification procedure
 	 * @return 0 if the property is not satisfied, 1 if the property is
 	 *         satisfied, -1 if the property is satisfied with constraints.
 	 */
@@ -115,12 +114,11 @@ public class Checker extends CHIAAction<SatisfactionValue> {
 				return SatisfactionValue.NOTSATISFIED;
 			}
 
-			if(this.model.getBlackBoxStates().size()==0){
+			if (this.model.getBlackBoxStates().size() == 0) {
 				this.performed();
 				this.satisfactionValue = SatisfactionValue.SATISFIED;
 				return SatisfactionValue.SATISFIED;
-			}
-			else{
+			} else {
 				// COMPUTES THE INTERSECTION BETWEEN THE MODEL AND THE CLAIM
 				boolean emptyIntersection = this.checkEmptyIntersection();
 				this.performed();
@@ -248,9 +246,28 @@ public class Checker extends CHIAAction<SatisfactionValue> {
 	 * 
 	 * @return the counterexamples that makes the property violated
 	 */
+	public List<Entry<State, Transition>> getFilteredCounterexample() {
+		List<Entry<State, Transition>> counterexample = this
+				.getCounterexample();
+		List<Entry<State, Transition>> filteredCounterexamle = new ArrayList<Entry<State, Transition>>();
+
+		for (Entry<State, Transition> entry : counterexample) {
+			filteredCounterexamle
+					.add(new AbstractMap.SimpleEntry<State, Transition>(
+							lowerIntersectionBuilder.getModelState(entry
+									.getKey()), entry.getValue()));
+			
+		}
+		return filteredCounterexamle;
+	}
+
+	/**
+	 * returns one of the counterexamples that makes the property violated
+	 * 
+	 * @return the counterexamples that makes the property violated
+	 */
 	public List<Entry<State, Transition>> getCounterexample() {
 		return this.counterexample;
 	}
-	
-	
+
 }

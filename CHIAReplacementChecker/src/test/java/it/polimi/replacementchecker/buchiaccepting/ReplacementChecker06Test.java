@@ -5,7 +5,6 @@ import it.polimi.automata.BA;
 import it.polimi.automata.IBA;
 import it.polimi.automata.io.in.ClaimReader;
 import it.polimi.automata.io.in.ModelReader;
-import it.polimi.automata.io.out.ElementToStringTransformer;
 import it.polimi.checker.Checker;
 import it.polimi.checker.SatisfactionValue;
 import it.polimi.checker.intersection.acceptingpolicies.AcceptingPolicy;
@@ -16,7 +15,6 @@ import it.polimi.constraints.components.Replacement;
 import it.polimi.constraints.components.SubProperty;
 import it.polimi.constraints.io.in.constraint.ConstraintReader;
 import it.polimi.constraints.io.in.replacement.ReplacementReader;
-import it.polimi.constraints.io.out.constraint.ConstraintToElementTransformer;
 import it.polimi.replacementchecker.ReplacementChecker;
 
 import java.io.File;
@@ -63,18 +61,13 @@ public class ReplacementChecker06Test {
 				AcceptingPolicy.getAcceptingPolicy(this.acceptingPolicy, model, claim));
 		
 		checker.perform();
-		System.out.println(checker.getUpperIntersectionBA());
 		ConstraintGenerator cg = new ConstraintGenerator(checker);
-		Constraint constraint = cg.perform();
+		cg.perform();
 		
-		System.out.println(new ElementToStringTransformer()
-				.transform(new ConstraintToElementTransformer()
-						.transform(constraint)));
 		
 		checker=new Checker(refinement, claim, 
 				AcceptingPolicy.getAcceptingPolicy(this.acceptingPolicy, refinement, claim));
 		SatisfactionValue ret=checker.perform();
-		System.out.println(checker.getLowerIntersectionBA());
 		assertTrue(ret==SatisfactionValue.NOTSATISFIED);
 		
 		SubProperty subProperty=this.constraint.getSubProperty(this.replacement.getModelState());
@@ -83,7 +76,6 @@ public class ReplacementChecker06Test {
 				);
 		
 		SatisfactionValue retValue=replacementChecker.perform();
-		System.out.println(replacementChecker.getLowerIntersectionBA());
 		assertTrue(retValue==SatisfactionValue.NOTSATISFIED);
 		
 		

@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.jgrapht.DirectedGraph;
 import org.jgrapht.Graphs;
 import org.jgrapht.graph.DirectedPseudograph;
@@ -42,22 +43,22 @@ public class BA implements Cloneable {
 	/**
 	 * contains the initial states of the Buchi automaton
 	 */
-	protected Set<State> initialStates;
+	protected @NonNull Set<@NonNull State> initialStates;
 
 	/**
 	 * contains the accepting states of the Buchi automaton
 	 */
-	protected Set<State> acceptStates;
+	protected @NonNull Set<@NonNull State> acceptStates;
 
 	/**
 	 * contains the set of the alphabet of the Buchi automaton
 	 */
-	protected Set<IGraphProposition> propositions;
+	protected @NonNull Set<@NonNull IGraphProposition> propositions;
 
 	/**
 	 * contains the graph on which the Buchi automaton is based
 	 */
-	protected DirectedPseudograph<State, Transition> automataGraph;
+	protected @NonNull DirectedPseudograph<@NonNull State, @NonNull Transition> automataGraph;
 
 	/**
 	 * creates a new empty Buchi automaton
@@ -66,7 +67,8 @@ public class BA implements Cloneable {
 	 *            is the factory which is used to create the transitions of the
 	 *            Buchi automaton
 	 */
-	public BA(TransitionFactory<State, Transition> transitionFactory) {
+	public BA(
+			@NonNull TransitionFactory<@NonNull State, @NonNull Transition> transitionFactory) {
 		Preconditions.checkNotNull(transitionFactory,
 				"The transition factory cannot be null");
 
@@ -83,7 +85,7 @@ public class BA implements Cloneable {
 	 * 
 	 * @return the set of initial states of the Buchi automaton
 	 */
-	public Set<State> getInitialStates() {
+	public @NonNull Set<State> getInitialStates() {
 		return this.initialStates;
 	}
 
@@ -92,7 +94,7 @@ public class BA implements Cloneable {
 	 * 
 	 * @return the set of the states of the Buchi automaton
 	 */
-	public Set<State> getStates() {
+	public @NonNull Set<State> getStates() {
 		return Collections.unmodifiableSet(this.automataGraph.vertexSet());
 	}
 
@@ -101,7 +103,7 @@ public class BA implements Cloneable {
 	 * 
 	 * @return set of the accepting states of the Buchi automaton
 	 */
-	public Set<State> getAcceptStates() {
+	public @NonNull Set<State> getAcceptStates() {
 		return this.acceptStates;
 	}
 
@@ -110,7 +112,7 @@ public class BA implements Cloneable {
 	 * 
 	 * @return the propositions of the Buchi automaton
 	 */
-	public Set<IGraphProposition> getPropositions() {
+	public @NonNull Set<IGraphProposition> getPropositions() {
 		return Collections.unmodifiableSet(propositions);
 	}
 
@@ -119,7 +121,7 @@ public class BA implements Cloneable {
 	 * 
 	 * @return the set of the transitions of the Buchi automaton
 	 */
-	public Set<Transition> getTransitions() {
+	public @NonNull Set<Transition> getTransitions() {
 		return this.automataGraph.edgeSet();
 	}
 
@@ -137,7 +139,7 @@ public class BA implements Cloneable {
 	 *             if the state is not contained into the set of state of the
 	 *             Buchi automaton
 	 */
-	public Set<Transition> getOutTransitions(State state) {
+	public @NonNull Set<Transition> getOutTransitions(@NonNull State state) {
 		Preconditions.checkNotNull(state, "The state s cannot be null");
 		Preconditions
 				.checkArgument(
@@ -164,7 +166,7 @@ public class BA implements Cloneable {
 	 *             if the state is not contained into the set of state of the
 	 *             Buchi automaton
 	 */
-	public Set<Transition> getInTransitions(State state) {
+	public @NonNull Set<Transition> getInTransitions(@NonNull State state) {
 		Preconditions.checkNotNull(state, "The state s cannot be null");
 		Preconditions
 				.checkArgument(
@@ -189,7 +191,8 @@ public class BA implements Cloneable {
 	 *             if the transition is not contained in the set of transitions
 	 *             of the automaton
 	 */
-	public State getTransitionDestination(Transition transition) {
+	public @NonNull State getTransitionDestination(
+			@NonNull Transition transition) {
 		Preconditions.checkNotNull(transition,
 				"The transition t cannot be null");
 		Preconditions
@@ -215,7 +218,7 @@ public class BA implements Cloneable {
 	 *             if the transition is not contained in the set of transitions
 	 *             of the automaton
 	 */
-	public State getTransitionSource(Transition transition) {
+	public @NonNull State getTransitionSource(@NonNull Transition transition) {
 		Preconditions.checkNotNull(transition,
 				"The transition t cannot be null");
 		Preconditions
@@ -231,6 +234,8 @@ public class BA implements Cloneable {
 	/**
 	 * returns the successors of the s
 	 * 
+	 * @param s
+	 *            the state whose successors must be returned
 	 * @throws NullPointerException
 	 *             if the state s is null
 	 * @throws IllegalArgumentException
@@ -238,7 +243,7 @@ public class BA implements Cloneable {
 	 *             the automaton
 	 * @return the successors of the state s
 	 */
-	public Set<State> getSuccessors(State s) {
+	public @NonNull Set<@NonNull State> getSuccessors(@NonNull State s) {
 		Preconditions.checkNotNull(s, "The state s cannot be null");
 		Preconditions.checkArgument(this.getStates().contains(s), "The state "
 				+ s + " is not contained into the states of the automaton");
@@ -250,6 +255,8 @@ public class BA implements Cloneable {
 	/**
 	 * returns the predecessors of a the state s
 	 * 
+	 * @param s
+	 *            the state whose predecessors must be returned
 	 * @throws NullPointerException
 	 *             if the state s is null
 	 * @throws IllegalArgumentException
@@ -257,7 +264,7 @@ public class BA implements Cloneable {
 	 *             the automaton
 	 * @return the predecessors of the state s
 	 */
-	public Set<State> getPredecessors(State s) {
+	public @NonNull Set<@NonNull State> getPredecessors(@NonNull State s) {
 		Preconditions.checkNotNull(s, "The state s cannot be null");
 		Preconditions.checkArgument(this.getStates().contains(s),
 				"The state is not contained into the states of the automaton");
@@ -276,7 +283,7 @@ public class BA implements Cloneable {
 	 * @throws NullPointerException
 	 *             if the state is null
 	 */
-	public void addInitialState(State state) {
+	public void addInitialState(@NonNull State state) {
 		Preconditions.checkNotNull(state,
 				"The state s to be added cannot be null");
 		this.initialStates.add(state);
@@ -295,7 +302,7 @@ public class BA implements Cloneable {
 	 * @throws NullPointerException
 	 *             if the set of the states or a specific state is null
 	 */
-	public void addInitialStates(Set<State> states) {
+	public void addInitialStates(@NonNull Set<@NonNull State> states) {
 		Preconditions.checkNotNull(states,
 				"The state to be added cannot be null");
 		for (State s : states) {
@@ -308,12 +315,12 @@ public class BA implements Cloneable {
 	 * contained into the state of the automaton it is also added to the states
 	 * of the automaton
 	 * 
-	 * @param state
+	 * @param s
 	 *            the state to be added as accepting state
 	 * @throws NullPointerException
 	 *             if the state is null
 	 */
-	public void addAcceptState(State s) {
+	public void addAcceptState(@NonNull State s) {
 		Preconditions.checkNotNull(s, "The state s to be added cannot be null");
 		this.acceptStates.add(s);
 		if (!this.getStates().contains(s)) {
@@ -332,7 +339,7 @@ public class BA implements Cloneable {
 	 * @throws NullPointerException
 	 *             if the states is null or if an element into the set is null
 	 */
-	public void addAcceptStates(Set<State> states) {
+	public void addAcceptStates(@NonNull Set<@NonNull State> states) {
 		Preconditions.checkNotNull(states,
 				"The state to be added cannot be null");
 		for (State s : states) {
@@ -351,7 +358,7 @@ public class BA implements Cloneable {
 	 * @throws NullPointerException
 	 *             if the state to be added is null
 	 */
-	public void addState(State state) {
+	public void addState(@NonNull State state) {
 		Preconditions.checkNotNull(state,
 				"The state to be added cannot be null");
 
@@ -377,7 +384,7 @@ public class BA implements Cloneable {
 	 *             if a state to be added is null or if the set of the states is
 	 *             null
 	 */
-	public void addStates(Set<State> states) {
+	public void addStates(@NonNull Set<@NonNull State> states) {
 		Preconditions.checkNotNull(states,
 				"The state to be added cannot be null");
 		for (State s : states) {
@@ -398,7 +405,7 @@ public class BA implements Cloneable {
 	 * @throws IllegalArgumentException
 	 *             if the proposition is negated
 	 */
-	public void addProposition(IGraphProposition proposition) {
+	public void addProposition(@NonNull IGraphProposition proposition) {
 		Preconditions.checkNotNull(proposition,
 				"The set of the proposition cannot be null");
 		Preconditions.checkArgument(!proposition.isNegated(),
@@ -418,7 +425,8 @@ public class BA implements Cloneable {
 	 *             if the set of the characters or any character inside the set
 	 *             is null
 	 */
-	public void addPropositions(Set<IGraphProposition> propositions) {
+	public void addPropositions(
+			@NonNull Set<@NonNull IGraphProposition> propositions) {
 		Preconditions.checkNotNull(propositions,
 				"The set of the characters cannot be null");
 		for (IGraphProposition l : propositions) {
@@ -427,7 +435,9 @@ public class BA implements Cloneable {
 	}
 
 	/**
-	 * add the transition t which connects the source and the destination state
+	 * add the transition t which connects the source and the destination state.
+	 * 
+	 * The ille
 	 * 
 	 * @param source
 	 *            is the source of the transition
@@ -440,18 +450,16 @@ public class BA implements Cloneable {
 	 *             is null
 	 * 
 	 * @throws IllegalArgumentException
-	 *             is generated in one of the following cases <br/>
-	 *             the label of the transition is not contained in the alphabet
-	 *             of the automaton <br/>
-	 *             the source is not contained into the set of the states of the
-	 *             automaton <br/>
-	 *             the destination of the transition is not contained into the
-	 *             set of the states of the automaton <br/>
-	 *             a transition that connect source to the destination is
+	 *             is generated in one of the following cases: 1) the label of
+	 *             the transition is not contained in the alphabet of the
+	 *             automaton 2) the source is not contained into the set of the
+	 *             states of the automaton 3) the destination of the transition
+	 *             is not contained into the set of the states of the automaton
+	 *             4) a transition that connect source to the destination is
 	 *             already present
 	 */
-	public void addTransition(State source, State destination,
-			Transition transition) {
+	public void addTransition(@NonNull State source,
+			@NonNull State destination, @NonNull Transition transition) {
 
 		Preconditions.checkNotNull(source, "The source state cannot be null");
 		Preconditions.checkNotNull(destination,
@@ -513,13 +521,15 @@ public class BA implements Cloneable {
 	 *            the source of the transition
 	 * @param destination
 	 *            the destination of the transition
+	 * @return true if and oly if the destination is a successor of the source
 	 * @throws NullPointerException
 	 *             if the source of the destination is null
 	 * @throws IllegalArgumentException
 	 *             if the source or the destination are not contained into the
 	 *             set of the states of the BA
 	 */
-	public boolean isPredecessor(State source, State destination) {
+	public boolean isPredecessor(@NonNull State source,
+			@NonNull State destination) {
 		Preconditions.checkNotNull(source, "The source state cannot be null");
 		Preconditions.checkNotNull(destination,
 				"The destination state cannot be null");
@@ -549,7 +559,7 @@ public class BA implements Cloneable {
 	 * state != null
 	 * </pre>
 	 */
-	public void removeState(State state) {
+	public void removeState(@NonNull State state) {
 		Preconditions.checkNotNull(state, "The state to removed is null");
 		Preconditions
 				.checkArgument(
@@ -558,12 +568,8 @@ public class BA implements Cloneable {
 								+ state.getId()
 								+ " to removed is not contained into the set of the states of the Buchi automaton");
 
-		if (this.initialStates.contains(state)) {
-			this.initialStates.remove(state);
-		}
-		if (this.acceptStates.contains(state)) {
-			this.acceptStates.remove(state);
-		}
+		this.initialStates.remove(state);
+		this.acceptStates.remove(state);
 		this.automataGraph.removeVertex(state);
 	}
 
@@ -580,7 +586,7 @@ public class BA implements Cloneable {
 	 *             if the transition to be removed is not contained into the set
 	 *             of transitions of the automaton
 	 */
-	public void removeTransition(Transition transition) {
+	public void removeTransition(@NonNull Transition transition) {
 		Preconditions.checkNotNull(transition,
 				"The transition to be removed cannot be null");
 		Preconditions
@@ -605,7 +611,7 @@ public class BA implements Cloneable {
 	 *             if the state to be removed is not contained into the set of
 	 *             the accepting states of the Buchi automaton
 	 */
-	public void removeAcceptingState(State state) {
+	public void removeAcceptingState(@NonNull State state) {
 		Preconditions.checkNotNull(state, "The state cannot be null");
 		Preconditions
 				.checkArgument(
@@ -631,7 +637,7 @@ public class BA implements Cloneable {
 	 *             if the state to be removed is not contained into the set of
 	 *             the initial states of the Buchi automaton
 	 */
-	public void removeInitialState(State state) {
+	public void removeInitialState(@NonNull State state) {
 		Preconditions.checkNotNull(state, "The state cannot be null");
 		Preconditions
 				.checkArgument(
@@ -708,7 +714,8 @@ public class BA implements Cloneable {
 	 *             Buchi automaton or if it does not exists a transition that
 	 *             connect the source and the destination state
 	 */
-	public Set<Transition> getTransitions(State source, State destination) {
+	public @NonNull Set<@NonNull Transition> getTransitions(
+			@NonNull State source, @NonNull State destination) {
 		Preconditions.checkNotNull(source, "The source state cannot be null");
 		Preconditions.checkNotNull(destination,
 				"The destination state cannot be null");
@@ -742,7 +749,7 @@ public class BA implements Cloneable {
 	 *             if the source or the destination are not contained into the
 	 *             set of the states of the automaton
 	 */
-	public boolean isSuccessor(State source, State destination) {
+	public boolean isSuccessor(@NonNull State source, @NonNull State destination) {
 		Preconditions.checkNotNull(source, "The source state cannot be null");
 		Preconditions.checkNotNull(destination,
 				"The destination state cannot be null");
@@ -769,7 +776,7 @@ public class BA implements Cloneable {
 	 *             if the state s is not contained into the set of the states of
 	 *             the automaton
 	 */
-	public void addStuttering(State s) {
+	public void addStuttering(@NonNull State s) {
 		Preconditions.checkNotNull(s, "The state s cannot be null");
 		Preconditions
 				.checkArgument(
@@ -794,8 +801,8 @@ public class BA implements Cloneable {
 	 * @return the reference of the {@link TransitionFactory} on which the BA is
 	 *         based
 	 */
-	public TransitionFactory<State, Transition> getTransitionFactory() {
-		return (TransitionFactory<State, Transition>) this.automataGraph
+	public TransitionFactory<@NonNull State, @NonNull Transition> getTransitionFactory() {
+		return (TransitionFactory<@NonNull State, @NonNull Transition>) this.automataGraph
 				.getEdgeFactory();
 	}
 
@@ -804,7 +811,7 @@ public class BA implements Cloneable {
 	 * 
 	 * @return the graph over which the BA is constructed
 	 */
-	public DirectedGraph<State, Transition> getGraph() {
+	public DirectedGraph<@NonNull State, @NonNull Transition> getGraph() {
 		return new UnmodifiableDirectedGraph<State, Transition>(
 				this.automataGraph);
 	}

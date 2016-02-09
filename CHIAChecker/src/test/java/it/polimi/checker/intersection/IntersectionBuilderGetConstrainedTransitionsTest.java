@@ -209,7 +209,6 @@ public class IntersectionBuilderGetConstrainedTransitionsTest {
 
 		intersectionBuilder.getIntersectionState(
 				modelState1, claimState1, 0);
-		System.out.println(intersectionBuilder.getClaimIntersectionStates(claimState3));
 		assertEquals(
 				"The state of the model returned corresponds to the state of the model", 2,
 				intersectionBuilder.getConstrainedTransitions(modelState2).size());

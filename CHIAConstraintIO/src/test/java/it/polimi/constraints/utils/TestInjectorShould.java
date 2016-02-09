@@ -30,7 +30,6 @@ public class TestInjectorShould {
 		replacement = new ReplacementReader(new File(getClass()
 				.getClassLoader().getResource(path + "replacement.xml")
 				.getFile())).perform();
-		System.out.println(replacement);
 		generatedRefinedModel = new Injector(model, replacement).perform();
 	}
 

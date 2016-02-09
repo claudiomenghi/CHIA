@@ -57,9 +57,7 @@ public class ModelReader extends XMLReader<IBA> {
 
 	/**
 	 * creates a new Buchi automaton reader which can be used to read a Buchi
-	 * automaton through the method
-	 * 
-	 * @see ClaimReader#read()
+	 * automaton through the method. See {@link ClaimReader#perform()}
 	 * 
 	 * @param file
 	 *            is the reader from which the Buchi automaton must be loaded

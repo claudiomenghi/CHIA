@@ -111,10 +111,6 @@ public class ReachabilityIdentifierTest {
 
         assertTrue(subProperty.getOutgoingTransitions().size() == 2);
         assertTrue(subProperty.getIncomingTransitions().size() == 2);
-        System.out.println(subProperty.getLowerReachabilityRelation()
-                .getReachabilityAcceptingMap());
-        System.out.println(subProperty.getUpperReachabilityRelation()
-                .getReachabilityAcceptingMap());
         assertTrue(subProperty.getLowerReachabilityRelation()
                 .getReachabilityAcceptingMap().size() == 1);
         assertTrue(subProperty.getUpperReachabilityRelation()
@@ -192,10 +188,6 @@ public class ReachabilityIdentifierTest {
 
         assertTrue(subProperty.getOutgoingTransitions().size() == 2);
         assertTrue(subProperty.getIncomingTransitions().size() == 3);
-        System.out.println(subProperty.getLowerReachabilityRelation()
-                .getReachabilityAcceptingMap());
-        System.out.println(subProperty.getUpperReachabilityRelation()
-                .getReachabilityAcceptingMap());
         assertTrue(subProperty.getLowerReachabilityRelation()
                 .getReachabilityAcceptingMap().size() == 2);
         assertTrue(subProperty.getUpperReachabilityRelation()
@@ -273,10 +265,6 @@ public class ReachabilityIdentifierTest {
 
         assertTrue(subProperty.getOutgoingTransitions().size() == 2);
         assertTrue(subProperty.getIncomingTransitions().size() == 3);
-        System.out.println(subProperty.getLowerReachabilityRelation()
-                .getReachabilityAcceptingMap());
-        System.out.println(subProperty.getUpperReachabilityRelation()
-                .getReachabilityAcceptingMap());
         assertTrue(subProperty.getLowerReachabilityRelation()
                 .getReachabilityAcceptingMap().size() == 1);
         assertTrue(subProperty.getUpperReachabilityRelation()
@@ -358,10 +346,6 @@ public class ReachabilityIdentifierTest {
 
         assertTrue(subProperty.getOutgoingTransitions().size() == 2);
         assertTrue(subProperty.getIncomingTransitions().size() == 3);
-        System.out.println(subProperty.getLowerReachabilityRelation()
-                .getReachabilityAcceptingMap());
-        System.out.println(subProperty.getUpperReachabilityRelation()
-                .getReachabilityAcceptingMap());
         assertTrue(subProperty.getLowerReachabilityRelation()
                 .getReachabilityAcceptingMap().size() == 1);
         assertTrue(subProperty.getUpperReachabilityRelation()
@@ -451,10 +435,6 @@ public class ReachabilityIdentifierTest {
 
         assertTrue(subProperty.getOutgoingTransitions().size() == 6);
         assertTrue(subProperty.getIncomingTransitions().size() == 9);
-        System.out.println(subProperty.getLowerReachabilityRelation()
-                .getReachabilityAcceptingMap());
-        System.out.println(subProperty.getUpperReachabilityRelation()
-                .getReachabilityAcceptingMap());
         assertTrue(subProperty.getLowerReachabilityRelation()
                 .getReachabilityAcceptingMap().size() == 5);
         assertTrue(subProperty.getUpperReachabilityRelation()

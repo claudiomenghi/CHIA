@@ -59,7 +59,6 @@ public class ConstraintComputation5Test {
 		Constraint constraint = cg.perform();
 
 		
-		System.out.println(constraint);
 		SubProperty subProperty=constraint.getSubProperty(new StateFactory().create("t0", 1));
 		
 		State subPropertyInitialState=subProperty.getAutomaton().getInitialStates().iterator().next();

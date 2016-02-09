@@ -40,8 +40,6 @@ public class Constraint {
 	/**
 	 * creates a new empty constraint
 	 * 
-	 * @param subProperty
-	 *            is the sub-property to be associated to the constraint
 	 */
 	public Constraint() {
 		this.subProperties = new HashSet<SubProperty>();

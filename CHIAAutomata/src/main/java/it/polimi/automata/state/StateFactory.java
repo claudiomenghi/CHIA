@@ -1,20 +1,19 @@
 package it.polimi.automata.state;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 import org.jgrapht.VertexFactory;
 
 import com.google.common.base.Preconditions;
 
 /**
- * Is the factory which  allows to create states of the type State
- * 
- * @see {@link State}. 
+ * Is the factory which  allows to create states of the type State {@link State}. 
  * 
  * @author Claudio Menghi
  * 
  */
 public class StateFactory extends AbstractStateFactory implements VertexFactory<State> {
-
-	
 
 	/**
 	 * crates a new state with an empty name the id is auto-assigned to the
@@ -22,7 +21,7 @@ public class StateFactory extends AbstractStateFactory implements VertexFactory<
 	 * 
 	 * @return a new state with an empty name and an auto-assigned id
 	 */
-	public State create() {
+	public @NotNull State create() {
 
 		State s = new State(Integer.toString(StateFactory.stateCount),
 				StateFactory.stateCount);
@@ -43,7 +42,7 @@ public class StateFactory extends AbstractStateFactory implements VertexFactory<
 	 * @throws NullPointerException
 	 *             if the name of the state is null
 	 */
-	public State create(String name) {
+	public @NotNull State create(@NotNull String name) {
 		Preconditions
 				.checkNotNull(name, "The name of the state cannot be null");
 
@@ -69,7 +68,7 @@ public class StateFactory extends AbstractStateFactory implements VertexFactory<
 	 *             if the name of the state is null
 	 * 
 	 */
-	public State create(String name, int id) {
+	public @NotNull State create(@NotNull String name, @Min(0) int id) {
 		Preconditions
 				.checkNotNull(name, "The name of the state cannot be null");
 		Preconditions.checkArgument(id >= 0,
@@ -89,7 +88,7 @@ public class StateFactory extends AbstractStateFactory implements VertexFactory<
 	 * @return a new state with an auto assigned id and an empty name
 	 */
 	@Override
-	public State createVertex() {
+	public @NotNull State createVertex() {
 		return this.create();
 	}
 }

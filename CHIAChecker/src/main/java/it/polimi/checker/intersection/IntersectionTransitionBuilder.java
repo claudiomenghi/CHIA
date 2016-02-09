@@ -84,17 +84,15 @@ public class IntersectionTransitionBuilder {
 	 *            is the transition of the claim to be fired
 	 * @return true if the label of the transition of model satisfies the label
 	 *         of the transition of the claim
-	 *         <ul>
-	 *         <li>returns true if the stuttering character is contained both on
-	 *         the model and the claim label</li>
-	 *         <li>returns true if the Sigma proposition is</li>
-	 *         <li>returns false if there is a claim proposition that is
+	 *         1) returns true if the stuttering character is contained both on
+	 *         the model and the claim label
+	 *         2) returns true if the Sigma proposition is
+	 *         3) returns false if there is a claim proposition that is
 	 *         negated, but the proposition is contained in the labels of the
-	 *         model</li>
-	 *         <li>returns false if there is a claim proposition that is not
+	 *         model
+	 *         4) returns false if there is a claim proposition that is not
 	 *         negated, but the proposition is not contained inside the set of
-	 *         propositions of the model</li>
-	 *         <ul>
+	 *         propositions of the model
 	 * 
 	 * @throws NullPointerException
 	 *             if the transition of the model or the transition of the claim
@@ -118,17 +116,15 @@ public class IntersectionTransitionBuilder {
 	 * @param claimLabel
 	 *            is the label of the claim
 	 * @return true if the label of the model satisfies the label of the claim
-	 *         <ul>
-	 *         <li>returns true if the stuttering character is contained both on
-	 *         the model and the claim label</li>
-	 *         <li>returns true if the sigma proposition is</li>
-	 *         <li>returns false if there is a claim proposition that is
+	 *         1) returns true if the stuttering character is contained both on
+	 *         the model and the claim label
+	 *         2) returns true if the sigma proposition is
+	 *         3) returns false if there is a claim proposition that is
 	 *         negated, but the proposition is contained in the labels of the
-	 *         model</li>
-	 *         <li>returns false if there is a claim proposition that is not
+	 *         model
+	 *         4) returns false if there is a claim proposition that is not
 	 *         negated, but the proposition is not contained inside the set of
-	 *         propositions of the model</li>
-	 *         <ul>
+	 *         propositions of the model
 	 * 
 	 */
 	protected boolean satisfies(Set<IGraphProposition> modelLabel,

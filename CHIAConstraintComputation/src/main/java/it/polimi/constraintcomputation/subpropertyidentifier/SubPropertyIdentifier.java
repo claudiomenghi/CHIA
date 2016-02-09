@@ -412,7 +412,6 @@ public class SubPropertyIdentifier extends CHIAAction<SubProperty> {
         LabeledPluggingTransition pluggingTransition=mapIntersectionTransitionOutgoingTransition
                 .get(intersectionTransition);
         if(!this.subProperty.getOutgoingTransitions().contains(pluggingTransition)){
-            System.out.println( this.subProperty.getOutgoingTransitions());
             throw new InternalError("The transition "+pluggingTransition+" is not contained into the set of outgoing transitions of the subProperty");
         }
 
@@ -445,7 +444,6 @@ public class SubPropertyIdentifier extends CHIAAction<SubProperty> {
         LabeledPluggingTransition pluggingTransition=mapIntersectionTransitionIncomingTransition
                 .get(intersectionTransition);
         if(!this.subProperty.getIncomingTransitions().contains(pluggingTransition)){
-            System.out.println( this.subProperty.getIncomingTransitions());
             throw new InternalError("The transition "+pluggingTransition+" is not contained into the set of incoming transitions of the subProperty");
         }
         return pluggingTransition;

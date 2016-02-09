@@ -8,6 +8,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.validation.constraints.NotNull;
+
 import rwth.i2.ltl2ba4j.model.IGraphProposition;
 
 import com.google.common.base.Preconditions;
@@ -25,12 +27,15 @@ public class IBA extends BA {
 	/**
 	 * contains the set of the black box states of the automaton
 	 */
-	private Set<State> blackBoxesStates;
+	private @NotNull Set<State> blackBoxesStates;
 
 	/**
 	 * creates a new incomplete Buchi automaton
+	 * 
+	 * @param transitionFactory
+	 *            the factory to be used in the creation of the transitions
 	 */
-	public IBA(TransitionFactory<State, Transition> transitionFactory) {
+	public IBA(@NotNull TransitionFactory<State, Transition> transitionFactory) {
 		super(transitionFactory);
 		this.blackBoxesStates = new HashSet<State>();
 	}
@@ -49,7 +54,7 @@ public class IBA extends BA {
 	 *             if the state is not contained into the set of the states of
 	 *             the automaton
 	 */
-	public boolean isBlackBox(State s) {
+	public boolean isBlackBox(@NotNull State s) {
 		Preconditions.checkNotNull(s, "The state to be added cannot be null");
 		Preconditions
 				.checkArgument(this.getStates().contains(s),
@@ -64,7 +69,7 @@ public class IBA extends BA {
 	 * @return the set of the black box states of the Incomplete Buchi Automaton
 	 *         (if no black box states are present an empty set is returned)
 	 */
-	public Set<State> getBlackBoxStates() {
+	public @NotNull Set<State> getBlackBoxStates() {
 		return Collections.unmodifiableSet(this.blackBoxesStates);
 	}
 

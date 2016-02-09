@@ -6,6 +6,7 @@ package it.polimi.statemachine.events;
  * @author Claudio Menghi
  *
  * @param <C>
+ *            the console
  */
 public interface CommandEvent<C> {
 	/**
@@ -58,6 +59,7 @@ public interface CommandEvent<C> {
 	 * @param console
 	 *            the console to be modified
 	 * @throws Exception
+	 *             if the command execution generates an exception
 	 */
 	public void executeCommand(String command, C console) throws Exception;
 }

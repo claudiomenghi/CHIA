@@ -11,6 +11,16 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
+			<name>org.jmlspecs.OpenJMLUI.JMLBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>ch.ethz.inf.pm.jml.plugin.CheckerBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
 			<name>org.eclipse.m2e.core.maven2Builder</name>
 			<arguments>
 			</arguments>
@@ -19,5 +29,7 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.m2e.core.maven2Nature</nature>
+		<nature>org.jmlspecs.OpenJMLUI.JMLNatureID</nature>
+		<nature>ch.ethz.inf.pm.jml.plugin.CheckerNature</nature>
 	</natures>
 </projectDescription>
