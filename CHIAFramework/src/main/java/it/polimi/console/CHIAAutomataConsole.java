@@ -199,7 +199,9 @@ public class CHIAAutomataConsole {
 				LTLtoBATransformer action = new LTLtoBATransformer("!("
 						+ ltlProperty + ")");
 				this.claim = action.perform();
-				System.out.println(new ClaimToStringTrasformer(claim));
+				out.println("Property loaded");
+				out.println("N° states: " + this.claim.getStates().size());
+				out.println("N° transitions:" + this.claim.getTransitions().size());
 
 			} catch (UnsatisfiedLinkError e) {
 				LOGGER.info(e.getMessage());
