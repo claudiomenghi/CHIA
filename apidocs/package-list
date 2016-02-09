@@ -1,7 +1,8 @@
-it.polimi.constraints.io
-it.polimi.constraints.io.in.constraint
-it.polimi.constraints.io.in.replacement
-it.polimi.constraints.io.out
-it.polimi.constraints.io.out.constraint
-it.polimi.constraints.io.out.constraint.reachability
-it.polimi.constraints.io.out.replacement
+it.polimi.constraintcomputation
+it.polimi.constraintcomputation.cleaner
+it.polimi.constraintcomputation.reachability
+it.polimi.constraintcomputation.reachability.statepresence
+it.polimi.constraintcomputation.reachability.statepresence.acceptingclaim
+it.polimi.constraintcomputation.reachability.statepresence.acceptingmodel
+it.polimi.constraintcomputation.subpropertyidentifier
+it.polimi.constraintcomputation.subpropertyidentifier.labeling
