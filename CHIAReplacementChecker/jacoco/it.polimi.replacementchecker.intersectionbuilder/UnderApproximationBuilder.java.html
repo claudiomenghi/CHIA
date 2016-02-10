@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>UnderApproximationBuilder.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CHIAReplacementChecker</a> &gt; <a href="index.source.html" class="el_package">it.polimi.replacementchecker.intersectionbuilder</a> &gt; <span class="el_source">UnderApproximationBuilder.java</span></div><h1>UnderApproximationBuilder.java</h1><pre class="source lang-java linenums">package it.polimi.replacementchecker.intersectionbuilder;
+
+import it.polimi.automata.IntersectionBA;
+import it.polimi.automata.state.State;
+import it.polimi.checker.intersection.acceptingpolicies.AcceptingPolicy;
+import it.polimi.constraints.components.Replacement;
+import it.polimi.constraints.components.SubProperty;
+
+import com.google.common.base.Preconditions;
+
+/**
+ * is used to compute the under approximation automaton
+ * 
+ * @author Claudio Menghi
+ *
+ */
+public class UnderApproximationBuilder {
+
+
+    /**
+     * is the intersection builder used to compute the intersection automaton
+     */
+    private final ReplacementIntersectionBuilder replacementIntersectionBuilder;
+
+    /**
+     * creates a new {@link UnderApproximationBuilder}. The over-approximation
+     * builder computes an over approximation of the intersection automaton
+     * between the replacement and the sub-property
+     * 
+     * @param replacement
+     *            the replacement to be considered
+     * @param subproperty
+     *            the sub-property under analysis
+     * @param acceptingPolicy
+     *            the accepting policy to be used in the computation of the
+     *            intersection
+     * @throws NullPointerException
+     *             if one of the parameters is null
+     */
+    public UnderApproximationBuilder(Replacement replacement,
+<span class="fc" id="L41">            SubProperty subproperty, AcceptingPolicy acceptingPolicy) {</span>
+<span class="fc" id="L42">        Preconditions.checkNotNull(replacement,</span>
+                &quot;The replacement to be considered cannot be null&quot;);
+<span class="fc" id="L44">        Preconditions.checkNotNull(subproperty,</span>
+                &quot;The sub=property to be considered cannot be null&quot;);
+<span class="fc" id="L46">        Preconditions.checkNotNull(acceptingPolicy,</span>
+                &quot;The accepting policy to be considered cannot be null&quot;);
+
+<span class="fc" id="L49">        replacementIntersectionBuilder = new ReplacementIntersectionBuilder(</span>
+                replacement, subproperty, true);
+<span class="fc" id="L51">    }</span>
+
+    /**
+     * returns the intersection automaton
+     * 
+     * @return the intersection automaton
+     */
+    public IntersectionBA perform() {
+<span class="fc" id="L59">        return replacementIntersectionBuilder.perform();</span>
+    }
+
+    /**
+     * returns true if the state of the intersection is the green state
+     * 
+     * @param intersectionState
+     *            is the intersection state to be considered
+     * @return true if the state is the green state
+     */
+    public boolean isGreenState(State intersectionState) {
+<span class="fc" id="L70">        return this.replacementIntersectionBuilder</span>
+<span class="fc" id="L71">                .isGreenState(intersectionState);</span>
+    }
+
+    /**
+     * returns true if the state of the intersection is the red state
+     * 
+     * @param intersectionState
+     *            is the intersection state to be considered
+     * @return true if the state is the red state
+     */
+    public boolean isRedState(State intersectionState) {
+<span class="fc" id="L82">        return this.replacementIntersectionBuilder</span>
+<span class="fc" id="L83">                .isRedState(intersectionState);</span>
+    }
+
+    /**
+     * returns the state of the model associated with the specified intersection
+     * state. No intersection states are associated with the green and the red
+     * state.
+     * 
+     * 
+     * @param intersectionState
+     *            the intersection state to be considered
+     * @return the state of the model associated with the specified intersection
+     *         state
+     * @throws NullPointerException
+     *             if the state to be considered is null
+     * @throws IllegalArgumentException
+     *             if the state is not a state of the intersection automaton. If
+     *             the state is the green initial, the yellow initial, the red
+     *             accepting or the yellow accepting state
+     */
+    public State getModelState(State intersectionState) {
+<span class="fc" id="L104">        return this.replacementIntersectionBuilder</span>
+<span class="fc" id="L105">                .getModelState(intersectionState);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

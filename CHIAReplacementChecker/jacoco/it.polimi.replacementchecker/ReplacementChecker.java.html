@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ReplacementChecker.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CHIAReplacementChecker</a> &gt; <a href="index.source.html" class="el_package">it.polimi.replacementchecker</a> &gt; <span class="el_source">ReplacementChecker.java</span></div><h1>ReplacementChecker.java</h1><pre class="source lang-java linenums">package it.polimi.replacementchecker;
+
+import it.polimi.action.CHIAAction;
+import it.polimi.automata.IntersectionBA;
+import it.polimi.automata.state.State;
+import it.polimi.automata.transition.Transition;
+import it.polimi.checker.SatisfactionValue;
+import it.polimi.checker.emptiness.EmptinessChecker;
+import it.polimi.checker.intersection.acceptingpolicies.AcceptingPolicy;
+import it.polimi.constraints.components.Replacement;
+import it.polimi.constraints.components.SubProperty;
+import it.polimi.replacementchecker.intersectionbuilder.OverApproximationBuilder;
+import it.polimi.replacementchecker.intersectionbuilder.UnderApproximationBuilder;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map.Entry;
+
+import com.google.common.base.Preconditions;
+
+/**
+ * Checking whether a replacement satisfies a constraint can be reduced to two
+ * emptiness checking problems. The first emptiness checking procedure considers
+ * an automaton which encodes the set of behaviors the system is going to
+ * exhibit at run-time (an under approximation), and checks whether the property
+ * is violated, the second analyzes an automaton which also contains the
+ * behaviors the system may exhibit (an over approximation).
+ * 
+ * &lt;p&gt;
+ * Is used to check the replacement of a black box state i.e., check whether the
+ * original property is satisfied, possibly satisfied or not satisfied given a
+ * specific replacement. It uses the {@link UnderApproximationBuilder} and the
+ * {@link OverApproximationBuilder} to build the lower and the upper
+ * intersection automaton.
+ * &lt;/p&gt;
+ * 
+ * &lt;p&gt;
+ * It takes as input the constraint and a replacement for one of the black box
+ * states involved in the constraint. The method check returns the
+ * {@link SatisfactionValue} SATISFIED if the property is satisfied given the
+ * current replacement, the {@link SatisfactionValue} POSSIBLYSATISFIED if the
+ * property is possibly satisfied or the {@link SatisfactionValue} NOTSATISFIED
+ * if the property is not satisfied. When a POSSIBLYSATISFIED value is generated
+ * the satisfaction of the property may depends on the refinement of other black
+ * box states involved in the constraint or on the refinement of the black box
+ * states of the model specified into the replacement itself.
+ * &lt;/p&gt;
+ * 
+ * 
+ * @author claudiomenghi
+ */
+public class ReplacementChecker extends CHIAAction&lt;SatisfactionValue&gt; {
+
+	/**
+	 * the name of the action
+	 */
+	private static final String NAME = &quot;REPLACEMENT CHECKER&quot;;
+	/**
+	 * contains the replacement to be verified
+	 */
+	private final Replacement replacement;
+
+	/**
+	 * the sub-property to be considered
+	 */
+	private final SubProperty subproperty;
+
+	private UnderApproximationBuilder underApproximationBuilder;
+
+	private final AcceptingPolicy acceptingPolicy;
+
+	private IntersectionBA upperIntersectionBA;
+
+	private IntersectionBA underApproximationIntersectionBA;
+
+	private boolean isTriviallySatisfied;
+
+	private List&lt;Entry&lt;State, Transition&gt;&gt; couterexample;
+
+	/**
+	 * contains if the replacement satisfies, possibly satisfies or does not
+	 * satisfy the property of interest
+	 */
+	private SatisfactionValue satisfaction;
+
+	/**
+	 * creates a new Refinement Checker. The refinement checker is used to check
+	 * the refinement of a black box state. The refinement checker updates the
+	 * constraint associated with the black box state and the constraints
+	 * associated with the other black box states.
+	 * 
+	 * @param replacement
+	 *            the replacement to be considered
+	 * @param subProperty
+	 *            the sub-property to be considered
+	 * @param acceptingPolicy
+	 *            is the policy to be used in computing the accepting states
+	 * @throws NullPointerException
+	 *             if one of the parameters is null
+	 * @throws IllegalArgumentException
+	 *             if the sub-property and the replacement refer to different
+	 *             black box states
+	 */
+	public ReplacementChecker(Replacement replacement, SubProperty subProperty,
+			AcceptingPolicy acceptingPolicy) {
+<span class="fc" id="L106">		super(NAME);</span>
+<span class="fc" id="L107">		Preconditions.checkNotNull(subProperty,</span>
+				&quot;The constraint to be checked cannot be null&quot;);
+<span class="fc" id="L109">		Preconditions.checkNotNull(replacement,</span>
+				&quot;The constraint to be checked cannot be null&quot;);
+<span class="fc" id="L111">		Preconditions.checkNotNull(acceptingPolicy,</span>
+				&quot;The acceptingPolicy cannot be null&quot;);
+<span class="fc" id="L113">		this.acceptingPolicy = acceptingPolicy;</span>
+<span class="fc" id="L114">		Preconditions</span>
+<span class="fc" id="L115">				.checkArgument(</span>
+<span class="fc" id="L116">						subProperty.getModelState().equals(</span>
+<span class="fc" id="L117">								replacement.getModelState()),</span>
+						&quot;The sub-property and the replacement must refer to the same model state\\&quot;
+								+ &quot;The sub-property refers to the model state&quot;
+<span class="fc" id="L120">								+ subProperty.getModelState()</span>
+								+ &quot;\\&quot;
+								+ &quot;while the replacement refers to the model state&quot;
+<span class="fc" id="L123">								+ replacement.getModelState());</span>
+<span class="fc" id="L124">		this.replacement = replacement;</span>
+<span class="fc" id="L125">		this.subproperty = subProperty;</span>
+<span class="fc" id="L126">		this.setTriviallySatisfied(true);</span>
+<span class="fc" id="L127">	}</span>
+
+	/**
+	 * returns the updated constraint
+	 * 
+	 * @return the updated constraint
+	 */
+	@Override
+	public SatisfactionValue perform() {
+
+<span class="fc bfc" id="L137" title="All 2 branches covered.">		if (this.checkNotSatisfied()) {</span>
+<span class="fc" id="L138">			this.performed();</span>
+<span class="fc" id="L139">			satisfaction = SatisfactionValue.NOTSATISFIED;</span>
+<span class="fc" id="L140">			return SatisfactionValue.NOTSATISFIED;</span>
+		}
+<span class="fc bfc" id="L142" title="All 2 branches covered.">		if (this.checkPossiblySatisfied()) {</span>
+<span class="fc" id="L143">			this.performed();</span>
+<span class="fc" id="L144">			satisfaction = SatisfactionValue.POSSIBLYSATISFIED;</span>
+<span class="fc" id="L145">			return SatisfactionValue.POSSIBLYSATISFIED;</span>
+		}
+
+<span class="fc" id="L148">		this.performed();</span>
+<span class="fc" id="L149">		satisfaction = SatisfactionValue.SATISFIED;</span>
+<span class="fc" id="L150">		return SatisfactionValue.SATISFIED;</span>
+	}
+
+	private boolean checkNotSatisfied() {
+
+<span class="fc" id="L155">		underApproximationBuilder = new UnderApproximationBuilder(replacement,</span>
+				subproperty, acceptingPolicy);
+
+<span class="fc" id="L158">		this.underApproximationIntersectionBA = underApproximationBuilder</span>
+<span class="fc" id="L159">				.perform();</span>
+<span class="fc" id="L160">		EmptinessChecker emptinessChecker = new EmptinessChecker(</span>
+				this.underApproximationIntersectionBA);
+
+<span class="fc bfc" id="L163" title="All 2 branches covered.">		if (!emptinessChecker.isEmpty()) {</span>
+<span class="fc" id="L164">			this.couterexample = emptinessChecker.getCounterExample();</span>
+
+<span class="fc" id="L166">			return true;</span>
+		}
+<span class="fc" id="L168">		return false;</span>
+
+	}
+
+	private boolean checkPossiblySatisfied() {
+
+<span class="fc bfc" id="L174" title="All 2 branches covered.">		if (!this.subproperty.isIndispensable()) {</span>
+<span class="fc" id="L175">			this.upperIntersectionBA = new IntersectionBA();</span>
+<span class="fc" id="L176">			this.setTriviallySatisfied(true);</span>
+<span class="fc" id="L177">			return true;</span>
+
+		}
+<span class="fc" id="L180">		this.setTriviallySatisfied(false);</span>
+<span class="fc" id="L181">		OverApproximationBuilder overApproximationBuilder = new OverApproximationBuilder(</span>
+				replacement, subproperty, acceptingPolicy);
+
+<span class="fc" id="L184">		this.upperIntersectionBA = overApproximationBuilder.perform();</span>
+
+<span class="fc" id="L186">		EmptinessChecker emptinessChecker = new EmptinessChecker(</span>
+				this.upperIntersectionBA);
+
+<span class="fc bfc" id="L189" title="All 2 branches covered.">		if (!emptinessChecker.isEmpty()) {</span>
+<span class="fc" id="L190">			return true;</span>
+		}
+<span class="fc" id="L192">		return false;</span>
+
+	}
+
+	/**
+	 * @return the replacement considered by the replacement checker
+	 */
+	public Replacement getReplacement() {
+<span class="fc" id="L200">		return replacement;</span>
+	}
+
+	/**
+	 * @return the sub-property considered by the replacement checker
+	 */
+	public SubProperty getSubproperty() {
+<span class="fc" id="L207">		return subproperty;</span>
+	}
+
+	/**
+	 * returns the upper intersection automaton
+	 * 
+	 * @return the upper intersection automaton
+	 * @throws IllegalStateException
+	 *             if the replacement checking procedure has not been completed
+	 */
+	public IntersectionBA getUpperIntersectionBA() {
+<span class="fc" id="L218">		Preconditions</span>
+<span class="fc" id="L219">				.checkState(this.isPerformed(),</span>
+						&quot;You must check the replacement before getting the intersection &quot;);
+<span class="fc bfc" id="L221" title="All 2 branches covered.">		Preconditions</span>
+<span class="fc" id="L222">				.checkState(</span>
+						this.upperIntersectionBA != null,
+						&quot;The upper intersection BA cannot be null, you cannot get the upper intersection automaton if the property is not possibly satisfied&quot;);
+<span class="fc" id="L225">		return this.upperIntersectionBA;</span>
+	}
+
+	/**
+	 * returns the lower intersection automaton
+	 * 
+	 * @return the lower intersection automaton
+	 * @throws IllegalStateException
+	 *             if the replacement checking procedure has not been completed
+	 */
+	public IntersectionBA getLowerIntersectionBA() {
+<span class="fc" id="L236">		Preconditions</span>
+<span class="fc" id="L237">				.checkState(this.isPerformed(),</span>
+						&quot;You must check the replacement before getting the intersection &quot;);
+<span class="fc" id="L239">		return this.underApproximationIntersectionBA;</span>
+	}
+
+	/**
+	 * returns the sum of the lower and the upper (if computed) automata size
+	 * 
+	 * @return the sum of the lower and the upper (if computed) automata size
+	 * @throws IllegalStateException
+	 *             if the replacement checking procedure has not been completed
+	 */
+	public int getIntersectionAutomataSize() {
+<span class="fc" id="L250">		Preconditions</span>
+<span class="fc" id="L251">				.checkState(this.isPerformed(),</span>
+						&quot;You must check the replacement before getting the intersection &quot;);
+<span class="fc" id="L253">		int res = this.underApproximationIntersectionBA.size();</span>
+<span class="fc bfc" id="L254" title="All 2 branches covered.">		if (this.upperIntersectionBA != null) {</span>
+<span class="fc" id="L255">			res = res + this.upperIntersectionBA.size();</span>
+		}
+<span class="fc" id="L257">		return res;</span>
+	}
+
+	/**
+	 * returns true if and only if the sub-property is possibly satisfied since
+	 * another black box state which may violate the property is present
+	 * 
+	 * @return the isTriviallySatisfied flag. returns true if a sub-property is
+	 *         possibly satisfied since another black box state which may
+	 *         violate the property is present
+	 */
+	public boolean isTriviallyPossiblySatisfied() {
+<span class="fc" id="L269">		return isTriviallySatisfied;</span>
+	}
+
+	/**
+	 * @param isTriviallySatisfied
+	 *            the isTriviallySatisfied to set
+	 */
+	public void setTriviallySatisfied(boolean isTriviallySatisfied) {
+<span class="fc" id="L277">		this.isTriviallySatisfied = isTriviallySatisfied;</span>
+<span class="fc" id="L278">	}</span>
+
+	/**
+	 * returns the counterexample, i.e., the set of states included in the
+	 * violating run
+	 * 
+	 * @return the counterexample, i.e., the set of states included in the
+	 *         violating run
+	 * @throws IllegalStateException
+	 *             if the sub-property is not NOT satisfied
+	 */
+	public List&lt;Entry&lt;State, Transition&gt;&gt; getCouterexample() {
+<span class="fc bfc" id="L290" title="All 2 branches covered.">		Preconditions</span>
+<span class="fc" id="L291">				.checkState(satisfaction == SatisfactionValue.NOTSATISFIED,</span>
+						&quot;To get the counterexample the sub-property must be not satisfied&quot;);
+<span class="fc" id="L293">		return couterexample;</span>
+	}
+
+	/**
+	 * returns the counterexample, it shows only the state of the model in the
+	 * counterexample trace
+	 * 
+	 * @return the counterexample, it shows only the state of the model in the
+	 *         counterexample trace
+	 * @throws IllegalStateException
+	 *             if the sub-property is not NOT satisfied
+	 */
+	public String getFilteredCounterexample() {
+
+<span class="fc bfc" id="L307" title="All 2 branches covered.">		Preconditions</span>
+<span class="fc" id="L308">				.checkState(satisfaction == SatisfactionValue.NOTSATISFIED,</span>
+						&quot;To get the counterexample the sub-property must be not satisfied&quot;);
+
+<span class="fc" id="L311">		StringBuilder builder = new StringBuilder();</span>
+
+<span class="fc" id="L313">		Iterator&lt;Entry&lt;State, Transition&gt;&gt; iterator = this.getCouterexample()</span>
+<span class="fc" id="L314">				.iterator();</span>
+<span class="fc bfc" id="L315" title="All 2 branches covered.">		while (iterator.hasNext()) {</span>
+<span class="fc" id="L316">			Entry&lt;State, Transition&gt; next = iterator.next();</span>
+
+<span class="fc bfc" id="L318" title="All 2 branches covered.">			if (this.underApproximationBuilder.isGreenState(next.getKey())) {</span>
+<span class="fc" id="L319">				builder.append(&quot;&lt;G-&gt;&quot; + next.getValue().getPropositions() + &quot;&gt;&quot;);</span>
+			} else {
+<span class="fc bfc" id="L321" title="All 2 branches covered.">				if (this.underApproximationBuilder.isRedState(next.getKey())) {</span>
+<span class="fc" id="L322">					builder.append(&quot;&lt;R&gt;&quot;);</span>
+				} else {
+<span class="fc" id="L324">					State modelState = this.underApproximationBuilder</span>
+<span class="fc" id="L325">							.getModelState(next.getKey());</span>
+<span class="fc" id="L326">					builder.append(&quot;&lt;&quot; + modelState.getId() + &quot;-&gt;&quot;</span>
+<span class="fc" id="L327">							+ next.getValue().getPropositions() + &quot;&gt;&quot;);</span>
+				}
+			}
+<span class="fc" id="L330">		}</span>
+<span class="fc" id="L331">		return builder.toString();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>
