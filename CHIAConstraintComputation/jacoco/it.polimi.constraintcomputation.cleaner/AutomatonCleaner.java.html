@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>AutomatonCleaner.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CHIAContraintComputation</a> &gt; <a href="index.source.html" class="el_package">it.polimi.constraintcomputation.cleaner</a> &gt; <span class="el_source">AutomatonCleaner.java</span></div><h1>AutomatonCleaner.java</h1><pre class="source lang-java linenums">package it.polimi.constraintcomputation.cleaner;
+
+import it.polimi.automata.BA;
+import it.polimi.automata.state.State;
+import it.polimi.automata.transition.Transition;
+import it.polimi.checker.emptiness.EmptinessChecker;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.apache.log4j.Logger;
+import org.jgrapht.alg.StrongConnectivityInspector;
+
+import com.google.common.base.Preconditions;
+
+/**
+ * The intersection cleaner  returns  the states from which it is not possible to reach an accepting
+ * state from the intersection automaton.
+ * 
+ * &lt;p&gt;
+ * Indeed, the states from which it is not possible to reach an accepting state are not useful in the
+ * constraint computation.
+ * &lt;/p&gt;
+ *  
+ * @author Claudio Menghi
+ * 
+ */
+public class AutomatonCleaner {
+
+    /**
+     * contains the CHIA logger
+     */
+<span class="fc" id="L35">    private static final Logger LOGGER = Logger</span>
+<span class="fc" id="L36">            .getLogger(AutomatonCleaner.class);</span>
+    /**
+     * contains the automaton to be considered by the {@link EmptinessChecker}
+     */
+    private final BA automaton;
+
+    /**
+     * creates a new Automaton Cleaner
+     * 
+     * @param automaton
+     *            contains the automaton from which the states that do not
+     *            belong to an infinite accepting run must be computed
+     * @throws NullPointerException
+     *             if one of the parameters is null
+     */
+    public AutomatonCleaner(BA automaton) {
+<span class="fc" id="L52">        super();</span>
+<span class="fc" id="L53">        Preconditions.checkNotNull(automaton, &quot;The automaton to be cleaned&quot;);</span>
+
+<span class="fc" id="L55">        this.automaton = automaton;</span>
+
+<span class="fc" id="L57">    }</span>
+
+    /**
+     * Returns  the states from which it is not possible to reach an accepting
+     * state from the intersection automaton.
+     * The procedure has a temporal complexity |S|+|T|, where |S| is the
+     * cardinality of the set of the states of the automaton and |T| is the
+     * cardinality of the set of transitions of the automaton
+     * 
+     * @return The set of the states that have been removed from the automaton
+     */
+    public Set&lt;State&gt; clean() {
+
+
+<span class="fc" id="L71">        LOGGER.debug(&quot;finding the strongly connected components&quot;);</span>
+        /*
+         * contains the set of the visited states
+         */
+<span class="fc" id="L75">        StrongConnectivityInspector&lt;State, Transition&gt; connectivityInspector = new StrongConnectivityInspector&lt;State, Transition&gt;(</span>
+<span class="fc" id="L76">                this.automaton.getGraph());</span>
+<span class="fc" id="L77">        List&lt;Set&lt;State&gt;&gt; connectedSets = connectivityInspector</span>
+<span class="fc" id="L78">                .stronglyConnectedSets();</span>
+
+        /*
+         * contains the set of the states that has been encountered by
+         * &lt;i&gt;some&lt;i&gt; invocation of the first DFS
+         */
+<span class="fc" id="L84">        Set&lt;State&gt; next = new HashSet&lt;State&gt;();</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">        for (Set&lt;State&gt; scc : connectedSets) {</span>
+<span class="fc bfc" id="L86" title="All 2 branches covered.">            if (!Collections.disjoint(scc, this.automaton.getAcceptStates())) {</span>
+                // if the strongly connected component has a size which is grater than 1 its states are added to the 
+                // states to be visited next since the strongly connected components are not trivial by definition
+<span class="fc bfc" id="L89" title="All 2 branches covered.">                if (scc.size() &gt; 1) {</span>
+<span class="fc" id="L90">                    next.addAll(scc);</span>
+                } else {
+                    // if the strongly connected component has exactly one state it means 
+                    // it must have a self loop for not being a trivial strongly connected
+                    // component and thus to have an infinite accepting loop
+<span class="fc" id="L95">                    State scState = scc.iterator().next();</span>
+<span class="fc bfc" id="L96" title="All 2 branches covered.">                    if (this.automaton.getSuccessors(scState).contains(scState)) {</span>
+<span class="fc" id="L97">                        next.add(scState);</span>
+                    }
+                }
+            }
+<span class="fc" id="L101">        }</span>
+
+<span class="fc" id="L103">        LOGGER.debug(&quot;The set of the states in next has size: &quot;+next.size());</span>
+        // by starting from the states in the set next the state space is explored and the
+        // visited states are added to the set visited
+<span class="fc" id="L106">        Set&lt;State&gt; visited = new HashSet&lt;State&gt;();</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">        while (!next.isEmpty()) {</span>
+
+<span class="fc" id="L109">            State currentState = next.iterator().next();</span>
+<span class="fc" id="L110">            visited.add(currentState);</span>
+<span class="fc" id="L111">            next.remove(currentState);</span>
+
+<span class="fc" id="L113">            Set&lt;State&gt; potentialNext = new HashSet&lt;State&gt;(</span>
+<span class="fc" id="L114">                    this.automaton.getPredecessors(currentState));</span>
+<span class="fc" id="L115">            potentialNext.removeAll(visited);</span>
+<span class="fc" id="L116">            next.addAll(potentialNext);</span>
+<span class="fc" id="L117">        }</span>
+
+<span class="fc" id="L119">        LOGGER.debug(&quot;The set of the visited states has size: &quot;+visited.size());</span>
+<span class="fc" id="L120">        LOGGER.debug(&quot;Visited states: &quot;+visited.toString());</span>
+        // the states toBeRemoved contains the set of the states that are not contained
+        // in an infinite path through which an accepting state can be entered infinitely often
+<span class="fc" id="L123">        Set&lt;State&gt; toBeRemoved = new HashSet&lt;State&gt;(this.automaton.getStates());</span>
+<span class="fc" id="L124">        toBeRemoved.removeAll(visited);</span>
+
+<span class="fc" id="L126">        return toBeRemoved;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>
