@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CHIAAutomataState.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CHIAFramework</a> &gt; <a href="index.source.html" class="el_package">it.polimi.statemachine.states</a> &gt; <span class="el_source">CHIAAutomataState.java</span></div><h1>CHIAAutomataState.java</h1><pre class="source lang-java linenums">package it.polimi.statemachine.states;
+
+import it.polimi.action.CHIAAction;
+import it.polimi.action.CHIAException;
+import it.polimi.automata.io.in.ClaimReader;
+import it.polimi.automata.io.in.ModelReader;
+import it.polimi.automata.io.out.ClaimToStringTrasformer;
+import it.polimi.automata.io.out.ModelToStringTrasformer;
+import it.polimi.checker.Checker;
+import it.polimi.constraintcomputation.ConstraintGenerator;
+import it.polimi.constraints.io.out.constraint.ConstraintToStringTrasformer;
+import it.polimi.constraints.io.out.constraint.ConstraintWriter;
+import it.polimi.model.ltltoba.ClaimLTLReader;
+import it.polimi.model.ltltoba.LTLtoBATransformer;
+
+/**
+ * represents a possible state of CHIA. It offers a method perform that given
+ * the current state and a &lt;code&gt;CHIAAction&lt;/code&gt; returns the next state of the
+ * automaton.
+ * 
+ * @author Claudio Menghi
+ */
+<span class="pc" id="L23">public enum CHIAAutomataState implements CHIAStateInterface {</span>
+
+    /**
+     * is the initial state of the automaton
+     */
+<span class="fc" id="L28">    INIT {</span>
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean isPerformable(Class&lt;? extends CHIAAction&lt;?&gt;&gt; chiaAction) {
+            /**
+             * in the initial state it is possible to load the model or the
+             * claim of interest
+             */
+<span class="fc bfc" id="L38" title="All 2 branches covered.">            if (chiaAction == ModelReader.class) {</span>
+<span class="fc" id="L39">                return true;</span>
+            }
+<span class="fc bfc" id="L41" title="All 2 branches covered.">            if (isAClaimReadingAction(chiaAction)) {</span>
+<span class="fc" id="L42">                return true;</span>
+            }
+<span class="fc" id="L44">            return false;</span>
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public CHIAAutomataState perform(
+                Class&lt;? extends CHIAAction&lt;?&gt;&gt; chiaAction) throws CHIAException {
+            /**
+             * if the action concerns the model reading, the model loaded state
+             * is reached
+             */
+<span class="fc bfc" id="L57" title="All 2 branches covered.">            if (chiaAction == ModelReader.class) {</span>
+<span class="fc" id="L58">                return MODELLOADED;</span>
+            }
+<span class="fc bfc" id="L60" title="All 2 branches covered.">            if (isAClaimReadingAction(chiaAction)) {</span>
+<span class="fc" id="L61">                return PROPERTYLOADED;</span>
+            }
+
+<span class="fc" id="L64">            throw new CHIAException(&quot;You cannot perform the action: &quot;</span>
+<span class="fc" id="L65">                    + chiaAction.getName() + &quot; into the state &quot;</span>
+<span class="fc" id="L66">                    + this.toString());</span>
+        }
+
+    },
+
+    /**
+     * in this state the model has been already loaded
+     */
+<span class="fc" id="L74">    MODELLOADED {</span>
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean isPerformable(Class&lt;? extends CHIAAction&lt;?&gt;&gt; chiaAction) {
+<span class="fc bfc" id="L80" title="All 2 branches covered.">            if (isAClaimReadingAction(chiaAction)) {</span>
+<span class="fc" id="L81">                return true;</span>
+            }
+            /**
+             * if the action concerns the model reading, the model loaded state
+             * is reached
+             */
+<span class="fc bfc" id="L87" title="All 2 branches covered.">            if (chiaAction == ModelReader.class) {</span>
+<span class="fc" id="L88">                return true;</span>
+            }
+<span class="fc bfc" id="L90" title="All 2 branches covered.">            if (chiaAction == ModelToStringTrasformer.class) {</span>
+<span class="fc" id="L91">                return true;</span>
+            }
+<span class="fc" id="L93">            return false;</span>
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public CHIAAutomataState perform(
+                Class&lt;? extends CHIAAction&lt;?&gt;&gt; chiaAction) throws CHIAException {
+<span class="fc bfc" id="L102" title="All 2 branches covered.">            if (isAClaimReadingAction(chiaAction)) {</span>
+<span class="fc" id="L103">                return READY;</span>
+            }
+<span class="fc bfc" id="L105" title="All 2 branches covered.">            if (chiaAction == ModelReader.class) {</span>
+<span class="fc" id="L106">                return MODELLOADED;</span>
+            }
+<span class="fc bfc" id="L108" title="All 2 branches covered.">            if (chiaAction == ModelToStringTrasformer.class) {</span>
+<span class="fc" id="L109">                return MODELLOADED;</span>
+            }
+<span class="fc" id="L111">            throw new CHIAException(&quot;You cannot perform the action: &quot;</span>
+<span class="fc" id="L112">                    + chiaAction.getName() + &quot; into the state &quot;</span>
+<span class="fc" id="L113">                    + this.toString());</span>
+
+        }
+    },
+    /**
+     * The property is loaded but the model still has to be loaded
+     */
+<span class="fc" id="L120">    PROPERTYLOADED {</span>
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean isPerformable(Class&lt;? extends CHIAAction&lt;?&gt;&gt; chiaAction) {
+<span class="fc bfc" id="L126" title="All 2 branches covered.">            if (chiaAction == ModelReader.class) {</span>
+<span class="fc" id="L127">                return true;</span>
+            }
+<span class="fc bfc" id="L129" title="All 2 branches covered.">            if (isAClaimReadingAction(chiaAction)) {</span>
+<span class="fc" id="L130">                return true;</span>
+            }
+<span class="fc bfc" id="L132" title="All 2 branches covered.">            if (chiaAction == ClaimToStringTrasformer.class) {</span>
+<span class="fc" id="L133">                return true;</span>
+            }
+<span class="fc" id="L135">            return false;</span>
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public CHIAAutomataState perform(
+                Class&lt;? extends CHIAAction&lt;?&gt;&gt; chiaAction) throws CHIAException {
+<span class="fc bfc" id="L144" title="All 2 branches covered.">            if (chiaAction == ModelReader.class) {</span>
+<span class="fc" id="L145">                return READY;</span>
+            }
+<span class="fc bfc" id="L147" title="All 4 branches covered.">            if (isAClaimReadingAction(chiaAction)</span>
+                    || chiaAction == ClaimToStringTrasformer.class) {
+<span class="fc" id="L149">                return PROPERTYLOADED;</span>
+            }
+<span class="fc" id="L151">            throw new CHIAException(&quot;You cannot perform the action: &quot;</span>
+<span class="fc" id="L152">                    + chiaAction.getName() + &quot; into the state &quot;</span>
+<span class="fc" id="L153">                    + this.toString());</span>
+        }
+    },
+    /**
+     * the property and the model have been loaded
+     */
+<span class="fc" id="L159">    READY {</span>
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean isPerformable(Class&lt;? extends CHIAAction&lt;?&gt;&gt; chiaAction) {
+<span class="fc bfc" id="L165" title="All 2 branches covered.">            if (chiaAction == Checker.class) {</span>
+<span class="fc" id="L166">                return true;</span>
+            }
+<span class="fc bfc" id="L168" title="All 2 branches covered.">            if (isAClaimReadingAction(chiaAction)) {</span>
+<span class="fc" id="L169">                return true;</span>
+            }
+<span class="fc bfc" id="L171" title="All 2 branches covered.">            if (chiaAction == ModelReader.class) {</span>
+<span class="fc" id="L172">                return true;</span>
+            }
+<span class="fc bfc" id="L174" title="All 2 branches covered.">            if (chiaAction == ClaimToStringTrasformer.class) {</span>
+<span class="fc" id="L175">                return true;</span>
+            }
+<span class="fc bfc" id="L177" title="All 2 branches covered.">            if (chiaAction == ModelToStringTrasformer.class) {</span>
+<span class="fc" id="L178">                return true;</span>
+            }
+<span class="fc" id="L180">            return false;</span>
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public CHIAAutomataState perform(
+                Class&lt;? extends CHIAAction&lt;?&gt;&gt; chiaAction) throws CHIAException {
+<span class="fc bfc" id="L189" title="All 2 branches covered.">            if (chiaAction == Checker.class) {</span>
+<span class="fc" id="L190">                return CHECKED;</span>
+            }
+<span class="fc bfc" id="L192" title="All 2 branches covered.">            if (isAClaimReadingAction(chiaAction)) {</span>
+<span class="fc" id="L193">                return READY;</span>
+            }
+<span class="fc bfc" id="L195" title="All 2 branches covered.">            if (chiaAction == ClaimToStringTrasformer.class) {</span>
+<span class="fc" id="L196">                return READY;</span>
+            }
+<span class="fc bfc" id="L198" title="All 2 branches covered.">            if (chiaAction == ModelReader.class) {</span>
+<span class="fc" id="L199">                return READY;</span>
+            }
+<span class="fc bfc" id="L201" title="All 2 branches covered.">            if (chiaAction == ModelToStringTrasformer.class) {</span>
+<span class="fc" id="L202">                return READY;</span>
+            }
+<span class="fc" id="L204">            throw new CHIAException(&quot;You cannot perform the action: &quot;</span>
+<span class="fc" id="L205">                    + chiaAction.getName() + &quot; into the state &quot;</span>
+<span class="fc" id="L206">                    + this.toString());</span>
+        }
+    },
+    /**
+     * the model is checked versus the corresponding property
+     */
+<span class="fc" id="L212">    CHECKED {</span>
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean isPerformable(Class&lt;? extends CHIAAction&lt;?&gt;&gt; chiaAction) {
+
+<span class="fc bfc" id="L219" title="All 2 branches covered.">            if (isAClaimReadingAction(chiaAction)) {</span>
+<span class="fc" id="L220">                return true;</span>
+            }
+<span class="fc bfc" id="L222" title="All 2 branches covered.">            if (chiaAction == ClaimToStringTrasformer.class) {</span>
+<span class="fc" id="L223">                return true;</span>
+            }
+<span class="fc bfc" id="L225" title="All 2 branches covered.">            if (chiaAction == ModelToStringTrasformer.class) {</span>
+<span class="fc" id="L226">                return true;</span>
+            }
+<span class="fc bfc" id="L228" title="All 2 branches covered.">            if (chiaAction == ModelReader.class) {</span>
+<span class="fc" id="L229">                return true;</span>
+            }
+<span class="fc bfc" id="L231" title="All 2 branches covered.">            if (chiaAction == ConstraintGenerator.class) {</span>
+<span class="fc" id="L232">                return true;</span>
+            }
+
+<span class="fc" id="L235">            return false;</span>
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public CHIAAutomataState perform(
+                Class&lt;? extends CHIAAction&lt;?&gt;&gt; chiaAction) throws CHIAException {
+<span class="fc bfc" id="L244" title="All 2 branches covered.">            if (chiaAction == ConstraintGenerator.class) {</span>
+<span class="fc" id="L245">                return CONSTRAINTCOMPUTED;</span>
+            }
+
+<span class="fc bfc" id="L248" title="All 2 branches covered.">            if (isAClaimReadingAction(chiaAction)) {</span>
+<span class="fc" id="L249">                return READY;</span>
+            }
+<span class="fc bfc" id="L251" title="All 2 branches covered.">            if (chiaAction == ClaimToStringTrasformer.class) {</span>
+<span class="fc" id="L252">                return CHECKED;</span>
+            }
+<span class="fc bfc" id="L254" title="All 2 branches covered.">            if (chiaAction == ModelReader.class) {</span>
+<span class="fc" id="L255">                return READY;</span>
+            }
+
+<span class="fc bfc" id="L258" title="All 2 branches covered.">            if (chiaAction == ModelToStringTrasformer.class) {</span>
+<span class="fc" id="L259">                return CHECKED;</span>
+            }
+<span class="fc" id="L261">            throw new CHIAException(&quot;You cannot perform the action: &quot;</span>
+<span class="fc" id="L262">                    + chiaAction.getName() + &quot; into the state &quot;</span>
+<span class="fc" id="L263">                    + this.toString());</span>
+        }
+    },
+<span class="fc" id="L266">    CONSTRAINTCOMPUTED {</span>
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean isPerformable(Class&lt;? extends CHIAAction&lt;?&gt;&gt; chiaAction) {
+<span class="fc bfc" id="L272" title="All 2 branches covered.">            if (isAClaimReadingAction(chiaAction)) {</span>
+<span class="fc" id="L273">                return true;</span>
+            }
+<span class="fc bfc" id="L275" title="All 2 branches covered.">            if (chiaAction == ModelReader.class) {</span>
+<span class="fc" id="L276">                return true;</span>
+            }
+<span class="fc bfc" id="L278" title="All 2 branches covered.">            if (chiaAction == ModelToStringTrasformer.class) {</span>
+<span class="fc" id="L279">                return true;</span>
+            }
+<span class="fc bfc" id="L281" title="All 2 branches covered.">            if (chiaAction == ConstraintToStringTrasformer.class) {</span>
+<span class="fc" id="L282">                return true;</span>
+            }
+<span class="fc bfc" id="L284" title="All 2 branches covered.">            if (chiaAction == ConstraintWriter.class) {</span>
+<span class="fc" id="L285">                return true;</span>
+            }
+<span class="fc bfc" id="L287" title="All 2 branches covered.">            if (chiaAction == ClaimToStringTrasformer.class) {</span>
+<span class="fc" id="L288">                return true;</span>
+            }
+<span class="fc" id="L290">            return false;</span>
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public CHIAAutomataState perform(
+                Class&lt;? extends CHIAAction&lt;?&gt;&gt; chiaAction) throws CHIAException {
+<span class="fc bfc" id="L299" title="All 2 branches covered.">            if (isAClaimReadingAction(chiaAction)) {</span>
+<span class="fc" id="L300">                return READY;</span>
+            }
+<span class="fc bfc" id="L302" title="All 2 branches covered.">            if (chiaAction == ModelReader.class) {</span>
+<span class="fc" id="L303">                return READY;</span>
+            }
+<span class="fc bfc" id="L305" title="All 2 branches covered.">            if (chiaAction == ModelToStringTrasformer.class) {</span>
+<span class="fc" id="L306">                return CONSTRAINTCOMPUTED;</span>
+            }
+
+<span class="fc bfc" id="L309" title="All 2 branches covered.">            if (chiaAction == ClaimToStringTrasformer.class) {</span>
+<span class="fc" id="L310">                return CONSTRAINTCOMPUTED;</span>
+            }
+
+<span class="fc bfc" id="L313" title="All 2 branches covered.">            if (chiaAction == ConstraintToStringTrasformer.class) {</span>
+<span class="fc" id="L314">                return CONSTRAINTCOMPUTED;</span>
+            }
+<span class="fc bfc" id="L316" title="All 2 branches covered.">            if (chiaAction == ConstraintWriter.class) {</span>
+<span class="fc" id="L317">                return CONSTRAINTCOMPUTED;</span>
+            }
+<span class="fc" id="L319">            throw new CHIAException(&quot;You cannot perform the action: &quot;</span>
+<span class="fc" id="L320">                    + chiaAction.getName() + &quot; into the state &quot;</span>
+<span class="fc" id="L321">                    + this.toString());</span>
+        }
+    };
+
+    /**
+     * @param chiaAction
+     */
+    private static boolean isAClaimReadingAction(
+            Class&lt;? extends CHIAAction&lt;?&gt;&gt; chiaAction) {
+        /**
+         * if the action concerns the claim readin, the claim loaded state is
+         * reached
+         */
+<span class="fc bfc" id="L334" title="All 6 branches covered.">        if (chiaAction == ClaimReader.class</span>
+                || chiaAction == ClaimLTLReader.class
+                || chiaAction == LTLtoBATransformer.class) {
+<span class="fc" id="L337">            return true;</span>
+        }
+<span class="fc" id="L339">        return false;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public abstract CHIAAutomataState perform(
+            Class&lt;? extends CHIAAction&lt;?&gt;&gt; chiaAction) throws CHIAException;
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public abstract boolean isPerformable(
+            Class&lt;? extends CHIAAction&lt;?&gt;&gt; chiaAction);
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>
