@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>BATransitionToElementTransformer.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CHIAAutomataIO</a> &gt; <a href="index.source.html" class="el_package">it.polimi.automata.io.out.transitions</a> &gt; <span class="el_source">BATransitionToElementTransformer.java</span></div><h1>BATransitionToElementTransformer.java</h1><pre class="source lang-java linenums">package it.polimi.automata.io.out.transitions;
+
+import it.polimi.automata.AutomataIOConstants;
+import it.polimi.automata.BA;
+import it.polimi.automata.io.Transformer;
+import it.polimi.automata.transition.Transition;
+
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import com.google.common.base.Preconditions;
+
+/**
+ * Transforms the transition into the corresponding XML element it adds the id
+ * of the transition and its proposition the id of the source and the
+ * destination of the transition
+ * 
+ * @author Claudio Menghi
+ *
+ */
+public class BATransitionToElementTransformer extends
+		TransitionToElementTransformer implements
+		Transformer&lt;Transition, Element&gt; {
+
+	/**
+	 * The automaton whose transitions must be transformed
+	 */
+	protected final BA automaton;
+
+	/**
+	 * Creates a new BATransitionToElementTransformer
+	 * 
+	 * @param doc
+	 *            is the document where the XML element must be added
+	 * @param automaton
+	 *            is the BA whose transitions must be transformed
+	 * @throws NullPointerException
+	 *             if the document doc or the BA are null
+	 */
+	public BATransitionToElementTransformer(BA automaton, Document doc) {
+<span class="fc" id="L42">		super(doc);</span>
+<span class="fc" id="L43">		Preconditions.checkNotNull(automaton, &quot;The automaton cannot be null&quot;);</span>
+<span class="fc" id="L44">		this.automaton = automaton;</span>
+<span class="fc" id="L45">	}</span>
+
+	/**
+	 * Transforms the transition to the corresponding element
+	 * 
+	 * @param transition
+	 *            the transition to be transformed
+	 * @throws NullPointerException
+	 *             if the transition is null
+	 * @throws IllegalArgumentException
+	 *             if the transition is not a transition of the BA
+	 */
+	@Override
+	public Element transform(Transition transition) {
+<span class="fc" id="L59">		Preconditions.checkNotNull(transition,</span>
+				&quot;The transition element to be converted cannot be null&quot;);
+
+<span class="fc" id="L62">		Preconditions.checkArgument(</span>
+<span class="fc" id="L63">				automaton.getTransitions().contains(transition),</span>
+				&quot;The transition must be contained into the set of transitions of the automaton&quot;);
+		
+<span class="fc" id="L66">		Element transitionElement = super.transform(transition);</span>
+
+		// adding the source
+<span class="fc" id="L69">		Attr sourceId = doc</span>
+<span class="fc" id="L70">				.createAttribute(AutomataIOConstants.XML_ATTRIBUTE_TRANSITION_SOURCE);</span>
+<span class="fc" id="L71">		sourceId.setValue(Integer.toString(this.automaton.getTransitionSource(</span>
+<span class="fc" id="L72">				transition).getId()));</span>
+<span class="fc" id="L73">		transitionElement.setAttributeNode(sourceId);</span>
+
+		// adding the destination
+<span class="fc" id="L76">		Attr destinationId = doc</span>
+<span class="fc" id="L77">				.createAttribute(AutomataIOConstants.XML_ATTRIBUTE_TRANSITION_DESTINATION);</span>
+<span class="fc" id="L78">		destinationId.setValue(Integer.toString(this.automaton</span>
+<span class="fc" id="L79">				.getTransitionDestination(transition).getId()));</span>
+<span class="fc" id="L80">		transitionElement.setAttributeNode(destinationId);</span>
+
+<span class="fc" id="L82">		return transitionElement;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

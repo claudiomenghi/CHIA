@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>IBAElementToStateTransformer.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CHIAAutomataIO</a> &gt; <a href="index.source.html" class="el_package">it.polimi.automata.io.in.states</a> &gt; <span class="el_source">IBAElementToStateTransformer.java</span></div><h1>IBAElementToStateTransformer.java</h1><pre class="source lang-java linenums">package it.polimi.automata.io.in.states;
+
+import it.polimi.automata.AutomataIOConstants;
+import it.polimi.automata.IBA;
+import it.polimi.automata.io.Transformer;
+import it.polimi.automata.state.State;
+import it.polimi.automata.state.StateFactory;
+
+import org.w3c.dom.Element;
+
+import com.google.common.base.Preconditions;
+
+/**
+ * transforms an object of type Element into an object of type State and
+ * populates the corresponding IBA
+ * 
+ * @author Claudio Menghi
+ *
+ */
+public class IBAElementToStateTransformer implements
+		Transformer&lt;Element, State&gt; {
+
+	/**
+	 * is the factory which is used to create the states of the Buchi automaton
+	 */
+	protected final StateFactory stateFactory;
+	/**
+	 * contains the IBA which must be populated by the
+	 * IBAElementToStateTransformer
+	 */
+	protected final IBA iba;
+
+	/**
+	 * creates a new transformer in charge of populating the IBA passed as
+	 * parameter with the parsed states
+	 * 
+	 * @param iba
+	 *            is the IBA to be populated
+	 */
+<span class="fc" id="L40">	public IBAElementToStateTransformer(IBA iba) {</span>
+<span class="fc" id="L41">		Preconditions.checkNotNull(iba,</span>
+				&quot;The incomplete Buchi automaton cannot be null&quot;);
+
+<span class="fc" id="L44">		this.stateFactory = new StateFactory();</span>
+<span class="fc" id="L45">		this.iba = iba;</span>
+<span class="fc" id="L46">	}</span>
+
+	/**
+	 * transforms the {@link Element} into the corresponding state.
+	 * 
+	 * @param eElement
+	 *            is the element to be converted into a state
+	 * @throws NullPointerException
+	 *             if the element is null
+	 * @throws IllegalArgumentException
+	 *             if the state does not have an id
+	 * @throws IllegalArgumentException
+	 *             if the state does not have a name
+	 */
+	@Override
+	public State transform(Element eElement) {
+<span class="fc" id="L62">		Preconditions.checkNotNull(eElement, &quot;The element cannot be null&quot;);</span>
+<span class="fc" id="L63">		Preconditions.checkArgument(</span>
+<span class="fc" id="L64">				eElement.hasAttribute(AutomataIOConstants.XML_ATTRIBUTE_ID),</span>
+				&quot;The state must have a &quot; + AutomataIOConstants.XML_ATTRIBUTE_ID
+						+ &quot; attribute&quot;);
+<span class="fc" id="L67">		Preconditions</span>
+<span class="fc" id="L68">				.checkArgument(eElement</span>
+<span class="fc" id="L69">						.hasAttribute(AutomataIOConstants.XML_ATTRIBUTE_NAME),</span>
+						&quot;The state must have a &quot;
+								+ AutomataIOConstants.XML_ATTRIBUTE_NAME
+								+ &quot; attribute&quot;);
+
+<span class="fc" id="L74">		int id = Integer.parseInt(eElement</span>
+<span class="fc" id="L75">				.getAttribute(AutomataIOConstants.XML_ATTRIBUTE_ID));</span>
+
+<span class="fc" id="L77">		State s = stateFactory.create(</span>
+<span class="fc" id="L78">				eElement.getAttribute(AutomataIOConstants.XML_ATTRIBUTE_NAME),</span>
+				id);
+<span class="fc" id="L80">		iba.addState(s);</span>
+
+<span class="fc" id="L82">		if (!eElement.getAttribute(AutomataIOConstants.XML_ATTRIBUTE_INITIAL)</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">				.isEmpty()</span>
+<span class="fc bfc" id="L84" title="All 2 branches covered.">				&amp;&amp; Boolean.parseBoolean(eElement.getAttribute(</span>
+						AutomataIOConstants.XML_ATTRIBUTE_INITIAL)
+<span class="fc" id="L86">						.toLowerCase())) {</span>
+<span class="fc" id="L87">			iba.addInitialState(s);</span>
+		}
+<span class="fc" id="L89">		if (!eElement.getAttribute(AutomataIOConstants.XML_ATTRIBUTE_ACCEPTING)</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">				.isEmpty()</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">				&amp;&amp; Boolean.parseBoolean(eElement.getAttribute(</span>
+						AutomataIOConstants.XML_ATTRIBUTE_ACCEPTING)
+<span class="fc" id="L93">						.toLowerCase())) {</span>
+<span class="fc" id="L94">			iba.addAcceptState(s);</span>
+		}
+<span class="fc" id="L96">		if (!eElement.getAttribute(AutomataIOConstants.XML_ATTRIBUTE_BLACKBOX)</span>
+<span class="fc bfc" id="L97" title="All 2 branches covered.">				.isEmpty()</span>
+<span class="fc bfc" id="L98" title="All 2 branches covered.">				&amp;&amp; Boolean.parseBoolean(eElement.getAttribute(</span>
+						AutomataIOConstants.XML_ATTRIBUTE_BLACKBOX)
+<span class="fc" id="L100">						.toLowerCase())) {</span>
+<span class="fc" id="L101">			iba.addBlackBoxState(s);</span>
+		}
+<span class="fc" id="L103">		return s;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>
