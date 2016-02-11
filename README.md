@@ -1,4 +1,6 @@
-![CHIA logo](https://github.com/claudiomenghi/CHIA/blob/master/CHIALogo.tif)
+<div align="right">
+<img src="CHIALogo.tif" alt="CHIA logo" width="50" />
+</div>
 # CHIA
 
 
