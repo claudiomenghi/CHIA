@@ -1,0 +1,13 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+CHIAConstraint,it.polimi.constraints.utils,Injector,0,258,0,24,0,69,0,17,0,5
+CHIAConstraint,it.polimi.constraints,Constraint,12,78,0,2,1,17,1,6,1,5
+CHIAConstraint,it.polimi.constraints.reachability,ReachabilityRelation,0,64,0,2,0,17,0,6,0,5
+CHIAConstraint,it.polimi.constraints.reachability,ReachabilityEntry,0,74,0,2,0,15,0,7,0,6
+CHIAConstraint,it.polimi.constraints.transitions,TransitionToElementTransformer,52,0,0,0,16,0,2,0,2,0
+CHIAConstraint,it.polimi.constraints.transitions,PluggingTransition,31,190,17,17,11,43,14,13,0,10
+CHIAConstraint,it.polimi.constraints.transitions,Label,9,49,0,0,0,5,2,2,2,2
+CHIAConstraint,it.polimi.constraints.transitions,LabeledPluggingTransition,0,74,0,0,0,16,0,6,0,6
+CHIAConstraint,it.polimi.constraints.components,SubProperty,333,153,16,4,74,43,29,11,19,11
+CHIAConstraint,it.polimi.constraints.components,Replacement,0,353,0,16,0,77,0,20,0,12
+CHIAConstraint,it.polimi.constraints.components,RefinementGenerator,492,0,64,0,116,0,37,0,5,0
+CHIAConstraint,it.polimi.constraints.components,Component,14,83,0,10,1,26,1,11,1,6
