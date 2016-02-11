@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>IntBAStateToElementTransformer.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CHIAAutomataIO</a> &gt; <a href="index.source.html" class="el_package">it.polimi.automata.io.out.states</a> &gt; <span class="el_source">IntBAStateToElementTransformer.java</span></div><h1>IntBAStateToElementTransformer.java</h1><pre class="source lang-java linenums">package it.polimi.automata.io.out.states;
+
+import it.polimi.automata.AutomataIOConstants;
+import it.polimi.automata.IntersectionBA;
+import it.polimi.automata.io.Transformer;
+import it.polimi.automata.state.State;
+
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import com.google.common.base.Preconditions;
+
+/**
+ * Transforms a State of the intersection automaton into the corresponding XML
+ * element
+ * 
+ * @author Claudio Menghi
+ *
+ */
+public class IntBAStateToElementTransformer extends BAStateToElementTransformer
+		implements Transformer&lt;State, Element&gt; {
+
+	/**
+	 * creates a new state transformer
+	 * 
+	 * @param automaton
+	 *            is the Buchi automaton containing the state
+	 * @param doc
+	 *            is the document that must be modified by the transformer
+	 * @throws NullPointerException
+	 *             if the document or the BA is null
+	 */
+	public IntBAStateToElementTransformer(IntersectionBA automaton, Document doc) {
+<span class="fc" id="L35">		super(automaton, doc);</span>
+<span class="fc" id="L36">	}</span>
+
+	@Override
+	public Element transform(State input) {
+<span class="fc" id="L40">		Preconditions.checkNotNull(input, &quot;The input state cannot be null&quot;);</span>
+
+<span class="fc" id="L42">		Element stateXMLElement = super.transform(input);</span>
+
+<span class="fc bfc" id="L44" title="All 2 branches covered.">		if (((IntersectionBA) this.automaton).getMixedStates().contains(input)) {</span>
+			// adding the id
+<span class="fc" id="L46">			Attr accepting = doc</span>
+<span class="fc" id="L47">					.createAttribute(AutomataIOConstants.XML_ATTRIBUTE_MIXED);</span>
+<span class="fc" id="L48">			accepting.setValue(AutomataIOConstants.TRUEVALUE);</span>
+<span class="fc" id="L49">			stateXMLElement.setAttributeNode(accepting);</span>
+
+		}
+<span class="fc" id="L52">		return stateXMLElement;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>
