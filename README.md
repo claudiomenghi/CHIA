@@ -1,5 +1,5 @@
-<div align="right">
-<img src="CHIALogo.tif" alt="CHIA logo" width="50" />
+<div align="center">
+<img src="./CHIALogo.tif" alt="CHIA logo" width="50" />
 </div>
 # CHIA
 
