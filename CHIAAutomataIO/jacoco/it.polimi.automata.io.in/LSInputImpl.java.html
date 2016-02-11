@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>LSInputImpl.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CHIAAutomataIO</a> &gt; <a href="index.source.html" class="el_package">it.polimi.automata.io.in</a> &gt; <span class="el_source">LSInputImpl.java</span></div><h1>LSInputImpl.java</h1><pre class="source lang-java linenums">package it.polimi.automata.io.in;
+
+import java.io.InputStream;
+import java.io.Reader;
+
+import org.w3c.dom.ls.LSInput;
+
+<span class="fc" id="L8">public class LSInputImpl implements LSInput {</span>
+
+	private Reader characterStream;
+	private InputStream byteStream;
+	private String stringData;
+	private String systemId;
+	private String publicId;
+	private String baseURI;
+	private String encoding;
+	private boolean certifiedText;
+
+	@Override
+	public Reader getCharacterStream() {
+<span class="fc" id="L21">		return characterStream;</span>
+	}
+
+	@Override
+	public void setCharacterStream(Reader characterStream) {
+<span class="fc" id="L26">		this.characterStream = characterStream;</span>
+
+<span class="fc" id="L28">	}</span>
+
+	@Override
+	public InputStream getByteStream() {
+<span class="fc" id="L32">		return this.byteStream;</span>
+	}
+
+	@Override
+	public void setByteStream(InputStream byteStream) {
+<span class="nc" id="L37">		this.byteStream = byteStream;</span>
+
+<span class="nc" id="L39">	}</span>
+
+	@Override
+	public String getStringData() {
+<span class="fc" id="L43">		return stringData;</span>
+	}
+
+	@Override
+	public void setStringData(String stringData) {
+<span class="nc" id="L48">		this.stringData = stringData;</span>
+
+<span class="nc" id="L50">	}</span>
+
+	@Override
+	public String getSystemId() {
+
+<span class="fc" id="L55">		return this.systemId;</span>
+	}
+
+	@Override
+	public void setSystemId(String systemId) {
+<span class="fc" id="L60">		this.systemId = systemId;</span>
+
+<span class="fc" id="L62">	}</span>
+
+	@Override
+	public String getPublicId() {
+<span class="fc" id="L66">		return publicId;</span>
+	}
+
+	@Override
+	public void setPublicId(String publicId) {
+<span class="fc" id="L71">		this.publicId = publicId;</span>
+
+<span class="fc" id="L73">	}</span>
+
+	@Override
+	public String getBaseURI() {
+<span class="fc" id="L77">		return baseURI;</span>
+	}
+
+	@Override
+	public void setBaseURI(String baseURI) {
+<span class="fc" id="L82">		this.baseURI = baseURI;</span>
+
+<span class="fc" id="L84">	}</span>
+
+	@Override
+	public String getEncoding() {
+<span class="fc" id="L88">		return encoding;</span>
+	}
+
+	@Override
+	public void setEncoding(String encoding) {
+<span class="nc" id="L93">		this.encoding = encoding;</span>
+<span class="nc" id="L94">	}</span>
+
+	@Override
+	public boolean getCertifiedText() {
+<span class="nc" id="L98">		return certifiedText;</span>
+	}
+
+	@Override
+	public void setCertifiedText(boolean certifiedText) {
+<span class="nc" id="L103">		this.certifiedText = certifiedText;</span>
+<span class="nc" id="L104">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

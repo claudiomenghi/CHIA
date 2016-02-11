@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>AutomataIOConstants.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CHIAAutomataIO</a> &gt; <a href="index.source.html" class="el_package">it.polimi.automata</a> &gt; <span class="el_source">AutomataIOConstants.java</span></div><h1>AutomataIOConstants.java</h1><pre class="source lang-java linenums">package it.polimi.automata;
+
+public final class AutomataIOConstants {
+	
+
+	public final static String XML_ELEMENT_CONSTRAINT=&quot;constraint&quot;;
+	public final static String XML_ELEMENT_PORTS_REACHABILITY=&quot;portsReachability&quot;;
+	public final static String XML_ELEMENT_PORTS_COLORS=&quot;portscolors&quot;;
+	public final static String XML_ELEMENT_PROPOSITIONS=&quot;propositions&quot;;
+	public final static String XML_ELEMENT_PROPOSITION=&quot;proposition&quot;;
+	public final static String XML_ELEMENT_PROPOSITION_NAME=&quot;name&quot;;
+	public final static String XML_ELEMENT_PORTS_OUT_REACHABILITY=&quot;outcomingreachability&quot;;
+	public final static String XML_ELEMENT_TRANSITIONS_OUT=&quot;outtransitions&quot;;
+	public final static String XML_ELEMENT_TRANSITIONS_IN=&quot;intransitions&quot;;
+	
+	public final static String XML_ATTRIBUTE_PORT_TYPE=&quot;type&quot;;
+	
+	public final static String XML_ATTRIBUTE_VALUE_IN=&quot;inport&quot;;
+	public final static String XML_ATTRIBUTE_VALUE_OUT=&quot;outport&quot;;
+	
+	
+	public final static String XML_ELEMENT_REFINEMENT=&quot;refinement&quot;;
+	public final static String XML_ELEMENT_STATES=&quot;states&quot;;
+	
+	public final static String XML_LOWER_REACHABILITY=&quot;lowerReachability&quot;;
+	public final static String XML_UPPER_REACHABILITY=&quot;upperReachability&quot;;
+	
+	
+	
+	public final static String XML_ELEMENT_STATE=&quot;state&quot;;
+
+	public final static String XML_ELEMENT_TRANSITIONS=&quot;transitions&quot;;
+	public final static String XML_ELEMENT_TRANSITION=&quot;transition&quot;;
+	public final static String XML_ELEMENT_TRANS=&quot;trans&quot;;
+	public final static String XML_ELEMENT_REACHABILITY=&quot;reachabilityElement&quot;;
+	public final static String XML_ELEMENT_REACHABILITIES=&quot;reachabilityElements&quot;;
+	
+	
+	public final static String XML_ATTRIBUTE_ID=&quot;id&quot;;
+	public final static String XML_ATTRIBUTE_PORT_SOURCE=&quot;source&quot;;
+	public final static String XML_ATTRIBUTE_PORT_DESTINATION=&quot;destination&quot;;
+	public final static String XML_ATTRIBUTE_INCOMING=&quot;incoming&quot;;
+	public final static String XML_ATTRIBUTE_NAME=&quot;name&quot;;
+
+	
+	public final static String XML_ATTRIBUTE_INITIAL=&quot;initial&quot;;
+	public final static String XML_ATTRIBUTE_ACCEPTING=&quot;accepting&quot;;
+	public final static String XML_ATTRIBUTE_BLACKBOX=&quot;blackbox&quot;;
+	public final static String XML_ATTRIBUTE_MIXED=&quot;mixed&quot;;
+	public final static String XML_ATTRIBUTE_CONSTRAINED=&quot;constrained&quot;;
+	
+	public final static String XML_TAG_TRANSITION=&quot;transition&quot;;
+	public final static String XML_ATTRIBUTE_TRANSITION_ID=&quot;id&quot;;
+	public final static String XML_ATTRIBUTE_TRANSITION_SOURCE=&quot;source&quot;;
+	public final static String XML_ATTRIBUTE_TRANSITION_DESTINATION=&quot;destination&quot;;
+	public final static String XML_ATTRIBUTE_TRANSITION_PROPOSITIONS=&quot;propositions&quot;;
+	public final static String XML_ATTRIBUTE_INVARIANT=&quot;invariant&quot;;
+	
+	public final static String XML_ELEMENT_INTERSECTION=&quot;intersection&quot;;
+	public final static String XML_ELEMENT_BA=&quot;ba&quot;;
+	public final static String XML_ELEMENT_IBA=&quot;iba&quot;;
+	
+	public final static String XML_ELEMENT_REACHABILITY_ELEMENT=&quot;reachabilityElement&quot;;
+	public final static String XML_ELEMENT_REACHABILITY_ELEMENT_SOURCE=&quot;source&quot;;
+	public final static String XML_ELEMENT_REACHABILITY_ELEMENT_DESTINATION=&quot;destination&quot;;
+	
+	
+	
+	/**
+	 * IO Tags
+	 */
+	public static final String INITIALTAG = &quot;initial&quot;;
+	public static final String ACCEPTINGTAG = &quot;accepting&quot;;
+	public static final String LABELSTAG = &quot;labels&quot;;
+	public static final String BLACKBOXELEMENT = &quot;blackbox&quot;;
+	public static final String NAMETAG = &quot;name&quot;;
+	/**
+	 * defaults
+	 */
+	public static final String LABELSDEFAULT = &quot;&quot;;
+	public static final String FALSEVALUE = &quot;false&quot;;
+	public static final String TRUEVALUE = &quot;true&quot;;
+	public static final String DEFAULTNAME = &quot;&quot;;
+	public static final String AND = &quot;\\^&quot;;
+	public static final String AND_NOT_ESCAPED = &quot;^&quot;;
+	public static final String NOT = &quot;!&quot;;
+	
+	public static final String SIGMA=&quot;SIGMA&quot;;
+	public static final String APREGEX=&quot;[a-z]+&quot;;
+	public static final String NOTAPREGEX=NOT+&quot;[a-z]+&quot;;
+	public static final String AP=&quot;(&quot;+APREGEX+&quot;)|(&quot;+NOTAPREGEX+&quot;)&quot;;
+	public static final String CLAIM_PROPOSITIONAL_FORMULA=&quot;(&quot;+AutomataIOConstants.SIGMA +&quot;)|((&quot;+AP+&quot;)(&quot;+AutomataIOConstants.AND+&quot;(&quot;+AP+&quot;))*)&quot;;
+	public static final String MODELAP=APREGEX;
+	public static final String MODEL_PROPOSITIONS=&quot;((&quot;+MODELAP+&quot;)(&quot;+AutomataIOConstants.AND+&quot;(&quot;+MODELAP+&quot;))*)&quot;;
+	
+	
+	public static final String REGEXAND=&quot;\\&quot;+AutomataIOConstants.AND+&quot;&quot;;
+	public static final String REGEXNOT=&quot;\\&quot;+AutomataIOConstants.NOT+&quot;&quot;;
+	public static final String REGEXSIGMA=&quot;\\(&quot;+AutomataIOConstants.SIGMA+&quot;\\)&quot;;
+	public static final String WORD=&quot;[a-zA-Z]+&quot;;
+	// PATTERN
+	// (SIGMA)|((?!)WORD (^(?!)WORD)*)||
+	public static final String LABELPATTERN=&quot;^(&quot;+AutomataIOConstants.REGEXSIGMA+&quot;)|(\\((?&quot;+AutomataIOConstants.REGEXNOT+&quot;)&quot;+WORD+&quot;(&quot;+AutomataIOConstants.REGEXAND+&quot;(?&quot;+AutomataIOConstants.REGEXNOT+&quot;)&quot;+WORD+&quot;)*\\))&quot;;
+
+<span class="fc" id="L105">	private AutomataIOConstants() {</span>
+		// Utility classes should always be final and have an private constructor
+<span class="fc" id="L107">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>
