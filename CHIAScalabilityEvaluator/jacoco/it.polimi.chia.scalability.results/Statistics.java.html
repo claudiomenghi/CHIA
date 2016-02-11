@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Statistics.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CHIAScalabilityEvaluator</a> &gt; <a href="index.source.html" class="el_package">it.polimi.chia.scalability.results</a> &gt; <span class="el_source">Statistics.java</span></div><h1>Statistics.java</h1><pre class="source lang-java linenums">package it.polimi.chia.scalability.results;
+
+public class Statistics {
+
+	private int numPossibly;
+	private int numSat;
+	private int numUnsat;
+	private int repIsMoreEfficientSpace;
+	private int repIsMoreEfficientTime;
+
+<span class="nc" id="L11">	public Statistics() {</span>
+<span class="nc" id="L12">		this.numPossibly = 0;</span>
+<span class="nc" id="L13">		this.numSat = 0;</span>
+<span class="nc" id="L14">		this.numUnsat = 0;</span>
+<span class="nc" id="L15">		this.repIsMoreEfficientSpace = 0;</span>
+<span class="nc" id="L16">		this.repIsMoreEfficientTime = 0;</span>
+<span class="nc" id="L17">	}</span>
+
+	public void incNumPossibly() {
+<span class="nc" id="L20">		this.numPossibly = this.numPossibly + 1;</span>
+<span class="nc" id="L21">	}</span>
+
+	public void incNumSat() {
+<span class="nc" id="L24">		this.numSat = this.numSat + 1;</span>
+<span class="nc" id="L25">	}</span>
+
+	public void incNumUnsat() {
+<span class="nc" id="L28">		this.numUnsat = this.numUnsat + 1;</span>
+<span class="nc" id="L29">	}</span>
+
+	public void incRepIsMoreEfficientSpace() {
+<span class="nc" id="L32">		this.repIsMoreEfficientSpace = this.repIsMoreEfficientSpace + 1;</span>
+<span class="nc" id="L33">	}</span>
+
+	public void incRepIsMoreEfficientTime() {
+<span class="nc" id="L36">		this.repIsMoreEfficientTime = this.repIsMoreEfficientTime + 1;</span>
+<span class="nc" id="L37">	}</span>
+
+	@Override
+	public String toString() {
+<span class="nc" id="L41">		double totale = numPossibly + numSat + numUnsat;</span>
+
+<span class="nc" id="L43">		return &quot;Statistics [totalTests=&quot;</span>
+				+ totale
+				+ &quot;, % possibly=&quot;
+				+ (numPossibly / totale * 100)
+				+ &quot;, % sat=&quot;
+				+ (numSat / totale * 100)
+				+ &quot;, % unsat=&quot;
+				+ (numUnsat / totale * 100)
+				+ &quot;, % more efficient Space=&quot;
+				+ (repIsMoreEfficientSpace / ((double) this.numPossibly) * 100)
+				+ &quot;, % more efficient Time=&quot;
+				+ (this.repIsMoreEfficientTime / ((double) this.numPossibly) * 100)
+				+ &quot;]&quot;;
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

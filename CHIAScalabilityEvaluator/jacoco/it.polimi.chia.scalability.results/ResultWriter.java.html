@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ResultWriter.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CHIAScalabilityEvaluator</a> &gt; <a href="index.source.html" class="el_package">it.polimi.chia.scalability.results</a> &gt; <span class="el_source">ResultWriter.java</span></div><h1>ResultWriter.java</h1><pre class="source lang-java linenums">package it.polimi.chia.scalability.results;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.Paths;
+import java.util.Locale;
+
+import com.google.common.base.Preconditions;
+
+public class ResultWriter {
+
+	private File file;
+	private final FileWriter fileWriter;
+
+	/**
+	 * creates a new {@link ResultWriter} which is in charge of writing the
+	 * verification results on a file
+	 * 
+	 * @param file
+	 *            the file where the verification results must b written
+	 * @throws IOException
+	 *             if opening a file writer over the specified file generates an
+	 *             exception
+	 * @throws NullPointerException
+	 *             if the file where the results must be written is null
+	 */
+<span class="nc" id="L30">	public ResultWriter(String filePath) throws IOException {</span>
+
+<span class="nc bnc" id="L32" title="All 2 branches missed.">		if (!Files.exists(Paths.get(filePath), LinkOption.NOFOLLOW_LINKS)) {</span>
+<span class="nc" id="L33">			this.file = new File(filePath);</span>
+<span class="nc" id="L34">			this.fileWriter = new FileWriter(this.file);</span>
+<span class="nc" id="L35">			this.fileWriter.write(&quot;id: the id of the configuration \n&quot;);</span>
+
+<span class="nc" id="L37">			this.fileWriter</span>
+<span class="nc" id="L38">					.write(&quot;td: transitionDensity the number of transitions of the BA \n&quot;);</span>
+<span class="nc" id="L39">			this.fileWriter</span>
+<span class="nc" id="L40">					.write(&quot;ad: acceptingDensity the number of accepting states of the BA \n&quot;);</span>
+<span class="nc" id="L41">			this.fileWriter</span>
+<span class="nc" id="L42">					.write(&quot;ns: nStates the number of states of the BA \n&quot;);</span>
+
+<span class="nc" id="L44">			this.fileWriter</span>
+<span class="nc" id="L45">					.write(&quot;tsd: transparentDensity the density of the transparent states of the IBA \n&quot;);</span>
+<span class="nc" id="L46">			this.fileWriter</span>
+<span class="nc" id="L47">					.write(&quot;rd: the density of the states to be inserted into the replacement \n&quot;);</span>
+<span class="nc" id="L48">			this.fileWriter</span>
+<span class="nc" id="L49">					.write(&quot;propositions: The set of propositions to be considered in the generation of the random automaton \n&quot;);</span>
+
+<span class="nc" id="L51">			this.fileWriter</span>
+<span class="nc" id="L52">					.write(&quot;ist: initialSatisfactioValue the satisfaction of the property over the initial model \n&quot;);</span>
+<span class="nc" id="L53">			this.fileWriter</span>
+<span class="nc" id="L54">					.write(&quot;fst: finalSatisfactioValue the satisfaction of the property over the replacement \n&quot;);</span>
+
+<span class="nc" id="L56">			this.fileWriter</span>
+<span class="nc" id="L57">					.write(&quot;ts: trivially satisfied is true iff the verification of the replacement is trivially possibly satisfied \n&quot;);</span>
+
+<span class="nc" id="L59">			this.fileWriter</span>
+<span class="nc" id="L60">					.write(&quot;sRefv: sizeOfTheRefinementVerification the size required to verify the refinement \n&quot;);</span>
+<span class="nc" id="L61">			this.fileWriter</span>
+<span class="nc" id="L62">					.write(&quot;sRepv: sizeOfTheReplacementVerification the size required to verify the replacement \n&quot;);</span>
+
+<span class="nc" id="L64">			this.fileWriter</span>
+<span class="nc" id="L65">					.write(&quot;tRefv: refinementVerificationTime the time required to verify the refinement \n&quot;);</span>
+<span class="nc" id="L66">			this.fileWriter</span>
+<span class="nc" id="L67">					.write(&quot;tRepv: replacementVerificationTime the time required to verify the replacement \n &quot;);</span>
+<span class="nc" id="L68">			this.fileWriter</span>
+<span class="nc" id="L69">					.write(&quot;tCC: constraintComputationTime the time required to compute a constraint \n &quot;);</span>
+	
+<span class="nc" id="L71">			this.fileWriter</span>
+<span class="nc" id="L72">			.write(&quot;modSize: size of the model \n &quot;);</span>
+
+<span class="nc" id="L74">			this.fileWriter</span>
+<span class="nc" id="L75">			.write(&quot;numTransparent: numero di transparent states of the model \n \n&quot;);</span>
+
+<span class="nc" id="L77">			this.fileWriter</span>
+<span class="nc" id="L78">					.write(&quot;id \t td \t ad \t ns \t tsd \t rd \t propositions \t ist \t fst \t ts\t sRefv \t sRepv \t tRefv \t tRepv \t repSize \t repInSize \t repOutSize \t subSize \t subGreenInSize \t subYellowInSize \t subInSize \t subRedOutSize \t sub YellowOutSize \t subOutSize \t modSize \t numTransparent \n&quot;);</span>
+
+		} else {
+<span class="nc" id="L81">			this.fileWriter = new FileWriter(filePath,true);</span>
+
+		}
+<span class="nc" id="L84">	}</span>
+
+	/**
+	 * appends the record to the specified file
+	 * 
+	 * @param record
+	 *            is the record to be added to the current file
+	 * @throws IOException
+	 *             is generated if writing the results in the file generates an
+	 *             exception
+	 * @throws NullPointerException
+	 *             if the record to be added is null
+	 */
+	public void append(Record record) throws IOException {
+<span class="nc" id="L98">		Preconditions.checkNotNull(record,</span>
+				&quot;The record to be added to the file cannot be null&quot;);
+<span class="nc" id="L100">		String stringRecord = &quot;&quot;;</span>
+<span class="nc" id="L101">		stringRecord += record.getConfiguration().getConfigurationId() + &quot;\t&quot;;</span>
+<span class="nc" id="L102">		stringRecord += String.format(Locale.ENGLISH, &quot;%.2f&quot;, record</span>
+<span class="nc" id="L103">				.getConfiguration().getTransitionDensity())</span>
+				+ &quot;\t&quot;;
+<span class="nc" id="L105">		stringRecord += String.format(Locale.ENGLISH, &quot;%.2f&quot;, record</span>
+<span class="nc" id="L106">				.getConfiguration().getAcceptingDensity())</span>
+				+ &quot;\t&quot;;
+<span class="nc" id="L108">		stringRecord += record.getConfiguration().getnStates() + &quot;\t&quot;;</span>
+<span class="nc" id="L109">		stringRecord += String.format(Locale.ENGLISH, &quot;%.2f&quot;, record</span>
+<span class="nc" id="L110">				.getConfiguration().getTransparentDensity())</span>
+				+ &quot;\t&quot;;
+<span class="nc" id="L112">		stringRecord += String.format(Locale.ENGLISH, &quot;%.2f&quot;, record</span>
+<span class="nc" id="L113">				.getConfiguration().getReplacementDensity())</span>
+				+ &quot;\t&quot;;
+<span class="nc" id="L115">		stringRecord += record.getConfiguration().getPropositions() + &quot;\t&quot;;</span>
+<span class="nc" id="L116">		stringRecord += record.getInitialSatisfactioValue() + &quot;\t&quot;;</span>
+<span class="nc" id="L117">		stringRecord += record.getFinalSatisfactioValue() + &quot;\t&quot;;</span>
+<span class="nc" id="L118">		stringRecord += record.isTriviallySatisfied() + &quot;\t&quot;;</span>
+
+<span class="nc" id="L120">		stringRecord += record.getSizeOfTheRefinementVerification() + &quot;\t&quot;;</span>
+<span class="nc" id="L121">		stringRecord += record.getSizeOfTheReplacementVerification() + &quot;\t&quot;;</span>
+<span class="nc" id="L122">		stringRecord += record.getRefinementVerificationTime() + &quot;\t&quot;;</span>
+<span class="nc" id="L123">		stringRecord += record.getReplacementVerificationTime() + &quot;\t&quot;;</span>
+<span class="nc" id="L124">		stringRecord += record.getConstraintComputationTime() + &quot;\t&quot;;</span>
+<span class="nc" id="L125">		stringRecord += record.getReplacementAutomataSize() + &quot;\t&quot;;</span>
+<span class="nc" id="L126">		stringRecord += record.getReplacementIncomingTransitions() + &quot;\t&quot;;</span>
+<span class="nc" id="L127">		stringRecord += record.getReplacementOutgoingTransitions() + &quot;\t&quot;;</span>
+<span class="nc" id="L128">		stringRecord += record.getSubPropertyAutomataSize() + &quot;\t&quot;;</span>
+<span class="nc" id="L129">		stringRecord += record.getSubPropertyGreenIncomingTransitions() + &quot;\t&quot;;</span>
+<span class="nc" id="L130">		stringRecord += record.getSubPropertyYellowIncomingTransitions() + &quot;\t&quot;;</span>
+<span class="nc" id="L131">		stringRecord += record.getSubPropertyIncomingTransitions() + &quot;\t&quot;;</span>
+<span class="nc" id="L132">		stringRecord += record.getSubPropertyRedOutgoingTransitions() + &quot;\t&quot;;</span>
+<span class="nc" id="L133">		stringRecord += record.getSubPropertyYellowOutgingTransition()+ &quot;\t&quot;;</span>
+<span class="nc" id="L134">		stringRecord += record.getSubPropertyOutgoingTransitions()+ &quot;\t&quot;;</span>
+<span class="nc" id="L135">		stringRecord += record.getSizeModel()+ &quot;\t&quot;;</span>
+<span class="nc" id="L136">		stringRecord += record.getNumTransparentStatesModel()+ &quot;\t&quot;;</span>
+		
+<span class="nc" id="L138">		stringRecord += &quot;\n&quot;;</span>
+<span class="nc" id="L139">		this.fileWriter.write(stringRecord);</span>
+<span class="nc" id="L140">		this.fileWriter.flush();</span>
+<span class="nc" id="L141">	}</span>
+
+	/**
+	 * 
+	 * @return the file where the results must be written
+	 */
+	protected File getFile() {
+<span class="nc" id="L148">		return file;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

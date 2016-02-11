@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ScalabilityTest.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CHIAScalabilityEvaluator</a> &gt; <a href="index.source.html" class="el_package">it.polimi.chia.scalability</a> &gt; <span class="el_source">ScalabilityTest.java</span></div><h1>ScalabilityTest.java</h1><pre class="source lang-java linenums">package it.polimi.chia.scalability;
+
+import it.polimi.automata.BA;
+import it.polimi.automata.IBA;
+import it.polimi.automata.io.in.ClaimReader;
+import it.polimi.automata.io.out.BAToElementTrasformer;
+import it.polimi.automata.io.out.IBAToElementTrasformer;
+import it.polimi.automata.io.out.XMLWriter;
+import it.polimi.automata.state.State;
+import it.polimi.automata.state.StateFactory;
+import it.polimi.checker.Checker;
+import it.polimi.checker.SatisfactionValue;
+import it.polimi.checker.intersection.acceptingpolicies.AcceptingPolicy.AcceptingType;
+import it.polimi.chia.scalability.configuration.Configuration;
+import it.polimi.chia.scalability.configuration.RandomConfigurationGenerator;
+import it.polimi.chia.scalability.parsers.ConfParser;
+import it.polimi.chia.scalability.parsers.ConfWriter;
+import it.polimi.chia.scalability.randomGenerators.BARandomGenerator;
+import it.polimi.chia.scalability.randomGenerators.IBARandomGenerator;
+import it.polimi.chia.scalability.results.Record;
+import it.polimi.chia.scalability.results.ResultWriter;
+import it.polimi.chia.scalability.results.Statistics;
+import it.polimi.chia.scalability.tasks.Task1;
+import it.polimi.chia.scalability.tasks.Task2;
+import it.polimi.chia.scalability.tasks.Task3;
+import it.polimi.chia.scalability.tasks.Task4;
+import it.polimi.constraintcomputation.ConstraintGenerator;
+import it.polimi.constraints.Constraint;
+import it.polimi.constraints.components.RefinementGenerator;
+import it.polimi.constraints.components.Replacement;
+import it.polimi.constraints.components.SubProperty;
+import it.polimi.constraints.io.out.constraint.ConstraintToElementTransformer;
+import it.polimi.constraints.io.out.replacement.ReplacementToElementTransformer;
+import it.polimi.replacementchecker.ReplacementChecker;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
+
+import org.apache.log4j.Logger;
+
+import com.google.common.base.Preconditions;
+import com.google.common.base.Stopwatch;
+
+/**
+ * 
+ * The ScalabilityTest reads the scalability configuration from an appropriate
+ * XML file
+ * 
+ * @author Claudio Menghi
+ *
+ */
+public class ScalabilityTest {
+
+<span class="nc" id="L58">	private static final Logger LOGGER = Logger</span>
+<span class="nc" id="L59">			.getLogger(ScalabilityTest.class);</span>
+
+	/**
+	 * The accepting policy to be used
+	 */
+<span class="nc" id="L64">	private final static AcceptingType acceptingPolicy = AcceptingType.BA;</span>
+
+	private final ConfParser confParser;
+
+	/**
+	 * creates a new scalability test
+	 * 
+	 * @param confParser
+	 *            the parser to be used to get the configuration
+	 */
+<span class="nc" id="L74">	public ScalabilityTest(ConfParser confParser) {</span>
+<span class="nc" id="L75">		Preconditions.checkNotNull(confParser, &quot;The configuration parser&quot;);</span>
+<span class="nc" id="L76">		this.confParser = confParser;</span>
+
+<span class="nc" id="L78">	}</span>
+
+	/**
+	 * runs the tests
+	 * 
+	 * @throws Exception
+	 */
+	public void performTests() throws Exception {
+<span class="nc" id="L86">		System.out</span>
+<span class="nc" id="L87">				.println(&quot;--------------------------- STARTING THE TEST: ------------------------&quot;);</span>
+
+<span class="nc" id="L89">		Stopwatch timer = Stopwatch.createUnstarted();</span>
+
+		// BA claim = generateRandomClaim(new RandomConfiguration(3, 2, 0.5, 0,
+		// 0));
+<span class="nc" id="L93">		List&lt;BA&gt; claims = this.getClaimToBeConsidered();</span>
+
+<span class="nc bnc" id="L95" title="All 2 branches missed.">		for (int testNumber = 1; testNumber &lt;= confParser.getNumberOfTests(); testNumber++) {</span>
+
+<span class="nc" id="L97">			File dir = new File(confParser.getTestDirectory() + &quot;/Test&quot;</span>
+					+ testNumber);
+<span class="nc" id="L99">			dir.mkdir();</span>
+<span class="nc bnc" id="L100" title="All 2 branches missed.">			for (int claimNum = 0; claimNum &lt; claims.size(); claimNum++) {</span>
+<span class="nc" id="L101">				File claimdir = new File(confParser.getTestDirectory()</span>
+						+ &quot;/Test&quot; + testNumber + &quot;/Claim&quot; + claimNum);
+<span class="nc" id="L103">				claimdir.mkdir();</span>
+<span class="nc" id="L104">				File filePossibly = new File(confParser.getTestDirectory()</span>
+						+ &quot;/Test&quot; + testNumber + &quot;/Claim&quot; + claimNum + &quot;/&quot;
+<span class="nc" id="L106">						+ confParser.getResultsFilePossibly());</span>
+<span class="nc" id="L107">				filePossibly.createNewFile();</span>
+<span class="nc" id="L108">				File file = new File(confParser.getTestDirectory() + &quot;/Test&quot;</span>
+						+ testNumber + &quot;/Claim&quot; + claimNum + &quot;/&quot;
+<span class="nc" id="L110">						+ confParser.getResultsFile());</span>
+<span class="nc" id="L111">				file.createNewFile();</span>
+
+			}
+		}
+
+<span class="nc" id="L116">		test(timer);</span>
+<span class="nc" id="L117">	}</span>
+
+	public static void main(String[] args) throws Exception {
+<span class="nc" id="L120">		ConfParser parser = new ConfParser(args[0]);</span>
+
+<span class="nc" id="L122">		ScalabilityTest scalabilityTest = new ScalabilityTest(parser);</span>
+<span class="nc" id="L123">		scalabilityTest.performTests();</span>
+<span class="nc" id="L124">	}</span>
+
+	private List&lt;BA&gt; getClaimToBeConsidered() throws Exception {
+
+<span class="nc" id="L128">		List&lt;BA&gt; claims = new ArrayList&lt;BA&gt;();</span>
+
+<span class="nc" id="L130">		claims.add(new ClaimReader(new File(ClassLoader.getSystemResource(</span>
+<span class="nc" id="L131">				&quot;Claim1.xml&quot;).getPath())).perform());</span>
+
+		// claims.add(new ClaimReader(new File(ClassLoader.getSystemResource(
+		// &quot;Claim2.xml&quot;).getPath())).perform());
+
+		// claims.add(new ClaimReader(new File(ClassLoader.getSystemResource(
+		// &quot;Claim3.xml&quot;).getPath())).perform());
+
+<span class="nc" id="L139">		return claims;</span>
+
+	}
+
+	private void test(Stopwatch timer) throws Exception {
+
+<span class="nc" id="L145">		RandomConfigurationGenerator randomConfigurationGenerator = new RandomConfigurationGenerator(</span>
+<span class="nc" id="L146">				this.getClaimToBeConsidered(),</span>
+<span class="nc" id="L147">				confParser.getInitialNumberOfStates(),</span>
+<span class="nc" id="L148">				confParser.getFinalNumberOfStates(),</span>
+<span class="nc" id="L149">				confParser.getIncrementNumberOfStates(),</span>
+<span class="nc" id="L150">				confParser.getInitialTransitionDensity(),</span>
+<span class="nc" id="L151">				confParser.getFinalTransitionDensity(),</span>
+<span class="nc" id="L152">				confParser.getIncrementTransitionDensity(),</span>
+<span class="nc" id="L153">				confParser.getInitAcceptingDensity(),</span>
+<span class="nc" id="L154">				confParser.getFinalAcceptingDensity(),</span>
+<span class="nc" id="L155">				confParser.getIncrementAcceptingDensity(),</span>
+<span class="nc" id="L156">				confParser.getInitialTransparentDensity(),</span>
+<span class="nc" id="L157">				confParser.getFinalTransparentDensity(),</span>
+<span class="nc" id="L158">				confParser.getIncrementTransparentDensity(),</span>
+<span class="nc" id="L159">				confParser.getInitialReplacementDensity(),</span>
+<span class="nc" id="L160">				confParser.getFinalReplacementDensity(),</span>
+<span class="nc" id="L161">				confParser.getIncrementReplacementDensity(),</span>
+<span class="nc" id="L162">				confParser.getNumberOfTests(),</span>
+<span class="nc" id="L163">				confParser.getCurrentConfiguration());</span>
+
+<span class="nc" id="L165">		Statistics stat = new Statistics();</span>
+
+<span class="nc" id="L167">		System.out.println(&quot;Number of configurations to be considered:&quot;</span>
+				+ randomConfigurationGenerator
+<span class="nc" id="L169">						.getNumberOfPossibleConfigurations());</span>
+<span class="nc" id="L170">		Stopwatch testTimer = Stopwatch.createUnstarted();</span>
+
+<span class="nc" id="L172">		testTimer.start();</span>
+<span class="nc bnc" id="L173" title="All 2 branches missed.">		while (randomConfigurationGenerator.hasNext()) {</span>
+
+<span class="nc" id="L175">			Stopwatch totalTimer = Stopwatch.createUnstarted();</span>
+<span class="nc" id="L176">			totalTimer.start();</span>
+
+			Record record;
+
+<span class="nc" id="L180">			Configuration configuration = randomConfigurationGenerator.next();</span>
+
+<span class="nc" id="L182">			record = new Record(configuration);</span>
+<span class="nc" id="L183">			ResultWriter resultWriter = new ResultWriter(</span>
+<span class="nc" id="L184">					confParser.getTestDirectory() + &quot;/Test&quot;</span>
+<span class="nc" id="L185">							+ configuration.getTestNumber() + &quot;/Claim&quot;</span>
+<span class="nc" id="L186">							+ configuration.getClaimNumber() + &quot;/&quot;</span>
+<span class="nc" id="L187">							+ confParser.getResultsFile());</span>
+<span class="nc" id="L188">			ResultWriter resultPossiblyWriter = new ResultWriter(</span>
+<span class="nc" id="L189">					confParser.getTestDirectory() + &quot;/Test&quot;</span>
+<span class="nc" id="L190">							+ configuration.getTestNumber() + &quot;/Claim&quot;</span>
+<span class="nc" id="L191">							+ configuration.getClaimNumber() + &quot;/&quot;</span>
+<span class="nc" id="L192">							+ confParser.getResultsFilePossibly());</span>
+
+<span class="nc bnc" id="L194" title="All 2 branches missed.">			if (configuration.getConfigurationId() % 100 == 0) {</span>
+<span class="nc" id="L195">				LOGGER.info(&quot;--------------------------- CONFIGURATION: &quot;</span>
+<span class="nc" id="L196">						+ configuration.getConfigurationId()</span>
+						+ &quot;------------------------&quot;);
+<span class="nc" id="L198">				LOGGER.info(randomConfigurationGenerator.toString());</span>
+<span class="nc" id="L199">				LOGGER.info(stat.toString());</span>
+
+			}
+<span class="nc" id="L202">			System.out.println(configuration.toString());</span>
+<span class="nc" id="L203">			BARandomGenerator modelBAgenerator = new BARandomGenerator(</span>
+<span class="nc" id="L204">					configuration.getPropositions(), new StateFactory(),</span>
+<span class="nc" id="L205">					configuration.getTransitionDensity(),</span>
+<span class="nc" id="L206">					configuration.getAcceptingDensity(),</span>
+<span class="nc" id="L207">					configuration.getnStates(), new Random());</span>
+
+<span class="nc" id="L209">			BA modelBA = modelBAgenerator.perform();</span>
+
+			/**
+			 * checks the refined model of the system
+			 */
+<span class="nc" id="L214">			new Task1(configuration, modelBA, acceptingPolicy).perform();</span>
+
+<span class="nc" id="L216">			IBARandomGenerator ibaGenerator = new IBARandomGenerator(modelBA,</span>
+<span class="nc" id="L217">					new StateFactory(), configuration.getTransparentDensity(),</span>
+<span class="nc" id="L218">					configuration.getReplacementDensity());</span>
+
+<span class="nc" id="L220">			IBA model = ibaGenerator.perform();</span>
+
+			/**
+			 * checks the incomplete model
+			 */
+<span class="nc" id="L225">			Checker checker = new Task2(configuration, model, record,</span>
+<span class="nc" id="L226">					acceptingPolicy).perform();</span>
+<span class="nc" id="L227">			SatisfactionValue value = checker.perform();</span>
+
+<span class="nc bnc" id="L229" title="All 2 branches missed.">			if (value == SatisfactionValue.POSSIBLYSATISFIED) {</span>
+<span class="nc" id="L230">				stat.incNumPossibly();</span>
+				// compute the constraint
+
+				// choose a random replacement
+<span class="nc" id="L234">				List&lt;Replacement&gt; replacements = ibaGenerator</span>
+<span class="nc" id="L235">						.getNonEmptyReplacements();</span>
+<span class="nc bnc" id="L236" title="All 2 branches missed.">				if (replacements.isEmpty()) {</span>
+<span class="nc" id="L237">					throw new InternalError(</span>
+							&quot;There are no non empty replacements&quot;);
+				}
+<span class="nc" id="L240">				Collections.shuffle(replacements);</span>
+
+<span class="nc" id="L242">				Replacement replacement = getReplacement(record, replacements);</span>
+
+<span class="nc" id="L244">				Constraint constraint = computeConstraint(configuration, model,</span>
+						checker, replacement, record);
+
+				// VERIFICATION OF THE REFINEMENT
+<span class="nc" id="L248">				IBA refinedModel = new RefinementGenerator(model, replacement)</span>
+<span class="nc" id="L249">						.perform();</span>
+<span class="nc" id="L250">				Checker refinementChecker = new Task3(configuration,</span>
+						refinedModel, replacement, record, acceptingPolicy)
+<span class="nc" id="L252">						.perform();</span>
+
+				// VERIFICATION OF THE REPLACEMENT
+<span class="nc" id="L255">				ReplacementChecker replacementChecker = new Task4(replacement,</span>
+<span class="nc" id="L256">						constraint,  acceptingPolicy).perform();</span>
+
+				// result comparison
+<span class="nc" id="L259">				if (refinementChecker.getIntersectionAutomataSize() &gt;= replacementChecker</span>
+<span class="nc bnc" id="L260" title="All 2 branches missed.">						.getIntersectionAutomataSize()) {</span>
+<span class="nc" id="L261">					stat.incRepIsMoreEfficientSpace();</span>
+				}
+<span class="nc" id="L263">				if (record.getRefinementVerificationTime() &gt;= record</span>
+<span class="nc bnc" id="L264" title="All 2 branches missed.">						.getReplacementVerificationTime()) {</span>
+<span class="nc" id="L265">					stat.incRepIsMoreEfficientTime();</span>
+				}
+
+<span class="nc" id="L268">				resultPossiblyWriter.append(record);</span>
+<span class="nc" id="L269">				if (record.getRefinementSatisfactionValue() != record</span>
+<span class="nc bnc" id="L270" title="All 2 branches missed.">						.getReplacementSatisfactionValue()) {</span>
+<span class="nc" id="L271">					printError(confParser.getTestDirectory(), configuration,</span>
+							replacement, refinedModel, constraint, model,
+<span class="nc" id="L273">							configuration.getCurrentClaim(),</span>
+<span class="nc" id="L274">							record.getRefinementSatisfactionValue(),</span>
+<span class="nc" id="L275">							record.getReplacementSatisfactionValue());</span>
+				}
+<span class="nc" id="L277">				resultWriter.append(record);</span>
+<span class="nc" id="L278">				System.gc();</span>
+<span class="nc" id="L279">				System.runFinalization();</span>
+<span class="nc" id="L280">				ConfWriter cw = new ConfWriter(confParser,</span>
+<span class="nc" id="L281">						randomConfigurationGenerator, confParser.getTestDirectory()</span>
+								+ &quot;/confFile.txt&quot;);
+<span class="nc" id="L283">				cw.write();</span>
+<span class="nc" id="L284">				totalTimer.stop();</span>
+<span class="nc" id="L285">				System.out.println(&quot;Configuration evaluated in: &quot;</span>
+<span class="nc" id="L286">						+ totalTimer.elapsed(TimeUnit.MINUTES) + &quot; m &quot;);</span>
+			} 
+			
+<span class="nc" id="L289">		}</span>
+<span class="nc" id="L290">		testTimer.stop();</span>
+<span class="nc" id="L291">		System.out.println(&quot;Test performed in: &quot;</span>
+<span class="nc" id="L292">				+ testTimer.elapsed(TimeUnit.MINUTES) + &quot; m &quot;);</span>
+
+<span class="nc" id="L294">	}</span>
+
+	private Replacement getReplacement(Record record,
+			List&lt;Replacement&gt; replacements) {
+<span class="nc" id="L298">		Replacement replacement = replacements.iterator().next();</span>
+
+<span class="nc" id="L300">		record.setNumReplacementIncomingTransitions(replacement</span>
+<span class="nc" id="L301">				.getIncomingTransitions().size());</span>
+<span class="nc" id="L302">		record.setNumReplacementOutgoingTransitions(replacement</span>
+<span class="nc" id="L303">				.getOutgoingTransitions().size());</span>
+
+<span class="nc" id="L305">		record.setNumReplacementStates(replacement.getAutomaton().size());</span>
+<span class="nc" id="L306">		return replacement;</span>
+	}
+
+	private Constraint computeConstraint(Configuration configuration,
+			IBA model, Checker checker, Replacement replacement, Record record) {
+<span class="nc" id="L311">		Stopwatch constraintComputationTimer = Stopwatch.createUnstarted();</span>
+
+<span class="nc" id="L313">		constraintComputationTimer.start();</span>
+<span class="nc" id="L314">		Constraint constraint = computeConstraint(</span>
+<span class="nc" id="L315">				configuration.getCurrentClaim(), model, checker,</span>
+<span class="nc" id="L316">				replacement.getModelState());</span>
+<span class="nc" id="L317">		constraintComputationTimer.stop();</span>
+
+<span class="nc" id="L319">		record.setConstraintComputationTime(constraintComputationTimer</span>
+<span class="nc" id="L320">				.elapsed(TimeUnit.NANOSECONDS));</span>
+<span class="nc" id="L321">		SubProperty subProperty = constraint.getSubProperty(replacement</span>
+<span class="nc" id="L322">				.getModelState());</span>
+
+<span class="nc" id="L324">		record.setSubPropertyYellowIncomingTransitions(subProperty</span>
+<span class="nc" id="L325">				.getNumYellowIncomingTransitions());</span>
+<span class="nc" id="L326">		record.setSubPropertyNumIncomingTransitions(subProperty</span>
+<span class="nc" id="L327">				.getNumIncomingTransitions());</span>
+<span class="nc" id="L328">		record.setSubPropertyGreenIncomingTransitions(subProperty</span>
+<span class="nc" id="L329">				.getGreenIncomingTransitions().size());</span>
+
+<span class="nc" id="L331">		record.setSubPropertyRedOutgoingTransitions(subProperty</span>
+<span class="nc" id="L332">				.getNumRedOutgoingTransitions());</span>
+<span class="nc" id="L333">		record.setSubPropertyYellowOutgingTransition(subProperty</span>
+<span class="nc" id="L334">				.getNumYellowOutgoingTransitions());</span>
+<span class="nc" id="L335">		record.setSubPropertyNumOutgoingTransition(subProperty</span>
+<span class="nc" id="L336">				.getNumOutgoingTransitions());</span>
+
+<span class="nc" id="L338">		record.setSubPropertyStates(subProperty.getAutomaton().size());</span>
+<span class="nc" id="L339">		record.setConstraintComputationTime(constraintComputationTimer</span>
+<span class="nc" id="L340">				.elapsed(TimeUnit.MILLISECONDS));</span>
+<span class="nc" id="L341">		System.out.println(&quot;Constraint computed in: &quot;</span>
+<span class="nc" id="L342">				+ constraintComputationTimer.elapsed(TimeUnit.MINUTES));</span>
+<span class="nc" id="L343">		return constraint;</span>
+	}
+
+	/**
+	 * @param testDirectory
+	 * @param configuration
+	 * @param refinementSatisfactionvalue
+	 * @param replacementSatisfactionvalue
+	 * @throws InternalError
+	 * @throws Exception
+	 */
+	private static void printError(String testDirectory,
+			Configuration configuration, Replacement replacement,
+			IBA refinedModel, Constraint constraint, IBA model, BA claim,
+			SatisfactionValue refinementSatisfactionvalue,
+			SatisfactionValue replacementSatisfactionvalue)
+			throws InternalError, Exception {
+
+<span class="nc" id="L361">		File dir = new File(testDirectory + &quot;Test&quot;</span>
+<span class="nc" id="L362">				+ configuration.getTestNumber() + &quot;/Claim&quot;</span>
+<span class="nc" id="L363">				+ configuration.getClaimNumber() + &quot;/Experiment&quot;</span>
+<span class="nc" id="L364">				+ configuration.getConfigurationId());</span>
+<span class="nc" id="L365">		dir.mkdir();</span>
+
+<span class="nc" id="L367">		ReplacementToElementTransformer replacementTransformer = new ReplacementToElementTransformer();</span>
+<span class="nc" id="L368">		XMLWriter replacementWriter = new XMLWriter(new File(testDirectory</span>
+<span class="nc" id="L369">				+ &quot;Test&quot; + configuration.getTestNumber() + &quot;/Claim&quot;</span>
+<span class="nc" id="L370">				+ configuration.getClaimNumber() + &quot;/&quot; + &quot;/Experiment&quot;</span>
+<span class="nc" id="L371">				+ configuration.getConfigurationId() + &quot;/replacement.xml&quot;),</span>
+<span class="nc" id="L372">				replacementTransformer.transform(replacement));</span>
+<span class="nc" id="L373">		replacementWriter.perform();</span>
+
+<span class="nc" id="L375">		IBAToElementTrasformer refinementTransformer = new IBAToElementTrasformer();</span>
+<span class="nc" id="L376">		XMLWriter refinementWriter = new XMLWriter(new File(testDirectory</span>
+<span class="nc" id="L377">				+ &quot;Test&quot; + configuration.getTestNumber() + &quot;/Claim&quot;</span>
+<span class="nc" id="L378">				+ configuration.getClaimNumber() + &quot;/&quot; + &quot;/Experiment&quot;</span>
+<span class="nc" id="L379">				+ configuration.getConfigurationId() + &quot;/refinement.xml&quot;),</span>
+<span class="nc" id="L380">				refinementTransformer.transform(refinedModel));</span>
+<span class="nc" id="L381">		refinementWriter.perform();</span>
+
+<span class="nc" id="L383">		ConstraintToElementTransformer constraintTransformer = new ConstraintToElementTransformer();</span>
+<span class="nc" id="L384">		XMLWriter constraintWriter = new XMLWriter(new File(testDirectory</span>
+<span class="nc" id="L385">				+ &quot;Test&quot; + configuration.getTestNumber() + &quot;/Claim&quot;</span>
+<span class="nc" id="L386">				+ configuration.getClaimNumber() + &quot;/&quot; + &quot;/Experiment&quot;</span>
+<span class="nc" id="L387">				+ configuration.getConfigurationId() + &quot;/constraint.xml&quot;),</span>
+<span class="nc" id="L388">				constraintTransformer.transform(constraint));</span>
+<span class="nc" id="L389">		constraintWriter.perform();</span>
+
+<span class="nc" id="L391">		IBAToElementTrasformer modelToElementTransformer = new IBAToElementTrasformer();</span>
+
+<span class="nc" id="L393">		XMLWriter writer = new XMLWriter(new File(testDirectory + &quot;Test&quot;</span>
+<span class="nc" id="L394">				+ configuration.getTestNumber() + &quot;/Claim&quot;</span>
+<span class="nc" id="L395">				+ configuration.getClaimNumber() + &quot;/&quot; + &quot;/Experiment&quot;</span>
+<span class="nc" id="L396">				+ configuration.getConfigurationId() + &quot;/model.xml&quot;),</span>
+<span class="nc" id="L397">				modelToElementTransformer.transform(model));</span>
+<span class="nc" id="L398">		writer.perform();</span>
+
+<span class="nc" id="L400">		BAToElementTrasformer claimToElementTransformer = new BAToElementTrasformer();</span>
+
+<span class="nc" id="L402">		XMLWriter claimWriter = new XMLWriter(new File(testDirectory + &quot;Test&quot;</span>
+<span class="nc" id="L403">				+ configuration.getTestNumber() + &quot;/Claim&quot;</span>
+<span class="nc" id="L404">				+ configuration.getClaimNumber() + &quot;/&quot; + &quot;/Experiment&quot;</span>
+<span class="nc" id="L405">				+ configuration.getConfigurationId() + &quot;/claim.xml&quot;),</span>
+<span class="nc" id="L406">				claimToElementTransformer.transform(claim));</span>
+<span class="nc" id="L407">		claimWriter.perform();</span>
+
+<span class="nc" id="L409">		throw new InternalError(&quot;Test Number &quot; + configuration.getTestNumber()</span>
+<span class="nc" id="L410">				+ &quot; \t Claim Number &quot; + configuration.getClaimNumber()</span>
+<span class="nc" id="L411">				+ &quot; \t Configuration &quot; + configuration.getConfigurationId()</span>
+				+ &quot;\t refinement &quot; + refinementSatisfactionvalue
+				+ &quot; \t replacement: &quot; + replacementSatisfactionvalue);
+	}
+
+	private static Constraint computeConstraint(BA claim, IBA model,
+			Checker checker, State blackBoxState) {
+<span class="nc" id="L418">		ConstraintGenerator cg = new ConstraintGenerator(checker);</span>
+<span class="nc" id="L419">		Constraint constraint = cg.perform(blackBoxState);</span>
+
+<span class="nc" id="L421">		return constraint;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

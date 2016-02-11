@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>RandomConfigurationGenerator.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CHIAScalabilityEvaluator</a> &gt; <a href="index.source.html" class="el_package">it.polimi.chia.scalability.configuration</a> &gt; <span class="el_source">RandomConfigurationGenerator.java</span></div><h1>RandomConfigurationGenerator.java</h1><pre class="source lang-java linenums">package it.polimi.chia.scalability.configuration;
+
+import it.polimi.automata.BA;
+
+import java.util.Iterator;
+import java.util.List;
+
+import com.google.common.base.Preconditions;
+
+public class RandomConfigurationGenerator implements Iterator&lt;Configuration&gt; {
+
+	// NUMBER OF STATES
+	/**
+	 * contains the initial number of states
+	 */
+	protected final int initialNumberOfStates;
+
+	/**
+	 * contains the final number of states
+	 */
+	protected final int finalNumberOfStates;
+
+	/**
+	 * contains the increment that is performed over the number of states
+	 */
+	protected final int incrementNumberOfStates;
+
+	// TRANSITION DENSITY
+	/**
+	 * contains the initial number of transitions
+	 */
+	protected final double initialTransitionDensity;
+	/**
+	 * contains the final transition density
+	 */
+	protected final double finalTransitionDensity;
+	/**
+	 * contains the increment over the transition density
+	 */
+	protected final double incrementTransitionDensity;
+
+	// ACCEPTING DENSITIES
+	/**
+	 * the initial density of accepting states
+	 */
+	protected final double initialAcceptingDensity;
+	/**
+	 * the final density of accepting states
+	 */
+	protected final double finalAcceptingDensity;
+	/**
+	 * the increment over the number of accepting states
+	 */
+	protected final double incrementAcceptingDensity;
+
+	// TRANSPARENT DENSITIES
+	/**
+	 * the initial density of transparent states
+	 */
+	protected double initialTransparentDensity;
+	/**
+	 * the final density of transparent states
+	 */
+	protected double finalTransparentDensity;
+	/**
+	 * the increment over the density of transparent states
+	 */
+	protected double incrementTransparentDensity;
+
+	// REPLACEMENT DENSITIES
+	/**
+	 * the initial replacement density
+	 */
+	protected double initialReplacementDensity;
+	/**
+	 * the final replacement density
+	 */
+	protected double finalreplacementDensity;
+	/**
+	 * increment replacement density
+	 */
+	protected double incrementReplacementDensity;
+
+	protected int numberOfTests;
+
+	// CURRENT configuration
+	protected int configurationNumber;
+
+	/**
+	 * @return the configurationNumber
+	 */
+	public int getConfigurationNumber() {
+<span class="nc" id="L93">		return configurationNumber;</span>
+	}
+
+	// REPLACEMENT DENSITIES
+	protected int totalCondigurations;
+
+	protected List&lt;BA&gt; claims;
+
+	public RandomConfigurationGenerator(List&lt;BA&gt; claims,
+			int initialNumberOfStates, int finalNumberOfStates,
+			int incrementNumberOfStates, double initialTransitionDensity,
+			double finalTransitionDensity, double incrementTransitionDensity,
+			double initialAcceptingDensity, double finalAcceptingDensity,
+			double incrementAcceptingDensity, double initialTransparentDensity,
+			double finalTransparentDensity, double incrementTransparentDensity,
+			double initialReplacementDensity, double finalreplacementDensity,
+			double incrementReplacementDensity, int numberOfTests,
+<span class="fc" id="L110">			int currentConfiguration) {</span>
+<span class="fc" id="L111">		Preconditions.checkNotNull(claims,</span>
+				&quot;The list of the claims cannot be null&quot;);
+<span class="pc bpc" id="L113" title="1 of 2 branches missed.">		Preconditions.checkArgument(claims.size() &gt;= 1,</span>
+				&quot;There must be at least a claim in the list&quot;);
+<span class="fc" id="L115">		this.claims = claims;</span>
+
+<span class="fc" id="L117">		this.configurationNumber = currentConfiguration;</span>
+<span class="fc" id="L118">		this.initialNumberOfStates = initialNumberOfStates;</span>
+<span class="fc" id="L119">		this.finalNumberOfStates = finalNumberOfStates;</span>
+<span class="fc" id="L120">		this.incrementNumberOfStates = incrementNumberOfStates;</span>
+<span class="fc" id="L121">		this.initialTransitionDensity = initialTransitionDensity;</span>
+<span class="fc" id="L122">		this.finalTransitionDensity = finalTransitionDensity;</span>
+<span class="fc" id="L123">		this.incrementTransitionDensity = incrementTransitionDensity;</span>
+		// accepting density
+<span class="fc" id="L125">		this.initialAcceptingDensity = initialAcceptingDensity;</span>
+<span class="fc" id="L126">		this.finalAcceptingDensity = finalAcceptingDensity;</span>
+<span class="fc" id="L127">		this.incrementAcceptingDensity = incrementAcceptingDensity;</span>
+
+		// transparent density
+<span class="fc" id="L130">		this.initialTransparentDensity = initialTransparentDensity;</span>
+<span class="fc" id="L131">		this.finalTransparentDensity = finalTransparentDensity;</span>
+<span class="fc" id="L132">		this.incrementTransparentDensity = incrementTransparentDensity;</span>
+
+		// replacement density
+<span class="fc" id="L135">		this.initialReplacementDensity = initialReplacementDensity;</span>
+<span class="fc" id="L136">		this.finalreplacementDensity = finalreplacementDensity;</span>
+<span class="fc" id="L137">		this.incrementReplacementDensity = incrementReplacementDensity;</span>
+
+<span class="fc" id="L139">		this.numberOfTests = numberOfTests;</span>
+<span class="fc" id="L140">		this.totalCondigurations = this.getNumberOfPossibleConfigurations();</span>
+
+<span class="fc" id="L142">	}</span>
+
+	@Override
+	public boolean hasNext() {
+<span class="nc bnc" id="L146" title="All 2 branches missed.">		return configurationNumber &lt;= totalCondigurations;</span>
+	}
+
+	@Override
+	public Configuration next() {
+
+<span class="nc" id="L152">		int testNumber = (this.configurationNumber % this.numberOfTests) + 1;</span>
+
+<span class="nc" id="L154">		int currentClaim = (this.configurationNumber % (this.numberOfTests * this.claims</span>
+<span class="nc" id="L155">				.size())) / this.numberOfTests;</span>
+
+		
+<span class="nc" id="L158">		int currentNumberOfStates = (this.configurationNumber % (this.numberOfTests</span>
+<span class="nc" id="L159">				* this.claims.size() * this.numberStatesConfigurations()))</span>
+<span class="nc" id="L160">				/ (this.numberOfTests * this.claims.size())</span>
+				* this.incrementNumberOfStates + this.initialNumberOfStates;
+
+<span class="nc" id="L163">		double transitionDensity = (this.configurationNumber % (this.numberOfTests</span>
+<span class="nc" id="L164">				* this.claims.size() * this.numberStatesConfigurations() * this</span>
+<span class="nc" id="L165">					.transitionDensity()))</span>
+<span class="nc" id="L166">				/ (this.numberOfTests * this.claims.size() * this</span>
+<span class="nc" id="L167">						.numberStatesConfigurations())</span>
+				* this.incrementTransitionDensity
+				+ this.initialTransitionDensity;
+
+<span class="nc" id="L171">		double acceptingDensity = (this.configurationNumber % (this.numberOfTests</span>
+<span class="nc" id="L172">				* this.claims.size()</span>
+<span class="nc" id="L173">				* this.numberStatesConfigurations()</span>
+<span class="nc" id="L174">				* this.transitionDensity() * this</span>
+<span class="nc" id="L175">					.numberAcceptingStatesConfigurations()))</span>
+<span class="nc" id="L176">				/ (this.numberOfTests * this.claims.size()</span>
+<span class="nc" id="L177">						* this.numberStatesConfigurations() * this</span>
+<span class="nc" id="L178">							.transitionDensity())</span>
+				* this.incrementAcceptingDensity + this.initialAcceptingDensity;
+
+<span class="nc" id="L181">		double transparentDensity = (this.configurationNumber % (this.numberOfTests</span>
+<span class="nc" id="L182">				* this.claims.size()</span>
+<span class="nc" id="L183">				* this.numberStatesConfigurations()</span>
+<span class="nc" id="L184">				* this.transitionDensity()</span>
+<span class="nc" id="L185">				* this.numberAcceptingStatesConfigurations() * this</span>
+<span class="nc" id="L186">					.transparentStatesConfigurations()))</span>
+<span class="nc" id="L187">				/ (this.numberOfTests * this.claims.size()</span>
+<span class="nc" id="L188">						* this.numberStatesConfigurations()</span>
+<span class="nc" id="L189">						* this.transitionDensity() * this</span>
+<span class="nc" id="L190">							.numberAcceptingStatesConfigurations())</span>
+				* this.incrementTransparentDensity
+				+ this.initialTransparentDensity;
+
+<span class="nc" id="L194">		double replacementDensity = (this.configurationNumber % (this.numberOfTests</span>
+<span class="nc" id="L195">				* this.claims.size()</span>
+<span class="nc" id="L196">				* this.numberStatesConfigurations()</span>
+<span class="nc" id="L197">				* this.transitionDensity()</span>
+<span class="nc" id="L198">				* this.numberAcceptingStatesConfigurations()</span>
+<span class="nc" id="L199">				* this.transparentStatesConfigurations() * this</span>
+<span class="nc" id="L200">					.replacementStatesConfigurations()))</span>
+<span class="nc" id="L201">				/ (this.numberOfTests * this.claims.size()</span>
+<span class="nc" id="L202">						* this.numberStatesConfigurations()</span>
+<span class="nc" id="L203">						* this.transitionDensity()</span>
+<span class="nc" id="L204">						* this.numberAcceptingStatesConfigurations() * this</span>
+<span class="nc" id="L205">							.transparentStatesConfigurations())</span>
+				* this.incrementReplacementDensity
+				+ this.initialReplacementDensity;
+
+<span class="nc" id="L209">		Configuration testConfiguration = new Configuration(</span>
+				configurationNumber, currentNumberOfStates,
+<span class="nc" id="L211">				roundDouble(transitionDensity), roundDouble(acceptingDensity),</span>
+<span class="nc" id="L212">				roundDouble(transparentDensity),</span>
+<span class="nc" id="L213">				roundDouble(replacementDensity), this.claims.get(currentClaim),</span>
+				testNumber, currentClaim);
+
+<span class="nc" id="L216">		this.configurationNumber++;</span>
+
+<span class="nc" id="L218">		return testConfiguration;</span>
+
+	}
+
+
+
+	private double roundDouble(double number) {
+<span class="nc" id="L225">		return Math.abs((number * 100.0) / 100.0);</span>
+	}
+
+	public int getNumberOfPossibleConfigurations() {
+
+<span class="fc" id="L230">		return this.numberOfTests * this.claims.size()</span>
+<span class="fc" id="L231">				* this.numberStatesConfigurations() * this.transitionDensity()</span>
+<span class="fc" id="L232">				* this.numberAcceptingStatesConfigurations()</span>
+<span class="fc" id="L233">				* this.transparentStatesConfigurations()</span>
+<span class="fc" id="L234">				* this.replacementStatesConfigurations();</span>
+
+	}
+
+	protected int numberStatesConfigurations() {
+<span class="fc" id="L239">		return ((this.finalNumberOfStates - this.initialNumberOfStates + this.incrementNumberOfStates) / this.incrementNumberOfStates);</span>
+	}
+
+	protected int transitionDensity() {
+<span class="fc" id="L243">		return (int) ((this.finalTransitionDensity</span>
+				- this.initialTransitionDensity + this.incrementTransitionDensity) / this.incrementTransitionDensity);
+	}
+
+	protected int numberAcceptingStatesConfigurations() {
+<span class="fc" id="L248">		return (int) ((this.finalAcceptingDensity</span>
+				- this.initialAcceptingDensity + this.incrementAcceptingDensity) / this.incrementAcceptingDensity);
+	}
+
+	protected int transparentStatesConfigurations() {
+<span class="fc" id="L253">		return (int) ((this.finalTransparentDensity</span>
+				- this.initialTransparentDensity + this.incrementTransparentDensity) / this.incrementTransparentDensity);
+	}
+
+	protected int replacementStatesConfigurations() {
+<span class="fc" id="L258">		return (int) ((this.finalreplacementDensity</span>
+				- this.initialReplacementDensity + this.incrementReplacementDensity) / this.incrementReplacementDensity);
+	}
+
+	@Override
+	public void remove() {
+<span class="nc" id="L264">		throw new UnsupportedOperationException();</span>
+	}
+
+	@Override
+	public String toString() {
+<span class="nc" id="L269">		return &quot;RandomConfigurationGenerator [configurationNumber=&quot;</span>
+				+ configurationNumber + &quot;, totalCondigurations=&quot;
+				+ totalCondigurations + &quot;, currentNumberOfStates=&quot; + &quot;]&quot;;
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>
