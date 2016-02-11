@@ -1,3 +1,4 @@
+![CHIA logo](https://github.com/claudiomenghi/CHIA/blob/master/CHIALogo.tif)
 # CHIA
 
 
