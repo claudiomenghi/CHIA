@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Ex3bRandomConfigurationGenerator.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CHIAScalabilityEvaluator</a> &gt; <a href="index.source.html" class="el_package">it.polimi.chia.scalability.configuration</a> &gt; <span class="el_source">Ex3bRandomConfigurationGenerator.java</span></div><h1>Ex3bRandomConfigurationGenerator.java</h1><pre class="source lang-java linenums">package it.polimi.chia.scalability.configuration;
+
+import it.polimi.automata.BA;
+
+import java.util.Iterator;
+import java.util.List;
+
+public class Ex3bRandomConfigurationGenerator extends RandomConfigurationGenerator implements
+		Iterator&lt;Configuration&gt; {
+
+
+	// PLUG REPLACEMENT DENSITIES
+<span class="nc" id="L13">	private int initialReplacementPugTransitionDensity=1;</span>
+<span class="nc" id="L14">	private int finalreplacementPlugTransitionDensity=1;</span>
+<span class="nc" id="L15">	private int incrementReplacementPlugTransitionDensity=1;</span>
+
+<span class="nc" id="L17">	private boolean initialized=false;</span>
+	public Ex3bRandomConfigurationGenerator(List&lt;BA&gt; claims,
+			int initialNumberOfStates, int finalNumberOfStates,
+			int incrementNumberOfStates, double initialTransitionDensity,
+			double finalTransitionDensity, double incrementTransitionDensity,
+			double initialAcceptingDensity, double finalAcceptingDensity,
+			double incrementAcceptingDensity, double initialTransparentDensity,
+			double finalTransparentDensity, double incrementTransparentDensity,
+			double initialReplacementDensity, double finalreplacementDensity,
+			double incrementReplacementDensity,
+			int initialReplacementPugTransitionDensity,
+			int finalreplacementPlugTransitionDensity,
+			int incrementReplacementPlugTransitionDensity, 
+			int numberOfTests,
+			int currentConfiguration) {
+<span class="nc" id="L32">		super(claims, initialNumberOfStates, finalNumberOfStates, incrementNumberOfStates, initialTransitionDensity, finalTransitionDensity, incrementTransitionDensity, initialAcceptingDensity, finalAcceptingDensity, incrementAcceptingDensity, initialTransparentDensity, finalTransparentDensity, incrementTransparentDensity, initialReplacementDensity, finalreplacementDensity, incrementReplacementDensity, numberOfTests, currentConfiguration);</span>
+
+		
+<span class="nc" id="L35">		initialized=true;</span>
+<span class="nc" id="L36">		this.initialReplacementPugTransitionDensity = initialReplacementPugTransitionDensity;</span>
+<span class="nc" id="L37">		this.finalreplacementPlugTransitionDensity = finalreplacementPlugTransitionDensity;</span>
+<span class="nc" id="L38">		this.incrementReplacementPlugTransitionDensity = incrementReplacementPlugTransitionDensity;</span>
+<span class="nc" id="L39">		this.totalCondigurations= this.getNumberOfPossibleConfigurations();</span>
+<span class="nc" id="L40">	}</span>
+
+
+
+	@Override
+	public Ex3Configuration next() {
+
+<span class="nc" id="L47">		int testNumber = (this.configurationNumber % this.numberOfTests) + 1;</span>
+
+<span class="nc" id="L49">		int currentClaim = (this.configurationNumber % (this.numberOfTests * this.claims</span>
+<span class="nc" id="L50">				.size())) / this.numberOfTests;</span>
+
+<span class="nc" id="L52">		int currentNumberOfStates = (this.configurationNumber % (this.numberOfTests</span>
+<span class="nc" id="L53">				* this.claims.size() * this.numberStatesConfigurations()))</span>
+<span class="nc" id="L54">				/ (this.numberOfTests * this.claims.size())</span>
+				* this.incrementNumberOfStates + this.initialNumberOfStates;
+
+<span class="nc" id="L57">		double transitionDensity = (this.configurationNumber % (this.numberOfTests</span>
+<span class="nc" id="L58">				* this.claims.size() * this.numberStatesConfigurations() * this</span>
+<span class="nc" id="L59">					.transitionDensity()))</span>
+<span class="nc" id="L60">				/ (this.numberOfTests * this.claims.size() * this</span>
+<span class="nc" id="L61">						.numberStatesConfigurations())</span>
+				* this.incrementTransitionDensity
+				+ this.initialTransitionDensity;
+
+<span class="nc" id="L65">		double acceptingDensity = (this.configurationNumber % (this.numberOfTests</span>
+<span class="nc" id="L66">				* this.claims.size()</span>
+<span class="nc" id="L67">				* this.numberStatesConfigurations()</span>
+<span class="nc" id="L68">				* this.transitionDensity() * this</span>
+<span class="nc" id="L69">					.numberAcceptingStatesConfigurations()))</span>
+<span class="nc" id="L70">				/ (this.numberOfTests * this.claims.size()</span>
+<span class="nc" id="L71">						* this.numberStatesConfigurations() * this</span>
+<span class="nc" id="L72">							.transitionDensity())</span>
+				* this.incrementAcceptingDensity + this.initialAcceptingDensity;
+
+<span class="nc" id="L75">		double transparentDensity = (this.configurationNumber % (this.numberOfTests</span>
+<span class="nc" id="L76">				* this.claims.size()</span>
+<span class="nc" id="L77">				* this.numberStatesConfigurations()</span>
+<span class="nc" id="L78">				* this.transitionDensity()</span>
+<span class="nc" id="L79">				* this.numberAcceptingStatesConfigurations() * this</span>
+<span class="nc" id="L80">					.transparentStatesConfigurations()))</span>
+<span class="nc" id="L81">				/ (this.numberOfTests * this.claims.size()</span>
+<span class="nc" id="L82">						* this.numberStatesConfigurations()</span>
+<span class="nc" id="L83">						* this.transitionDensity() * this</span>
+<span class="nc" id="L84">							.numberAcceptingStatesConfigurations())</span>
+				* this.incrementTransparentDensity
+				+ this.initialTransparentDensity;
+
+<span class="nc" id="L88">		double replacementDensity = (this.configurationNumber % (this.numberOfTests</span>
+<span class="nc" id="L89">				* this.claims.size()</span>
+<span class="nc" id="L90">				* this.numberStatesConfigurations()</span>
+<span class="nc" id="L91">				* this.transitionDensity()</span>
+<span class="nc" id="L92">				* this.numberAcceptingStatesConfigurations()</span>
+<span class="nc" id="L93">				* this.transparentStatesConfigurations() * this</span>
+<span class="nc" id="L94">					.replacementStatesConfigurations()))</span>
+<span class="nc" id="L95">				/ (this.numberOfTests * this.claims.size()</span>
+<span class="nc" id="L96">						* this.numberStatesConfigurations()</span>
+<span class="nc" id="L97">						* this.transitionDensity()</span>
+<span class="nc" id="L98">						* this.numberAcceptingStatesConfigurations() * this</span>
+<span class="nc" id="L99">							.transparentStatesConfigurations())</span>
+				* this.incrementReplacementDensity
+				+ this.initialReplacementDensity;
+
+<span class="nc" id="L103">		int plugReplacementDensity = (this.configurationNumber % (this.numberOfTests</span>
+<span class="nc" id="L104">				* this.claims.size()</span>
+<span class="nc" id="L105">				* this.numberStatesConfigurations()</span>
+<span class="nc" id="L106">				* this.transitionDensity()</span>
+<span class="nc" id="L107">				* this.numberAcceptingStatesConfigurations()</span>
+<span class="nc" id="L108">				* this.transparentStatesConfigurations()</span>
+<span class="nc" id="L109">				* this.replacementStatesConfigurations() * this</span>
+<span class="nc" id="L110">					.replacementStatesPlugConfigurations()))</span>
+<span class="nc" id="L111">				/ (this.numberOfTests * this.claims.size()</span>
+<span class="nc" id="L112">						* this.numberStatesConfigurations()</span>
+<span class="nc" id="L113">						* this.transitionDensity()</span>
+<span class="nc" id="L114">						* this.numberAcceptingStatesConfigurations()</span>
+<span class="nc" id="L115">						* this.transparentStatesConfigurations() * replacementStatesConfigurations())</span>
+				* this.incrementReplacementPlugTransitionDensity
+				+ this.initialReplacementPugTransitionDensity;
+
+<span class="nc" id="L119">		Ex3Configuration testConfiguration = new Ex3Configuration(</span>
+				configurationNumber, currentNumberOfStates,
+<span class="nc" id="L121">				roundDouble(transitionDensity), roundDouble(acceptingDensity),</span>
+<span class="nc" id="L122">				roundDouble(transparentDensity),</span>
+<span class="nc" id="L123">				roundDouble(replacementDensity), </span>
+<span class="nc" id="L124">				plugReplacementDensity, this.claims.get(currentClaim),</span>
+				testNumber, currentClaim);
+
+<span class="nc" id="L127">		this.configurationNumber++;</span>
+
+<span class="nc" id="L129">		return testConfiguration;</span>
+
+	}
+
+	private double roundDouble(double number) {
+<span class="nc" id="L134">		return Math.abs((number * 100.0) / 100.0);</span>
+	}
+
+	public int getNumberOfPossibleConfigurations() {
+
+<span class="nc bnc" id="L139" title="All 2 branches missed.">		if(!initialized){</span>
+<span class="nc" id="L140">			return super.getNumberOfPossibleConfigurations();</span>
+		}
+		else{
+<span class="nc" id="L143">			return this.numberOfTests * this.claims.size()</span>
+<span class="nc" id="L144">					* this.numberStatesConfigurations() * this.transitionDensity()</span>
+<span class="nc" id="L145">					* this.numberAcceptingStatesConfigurations()</span>
+<span class="nc" id="L146">					* this.transparentStatesConfigurations()</span>
+<span class="nc" id="L147">					* this.replacementStatesConfigurations()</span>
+<span class="nc" id="L148">					* this.replacementStatesPlugConfigurations();</span>
+		}
+		
+
+	}
+
+	
+
+	private int replacementStatesPlugConfigurations() {
+<span class="nc" id="L157">		return (int) ((this.finalreplacementPlugTransitionDensity</span>
+				- this.initialReplacementPugTransitionDensity + this.incrementReplacementPlugTransitionDensity) / this.incrementReplacementPlugTransitionDensity);
+	}
+
+	@Override
+	public void remove() {
+<span class="nc" id="L163">		throw new UnsupportedOperationException();</span>
+	}
+
+	@Override
+	public String toString() {
+<span class="nc" id="L168">		return &quot;RandomConfigurationGenerator [configurationNumber=&quot;</span>
+				+ configurationNumber + &quot;, totalCondigurations=&quot;
+				+ totalCondigurations + &quot;, currentNumberOfStates=&quot; + &quot;]&quot;;
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

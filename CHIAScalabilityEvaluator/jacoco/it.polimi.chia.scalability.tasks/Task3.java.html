@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Task3.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CHIAScalabilityEvaluator</a> &gt; <a href="index.source.html" class="el_package">it.polimi.chia.scalability.tasks</a> &gt; <span class="el_source">Task3.java</span></div><h1>Task3.java</h1><pre class="source lang-java linenums">package it.polimi.chia.scalability.tasks;
+
+import java.util.concurrent.TimeUnit;
+
+import com.google.common.base.Stopwatch;
+
+import it.polimi.automata.IBA;
+import it.polimi.checker.Checker;
+import it.polimi.checker.SatisfactionValue;
+import it.polimi.checker.intersection.acceptingpolicies.AcceptingPolicy;
+import it.polimi.checker.intersection.acceptingpolicies.AcceptingPolicy.AcceptingType;
+import it.polimi.chia.scalability.configuration.Configuration;
+import it.polimi.chia.scalability.results.Record;
+import it.polimi.constraints.components.RefinementGenerator;
+import it.polimi.constraints.components.Replacement;
+
+public class Task3 extends Task{
+
+	private final Configuration configuration;
+	private final IBA refinedModel;
+	private final Record record;
+	private final AcceptingType acceptingPolicy;
+
+	public Task3(Configuration configuration, IBA model,
+			Replacement replacement, Record record,
+<span class="nc" id="L26">			AcceptingType acceptingPolicy) {</span>
+<span class="nc" id="L27">		this.configuration = configuration;</span>
+<span class="nc" id="L28">		this.refinedModel = new RefinementGenerator(model, replacement)</span>
+<span class="nc" id="L29">				.perform();</span>
+<span class="nc" id="L30">		this.record = record;</span>
+<span class="nc" id="L31">		this.acceptingPolicy = acceptingPolicy;</span>
+<span class="nc" id="L32">	}</span>
+
+	public Checker perform() {
+<span class="nc" id="L35">		Checker refinementChecker = new Checker(refinedModel,</span>
+<span class="nc" id="L36">				configuration.getCurrentClaim(),</span>
+<span class="nc" id="L37">				AcceptingPolicy.getAcceptingPolicy(acceptingPolicy,</span>
+<span class="nc" id="L38">						refinedModel, configuration.getCurrentClaim()));</span>
+
+<span class="nc" id="L40">		Stopwatch refinementCheckerTimer = Stopwatch.createUnstarted();</span>
+<span class="nc" id="L41">		refinementCheckerTimer.start();</span>
+<span class="nc" id="L42">		SatisfactionValue refinementSatisfactionvalue = refinementChecker</span>
+<span class="nc" id="L43">				.perform();</span>
+<span class="nc" id="L44">		refinementCheckerTimer.stop();</span>
+<span class="nc" id="L45">		this.setTaskTime(refinementCheckerTimer.elapsed(TimeUnit.MILLISECONDS));</span>
+<span class="nc" id="L46">		this.setTaskSpace(refinementChecker.getIntersectionAutomataSize());</span>
+	
+<span class="nc" id="L48">		record.setRefinementVerificationTime(refinementCheckerTimer</span>
+<span class="nc" id="L49">				.elapsed(TimeUnit.MILLISECONDS));</span>
+<span class="nc" id="L50">		record.setSizeOfTheRefinementVerification(refinementChecker</span>
+<span class="nc" id="L51">				.getIntersectionAutomataSize());</span>
+<span class="nc" id="L52">		record.setRefinementSatisfactionValue(refinementSatisfactionvalue);</span>
+<span class="nc" id="L53">		return refinementChecker;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

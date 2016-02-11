@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>IBARandomGeneratorOneBlackBoxState.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CHIAScalabilityEvaluator</a> &gt; <a href="index.source.html" class="el_package">it.polimi.chia.scalability.randomGenerators</a> &gt; <span class="el_source">IBARandomGeneratorOneBlackBoxState.java</span></div><h1>IBARandomGeneratorOneBlackBoxState.java</h1><pre class="source lang-java linenums">package it.polimi.chia.scalability.randomGenerators;
+
+import it.polimi.action.CHIAAction;
+import it.polimi.automata.BA;
+import it.polimi.automata.IBA;
+import it.polimi.automata.state.State;
+import it.polimi.automata.state.StateFactory;
+import it.polimi.automata.transition.ModelTransitionFactory;
+import it.polimi.automata.transition.Transition;
+import it.polimi.constraints.components.Replacement;
+import it.polimi.constraints.transitions.PluggingTransition;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+
+import rwth.i2.ltl2ba4j.model.IGraphProposition;
+
+import com.google.common.base.Preconditions;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
+
+/**
+ * In the experiments, both the IBAs and the replacements of the transparent
+ * states are extracted from the randomly generated BAs. The idea is to randomly
+ * encapsulate parts of the BAs into transparent states. The encapsulated
+ * automata and the corresponding incoming and outgoing transitions are the
+ * replacements associated with the transparent states, while the IBA is the
+ * automaton obtained by replacing the encapsulated parts with the corresponding
+ * transparent states. The transparent state density ($t=|T|/|Q|$) specifies the
+ * number of transparent states which must be inserted into the BA. The
+ * replacement density ($r=(\sum_{t \in T}|Q_t|)/|Q|$) specifies the number of
+ * states of the automaton to be injected inside the replacement of each
+ * transparent state.
+ * 
+ * @author Claudio Menghi
+ *
+ */
+public class IBARandomGeneratorOneBlackBoxState extends CHIAAction&lt;IBA&gt; {
+
+	private State blackBoxState;
+	private Replacement replacement;
+
+	private final int max_num_plug_transitions;
+	/**
+	 * the number of states of the BA to be encapsulated into a replacement
+	 */
+	private int numEncapsulatedStates;
+
+	/**
+	 * the BA which must be used in the computation of the IBA
+	 */
+	private BA ba;
+
+	/**
+	 * the map specifies for each transparent state the corresponding
+	 * replacement
+	 */
+	private final BiMap&lt;State, Replacement&gt; blackBoxStateNonEmptyReplacementMap;
+
+	/**
+	 * if a state of the BA is encapsulated into the replacement it maps the
+	 * state to the corresponding replacement
+	 */
+	private Set&lt;State&gt; injectedStates;
+
+	/**
+	 * the IBA that is computed starting from the BA
+	 */
+	private IBA iba;
+
+	/**
+	 * the state factory used to create the transparent states
+	 */
+	private StateFactory stateFactory;
+
+	private static final String ACTION_NAME = &quot;IBA Random Generation&quot;;
+
+	/**
+	 * 
+	 * @param ba
+	 *            is the BA from which the IBA must be extracted
+	 * @param transparentStateDensity
+	 *            is the density of the transparent states to be considered in
+	 *            the IBA computation
+	 * @param replacementDensity
+	 *            specifies the number of states of the automaton to be injected
+	 *            inside the replacement of each transparent state.
+	 * @param stateFactory
+	 *            is the factory to be used in the creation of the transparent
+	 *            states
+	 * @throws NullPointerException
+	 *             if the BA, the state factory or the randomGenerator is null
+	 * @throws IllegalArgumentException
+	 *             if the transparent state density is not grater than or equal
+	 *             to zero
+	 * @throws IllegalArgumentException
+	 *             if the replacement density is not grater than or equal to
+	 *             zero
+	 * @throws IllegalArgumentException
+	 *             if the transparentStateDensity multiplied per the number of
+	 *             states of the automaton multiplied for the replacement
+	 *             density multiplied for the number of the state of the
+	 *             automaton is not less than the number of the states of the
+	 *             automaton
+	 */
+	public IBARandomGeneratorOneBlackBoxState(BA ba, StateFactory stateFactory,
+			double transparentStateDensity, double replacementDensity, int max_num_plug_transitions) {
+<span class="nc" id="L115">		super(ACTION_NAME);</span>
+<span class="nc" id="L116">		Preconditions.checkNotNull(ba, &quot;The BA cannot be null&quot;);</span>
+<span class="nc" id="L117">		Preconditions.checkNotNull(stateFactory,</span>
+				&quot;The state factory cannot be null&quot;);
+<span class="nc bnc" id="L119" title="All 4 branches missed.">		Preconditions</span>
+<span class="nc" id="L120">				.checkArgument(</span>
+						transparentStateDensity &gt;= 0 &amp;&amp; replacementDensity &lt;= 1,
+						&quot;The transparent state density must be grater than or equal to zero and less than or equal to 1&quot;);
+<span class="nc bnc" id="L123" title="All 4 branches missed.">		Preconditions</span>
+<span class="nc" id="L124">				.checkArgument(</span>
+						replacementDensity &gt;= 0 &amp;&amp; replacementDensity &lt;= 1,
+						&quot;The replacement density must be grater than or equal to zero and less than or equal to 1&quot;);
+
+<span class="nc" id="L128">		Preconditions</span>
+<span class="nc" id="L129">				.checkArgument(</span>
+<span class="nc" id="L130">						Math.abs(Math.abs(transparentStateDensity)</span>
+<span class="nc" id="L131">								* ba.getStates().size()</span>
+<span class="nc" id="L132">								+ Math.abs(replacementDensity)</span>
+<span class="nc" id="L133">								* ba.getStates().size()) &lt;= ba.getStates()</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">								.size(),</span>
+						&quot;The transparentStateDensity * ba.getStates().size() * replacementDensity* ba.getStates().size() &lt;= ba.getStates().size(): &quot;
+<span class="nc" id="L136">								+ Math.abs(Math.abs(transparentStateDensity)</span>
+<span class="nc" id="L137">										* ba.getStates().size()</span>
+<span class="nc" id="L138">										+ Math.abs(replacementDensity)</span>
+<span class="nc" id="L139">										* ba.getStates().size())</span>
+								+ &quot;&lt;&quot;
+<span class="nc" id="L141">								+ ba.getStates().size());</span>
+
+<span class="nc" id="L143">		this.ba = ba;</span>
+<span class="nc" id="L144">		this.blackBoxStateNonEmptyReplacementMap = HashBiMap.create();</span>
+<span class="nc" id="L145">		this.numEncapsulatedStates = (int) Math.abs((ba.getStates().size() - 1)</span>
+				* replacementDensity);
+
+<span class="nc" id="L148">		Preconditions</span>
+<span class="nc" id="L149">				.checkArgument(</span>
+<span class="nc bnc" id="L150" title="All 2 branches missed.">						numEncapsulatedStates &lt;= ba.getStates().size(),</span>
+						&quot;The number of the encapsultated states must be less than or equal to the states of the BA&quot;);
+<span class="nc" id="L152">		this.stateFactory = stateFactory;</span>
+<span class="nc" id="L153">		this.max_num_plug_transitions=max_num_plug_transitions;</span>
+<span class="nc" id="L154">	}</span>
+
+	/**
+	 * returns the randomly generated IBA
+	 * 
+	 * @return the randomly generated IBA
+	 */
+	public IBA perform() {
+
+		// creates the IBA to be returned
+<span class="nc" id="L164">		this.iba = new IBA(new ModelTransitionFactory());</span>
+
+		// adds the propositions to the IBA
+<span class="nc" id="L167">		this.addPropositions();</span>
+
+		// creates the transparent states and the corresponding replacements
+<span class="nc" id="L170">		this.createBlackBoxStatesAndReplacements();</span>
+
+<span class="nc" id="L172">		List&lt;State&gt; baStates = new ArrayList&lt;State&gt;(ba.getStates());</span>
+<span class="nc" id="L173">		Collections.shuffle(baStates);</span>
+<span class="nc" id="L174">		this.injectedStates = ImmutableSet.copyOf(Iterables.limit(baStates,</span>
+				numEncapsulatedStates));
+
+		// adds the subset of states to the replacement
+<span class="nc" id="L178">		this.addStatesToTheReplacement(this.injectedStates);</span>
+
+		// adds the remaining states to the IBA as regular states
+<span class="nc" id="L181">		Set&lt;State&gt; remainingBAStates = new HashSet&lt;State&gt;(ba.getStates());</span>
+<span class="nc" id="L182">		remainingBAStates.removeAll(this.injectedStates);</span>
+<span class="nc" id="L183">		this.addStatesToTheIBA(remainingBAStates);</span>
+
+		// generates the transition between the different states
+<span class="nc" id="L186">		this.generateTransitions();</span>
+
+<span class="nc" id="L188">		this.performed();</span>
+<span class="nc" id="L189">		return iba;</span>
+	}
+
+	/**
+	 * adds the propositions to the BA to be returned
+	 */
+	private void addPropositions() {
+<span class="nc bnc" id="L196" title="All 2 branches missed.">		for (IGraphProposition proposition : this.ba.getPropositions()) {</span>
+<span class="nc" id="L197">			this.iba.addProposition(proposition);</span>
+<span class="nc" id="L198">		}</span>
+<span class="nc" id="L199">	}</span>
+
+	/**
+	 * adds the state to the replacement
+	 * 
+	 * @param states
+	 *            the set of states to be added to the replacements
+	 * @throws NullPointerException
+	 *             if states is null
+	 * @throws IllegalArgumentException
+	 *             if the set of state is not included in the set of states of
+	 *             the BA
+	 */
+	private void addStatesToTheReplacement(Set&lt;State&gt; states) {
+<span class="nc" id="L213">		Preconditions.checkNotNull(states,</span>
+				&quot;The set of the states cannot be null&quot;);
+<span class="nc" id="L215">		Preconditions</span>
+<span class="nc" id="L216">				.checkArgument(</span>
+<span class="nc" id="L217">						this.ba.getStates().containsAll(states),</span>
+						&quot;The set of states must be contained into the set of the states of the automaton&quot;);
+
+<span class="nc" id="L220">		iba.addBlackBoxState(blackBoxState);</span>
+
+<span class="nc" id="L222">		Iterator&lt;State&gt; baStatesIterator = states.iterator();</span>
+
+<span class="nc bnc" id="L224" title="All 2 branches missed.">		for (int i = 0; i &lt; numEncapsulatedStates; i++) {</span>
+
+<span class="nc" id="L226">			State baState = baStatesIterator.next();</span>
+
+<span class="nc" id="L228">			replacement.getAutomaton().addState(baState);</span>
+<span class="nc" id="L229">			this.blackBoxStateNonEmptyReplacementMap.put(blackBoxState,</span>
+					replacement);
+<span class="nc bnc" id="L231" title="All 2 branches missed.">			if (this.ba.getInitialStates().contains(baState)) {</span>
+<span class="nc" id="L232">				iba.addInitialState(blackBoxState);</span>
+<span class="nc" id="L233">				replacement.getAutomaton().addInitialState(baState);</span>
+			}
+<span class="nc bnc" id="L235" title="All 2 branches missed.">			if (this.ba.getAcceptStates().contains(baState)) {</span>
+<span class="nc" id="L236">				iba.addAcceptState(blackBoxState);</span>
+<span class="nc" id="L237">				replacement.getAutomaton().addAcceptState(baState);</span>
+			}
+		}
+
+<span class="nc" id="L241">	}</span>
+
+	/**
+	 * adds the states to the set of regular states of the IBA
+	 * 
+	 * @param states
+	 *            the regular states to be added to the IBA
+	 * @throws NullPointerException
+	 *             if the set of the states is null
+	 * @throws IllegalArgumentException
+	 *             if the set of the state is not included in the states of the
+	 *             BA
+	 */
+	private void addStatesToTheIBA(Set&lt;State&gt; states) {
+<span class="nc" id="L255">		Preconditions.checkNotNull(states,</span>
+				&quot;The set of the states cannot be null&quot;);
+<span class="nc" id="L257">		Preconditions</span>
+<span class="nc" id="L258">				.checkArgument(</span>
+<span class="nc" id="L259">						this.ba.getStates().containsAll(states),</span>
+						&quot;The set of the state to be added must be included into the set of the states of the IBA&quot;);
+		// adding the other states to the iba
+<span class="nc bnc" id="L262" title="All 2 branches missed.">		for (State state : states) {</span>
+<span class="nc" id="L263">			iba.addState(state);</span>
+<span class="nc bnc" id="L264" title="All 2 branches missed.">			if (this.ba.getInitialStates().contains(state)) {</span>
+<span class="nc" id="L265">				iba.addInitialState(state);</span>
+			}
+<span class="nc bnc" id="L267" title="All 2 branches missed.">			if (this.ba.getAcceptStates().contains(state)) {</span>
+<span class="nc" id="L268">				iba.addAcceptState(state);</span>
+			}
+<span class="nc" id="L270">		}</span>
+<span class="nc" id="L271">	}</span>
+
+	/**
+	 * generates the transitions between the states of the IBA and inside the
+	 * replacement
+	 */
+	private void generateTransitions() {
+		// adding the transitions
+<span class="nc" id="L279">		int numIncomingTransitions = 0;</span>
+<span class="nc" id="L280">		int numOutgoingTransitions = 0;</span>
+<span class="nc" id="L281">		Set&lt;Transition&gt; baTransitions = new HashSet&lt;Transition&gt;(</span>
+<span class="nc" id="L282">				this.ba.getTransitions());</span>
+
+<span class="nc" id="L284">		List&lt;State&gt; injectedStateList = new ArrayList&lt;State&gt;(</span>
+				this.injectedStates);
+<span class="nc" id="L286">		List&lt;State&gt; notInjectedStateList=new ArrayList&lt;State&gt;(this.ba.getStates());</span>
+<span class="nc" id="L287">		notInjectedStateList.removeAll(this.injectedStates);</span>
+<span class="nc" id="L288">		Random randomGenerator = new Random();</span>
+<span class="nc bnc" id="L289" title="All 2 branches missed.">		for (Transition transition : baTransitions) {</span>
+<span class="nc" id="L290">			State source = this.ba.getTransitionSource(transition);</span>
+<span class="nc" id="L291">			State destination = this.ba.getTransitionDestination(transition);</span>
+
+<span class="nc bnc" id="L293" title="All 2 branches missed.">			if (this.injectedStates.contains(source)</span>
+<span class="nc bnc" id="L294" title="All 2 branches missed.">					&amp;&amp; this.injectedStates.contains(destination)) {</span>
+
+<span class="nc" id="L296">				replacement.getAutomaton().addTransition(</span>
+						source,
+						destination,
+<span class="nc" id="L299">						new ModelTransitionFactory().create(transition.getId(),</span>
+<span class="nc" id="L300">								transition.getPropositions()));</span>
+			} else {
+<span class="nc bnc" id="L302" title="All 2 branches missed.">				if (this.injectedStates.contains(source)) {</span>
+<span class="nc bnc" id="L303" title="All 2 branches missed.">					if (numOutgoingTransitions &lt; max_num_plug_transitions) {</span>
+<span class="nc" id="L304">						numOutgoingTransitions++;</span>
+<span class="nc" id="L305">						this.iba.addTransition(</span>
+								blackBoxState,
+								destination,
+<span class="nc" id="L308">								new ModelTransitionFactory().create(</span>
+<span class="nc" id="L309">										transition.getId(),</span>
+<span class="nc" id="L310">										transition.getPropositions()));</span>
+<span class="nc" id="L311">						replacement</span>
+<span class="nc" id="L312">								.addOutgoingTransition(new PluggingTransition(</span>
+<span class="nc" id="L313">										transition.getId(), source,</span>
+										destination,
+<span class="nc" id="L315">										new ModelTransitionFactory().create(</span>
+<span class="nc" id="L316">												transition.getId(),</span>
+<span class="nc" id="L317">												transition.getPropositions()),</span>
+										false));
+					} else {
+<span class="nc" id="L320">						this.replacement.getAutomaton().addTransition(</span>
+								source,
+<span class="nc" id="L322">								injectedStateList.get(randomGenerator</span>
+<span class="nc" id="L323">										.nextInt(injectedStateList.size())),</span>
+<span class="nc" id="L324">								new ModelTransitionFactory().create(</span>
+<span class="nc" id="L325">										transition.getId(),</span>
+<span class="nc" id="L326">										transition.getPropositions()));</span>
+
+					}
+
+				} else {
+<span class="nc bnc" id="L331" title="All 2 branches missed.">					if (this.injectedStates.contains(destination)) {</span>
+<span class="nc bnc" id="L332" title="All 2 branches missed.">						if (numIncomingTransitions &lt; max_num_plug_transitions) {</span>
+<span class="nc" id="L333">							numIncomingTransitions++;</span>
+<span class="nc" id="L334">							this.iba.addTransition(source, this.blackBoxState,</span>
+<span class="nc" id="L335">									new ModelTransitionFactory().create(</span>
+<span class="nc" id="L336">											transition.getId(),</span>
+<span class="nc" id="L337">											transition.getPropositions()));</span>
+<span class="nc" id="L338">							replacement</span>
+<span class="nc" id="L339">									.addIncomingTransition(new PluggingTransition(</span>
+											source,
+											destination,
+<span class="nc" id="L342">											new ModelTransitionFactory().create(</span>
+<span class="nc" id="L343">													transition.getId(),</span>
+													transition
+<span class="nc" id="L345">															.getPropositions()),</span>
+											true));
+						} else {
+<span class="nc" id="L348">							this.iba.addTransition(source, notInjectedStateList.get(randomGenerator</span>
+<span class="nc" id="L349">													.nextInt(notInjectedStateList</span>
+<span class="nc" id="L350">															.size())), new ModelTransitionFactory().create(</span>
+<span class="nc" id="L351">																	transition.getId(),</span>
+																	transition
+<span class="nc" id="L353">																			.getPropositions()));</span>
+							
+						}
+
+					} else {
+
+<span class="nc bnc" id="L359" title="All 2 branches missed.">						if (this.iba.getBlackBoxStates().contains(source)) {</span>
+<span class="nc" id="L360">							throw new InternalError(</span>
+									&quot;The source cannot be a black box&quot;);
+						}
+<span class="nc bnc" id="L363" title="All 2 branches missed.">						if (this.iba.getBlackBoxStates().contains(destination)) {</span>
+<span class="nc" id="L364">							throw new InternalError(</span>
+									&quot;The destination cannot be a black box&quot;);
+
+						}
+<span class="nc" id="L368">						this.iba.addTransition(</span>
+								source,
+								destination,
+<span class="nc" id="L371">								new ModelTransitionFactory().create(</span>
+<span class="nc" id="L372">										transition.getId(),</span>
+<span class="nc" id="L373">										transition.getPropositions()));</span>
+					}
+				}
+			}
+<span class="nc" id="L377">		}</span>
+<span class="nc" id="L378">	}</span>
+
+	/**
+	 * creates the transparent state and the corresponding replacements
+	 */
+	private void createBlackBoxStatesAndReplacements() {
+
+<span class="nc" id="L385">		this.blackBoxState = stateFactory.create(&quot;t1&quot;);</span>
+<span class="nc" id="L386">		this.replacement = new Replacement(blackBoxState, new IBA(</span>
+				new ModelTransitionFactory()),
+				new HashSet&lt;PluggingTransition&gt;(),
+				new HashSet&lt;PluggingTransition&gt;());
+<span class="nc" id="L390">		this.replacement.getAutomaton().addPropositions(</span>
+<span class="nc" id="L391">				this.ba.getPropositions());</span>
+<span class="nc" id="L392">	}</span>
+
+	/**
+	 * returns a Bidirectional map which specifies for each transparent state
+	 * the corresponding replacement
+	 * 
+	 * @return a Bidirectional map which specifies for each transparent state
+	 *         the corresponding replacement
+	 * @throws IllegalStateException
+	 *             if the IBA generation has not been already performed
+	 */
+	public Replacement getNonEmptyReplacements() {
+<span class="nc" id="L404">		Preconditions</span>
+<span class="nc" id="L405">				.checkState(</span>
+<span class="nc" id="L406">						this.isPerformed(),</span>
+						&quot;The action &quot;
+								+ ACTION_NAME
+								+ &quot; must be performed before getting the map between transparent states and replacements&quot;);
+<span class="nc" id="L410">		return replacement;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>
