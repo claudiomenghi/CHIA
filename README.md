@@ -1,7 +1,7 @@
 <div align="center">
 <img src="./CHIALogo.png" alt="CHIA logo" width="50" />
 </div>
-# CHIA
+# CHIA 
 
 
 [![CHecher for Incomplete Automata](http://i.imgur.com/46OKTDY.png
