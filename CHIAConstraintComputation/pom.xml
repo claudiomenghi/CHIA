@@ -14,9 +14,12 @@
 
 	<packaging>jar</packaging>
 	<name>CHIAContraintComputation</name>
+	
 	<url>http://maven.apache.org</url>
 
-	
+	<properties>
+		<javadoc.path>CHIAConstraintComputation</javadoc.path>
+	</properties>
 	<build>
 		<!-- contains the directory where the source code is placed -->
 		<sourceDirectory>src/main/java</sourceDirectory>

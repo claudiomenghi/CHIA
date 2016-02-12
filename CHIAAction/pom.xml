@@ -13,9 +13,13 @@
 
 	<packaging>jar</packaging>
 	<name>CHIAAction</name>
+	<description>Contains the Interfaces upon which CHIA is based</description>
 	<url>http://maven.apache.org</url>
 
-	
+	<properties>
+		<javadoc.path>CHIAAction</javadoc.path>
+	</properties>
+
 	<build>
 		<!-- contains the directory where the source code is placed -->
 		<sourceDirectory>src/main/java</sourceDirectory>

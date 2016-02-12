@@ -4,7 +4,7 @@
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>CHIAAutomata</artifactId>
-
+	
 	<parent>
 		<groupId>it.polimi.chia</groupId>
 		<artifactId>CHIA</artifactId>
@@ -13,7 +13,13 @@
 
 	<packaging>jar</packaging>
 	<name>CHIAAutomata</name>
+	<description>Contains the classes that describe Buchi and Incomplete Buchi automata</description>
+
 	<url>http://maven.apache.org</url>
+
+	<properties>
+		<javadoc.path>CHIAAutomata</javadoc.path>
+	</properties>
 
 	<build>
 		<!-- contains the directory where the source code is placed -->

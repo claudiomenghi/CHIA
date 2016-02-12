@@ -7,14 +7,19 @@
 	<packaging>jar</packaging>
 	<name>CHIAChecker</name>
 	<url>http://maven.apache.org</url>
-
+	<description>contains the classes which allow checking whether a model described through an IBA satisfies, does not satisfy or possibly satisfies a claim of interest.</description>
+	
 	<parent>
 		<groupId>it.polimi.chia</groupId>
 		<artifactId>CHIA</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-		<build>
+
+	<properties>
+		<javadoc.path>CHIAChecker</javadoc.path>
+	</properties>
+	<build>
 		<!-- contains the directory where the source code is placed -->
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<!-- contains the directory where the test cases are located -->
@@ -25,7 +30,7 @@
 				<directory>${project.basedir}/src/test/resources</directory>
 			</testResource>
 		</testResources>
-	
+
 	</build>
 	<dependencies>
 		<dependency>

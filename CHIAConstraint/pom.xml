@@ -14,7 +14,10 @@
 	<packaging>jar</packaging>
 	<name>CHIAConstraint</name>
 	<url>http://maven.apache.org</url>
-	
+
+	<properties>
+		<javadoc.path>CHIAConstraint</javadoc.path>
+	</properties>
 	<build>
 		<!-- contains the directory where the source code is placed -->
 		<sourceDirectory>src/main/java</sourceDirectory>
@@ -26,9 +29,9 @@
 				<directory>src/main/resources</directory>
 			</resource>
 		</resources>
-		
+
 	</build>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>it.polimi.chia</groupId>

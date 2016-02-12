@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>CHIAAutomataIO</artifactId>
-
+	<description>provides the classes to load and save BAs, IBAs and intersection automata from and to an appropriate XML files</description>
 	<parent>
 		<groupId>it.polimi.chia</groupId>
 		<artifactId>CHIA</artifactId>
@@ -13,7 +13,9 @@
 	<name>CHIAAutomataIO</name>
 	<url>http://maven.apache.org</url>
 
-
+	<properties>
+		<javadoc.path>CHIAAutomataIO</javadoc.path>
+	</properties>
 	<build>
 		<!-- contains the directory where the source code is placed -->
 		<sourceDirectory>src/main/java</sourceDirectory>
@@ -25,9 +27,9 @@
 				<directory>src/main/resources</directory>
 			</resource>
 		</resources>
-		
+
 	</build>
-	
+
 	<dependencies>
 
 		<!-- contains the dependency to the Buchi Automaton -->

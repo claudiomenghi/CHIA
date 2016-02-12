@@ -13,6 +13,9 @@
 	<name>CHIAFramework</name>
 	<url>http://maven.apache.org</url>
 
+	<properties>
+		<javadoc.path>CHIAFramework</javadoc.path>
+	</properties>
 	<build>
 		<!-- contains the directory where the source code is placed -->
 		<sourceDirectory>src/main/java</sourceDirectory>
@@ -134,7 +137,7 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>it.polimi.chia</groupId>
