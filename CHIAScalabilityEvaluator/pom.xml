@@ -22,30 +22,12 @@
 		<!-- contains the directory where the test cases are located -->
 		<testSourceDirectory>src/test/java</testSourceDirectory>
 
+
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
-				<targetPath>${project.build.directory}</targetPath>
-				<includes>
-					<include>Claim1.xml</include>
-					<include>Claim2.xml</include>
-					<include>Claim3.xml</include>
-					<include>config.txt</include>
-					<include>configEx1.txt</include>
-					<include>configEx2.txt</include>
-				</includes>
-				<filtering>false</filtering>
 			</resource>
-			<resource>
-				<directory>src/main/resources</directory>
-				<targetPath>${basedir}/target/classes</targetPath>
-				<includes>
-					<include>History.txt</include>
-					<include>log4j.properties</include>
-					<include>logFile.log</include>
-				</includes>
-				<filtering>false</filtering>
-			</resource>
+			
 		</resources>
 
 		<plugins>
