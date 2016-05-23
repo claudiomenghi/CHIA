@@ -17,3 +17,6 @@ CHIALTLIOltl2ba
 /bin/
 bin*.pdf
 /CHIA.mp4
+.project
+*.project
+*.classpath
