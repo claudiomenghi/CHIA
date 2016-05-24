@@ -45,6 +45,7 @@ public class RefinementGenerator extends CHIAAction<IBA> {
 				"The replacement to be considered cannot be null");
 		this.model = model;
 		this.replacement = replacement;
+		this.checkValidReplacement();
 
 	}
 
@@ -57,6 +58,8 @@ public class RefinementGenerator extends CHIAAction<IBA> {
 	 */
 	public void checkValidReplacement() {
 		if (!model.getBlackBoxStates().contains(replacement.getModelState())) {
+			System.out.println(model.getBlackBoxStates());
+			System.out.println(replacement.getModelState());
 			throw new IllegalArgumentException(
 					"The state of the replacement must be a black box state of the original model");
 		}
@@ -82,7 +85,6 @@ public class RefinementGenerator extends CHIAAction<IBA> {
 	 *             if the replacement is not a valid replacement
 	 */
 	public IBA perform() {
-		this.checkValidReplacement();
 		IBA refinement = model.clone();
 
 		refinement
@@ -130,8 +132,10 @@ public class RefinementGenerator extends CHIAAction<IBA> {
 					outTransition.getId(), outTransition.getTransition()
 							.getPropositions());
 
-			refinement.addTransition(outTransition.getSource(),
-					outTransition.getDestination(), transitionClone);
+			if(!refinement.getTransitions().contains(transitionClone)){
+				refinement.addTransition(outTransition.getSource(),
+						outTransition.getDestination(), transitionClone);	
+			}
 		}
 
 		return refinement;

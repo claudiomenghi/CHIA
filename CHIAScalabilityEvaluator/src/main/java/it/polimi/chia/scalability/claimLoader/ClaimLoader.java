@@ -14,7 +14,7 @@ public class ClaimLoader {
 
 	public List<BA> getClaimToBeConsidered() throws Exception {
 
-		List<BA> claims = new ArrayList<BA>();
+		List<BA> claims = new ArrayList<>();
 
 		//claims.add(new LTLtoBATransformer(claim0).perform());
 		//claims.add(new LTLtoBATransformer(claim1).perform());

@@ -21,6 +21,7 @@ import it.polimi.chia.scalability.tasks.Task3;
 import it.polimi.chia.scalability.tasks.Task4;
 import it.polimi.constraintcomputation.ConstraintGenerator;
 import it.polimi.constraints.Constraint;
+import it.polimi.constraints.components.RefinementGenerator;
 import it.polimi.constraints.components.Replacement;
 import it.polimi.constraints.components.SubProperty;
 import it.polimi.replacementchecker.ReplacementChecker;
@@ -222,7 +223,8 @@ public class Experiment3 {
 					Replacement replacement = getRandomReplacement(record,
 							replacements);
 
-					Task3 task3 = new Task3(configuration, ibaModel, replacement,
+					IBA refinedModel=new RefinementGenerator(ibaModel, replacement).perform();
+					Task3 task3 = new Task3(configuration, refinedModel,
 							record, acceptingPolicy);
 					Checker checkerTask3=task3.perform();
 

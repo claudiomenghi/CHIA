@@ -130,11 +130,11 @@ public class ScalabilityTest {
 		claims.add(new ClaimReader(new File(ClassLoader.getSystemResource(
 				"Claim1.xml").getPath())).perform());
 
-		// claims.add(new ClaimReader(new File(ClassLoader.getSystemResource(
-		// "Claim2.xml").getPath())).perform());
+		claims.add(new ClaimReader(new File(ClassLoader.getSystemResource(
+				"Claim2.xml").getPath())).perform());
 
-		// claims.add(new ClaimReader(new File(ClassLoader.getSystemResource(
-		// "Claim3.xml").getPath())).perform());
+		claims.add(new ClaimReader(new File(ClassLoader.getSystemResource(
+				"Claim3.xml").getPath())).perform());
 
 		return claims;
 
@@ -248,12 +248,11 @@ public class ScalabilityTest {
 				IBA refinedModel = new RefinementGenerator(model, replacement)
 						.perform();
 				Checker refinementChecker = new Task3(configuration,
-						refinedModel, replacement, record, acceptingPolicy)
-						.perform();
+						refinedModel, record, acceptingPolicy).perform();
 
 				// VERIFICATION OF THE REPLACEMENT
 				ReplacementChecker replacementChecker = new Task4(replacement,
-						constraint,  acceptingPolicy).perform();
+						constraint, acceptingPolicy).perform();
 
 				// result comparison
 				if (refinementChecker.getIntersectionAutomataSize() >= replacementChecker
@@ -278,14 +277,14 @@ public class ScalabilityTest {
 				System.gc();
 				System.runFinalization();
 				ConfWriter cw = new ConfWriter(confParser,
-						randomConfigurationGenerator, confParser.getTestDirectory()
-								+ "/confFile.txt");
+						randomConfigurationGenerator,
+						confParser.getTestDirectory() + "/confFile.txt");
 				cw.write();
 				totalTimer.stop();
 				System.out.println("Configuration evaluated in: "
 						+ totalTimer.elapsed(TimeUnit.MINUTES) + " m ");
-			} 
-			
+			}
+
 		}
 		testTimer.stop();
 		System.out.println("Test performed in: "

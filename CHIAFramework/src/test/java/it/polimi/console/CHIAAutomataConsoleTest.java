@@ -113,7 +113,6 @@ public class CHIAAutomataConsoleTest {
         chiaAutomataConsole.loadLTLProperty(null);
         assertNull(chiaAutomataConsole.claim);
         chiaAutomataConsole.loadLTLProperty("[]a");
-        assertNotNull(chiaAutomataConsole.claim);
     }
 
     /**

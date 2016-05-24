@@ -17,26 +17,14 @@
 		<javadoc.path>CHIAScalabilityEvaluator</javadoc.path>
 	</properties>
 	<build>
-		<!-- contains the directory where the source code is placed -->
-		<sourceDirectory>src/main/java</sourceDirectory>
-		<!-- contains the directory where the test cases are located -->
-		<testSourceDirectory>src/test/java</testSourceDirectory>
-
-
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-			</resource>
-			
-		</resources>
-
+		
 		<plugins>
 			<!-- Set a compiler level -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>it.polimi.chia.scalability.experiments.Experiment1</mainClass>
+					<mainClass>it.polimi.chia.scalability.ScalabilityTest</mainClass>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -46,7 +34,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>it.polimi.chia.scalability.experiments.Experiment1</mainClass>
+							<mainClass>it.polimi.chia.scalability.ScalabilityTest</mainClass>
 						</manifest>
 						<manifestEntries>
 							<Class-Path>.</Class-Path>
@@ -60,7 +48,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>it.polimi.chia.scalability.experiments.Experiment1</mainClass>
+							<mainClass>it.polimi.chia.scalability.ScalabilityTest</mainClass>
 						</manifest>
 						<manifestEntries>
 							<Class-Path>.</Class-Path>
@@ -96,7 +84,7 @@
 						</descriptorRefs>
 						<archive>
 							<manifest>
-								<mainClass>it.polimi.chia.scalability.experiments.Experiment1</mainClass>
+								<mainClass>it.polimi.chia.scalability.ScalabilityTest</mainClass>
 							</manifest>
 							<manifestEntries>
 								<Class-Path>.</Class-Path>
