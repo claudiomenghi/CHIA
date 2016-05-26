@@ -14,7 +14,6 @@ import com.google.common.base.Stopwatch;
 
 public class Task3 extends Task{
 
-	private final Configuration configuration;
 	private final IBA refinedModel;
 	private final Record record;
 	private final AcceptingType acceptingPolicy;
@@ -22,7 +21,7 @@ public class Task3 extends Task{
 	public Task3(Configuration configuration, IBA model,
 			Record record,
 			AcceptingType acceptingPolicy) {
-		this.configuration = configuration;
+		super(configuration);
 		this.refinedModel = model;
 		this.record = record;
 		this.acceptingPolicy = acceptingPolicy;
@@ -30,9 +29,9 @@ public class Task3 extends Task{
 
 	public Checker perform() {
 		Checker refinementChecker = new Checker(refinedModel,
-				configuration.getCurrentClaim(),
+				this.getConfiguration().getCurrentClaim(),
 				AcceptingPolicy.getAcceptingPolicy(acceptingPolicy,
-						refinedModel, configuration.getCurrentClaim()));
+						refinedModel, this.getConfiguration().getCurrentClaim()));
 
 		Stopwatch refinementCheckerTimer = Stopwatch.createUnstarted();
 		refinementCheckerTimer.start();

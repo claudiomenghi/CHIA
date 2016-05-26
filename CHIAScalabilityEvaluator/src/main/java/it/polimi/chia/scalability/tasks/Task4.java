@@ -2,6 +2,7 @@ package it.polimi.chia.scalability.tasks;
 
 import it.polimi.checker.intersection.acceptingpolicies.AcceptingPolicy;
 import it.polimi.checker.intersection.acceptingpolicies.AcceptingPolicy.AcceptingType;
+import it.polimi.chia.scalability.configuration.Configuration;
 import it.polimi.constraints.Constraint;
 import it.polimi.constraints.components.Replacement;
 import it.polimi.constraints.components.SubProperty;
@@ -17,8 +18,9 @@ public class Task4 extends Task {
 	private final Constraint constraint;
 	private final AcceptingType acceptingPolicy;
 
-	public Task4(Replacement replacement, Constraint constraint,
-			AcceptingType acceptingPolicy) {
+	public Task4(Configuration configuration, Replacement replacement,
+			Constraint constraint, AcceptingType acceptingPolicy) {
+		super(configuration);
 		this.replacement = replacement;
 		this.constraint = constraint;
 		this.acceptingPolicy = acceptingPolicy;

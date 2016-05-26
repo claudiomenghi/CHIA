@@ -44,7 +44,7 @@ public class Experiment1 {
 	/**
 	 * The accepting policy to be used
 	 */
-	private final static AcceptingType acceptingPolicy = AcceptingType.BA;
+	private static final  AcceptingType acceptingPolicy = AcceptingType.BA;
 
 	private final ConfParser confParser;
 

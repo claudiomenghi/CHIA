@@ -14,9 +14,9 @@ import java.util.concurrent.TimeUnit;
 
 import com.google.common.base.Stopwatch;
 
-public class Task1 {
+public class Task1 extends Task{
 
-	private final Configuration configuration;
+
 	private final BA modelBA;
 	private final AcceptingType acceptingPolicy;
 	
@@ -24,7 +24,7 @@ public class Task1 {
 	private int taskSpace;
 	
 	public Task1(Configuration configuration, BA modelBA, AcceptingType acceptingPolicy) {
-		this.configuration=configuration;
+		super(configuration);
 		this.modelBA=modelBA;
 		this.acceptingPolicy=acceptingPolicy;
 	}
@@ -33,9 +33,9 @@ public class Task1 {
 		IBA modelIBA = getIBA(modelBA);
 		Stopwatch timer = Stopwatch.createUnstarted();
 		Checker checker = new Checker(modelIBA,
-				configuration.getCurrentClaim(),
+				getConfiguration().getCurrentClaim(),
 				AcceptingPolicy.getAcceptingPolicy(acceptingPolicy, modelBA,
-						configuration.getCurrentClaim()));
+						getConfiguration().getCurrentClaim()));
 
 		timer.start();
 		checker.perform();

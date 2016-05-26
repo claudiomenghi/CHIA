@@ -15,7 +15,7 @@ import com.google.common.base.Preconditions;
  * is the factory that allows to create transitions of the type Transition. See
  * {@link Transition}. It implements the {@link TransitionFactory} interface.
  * 
- * @author claudiomenghi
+ * @author Claudio Menghi
  */
 @SuppressWarnings("serial")
 public class ClaimTransitionFactory extends

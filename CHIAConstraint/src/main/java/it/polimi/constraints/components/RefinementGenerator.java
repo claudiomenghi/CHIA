@@ -132,10 +132,8 @@ public class RefinementGenerator extends CHIAAction<IBA> {
 					outTransition.getId(), outTransition.getTransition()
 							.getPropositions());
 
-			if(!refinement.getTransitions().contains(transitionClone)){
 				refinement.addTransition(outTransition.getSource(),
 						outTransition.getDestination(), transitionClone);	
-			}
 		}
 
 		return refinement;

@@ -235,7 +235,7 @@ public class Experiment3 {
 					System.out.println("Computing the constraints "+dateFormat.format(new Date()));
 					Constraint constraint = computeConstraint(configuration, ibaModel,
 							checker, replacement, record);
-					Task4 task4=new Task4(replacement, constraint, acceptingPolicy);
+					Task4 task4=new Task4(configuration, replacement, constraint, acceptingPolicy);
 					ReplacementChecker replacementChecker=task4.perform();
 					SatisfactionValue task4value=replacementChecker.perform();
 					int task4Space=task4.getTaskSpace();

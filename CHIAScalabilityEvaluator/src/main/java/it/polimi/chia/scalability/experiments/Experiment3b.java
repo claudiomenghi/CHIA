@@ -31,9 +31,6 @@ import it.polimi.replacementchecker.ReplacementChecker;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -58,12 +55,11 @@ public class Experiment3b {
 	/**
 	 * The accepting policy to be used
 	 */
-	private final static AcceptingType acceptingPolicy = AcceptingType.BA;
+	private static final  AcceptingType acceptingPolicy = AcceptingType.BA;
 
 	private final Ex3bConfParser confParser;
 	
-	private final  DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-
+	
 	/**
 	 * creates a new scalability test
 	 * 
@@ -234,7 +230,7 @@ public class Experiment3b {
 						
 						Constraint constraint = computeConstraint(configuration, ibaModel,
 								checker, replacement, record);
-						Task4 task4=new Task4(replacement, constraint, acceptingPolicy);
+						Task4 task4=new Task4(configuration, replacement, constraint, acceptingPolicy);
 						ReplacementChecker replacementChecker=task4.perform();
 						SatisfactionValue task4value=replacementChecker.perform();
 						int task4Space=task4.getTaskSpace();
