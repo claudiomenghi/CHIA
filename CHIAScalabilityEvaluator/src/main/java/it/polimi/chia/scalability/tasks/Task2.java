@@ -17,8 +17,6 @@ public class Task2 extends Task{
 	private final IBA model;
 	private final Record record;
 	private final AcceptingType acceptingPolicy;
-	private long taskTime;
-	private int taskSpace;
 	
 
 	public Task2(Configuration configuration, IBA model, Record record,
@@ -39,25 +37,11 @@ public class Task2 extends Task{
 		SatisfactionValue ibavalue = checker.perform();
 		incompleteCheckerTimer.stop();
 
-		this.taskTime=incompleteCheckerTimer.elapsed(TimeUnit.MILLISECONDS);
-		this.taskSpace=checker.getIntersectionAutomataSize();
+		this.setTaskTime(incompleteCheckerTimer.elapsed(TimeUnit.MILLISECONDS));
+		this.setTaskSpace(checker.getIntersectionAutomataSize());
 		record.setSizeModel(model.size());
 		record.setInitialSatisfactioValue(ibavalue);
 		record.setNumTransparentStatesModel(model.getBlackBoxStates().size());
 		return checker;
-	}
-
-	/**
-	 * @return the taskTime
-	 */
-	public long getTaskTime() {
-		return taskTime;
-	}
-
-	/**
-	 * @return the taskSpace
-	 */
-	public int getTaskSpace() {
-		return taskSpace;
 	}
 }

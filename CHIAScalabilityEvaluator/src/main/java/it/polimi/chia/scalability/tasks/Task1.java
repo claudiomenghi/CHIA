@@ -20,8 +20,6 @@ public class Task1 extends Task{
 	private final BA modelBA;
 	private final AcceptingType acceptingPolicy;
 	
-	private long taskTime;
-	private int taskSpace;
 	
 	public Task1(Configuration configuration, BA modelBA, AcceptingType acceptingPolicy) {
 		super(configuration);
@@ -40,8 +38,8 @@ public class Task1 extends Task{
 		timer.start();
 		checker.perform();
 		timer.stop();
-		this.taskTime=timer.elapsed(TimeUnit.MILLISECONDS);
-		this.taskSpace=checker.getIntersectionAutomataSize();
+		this.setTaskTime(timer.elapsed(TimeUnit.MILLISECONDS));
+		this.setTaskSpace(checker.getIntersectionAutomataSize());
 		
 		return checker;
 	}
@@ -66,19 +64,5 @@ public class Task1 extends Task{
 					factory.create(t.getId(), t.getPropositions()));
 		}
 		return iba;
-	}
-
-	/**
-	 * @return the taskTime
-	 */
-	public long getTaskTime() {
-		return taskTime;
-	}
-
-	/**
-	 * @return the taskSpace
-	 */
-	public int getTaskSpace() {
-		return taskSpace;
 	}
 }
