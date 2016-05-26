@@ -10,17 +10,15 @@ import java.util.Set;
 
 import javax.validation.constraints.NotNull;
 
-import rwth.i2.ltl2ba4j.model.IGraphProposition;
-
 import com.google.common.base.Preconditions;
 
 /**
  * <p>
- * The \texttt{IBA} class contains the class which describes an Incomplete Buchi
- * Automaton. The \texttt{IBA} class extends \texttt{BA} by storing the set of
- * the \emph{black box} states. <br>
+ * The <i>IBA</i> class contains the class which describes an Incomplete Buchi
+ * Automaton. The <i>IBA</i> class extends <i>BA</i> by storing the set of
+ * the <i>black box</i> states. <br>
  * 
- * @author claudiomenghi
+ * @author Claudio Menghi
  */
 public class IBA extends BA {
 
@@ -117,25 +115,14 @@ public class IBA extends BA {
 		IBA clone = new IBA(
 				(TransitionFactory<State, Transition>) this.automataGraph
 						.getEdgeFactory());
-		for (IGraphProposition l : this.getPropositions()) {
-			clone.addProposition(l);
-		}
-		for (State s : this.getStates()) {
-			clone.addState(s);
-		}
-		for (State s : this.getAcceptStates()) {
-			clone.addAcceptState(s);
-		}
-		for (State s : this.getInitialStates()) {
-			clone.addInitialState(s);
-		}
-		for (State s : this.getBlackBoxStates()) {
-			clone.addBlackBoxState(s);
-		}
-		for (Transition t : this.getTransitions()) {
-			clone.addTransition(this.getTransitionSource(t),
-					this.getTransitionDestination(t), t);
-		}
+		
+		this.getPropositions().forEach(clone::addProposition);
+		this.getStates().forEach(clone::addState);
+		this.getAcceptStates().forEach(clone::addAcceptState);
+		this.getInitialStates().forEach(clone::addInitialState);
+		this.getBlackBoxStates().forEach(clone::addBlackBoxState);
+		this.getTransitions().forEach(t -> clone.addTransition(this.getTransitionSource(t),
+					this.getTransitionDestination(t), t));
 
 		return clone;
 	}
@@ -164,8 +151,7 @@ public class IBA extends BA {
 	public String toString() {
 		
 		StringBuilder stringBuilder=new StringBuilder();
-		String ret = "";
-
+		
 		stringBuilder.append("ALPHABET: " + this.getPropositions() + "\n");
 		stringBuilder.append("STATES: " + this.automataGraph.vertexSet() + "\n");
 		stringBuilder.append("INITIAL STATES: " + this.getInitialStates() + "\n");
@@ -180,6 +166,6 @@ public class IBA extends BA {
 			}
 			stringBuilder.append("\n");
 		}
-		return ret;
+		return stringBuilder.toString();
 	}
 }
