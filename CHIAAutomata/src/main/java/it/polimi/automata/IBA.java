@@ -27,7 +27,7 @@ public class IBA extends BA {
 	/**
 	 * contains the set of the black box states of the automaton
 	 */
-	private @NotNull Set<State> blackBoxesStates;
+	private Set<State> blackBoxesStates;
 
 	/**
 	 * creates a new incomplete Buchi automaton
@@ -37,7 +37,7 @@ public class IBA extends BA {
 	 */
 	public IBA(@NotNull TransitionFactory<State, Transition> transitionFactory) {
 		super(transitionFactory);
-		this.blackBoxesStates = new HashSet<State>();
+		this.blackBoxesStates = new HashSet<>();
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class IBA extends BA {
 	 * @return the set of the black box states of the Incomplete Buchi Automaton
 	 *         (if no black box states are present an empty set is returned)
 	 */
-	public @NotNull Set<State> getBlackBoxStates() {
+	public Set<State> getBlackBoxStates() {
 		return Collections.unmodifiableSet(this.blackBoxesStates);
 	}
 
@@ -79,7 +79,7 @@ public class IBA extends BA {
 	 * @return the set of the regular states of the Incomplete Buchi Automaton
 	 */
 	public Set<State> getRegularStates() {
-		Set<State> states = new HashSet<State>();
+		Set<State> states = new HashSet<>();
 		states.addAll(this.getStates());
 		states.removeAll(this.getBlackBoxStates());
 		return states;
@@ -149,6 +149,7 @@ public class IBA extends BA {
 	 * @throws NullPointerException
 	 *             if the state to be removed is null
 	 */
+	@Override
 	public void removeState(State state) {
 		super.removeState(state);
 		if (this.blackBoxesStates.contains(state)) {
@@ -161,22 +162,23 @@ public class IBA extends BA {
 	 */
 	@Override
 	public String toString() {
+		
+		StringBuilder stringBuilder=new StringBuilder();
 		String ret = "";
 
-		ret = "ALPHABET: " + this.getPropositions() + "\n";
-		ret = ret + "STATES: " + this.automataGraph.vertexSet() + "\n";
-		ret = ret + "INITIAL STATES: " + this.getInitialStates() + "\n";
-		ret = ret + "ACCEPTING STATES: " + this.getAcceptStates() + "\n";
-		ret = ret + "BLACK BOX STATES: " + this.getBlackBoxStates() + "\n";
-		ret = ret + "TRANSITIONS\n";
+		stringBuilder.append("ALPHABET: " + this.getPropositions() + "\n");
+		stringBuilder.append("STATES: " + this.automataGraph.vertexSet() + "\n");
+		stringBuilder.append("INITIAL STATES: " + this.getInitialStates() + "\n");
+		stringBuilder.append("ACCEPTING STATES: " + this.getAcceptStates() + "\n");
+		stringBuilder.append("BLACK BOX STATES: " + this.getBlackBoxStates() + "\n");
+		stringBuilder.append("TRANSITIONS\n");
 		for (State s : this.automataGraph.vertexSet()) {
-			ret = ret + "state " + s + " ->\n";
+			stringBuilder.append("state " + s + " ->\n");
 			for (Transition outEdge : this.automataGraph.outgoingEdgesOf(s)) {
-				ret = ret + "\t \t" + outEdge + "\t"
-						+ this.getTransitionDestination(outEdge);
+				stringBuilder.append("\t \t" + outEdge + "\t"
+						+ this.getTransitionDestination(outEdge));
 			}
-			ret = ret + "\n";
-
+			stringBuilder.append("\n");
 		}
 		return ret;
 	}
