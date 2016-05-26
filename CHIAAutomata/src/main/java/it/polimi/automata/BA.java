@@ -716,7 +716,7 @@ public class BA implements Cloneable {
 	 *             Buchi automaton or if it does not exists a transition that
 	 *             connect the source and the destination state
 	 */
-	public @NonNull Set<@NonNull Transition> getTransitions(
+	public Set<@NonNull Transition> getTransitions(
 			@NonNull State source, @NonNull State destination) {
 		Preconditions.checkNotNull(source, "The source state cannot be null");
 		Preconditions.checkNotNull(destination,
@@ -730,8 +730,7 @@ public class BA implements Cloneable {
 		Preconditions
 				.checkArgument(this.isSuccessor(source, destination),
 						"There is no connection between the source and the destination state");
-		Set<Transition> t = this.automataGraph.getAllEdges(source, destination);
-		return t;
+		return this.automataGraph.getAllEdges(source, destination);
 	}
 
 	/**
