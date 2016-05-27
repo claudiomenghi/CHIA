@@ -47,7 +47,7 @@ import com.google.common.collect.SetMultimap;
  */
 public class ReplacementIntersectionBuilder extends CHIAAction<IntersectionBA> {
 
-    private final static String NAME = "COMPUTE INTERSECTION";
+    private static final  String NAME = "COMPUTE INTERSECTION";
     /**
      * contains the intersection automaton generated
      */
@@ -176,9 +176,9 @@ public class ReplacementIntersectionBuilder extends CHIAAction<IntersectionBA> {
                     .getUpperReachabilityRelation();
         }
 
-        this.intersectionStateModelStateMap = new HashMap<State, State>();
+        this.intersectionStateModelStateMap = new HashMap<>();
         this.modelStateintersectionStateMap = HashMultimap.create();
-        this.intersectionStateClaimStateMap = new HashMap<State, State>();
+        this.intersectionStateClaimStateMap = new HashMap<>();
         this.claimStateintersectionStateMap = HashMultimap.create();
         this.mapBlackBoxStateConstrainedTransition = HashMultimap.create();
         this.acceptingPolicy = new ReplacementAcceptingPolicy(subproperty,
@@ -187,9 +187,9 @@ public class ReplacementIntersectionBuilder extends CHIAAction<IntersectionBA> {
         this.intersection = new IntersectionBA();
         this.replacement = replacement;
         this.subproperty = subproperty;
-        this.mapConstrainedTransitionModelBlackBoxState = new HashMap<Transition, State>();
-        this.visitedStates = new HashSet<Triple<State, State, Integer>>();
-        this.createdStates = new HashMap<State, Map<State, Map<Integer, State>>>();
+        this.mapConstrainedTransitionModelBlackBoxState = new HashMap<>();
+        this.visitedStates = new HashSet<>();
+        this.createdStates = new HashMap<>();
         this.intersectionStateFactory = new IntersectionStateFactory();
         this.underApproximation = underApproximation;
     }
@@ -200,6 +200,7 @@ public class ReplacementIntersectionBuilder extends CHIAAction<IntersectionBA> {
      * 
      * @return the intersection between the replacement and the sub-property
      */
+    @Override
     public IntersectionBA perform() {
         if (!this.isPerformed()) {
             this.updateAlphabet();
@@ -615,15 +616,15 @@ public class ReplacementIntersectionBuilder extends CHIAAction<IntersectionBA> {
                 modelState, claimState, number));
 
         if (!this.createdStates.containsKey(modelState)) {
-            Map<State, Map<Integer, State>> map1 = new HashMap<State, Map<Integer, State>>();
-            Map<Integer, State> map2 = new HashMap<Integer, State>();
+            Map<State, Map<Integer, State>> map1 = new HashMap<>();
+            Map<Integer, State> map2 = new HashMap<>();
             map2.put(number, intersectionState);
             map1.put(claimState, map2);
             this.createdStates.put(modelState, map1);
 
         } else {
             if (!this.createdStates.get(modelState).containsKey(claimState)) {
-                Map<Integer, State> map2 = new HashMap<Integer, State>();
+                Map<Integer, State> map2 = new HashMap<>();
                 map2.put(number, intersectionState);
                 this.createdStates.get(modelState).put(claimState, map2);
             } else {
@@ -643,13 +644,9 @@ public class ReplacementIntersectionBuilder extends CHIAAction<IntersectionBA> {
         if (this.replacementIBA.getInitialStates().contains(modelState)
                 && this.subproperty.getAutomaton().getInitialStates()
                         .contains(claimState)) {
-            // if (this.acceptingPolicy instanceof KripkeAcceptingPolicy) {
-            // this.intersection.addInitialState(intersectionState);
-            // } else {
             if (number == 0) {
                 this.intersection.addInitialState(intersectionState);
             }
-            // }
 
         }
         if (number == 2) {
@@ -708,11 +705,11 @@ public class ReplacementIntersectionBuilder extends CHIAAction<IntersectionBA> {
                                 + replacementState
                                 + " is not contained into the set of the states of the model");
         if (!createdStates.containsKey(replacementState)) {
-            return new HashSet<State>();
+            return new HashSet<>();
         } else {
             if (!createdStates.get(replacementState).containsKey(
                     subpropertyState)) {
-                return new HashSet<State>();
+                return new HashSet<>();
             } else {
                 return Collections.unmodifiableSet(new HashSet<State>(
                         createdStates.get(replacementState)
