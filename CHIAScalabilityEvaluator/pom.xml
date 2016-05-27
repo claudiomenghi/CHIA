@@ -140,11 +140,6 @@
 			<artifactId>exec-maven-plugin</artifactId>
 			<version>1.4.0</version>
 		</dependency>
-		<dependency>
-			<groupId>it.polimi.chia</groupId>
-			<artifactId>CHIALogging</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
 	</dependencies>
 </project>
 	

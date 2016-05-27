@@ -424,7 +424,5 @@
 		<module>CHIALTLIO</module>
 
 		<!-- <module>CHIAVisualization</module> -->
-
-		<module>CHIALogging</module>
 	</modules>
 </project>
