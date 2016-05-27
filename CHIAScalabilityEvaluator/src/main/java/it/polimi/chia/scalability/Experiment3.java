@@ -36,8 +36,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.log4j.Logger;
-
 import com.google.common.base.Stopwatch;
 
 /**
@@ -50,10 +48,9 @@ import com.google.common.base.Stopwatch;
  */
 public class Experiment3 extends Experiment {
 
-	private static final Logger LOGGER = Logger.getLogger(Experiment3.class);
 
-	
 	private final  DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
 	/**
 	 * creates a new scalability test
 	 * 
@@ -122,11 +119,11 @@ public class Experiment3 extends Experiment {
 							+ confParser.getResultsFile(), true);
 
 			if (configuration.getConfigurationId() % 100 == 0) {
-				LOGGER.info("--------------------------- CONFIGURATION: "
+				out.println("--------------------------- CONFIGURATION: "
 						+ configuration.getConfigurationId()
 						+ "------------------------");
-				LOGGER.info(randomConfigurationGenerator.toString());
-				LOGGER.info(stat.toString());
+				out.println(randomConfigurationGenerator.toString());
+				out.println(stat.toString());
 
 			}
 			BARandomGenerator modelBAgenerator = new BARandomGenerator(

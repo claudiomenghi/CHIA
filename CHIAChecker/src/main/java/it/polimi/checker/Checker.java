@@ -97,6 +97,7 @@ public class Checker extends CHIAAction<SatisfactionValue> {
 	 * @return 0 if the property is not satisfied, 1 if the property is
 	 *         satisfied, -1 if the property is satisfied with constraints.
 	 */
+	@Override
 	public SatisfactionValue perform() {
 
 		if (!this.isPerformed()) {
@@ -114,7 +115,7 @@ public class Checker extends CHIAAction<SatisfactionValue> {
 				return SatisfactionValue.NOTSATISFIED;
 			}
 
-			if (this.model.getBlackBoxStates().size() == 0) {
+			if (this.model.getBlackBoxStates().isEmpty()) {
 				this.performed();
 				this.satisfactionValue = SatisfactionValue.SATISFIED;
 				return SatisfactionValue.SATISFIED;
@@ -249,7 +250,7 @@ public class Checker extends CHIAAction<SatisfactionValue> {
 	public List<Entry<State, Transition>> getFilteredCounterexample() {
 		List<Entry<State, Transition>> counterexample = this
 				.getCounterexample();
-		List<Entry<State, Transition>> filteredCounterexamle = new ArrayList<Entry<State, Transition>>();
+		List<Entry<State, Transition>> filteredCounterexamle = new ArrayList<>();
 
 		for (Entry<State, Transition> entry : counterexample) {
 			filteredCounterexamle
