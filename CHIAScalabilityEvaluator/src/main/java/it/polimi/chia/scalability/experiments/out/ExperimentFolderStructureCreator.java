@@ -18,19 +18,37 @@ import java.util.List;
  */
 public class ExperimentFolderStructureCreator {
 
-	
-	public void createFolderStructure(List<BA> claims, ConfParser confParser) throws IOException{
+
+	/**
+	 * creates a sub-folder structure for the test.
+	 * <ul>
+	 * <li>It creates a sub-folder for each test.</li>
+	 * <li>inside each test folder it creates a sub-folder for each claim.</li>
+	 * <li>inside the claim folder it creates a result file</li>
+	 * </ul>
+	 * 
+	 * @param claims
+	 *            the claims to be considered
+	 * @param confParser
+	 *            the parser used to load the test
+	 * @throws IOException
+	 *             an exception if an error occurs
+	 */
+	public void createFolderStructure(List<BA> claims, ConfParser confParser)
+			throws IOException {
 		for (int testNumber = 1; testNumber <= confParser.getNumberOfTests(); testNumber++) {
 
-			File dir = new File(confParser.getTestDirectory() + "/Test"
-					+ testNumber);
+			String testFolder=confParser.getTestDirectory() + "/Test"
+					+ testNumber;
+			File dir = new File(testFolder);
 			dir.mkdir();
 			for (int claimNum = 0; claimNum < claims.size(); claimNum++) {
-				File claimdir = new File(confParser.getTestDirectory()
-						+ "/Test" + testNumber + "/Claim" + claimNum);
+				String claimFolder=testFolder+ "/Claim" + claimNum;
+				
+				File claimdir = new File(claimFolder);
 				claimdir.mkdir();
-				File file = new File(confParser.getTestDirectory() + "/Test"
-						+ testNumber + "/Claim" + claimNum + "/"
+
+				File file = new File(claimFolder+"/"
 						+ confParser.getResultsFile());
 				file.createNewFile();
 
