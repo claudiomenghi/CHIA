@@ -1,8 +1,8 @@
 package it.polimi.chia.scalability.tasks;
 
-import com.google.common.base.Preconditions;
-
 import it.polimi.chia.scalability.configuration.Configuration;
+
+import com.google.common.base.Preconditions;
 
 /**
  * Contains the description of a task

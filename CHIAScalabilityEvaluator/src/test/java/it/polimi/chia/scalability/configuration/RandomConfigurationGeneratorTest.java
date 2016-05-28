@@ -3,7 +3,7 @@
  */
 package it.polimi.chia.scalability.configuration;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import it.polimi.automata.BA;
 import it.polimi.automata.transition.ClaimTransitionFactory;
 

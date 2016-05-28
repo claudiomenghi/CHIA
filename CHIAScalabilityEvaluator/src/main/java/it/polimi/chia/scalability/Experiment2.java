@@ -6,7 +6,6 @@ import it.polimi.automata.state.StateFactory;
 import it.polimi.checker.Checker;
 import it.polimi.checker.SatisfactionValue;
 import it.polimi.checker.intersection.acceptingpolicies.AcceptingPolicy.AcceptingType;
-import it.polimi.chia.scalability.claimLoader.ClaimLoader;
 import it.polimi.chia.scalability.configuration.Configuration;
 import it.polimi.chia.scalability.configuration.RandomConfigurationGenerator;
 import it.polimi.chia.scalability.experiments.Experiment;
@@ -54,19 +53,21 @@ public class Experiment2 extends Experiment {
 	 * 
 	 * @param confParser
 	 *            the parser to be used to get the configuration
+	 * @throws Exception 
 	 */
-	public Experiment2(ConfParser confParser, PrintStream out) {
-		super(confParser, out);
+	public Experiment2(ConfParser confParser, PrintStream out, String claimFolder) throws Exception {
+		super(confParser, out, claimFolder);
 
 	}
 
 	
 	public static void main(String[] args) throws Exception {
-
-		ConfParser parser = new ConfParser("configEx2.txt");
+		chekArgs(args);
+		
+		ConfParser parser = new ConfParser(args[0]);
 
 		Experiment2 scalabilityTest = new Experiment2(parser, new PrintStream(
-				System.out));
+				System.out), args[1]);
 		scalabilityTest.performTests();
 	}
 
@@ -74,7 +75,7 @@ public class Experiment2 extends Experiment {
 	protected void test(Stopwatch timer) throws Exception {
 
 		RandomConfigurationGenerator randomConfigurationGenerator = new RandomConfigurationGenerator(
-				new ClaimLoader().getClaimToBeConsidered(),
+				this.getClaims(),
 				confParser.getInitialNumberOfStates(),
 				confParser.getFinalNumberOfStates(),
 				confParser.getIncrementNumberOfStates(),

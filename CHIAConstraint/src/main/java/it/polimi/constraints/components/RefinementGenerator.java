@@ -123,17 +123,22 @@ public class RefinementGenerator extends CHIAAction<IBA> {
 					inTransition.getId(), inTransition.getTransition()
 							.getPropositions());
 
-			refinement.addTransition(inTransition.getSource(),
-					inTransition.getDestination(), transitionClone);
+			if(!refinement.getTransitions(inTransition.getSource(), inTransition.getDestination()).contains(transitionClone)){
+				refinement.addTransition(inTransition.getSource(),
+						inTransition.getDestination(), transitionClone);	
+			}
+			
 		}
 		for (PluggingTransition outTransition : replacement
 				.getOutgoingTransitions()) {
 			Transition transitionClone = new ModelTransitionFactory().create(
 					outTransition.getId(), outTransition.getTransition()
 							.getPropositions());
-
+			if(!refinement.getTransitions(outTransition.getSource(), outTransition.getDestination()).contains(transitionClone)){
 				refinement.addTransition(outTransition.getSource(),
 						outTransition.getDestination(), transitionClone);	
+			}
+					
 		}
 
 		return refinement;

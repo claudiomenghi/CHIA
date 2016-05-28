@@ -188,10 +188,11 @@ public class ConfParser {
 	public ConfParser(String confFile) throws IOException, URISyntaxException {
 		Preconditions.checkNotNull(confFile,
 				"The file to be considered cannot be null");
-		if(ClassLoader.getSystemResource(confFile)==null){
+		
+		File f = new File(confFile);
+		if(!f.exists()){
 			throw new IllegalArgumentException("The file "+confFile+" has not been found");
 		}
-		File f = new File(ClassLoader.getSystemResource(confFile).toURI());
 		Preconditions.checkState(f.exists() && !f.isDirectory(), "The file "
 				+ confFile + " does not exists");
 		this.currentConfiguration = 1;
@@ -202,7 +203,7 @@ public class ConfParser {
 		FileInputStream inputStream = new FileInputStream(f);
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 				inputStream));
-		String line = null;
+		String line = new String();
 		while ((line = br.readLine()) != null) {
 			this.parseLine(line);
 		}

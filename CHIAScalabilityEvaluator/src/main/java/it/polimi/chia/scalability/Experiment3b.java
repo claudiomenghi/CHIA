@@ -9,7 +9,6 @@ import it.polimi.automata.state.StateFactory;
 import it.polimi.checker.Checker;
 import it.polimi.checker.SatisfactionValue;
 import it.polimi.checker.intersection.acceptingpolicies.AcceptingPolicy.AcceptingType;
-import it.polimi.chia.scalability.claimLoader.ClaimLoader;
 import it.polimi.chia.scalability.configuration.Ex3Configuration;
 import it.polimi.chia.scalability.configuration.Ex3bRandomConfigurationGenerator;
 import it.polimi.chia.scalability.experiments.Experiment;
@@ -36,6 +35,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 
+import com.google.common.base.Preconditions;
 import com.google.common.base.Stopwatch;
 
 /**
@@ -55,17 +55,21 @@ public class Experiment3b extends Experiment {
 	 * 
 	 * @param confParser
 	 *            the parser to be used to get the configuration
+	 * @throws Exception 
 	 */
-	public Experiment3b(Ex3bConfParser confParser, PrintStream out) {
-		super(confParser, out);
+	public Experiment3b(Ex3bConfParser confParser, PrintStream out,  String claimFolder) throws Exception {
+		super(confParser, out, claimFolder);
 	}
 
 	public static void main(String[] args) throws Exception {
 
-		Ex3bConfParser parser = new Ex3bConfParser("configEx3b.txt");
+		Preconditions.checkNotNull(args[0], "You must specify the configuration file, which specifies the parameters of the random generation procedure as first parameter");
+		Preconditions.checkNotNull(args[1], "You must specify the folder which contains the claims of interest");
+
+		Ex3bConfParser parser = new Ex3bConfParser(args[0]);
 
 		Experiment3b scalabilityTest = new Experiment3b(parser,
-				new PrintStream(System.out));
+				new PrintStream(System.out), args[1]);
 		scalabilityTest.performTests();
 	}
 
@@ -74,7 +78,7 @@ public class Experiment3b extends Experiment {
 
 		Ex3bConfParser confParser=(Ex3bConfParser) this.confParser;
 		Ex3bRandomConfigurationGenerator randomConfigurationGenerator = new Ex3bRandomConfigurationGenerator(
-				new ClaimLoader().getClaimToBeConsidered(),
+				this.getClaims(),
 				confParser.getInitialNumberOfStates(),
 				confParser.getFinalNumberOfStates(),
 				confParser.getIncrementNumberOfStates(),

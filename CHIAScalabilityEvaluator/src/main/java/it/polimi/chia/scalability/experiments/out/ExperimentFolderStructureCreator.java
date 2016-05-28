@@ -38,6 +38,9 @@ public class ExperimentFolderStructureCreator {
 			throws IOException {
 		for (int testNumber = 1; testNumber <= confParser.getNumberOfTests(); testNumber++) {
 
+			File resultsDirectory = new File(confParser.getTestDirectory());
+			resultsDirectory.mkdir();
+			
 			String testFolder=confParser.getTestDirectory() + "/Test"
 					+ testNumber;
 			File dir = new File(testFolder);

@@ -1,13 +1,13 @@
 package it.polimi.chia.scalability.parsers;
 
+import it.polimi.chia.scalability.configuration.RandomConfigurationGenerator;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
 import com.google.common.base.Preconditions;
-
-import it.polimi.chia.scalability.configuration.RandomConfigurationGenerator;
 
 /**
  * writes the current configuration over a file

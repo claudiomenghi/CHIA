@@ -25,7 +25,19 @@ public abstract class Experiment {
 	protected final PrintStream out;
 	
 	protected final ResultStringAdapter adapter=new ResultStringAdapter();
+	
+	private final List<BA> claims;
 
+
+	/**
+	 * @param args
+	 */
+	protected static void chekArgs(String[] args) {
+		Preconditions.checkArgument(args.length==2, "You must specify the configuration file and the folder that contains the claims of interest");
+		Preconditions.checkNotNull(args[0], "You must specify the configuration file, which specifies the parameters of the random generation procedure as first parameter");
+		Preconditions.checkNotNull(args[1], "You must specify the folder which contains the claims of interest");
+	}
+	
 	/**
 	 * creates a new experiment
 	 * 
@@ -33,16 +45,18 @@ public abstract class Experiment {
 	 *            the parser to load configurations
 	 * @param out
 	 *            the stream to be used to write results
+	 * @throws Exception 
 	 * @throws NullPointerException
 	 *             if one of the parameters is null
 	 */
-	public Experiment(ConfParser confParser, PrintStream out) {
+	public Experiment(ConfParser confParser, PrintStream out, String claimFolder) throws Exception {
 		Preconditions.checkNotNull(confParser, "The configuration parser");
 		Preconditions.checkNotNull(out, "The output stream cannot be null");
 
 		this.confParser = confParser;
 		this.out = out;
 		out.println("Test directory: " + confParser.getTestDirectory());
+		claims=new ClaimLoader().getClaimToBeConsidered(claimFolder);
 	}
 
 	/**
@@ -53,10 +67,7 @@ public abstract class Experiment {
 	public void performTests() throws Exception {
 		out.println("--------------------------- STARTING THE TEST: ------------------------");
 
-
-
-		List<BA> claims = new ClaimLoader().getClaimToBeConsidered();
-		new ExperimentFolderStructureCreator().createFolderStructure(claims,
+		new ExperimentFolderStructureCreator().createFolderStructure(this.getClaims(),
 				this.confParser);
 
 		Stopwatch timer = Stopwatch.createUnstarted();
@@ -65,4 +76,8 @@ public abstract class Experiment {
 	
 	
 	protected abstract void test(Stopwatch timer) throws Exception;
+
+	public List<BA> getClaims() {
+		return claims;
+	}
 }

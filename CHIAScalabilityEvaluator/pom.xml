@@ -24,7 +24,7 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>it.polimi.chia.scalability.ScalabilityTest</mainClass>
+					<mainClass>it.polimi.chia.scalability.Experiment3</mainClass>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -34,7 +34,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>it.polimi.chia.scalability.ScalabilityTest</mainClass>
+							<mainClass>it.polimi.chia.scalability.Experiment3</mainClass>
 						</manifest>
 						<manifestEntries>
 							<Class-Path>.</Class-Path>
@@ -48,7 +48,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>it.polimi.chia.scalability.ScalabilityTest</mainClass>
+							<mainClass>it.polimi.chia.scalability.Experiment3</mainClass>
 						</manifest>
 						<manifestEntries>
 							<Class-Path>.</Class-Path>
@@ -84,7 +84,7 @@
 						</descriptorRefs>
 						<archive>
 							<manifest>
-								<mainClass>it.polimi.chia.scalability.ScalabilityTest</mainClass>
+								<mainClass>it.polimi.chia.scalability.Experiment3</mainClass>
 							</manifest>
 							<manifestEntries>
 								<Class-Path>.</Class-Path>

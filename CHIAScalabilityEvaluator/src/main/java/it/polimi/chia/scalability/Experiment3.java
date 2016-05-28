@@ -7,7 +7,6 @@ import it.polimi.automata.state.StateFactory;
 import it.polimi.checker.Checker;
 import it.polimi.checker.SatisfactionValue;
 import it.polimi.checker.intersection.acceptingpolicies.AcceptingPolicy.AcceptingType;
-import it.polimi.chia.scalability.claimLoader.ClaimLoader;
 import it.polimi.chia.scalability.configuration.Configuration;
 import it.polimi.chia.scalability.configuration.RandomConfigurationGenerator;
 import it.polimi.chia.scalability.experiments.Experiment;
@@ -36,6 +35,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import com.google.common.base.Preconditions;
 import com.google.common.base.Stopwatch;
 
 /**
@@ -56,18 +56,23 @@ public class Experiment3 extends Experiment {
 	 * 
 	 * @param confParser
 	 *            the parser to be used to get the configuration
+	 * @throws Exception 
 	 */
-	public Experiment3(ConfParser confParser, PrintStream out) {
-		super(confParser, out);
+	public Experiment3(ConfParser confParser, PrintStream out, String claimFolder) throws Exception {
+		super(confParser, out, claimFolder);
 	}
 
 	
 	public static void main(String[] args) throws Exception {
 
-		ConfParser parser = new ConfParser("configEx3.txt");
+		System.out.println("----------------------------------  EXPERIMENT 3 ---------------------------------- ");
+		Preconditions.checkNotNull(args[0], "You must specify the configuration file, which specifies the parameters of the random generation procedure as first parameter");
+		Preconditions.checkNotNull(args[1], "You must specify the folder which contains the claims of interest");
+		
+		ConfParser parser = new ConfParser(args[0]);
 
 		Experiment3 scalabilityTest = new Experiment3(parser, new PrintStream(
-				System.out));
+				System.out), args[1]);
 		scalabilityTest.performTests();
 	}
 
@@ -75,7 +80,7 @@ public class Experiment3 extends Experiment {
 	protected void test(Stopwatch timer) throws Exception {
 
 		RandomConfigurationGenerator randomConfigurationGenerator = new RandomConfigurationGenerator(
-				new ClaimLoader().getClaimToBeConsidered(),
+				this.getClaims(),
 				confParser.getInitialNumberOfStates(),
 				confParser.getFinalNumberOfStates(),
 				confParser.getIncrementNumberOfStates(),
