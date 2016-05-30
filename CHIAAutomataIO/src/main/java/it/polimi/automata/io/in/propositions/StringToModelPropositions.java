@@ -47,7 +47,7 @@ public class StringToModelPropositions implements
 
 		Set<IGraphProposition> propositions = new HashSet<>();
 
-		String[] apsStrings = input.split(AutomataIOConstants.AND_NOT_ESCAPED);
+		String[] apsStrings = input.split(AutomataIOConstants.AND);
 
 		for (String ap : apsStrings) {
 			propositions.add(new GraphProposition(ap, false));

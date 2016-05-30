@@ -61,7 +61,7 @@ public class StringToClaimPropositionsTest {
 		Set<IGraphProposition> propositions=new HashSet<IGraphProposition>();
 		propositions.add(new GraphProposition("a", false));
 		propositions.add(new GraphProposition("b", false));
-		assertEquals("A transition of the claim can be labeled with the sigma expression", propositions, new StringToClaimPropositions().transform("a^b"));
+		assertEquals("A transition of the claim can be labeled with propositions", propositions, new StringToClaimPropositions().transform("a^b"));
 		
 	}
 	
@@ -74,7 +74,7 @@ public class StringToClaimPropositionsTest {
 		Set<IGraphProposition> propositions=new HashSet<IGraphProposition>();
 		propositions.add(new GraphProposition("a", false));
 		propositions.add(new GraphProposition("b", true));
-		assertEquals("A transition of the claim can be labeled with the sigma expression", propositions, new StringToClaimPropositions().transform("a^!b"));
+		assertEquals("A transition of the claim can be labeled with a negated proposition", propositions, new StringToClaimPropositions().transform("a^!b"));
 		
 	}
 }

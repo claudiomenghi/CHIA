@@ -52,7 +52,8 @@ public class StringToClaimPropositions implements
 		if (input.equals(AutomataIOConstants.SIGMA)) {
 			propositions.add(new SigmaProposition());
 		} else {
-			String[] apsStrings = input.split(AutomataIOConstants.AND_NOT_ESCAPED);
+
+			String[] apsStrings = input.split(AutomataIOConstants.AND);
 
 			for (String ap : apsStrings) {
 				if (ap.startsWith(AutomataIOConstants.NOT)) {
