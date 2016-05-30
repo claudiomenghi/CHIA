@@ -36,17 +36,18 @@ public class StringToModelPropositions implements
 	 *             {@link AutomataIOConstants#APREGEX} or the regular expression
 	 *             {@link AutomataIOConstants#NOTAPREGEX}
 	 */
+	@Override
 	public Set<IGraphProposition> transform(String input) {
 
-		Preconditions.checkNotNull("The input must be not null");
+		Preconditions.checkNotNull(input, "The label of the transition must be not null");
 		Preconditions.checkArgument(
 				input.matches(AutomataIOConstants.MODEL_PROPOSITIONS),
-				"The input " + input + " must match the regular expression: "
-						+ AutomataIOConstants.MODEL_PROPOSITIONS);
+				"The label of the transition ``" + input + " must match the regular expression: "
+						+ AutomataIOConstants.MODEL_PROPOSITIONS+" of the label of the modle of hte transitions");
 
-		Set<IGraphProposition> propositions = new HashSet<IGraphProposition>();
+		Set<IGraphProposition> propositions = new HashSet<>();
 
-		String[] apsStrings = input.split(AutomataIOConstants.AND);
+		String[] apsStrings = input.split(AutomataIOConstants.AND_NOT_ESCAPED);
 
 		for (String ap : apsStrings) {
 			propositions.add(new GraphProposition(ap, false));

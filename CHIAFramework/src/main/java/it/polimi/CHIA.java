@@ -17,8 +17,8 @@ import jline.console.completer.CandidateListCompletionHandler;
 import jline.console.completer.Completer;
 import jline.console.completer.StringsCompleter;
 import jline.console.history.FileHistory;
+import jline.internal.Preconditions;
 
-import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 /**
@@ -34,15 +34,16 @@ public class CHIA {
 	 */
 	private ConsoleReader console;
 
-	/**
-	 * contains the CHIA logger
-	 */
-	private static final Logger LOGGER = Logger.getLogger(CHIA.class);
-
+	private static final String QUIT="quit";
+	private static final String EXIT="exit";
+	private static final String AUTOMATA_MODE="aut";
+	private static final String REPLACEMENT_MODE="rep";
+	private static final String CLS="cls";
+	
 	/**
 	 * getting the output stream
 	 */
-	private static final PrintStream out = System.out;
+	private final PrintStream out;
 
 	/**
 	 * print the CHIA usage information
@@ -65,7 +66,9 @@ public class CHIA {
 
 	}
 
-	public CHIA() throws IOException {
+	public CHIA(PrintStream out) throws IOException {
+		Preconditions.checkNotNull(out);
+		this.out=out;
 
 		this.console = new ConsoleReader();
 		this.console.setExpandEvents(false);
@@ -76,15 +79,15 @@ public class CHIA {
 			console.setHistory(new FileHistory(new File(ClassLoader
 					.getSystemResource("History.txt").getPath())));
 		} else {
-			LOGGER.warn("The History file cannot be loaded");
+			out.println("The History file cannot be loaded");
 		}
-		LOGGER.info("CHIA Started");
+		out.println("CHIA Started");
 		if (ClassLoader.getSystemResource("log4j.properties") != null) {
 
 			PropertyConfigurator.configure(ClassLoader
 					.getSystemResource("log4j.properties"));
 		} else {
-			LOGGER.warn("The logging file cannot be loaded");
+			out.println("The logging file cannot be loaded");
 		}
 		
 
@@ -100,39 +103,44 @@ public class CHIA {
 		CHIAAutomataConsole chiaAutomataConsole = new CHIAAutomataConsole(out);
 		CHIAReplacementConsole chiaReplacementConsole = new CHIAReplacementConsole();
 
-		List<Completer> chiaCompletors = AutomataEvent.computeCompleters();
-		chiaCompletors.add(new StringsCompleter("rep"));
-		console.addCompleter(new AggregateCompleter(chiaCompletors));
+		List<Completer> replacementCompleter=ReplacementEvent.computeCompleters();
+		replacementCompleter.add(new StringsCompleter(AUTOMATA_MODE));
+		Completer replacementCom=new AggregateCompleter(replacementCompleter);
+		
+		List<Completer> automataCompletor = AutomataEvent.computeCompleters();
+		automataCompletor.add(new StringsCompleter(REPLACEMENT_MODE));
+		Completer automataCom=new AggregateCompleter(automataCompletor);
+		
+		console.addCompleter(new AggregateCompleter(automataCompletor));
 
 		String line;
 
 		while ((line = console.readLine()) != null) {
 			try {
-				if (line.equals("rep")) {
+				if (line.equals(REPLACEMENT_MODE)) {
 
 					chiaState = CHIAState.REPLACEMENTMODE;
 					this.removeCompleter();
-					chiaCompletors = ReplacementEvent.computeCompleters();
-					chiaCompletors.add(new StringsCompleter("aut"));
-					console.addCompleter(new AggregateCompleter(chiaCompletors));
+					console.removeCompleter(automataCom);
+					console.addCompleter(replacementCom);
 					out.println("replacement mode enabled");
 
 				} else {
-					if (line.equals("aut")) {
+					if (line.equals(AUTOMATA_MODE)) {
 						chiaState = CHIAState.AUTOMATAMODE;
 						this.removeCompleter();
-						chiaCompletors = AutomataEvent.computeCompleters();
-						chiaCompletors.add(new StringsCompleter("rep"));
-						console.addCompleter(new AggregateCompleter(
-								chiaCompletors));
+						
+						console.removeCompleter(replacementCom);
+						console.addCompleter(automataCom);
+
 						out.println("automata mode enabled");
 
 					} else {
-						if (line.equalsIgnoreCase("quit")
-								|| line.equalsIgnoreCase("exit")) {
+						if (QUIT.equalsIgnoreCase(line)
+								|| EXIT.equalsIgnoreCase(line)) {
 							System.exit(0);
 						} else {
-							if (line.equalsIgnoreCase("cls")) {
+							if (line.equalsIgnoreCase(CLS)) {
 								console.clearScreen();
 							} else {
 								if (chiaState.equals(CHIAState.REPLACEMENTMODE)) {
@@ -141,7 +149,6 @@ public class CHIA {
 												chiaReplacementConsole);
 									} catch (ParseException e) {
 										out.println(e.getMessage());
-										LOGGER.info(e.getMessage());
 									}
 
 								} else {
@@ -152,7 +159,6 @@ public class CHIA {
 													chiaAutomataConsole);
 										} catch (ParseException e) {
 											out.println(e.getMessage());
-											LOGGER.info(e.getMessage());
 										}
 
 									}
@@ -162,7 +168,7 @@ public class CHIA {
 					}
 				}
 			} catch (Exception e) {
-				LOGGER.info(e.getMessage());
+				out.print(e.getMessage());
 			}
 
 		}
@@ -176,8 +182,7 @@ public class CHIA {
 	}
 
 	public static void main(String[] args) throws IOException {
-		CHIA chia = new CHIA();
-		
+		CHIA chia = new CHIA(System.out);
 		chia.run();
 	}
 

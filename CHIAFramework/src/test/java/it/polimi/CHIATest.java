@@ -22,7 +22,7 @@ public class CHIATest {
      */
     @Test
     public void testUsage() throws IOException {
-        CHIA chia=new CHIA();
+        CHIA chia=new CHIA(System.out);
         chia.usage();
         assertNotNull(chia);
     }
@@ -33,7 +33,7 @@ public class CHIATest {
      */
     @Test
     public void testCHIA() throws IOException {
-        assertNotNull(new CHIA());
+        assertNotNull(new CHIA(System.out));
     }
 
     /**

@@ -37,21 +37,22 @@ public class StringToClaimPropositions implements
 	 *             {@link AutomataIOConstants#APREGEX} nor the regular
 	 *             expression {@link AutomataIOConstants#NOTAPREGEX}
 	 */
+	@Override
 	public Set<IGraphProposition> transform(String input) {
 
 		Preconditions.checkNotNull("The input must be not null");
 		Preconditions.checkArgument(
 				input.matches(AutomataIOConstants.CLAIM_PROPOSITIONAL_FORMULA),
 				"The input " + input
-						+ " must match the claim regular expression: "
-						+ AutomataIOConstants.CLAIM_PROPOSITIONAL_FORMULA);
+						+ " must match the regular expression: "
+						+ AutomataIOConstants.CLAIM_PROPOSITIONAL_FORMULA+" of the transitions of the claim");
 
-		Set<IGraphProposition> propositions = new HashSet<IGraphProposition>();
+		Set<IGraphProposition> propositions = new HashSet<>();
 
 		if (input.equals(AutomataIOConstants.SIGMA)) {
 			propositions.add(new SigmaProposition());
 		} else {
-			String[] apsStrings = input.split(AutomataIOConstants.AND);
+			String[] apsStrings = input.split(AutomataIOConstants.AND_NOT_ESCAPED);
 
 			for (String ap : apsStrings) {
 				if (ap.startsWith(AutomataIOConstants.NOT)) {
