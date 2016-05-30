@@ -11,3 +11,4 @@ where
 * ```config.txt``` is the configuration file which contains the information for the random generation of the model
 * ```./Claims``` is the folder containing the claims of interest
 
+The condiguration files and the claims used in our experiments are contained in the folder ```src/main/resources/```
