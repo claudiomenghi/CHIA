@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>CHIAChecker</artifactId>
+	<packaging>jar</packaging>
+	<name>CHIAChecker</name>
+	<url>http://maven.apache.org</url>
+	<description>contains the classes which allow checking whether a model described through an IBA satisfies, does not satisfy or possibly satisfies a claim of interest.</description>
+	
+	<parent>
+		<groupId>it.polimi.chia</groupId>
+		<artifactId>CHIA</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+
+	<properties>
+		<javadoc.path>CHIAChecker</javadoc.path>
+	</properties>
+	<build>
+		<!-- contains the directory where the source code is placed -->
+		<sourceDirectory>src/main/java</sourceDirectory>
+		<!-- contains the directory where the test cases are located -->
+		<testSourceDirectory>src/test/java</testSourceDirectory>
+
+		<testResources>
+			<testResource>
+				<directory>${project.basedir}/src/test/resources</directory>
+			</testResource>
+		</testResources>
+
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>it.polimi.chia</groupId>
+			<artifactId>CHIAAutomata</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>it.polimi.chia</groupId>
+			<artifactId>CHIAAction</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>it.polimi.chia</groupId>
+			<artifactId>CHIAAutomataIO</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.2</version>
+		</dependency>
+		<dependency>
+			<groupId>it.polimi.chia</groupId>
+			<artifactId>CHIALTLIO</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+</project>
