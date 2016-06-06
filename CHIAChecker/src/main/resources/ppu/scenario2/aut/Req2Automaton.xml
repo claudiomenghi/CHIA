@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- lc /Users/Claudio1/Desktop/CHIAExamples/PPU/Scenario2/Aut/Req2Automaton.xml -->
+<ba>
+    <propositions>
+        <proposition name="smdistmp"/>
+        <proposition name="diwpm"/>
+    </propositions>
+    <states>
+        <state accepting="true" id="1" name="1"/>
+        <state id="2" initial="true" name="2"/>
+    </states>
+    <transitions>
+        <transition destination="1" id="1" propositions="!smdistmp" source="1"/>
+        <transition destination="2" id="2" propositions="SIGMA" source="2"/>
+        <transition destination="1" id="3" propositions="!smdistmp^diwpm" source="2"/>
+    </transitions>
+</ba>

@@ -115,23 +115,18 @@ public class Checker extends CHIAAction<SatisfactionValue> {
 				return SatisfactionValue.NOTSATISFIED;
 			}
 
-			if (this.model.getBlackBoxStates().isEmpty()) {
-				this.performed();
+			// COMPUTES THE INTERSECTION BETWEEN THE MODEL AND THE CLAIM
+			boolean emptyIntersection = this.checkEmptyIntersection();
+			this.performed();
+			if (!emptyIntersection) {
+				this.satisfactionValue = SatisfactionValue.POSSIBLYSATISFIED;
+				return SatisfactionValue.POSSIBLYSATISFIED;
+			} else {
+
 				this.satisfactionValue = SatisfactionValue.SATISFIED;
 				return SatisfactionValue.SATISFIED;
-			} else {
-				// COMPUTES THE INTERSECTION BETWEEN THE MODEL AND THE CLAIM
-				boolean emptyIntersection = this.checkEmptyIntersection();
-				this.performed();
-				if (!emptyIntersection) {
-					this.satisfactionValue = SatisfactionValue.POSSIBLYSATISFIED;
-					return SatisfactionValue.POSSIBLYSATISFIED;
-				} else {
-
-					this.satisfactionValue = SatisfactionValue.SATISFIED;
-					return SatisfactionValue.SATISFIED;
-				}
 			}
+
 		}
 		return this.satisfactionValue;
 	}
@@ -205,7 +200,7 @@ public class Checker extends CHIAAction<SatisfactionValue> {
 						"You must run the model checker before performing this operation");
 
 		Preconditions.checkState(this.upperIntersectionBuilder != null,
-				"The lower upper autonaton has not been computed");
+				"The upper autonaton has not been computed");
 		return this.upperIntersectionBuilder.getIntersectionAutomaton();
 
 	}
@@ -257,7 +252,7 @@ public class Checker extends CHIAAction<SatisfactionValue> {
 					.add(new AbstractMap.SimpleEntry<State, Transition>(
 							lowerIntersectionBuilder.getModelState(entry
 									.getKey()), entry.getValue()));
-			
+
 		}
 		return filteredCounterexamle;
 	}

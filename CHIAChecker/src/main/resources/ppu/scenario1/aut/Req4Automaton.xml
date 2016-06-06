@@ -1,0 +1,17 @@
+<!-- CONTAINS A CLAIM FOR THE MUTEX EXAMPLE To load it perform lc /Users/Claudio1/Desktop/CHIAExamples/PPU/Scenario1/Aut/Req4Automaton.xml -->
+
+<ba>
+    <propositions>
+        <proposition name="codiwprm"/>
+        <proposition name="stdiwpav"/>
+    </propositions>
+    <states>
+        <state accepting="true" id="1" name="1"/>
+        <state id="2" initial="true" name="2"/>
+    </states>
+    <transitions>
+        <transition destination="1" id="1" propositions="SIGMA" source="1"/>
+        <transition destination="2" id="2" propositions="SIGMA" source="2"/>
+        <transition destination="1" id="3" propositions="codiwprm^stdiwpav" source="2"/>
+    </transitions>
+</ba>
