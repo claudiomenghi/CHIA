@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<replacement modelstateId="11" name="t11" modelFilePath="./model.xml">
+		<iba>
+			<propositions>
+				<!-- o stays for one -->
+				<!--  SEMAPHORE -->
+				<proposition name="tz" />	
+				<proposition name="to" />
+
+				<!-- PROCESS 0 -->
+				<proposition name="ntz" />
+				<proposition name="trz" />
+				<proposition name="crz" />
+		
+				<!-- PROCESS 1 -->
+				<proposition name="nto" />
+				<proposition name="tro" />
+				<proposition name="cro" />
+			</propositions>
+			<states>
+				<state accepting="true" id="2" name="q2" />
+				<state accepting="true" id="4" name="q4" />
+			</states>
+			<transitions>
+				<transition destination="4" id="1" propositions="tz^trz^nto"
+					source="2" />
+			</transitions>
+		</iba>
+		<intransitions>
+			<plugtransition id="1">
+				<sourcestate>
+					<state id="1" name="q1" />
+				</sourcestate>
+				<destinationstate>
+					<state id="2" name="q2" />
+				</destinationstate>
+				<trans id="1" propositions="tz^ntz^nto" />
+			</plugtransition>
+			<plugtransition  id="14">
+				<sourcestate>
+					<state id="10" name="q10" />
+				</sourcestate>
+				<destinationstate>
+					<state id="2" name="q2" />
+				</destinationstate>
+				<trans id="14" propositions="tz^ntz^nto" />
+			</plugtransition>
+			<plugtransition  id="15">
+				<sourcestate>
+					<state id="10" name="q10" />
+				</sourcestate>
+				<destinationstate>
+					<state id="4" name="q4" />
+				</destinationstate>
+				<trans id="15" propositions="tz^trz^nto" />
+			</plugtransition>
+		</intransitions>
+		<outtransitions>
+			<plugtransition  id="2">
+				<sourcestate>
+					<state id="2" name="q2" />
+				</sourcestate>
+				<destinationstate>
+					<state id="3" name="q3" />
+				</destinationstate>
+				<trans id="2" propositions="ntz^tro^tz" />
+			</plugtransition>
+			<plugtransition  id="6">
+				<sourcestate>
+					<state id="4" name="q4" />
+				</sourcestate>
+				<destinationstate>
+					<state id="5" name="q5" />
+				</destinationstate>
+				<trans id="6" propositions="tz^trz^tro" />
+			</plugtransition>
+			<plugtransition  id="7">
+				<sourcestate>
+					<state id="4" name="q4" />
+				</sourcestate>
+				<destinationstate>
+					<state id="6" name="q6" />
+				</destinationstate>
+				<trans id="7" propositions="tz^crz^nto" />
+			</plugtransition>
+		</outtransitions>
+</replacement>

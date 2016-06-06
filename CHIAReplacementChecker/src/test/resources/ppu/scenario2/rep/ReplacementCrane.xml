@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--  lR /Users/Claudio1/Desktop/CHIAExamples/PPU/Scenario2/Rep/ReplacementCrane.xml-->
+<replacement modelstateId="23" name="crane" modelFilePath="./model.xml">
+		<iba>
+			<propositions>
+				<proposition name="stdiwpav" />	
+				<proposition name="cracttts" />
+				<proposition name="cractpcext" />
+				<proposition name="cractpuwp" />
+				<proposition name="cractpcret" />
+				<proposition name="cractttc" />
+				<proposition name="cractpdwp" />
+				<proposition name="cractttstmp" />
+				
+				<proposition name="crdipcext" />
+				<proposition name="crdipuwp" />
+				<proposition name="crdipcret" />
+				<proposition name="crdipdwp" />
+				<proposition name="crdittc" />
+				<proposition name="codiwpab" />
+				<proposition name="crdiatstmp" />
+				<proposition name="smdiwpav" />
+				<proposition name="crdias" />
+				
+				<proposition name="crditts" />
+				
+				<proposition name="diwpm" />
+				<proposition name="diwpp" />
+				
+				<proposition name="stdiwpav" />
+				<proposition name="smdiwpspr" />
+				<proposition name="codiwprm" />
+				
+				
+						
+				<proposition name="stdiwpav" />	
+				<proposition name="diwpb" />		
+				<proposition name="diwpw" />		
+						
+								
+			</propositions>
+			<states>
+				<state id="26" name="q26" />
+				<state id="27" name="q27" />
+				<state id="28" name="q28" />
+				<state id="29" name="q29" />
+				<state id="30" name="q30" />
+				<state id="31" name="q31" />
+				<state id="32" name="q32" />
+				<state id="33" name="q33" />
+				<state id="34" name="q34" />
+				<state id="35" name="q35" />
+				<state id="36" name="q36" />
+				<state id="37" name="q37" />
+				<state id="38" name="q38" />
+				<state id="39" name="q39" />
+				<state id="40" name="q40" />
+				<state id="41" name="q41" />
+				<state id="42" name="q42" />
+				<state id="43" name="q43" />
+				<state id="44" name="q44" />
+				<state id="45" name="q45" />
+			</states>
+			<transitions>
+				<transition id="35" source="26" destination="26"  propositions="cracttts"/>
+				<transition id="36" source="26" destination="27"  propositions="crditts"/>
+				<transition id="37" source="27" destination="27"  propositions="cractpcext"/>
+				<transition id="38" source="27" destination="28"  propositions="crdipcext"/>
+				<transition id="39" source="28" destination="28"  propositions="cractpuwp"/>
+				<transition id="40" source="28" destination="29"  propositions="crdipuwp"/>
+				<transition id="41" source="29" destination="29"  propositions="cractpcret"/>
+				<transition id="42" source="29" destination="30"  propositions="crdipcret"/>
+				<transition id="43" source="30" destination="31"  propositions="diwpp^diwpb"/>
+				<transition id="44" source="30" destination="34"  propositions="diwpm"/>
+				<transition id="45" source="31" destination="31"  propositions="cractttc"/>
+				<transition id="46" source="31" destination="32"  propositions="crdittc"/>
+				<transition id="47" source="32" destination="32"  propositions="cractpcext"/>
+				<transition id="48" source="32" destination="33"  propositions="crdipcext"/>
+				<transition id="49" source="33" destination="33"  propositions="cractpdwp"/>
+				<transition id="50" source="34" destination="34"  propositions="cractttstmp"/>
+				<transition id="51" source="34" destination="35"  propositions="crdiatstmp"/>
+				<transition id="52" source="35" destination="35"  propositions="cractpcext"/>
+				<transition id="53" source="35" destination="36"  propositions="crdipcext"/>
+				<transition id="54" source="36" destination="36"  propositions="cractpdwp"/>
+				<transition id="55" source="37" destination="37"  propositions="cractttstmp"/>
+				<transition id="56" source="37" destination="38"  propositions="crdiatstmp"/>
+				<transition id="57" source="38" destination="38"  propositions="cractpcext"/>
+				<transition id="58" source="38" destination="39"  propositions="crdipcext"/>
+				<transition id="59" source="39" destination="39"  propositions="cractpdwp"/>
+				<transition id="60" source="39" destination="40"  propositions="crdipuwp"/>
+				<transition id="61" source="40" destination="40"  propositions="cractpcret"/>
+				<transition id="62" source="40" destination="41"  propositions="crdipcret"/>
+				<transition id="63" source="41" destination="41"  propositions="cractttc"/>
+				<transition id="64" source="41" destination="42"  propositions="crdittc"/>
+				<transition id="65" source="42" destination="42"  propositions="cractpcext"/>
+				<transition id="66" source="42" destination="43"  propositions="crdipcext"/>
+				<transition id="67" source="43" destination="43"  propositions="cractpdwp"/>
+				<transition id="68" source="44" destination="44"  propositions="cractpcret"/>
+				<transition id="69" source="44" destination="45"  propositions="crdipcret"/>
+				<transition id="70" source="45" destination="45"  propositions="cracttts"/>
+				<transition id="71" source="30" destination="34"  propositions="diwpp^diwpw"/>
+			</transitions>
+		</iba>
+		<intransitions>
+			<plugtransition id="72">
+				<sourcestate>
+					<state id="5" name="q5" />
+				</sourcestate>
+				<destinationstate>
+					<state id="26" name="q26" />
+				</destinationstate>
+				<trans id="1" propositions="stdiwpav" />
+			</plugtransition>
+			<plugtransition  id="73">
+				<sourcestate>
+					<state id="12" name="q12" />
+				</sourcestate>
+				<destinationstate>
+					<state id="37" name="q37" />
+				</destinationstate>
+				<trans id="4" propositions="smdiwpsr" />
+			</plugtransition>
+			<plugtransition  id="74">
+				<sourcestate>
+					<state id="18" name="q18" />
+				</sourcestate>
+				<destinationstate>
+					<state id="44" name="q44" />
+				</destinationstate>
+				<trans id="6" propositions="codiwprm" />
+			</plugtransition>
+		</intransitions>
+		<outtransitions>
+			<plugtransition  id="75">
+				<sourcestate>
+					<state id="33" name="q33" />
+				</sourcestate>
+				<destinationstate>
+					<state id="13" name="q13" />
+				</destinationstate>
+				<trans id="5" propositions="codiwpab" />
+			</plugtransition>
+			<plugtransition  id="76">
+				<sourcestate>
+					<state id="43" name="q43" />
+				</sourcestate>
+				<destinationstate>
+					<state id="13" name="q13" />
+				</destinationstate>
+				<trans id="5" propositions="codiwpab" />
+			</plugtransition>
+			<plugtransition  id="77">
+				<sourcestate>
+					<state id="45" name="q45" />
+				</sourcestate>
+				<destinationstate>
+					<state id="1" name="q1" />
+				</destinationstate>
+				<trans id="2" propositions="crdias" />
+			</plugtransition>
+			<plugtransition  id="78">
+				<sourcestate>
+					<state id="36" name="q36" />
+				</sourcestate>
+				<destinationstate>
+					<state id="6" name="q6" />
+				</destinationstate>
+				<trans id="3" propositions="smdiwpav" />
+			</plugtransition>
+		</outtransitions>
+</replacement>
+

@@ -1,0 +1,209 @@
+<constraint>
+    <subproperty indispensable="true" modelstateId="23" name="crane">
+        <ba>
+            <propositions>
+                <proposition name="smdistmp"/>
+                <proposition name="diwpm"/>
+            </propositions>
+            <states>
+                <state id="579" name="23 - 2 - 1"/>
+                <state accepting="true" id="601" name="23 - 1 - 2"/>
+                <state id="565" name="23 - 2 - 0"/>
+                <state id="607" name="23 - 1 - 0"/>
+            </states>
+            <transitions>
+                <transition destination="579" id="1567" propositions="SIGMA" source="579"/>
+                <transition destination="607" id="1595" propositions="!smdistmp" source="607"/>
+                <transition destination="607" id="1623" propositions="!smdistmp^diwpm" source="565"/>
+                <transition destination="607" id="1605" propositions="!smdistmp" source="601"/>
+                <transition destination="565" id="1622" propositions="SIGMA" source="565"/>
+                <transition destination="601" id="1606" propositions="!smdistmp^diwpm" source="579"/>
+            </transitions>
+        </ba>
+        <intransitions>
+            <labeledplugtransition label="B" id="429">
+                <sourcestate>
+                    <state id="18" name="q18"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="579" name="23 - 2 - 1"/>
+                </destinationstate>
+                <trans id="1607" propositions="codiwprm"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="B" id="425">
+                <sourcestate>
+                    <state id="5" name="q5"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="579" name="23 - 2 - 1"/>
+                </destinationstate>
+                <trans id="1531" propositions="stdiwpav"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="B" id="437">
+                <sourcestate>
+                    <state id="5" name="q5"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="607" name="23 - 1 - 0"/>
+                </destinationstate>
+                <trans id="1596" propositions="stdiwpav"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="B" id="431">
+                <sourcestate>
+                    <state id="18" name="q18"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="601" name="23 - 1 - 2"/>
+                </destinationstate>
+                <trans id="1580" propositions="codiwprm"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="B" id="427">
+                <sourcestate>
+                    <state id="12" name="q12"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="579" name="23 - 2 - 1"/>
+                </destinationstate>
+                <trans id="1542" propositions="stdiwpspr"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="G" id="435">
+                <sourcestate>
+                    <state id="5" name="q5"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="565" name="23 - 2 - 0"/>
+                </destinationstate>
+                <trans id="1624" propositions="stdiwpav"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="B" id="433">
+                <sourcestate>
+                    <state id="12" name="q12"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="565" name="23 - 2 - 0"/>
+                </destinationstate>
+                <trans id="1518" propositions="stdiwpspr"/>
+            </labeledplugtransition>
+        </intransitions>
+        <outtransitions>
+            <labeledplugtransition label="B" id="443">
+                <sourcestate>
+                    <state id="579" name="23 - 2 - 1"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="13" name="q13"/>
+                </destinationstate>
+                <trans id="1566" propositions="codiwpab"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="B" id="449">
+                <sourcestate>
+                    <state id="565" name="23 - 2 - 0"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="1" name="q1"/>
+                </destinationstate>
+                <trans id="1513" propositions="crdias"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="B" id="441">
+                <sourcestate>
+                    <state id="579" name="23 - 2 - 1"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="6" name="q6"/>
+                </destinationstate>
+                <trans id="1549" propositions="smdiwpav"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="B" id="445">
+                <sourcestate>
+                    <state id="601" name="23 - 1 - 2"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="1" name="q1"/>
+                </destinationstate>
+                <trans id="1602" propositions="crdias"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="B" id="455">
+                <sourcestate>
+                    <state id="607" name="23 - 1 - 0"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="1" name="q1"/>
+                </destinationstate>
+                <trans id="1570" propositions="crdias"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="B" id="439">
+                <sourcestate>
+                    <state id="579" name="23 - 2 - 1"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="1" name="q1"/>
+                </destinationstate>
+                <trans id="1537" propositions="crdias"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="B" id="453">
+                <sourcestate>
+                    <state id="565" name="23 - 2 - 0"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="13" name="q13"/>
+                </destinationstate>
+                <trans id="1621" propositions="codiwpab"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="B" id="457">
+                <sourcestate>
+                    <state id="607" name="23 - 1 - 0"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="13" name="q13"/>
+                </destinationstate>
+                <trans id="1594" propositions="codiwpab"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="B" id="447">
+                <sourcestate>
+                    <state id="601" name="23 - 1 - 2"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="13" name="q13"/>
+                </destinationstate>
+                <trans id="1604" propositions="codiwpab"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="B" id="451">
+                <sourcestate>
+                    <state id="565" name="23 - 2 - 0"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="6" name="q6"/>
+                </destinationstate>
+                <trans id="1525" propositions="smdiwpav"/>
+            </labeledplugtransition>
+        </outtransitions>
+        <lowerReachability>
+            <reachabilityElements>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="429" source="443"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="427" source="441"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="425" source="439"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="429" source="453"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="435" source="449"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="433" source="451"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="431" source="447"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="437" source="445"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="437" source="455"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="431" source="457"/>
+            </reachabilityElements>
+        </lowerReachability>
+        <upperReachability>
+            <reachabilityElements>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="429" source="443"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="427" source="441"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="425" source="439"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="429" source="453"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="433" source="451"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="435" source="449"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="437" source="445"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="431" source="447"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="431" source="457"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="437" source="455"/>
+            </reachabilityElements>
+        </upperReachability>
+    </subproperty>
+</constraint>

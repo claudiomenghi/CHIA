@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- lC /Users/Claudio1/Desktop/CHIAExamples/PPU/Scenario2/Rep/ConstraintReq2.xml -->
+<constraint>
+    <subproperty indispensable="true" modelstateId="23" name="crane">
+        <ba>
+            <propositions>
+                <proposition name="codiwprm"/>
+                <proposition name="stdiwpav"/>
+            </propositions>
+            <states>
+                <state id="1857" name="23 - 2 - 1"/>
+                <state id="1843" name="23 - 2 - 0"/>
+                <state id="1885" name="23 - 1 - 0"/>
+                <state accepting="true" id="1879" name="23 - 1 - 2"/>
+            </states>
+            <transitions>
+                <transition destination="1885" id="4878" propositions="codiwprm^stdiwpav" source="1843"/>
+                <transition destination="1843" id="4877" propositions="SIGMA" source="1843"/>
+                <transition destination="1879" id="4861" propositions="codiwprm^stdiwpav" source="1857"/>
+                <transition destination="1885" id="4860" propositions="SIGMA" source="1879"/>
+                <transition destination="1857" id="4816" propositions="SIGMA" source="1857"/>
+                <transition destination="1885" id="4850" propositions="SIGMA" source="1885"/>
+            </transitions>
+        </ba>
+        <intransitions>
+            <labeledplugtransition label="B" id="791">
+                <sourcestate>
+                    <state id="18" name="q18"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="1879" name="23 - 1 - 2"/>
+                </destinationstate>
+                <trans id="4835" propositions="smdislret"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="B" id="779">
+                <sourcestate>
+                    <state id="12" name="q12"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="1857" name="23 - 2 - 1"/>
+                </destinationstate>
+                <trans id="4791" propositions="smdislret"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="B" id="789">
+                <sourcestate>
+                    <state id="5" name="q5"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="1885" name="23 - 1 - 0"/>
+                </destinationstate>
+                <trans id="4851" propositions="stdiwpav"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="B" id="783">
+                <sourcestate>
+                    <state id="12" name="q12"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="1843" name="23 - 2 - 0"/>
+                </destinationstate>
+                <trans id="4767" propositions="smdislret"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="B" id="777">
+                <sourcestate>
+                    <state id="5" name="q5"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="1857" name="23 - 2 - 1"/>
+                </destinationstate>
+                <trans id="4780" propositions="stdiwpav"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="G" id="785">
+                <sourcestate>
+                    <state id="5" name="q5"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="1843" name="23 - 2 - 0"/>
+                </destinationstate>
+                <trans id="4879" propositions="stdiwpav"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="B" id="781">
+                <sourcestate>
+                    <state id="18" name="q18"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="1857" name="23 - 2 - 1"/>
+                </destinationstate>
+                <trans id="4862" propositions="smdislret"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="B" id="787">
+                <sourcestate>
+                    <state id="12" name="q12"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="1885" name="23 - 1 - 0"/>
+                </destinationstate>
+                <trans id="4824" propositions="smdislret"/>
+            </labeledplugtransition>
+        </intransitions>
+        <outtransitions>
+            <labeledplugtransition label="B" id="801">
+                <sourcestate>
+                    <state id="1843" name="23 - 2 - 0"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="6" name="q6"/>
+                </destinationstate>
+                <trans id="4774" propositions="smdislret"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="B" id="795">
+                <sourcestate>
+                    <state id="1857" name="23 - 2 - 1"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="6" name="q6"/>
+                </destinationstate>
+                <trans id="4798" propositions="smdislret"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="B" id="797">
+                <sourcestate>
+                    <state id="1857" name="23 - 2 - 1"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="13" name="q13"/>
+                </destinationstate>
+                <trans id="4815" propositions="smdislret"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="B" id="815">
+                <sourcestate>
+                    <state id="1879" name="23 - 1 - 2"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="13" name="q13"/>
+                </destinationstate>
+                <trans id="4859" propositions="smdislret"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="B" id="805">
+                <sourcestate>
+                    <state id="1885" name="23 - 1 - 0"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="1" name="q1"/>
+                </destinationstate>
+                <trans id="4819" propositions="stdias"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="B" id="809">
+                <sourcestate>
+                    <state id="1885" name="23 - 1 - 0"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="13" name="q13"/>
+                </destinationstate>
+                <trans id="4849" propositions="smdislret"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="B" id="813">
+                <sourcestate>
+                    <state id="1879" name="23 - 1 - 2"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="6" name="q6"/>
+                </destinationstate>
+                <trans id="4858" propositions="smdislret"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="B" id="799">
+                <sourcestate>
+                    <state id="1843" name="23 - 2 - 0"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="1" name="q1"/>
+                </destinationstate>
+                <trans id="4762" propositions="stdias"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="B" id="807">
+                <sourcestate>
+                    <state id="1885" name="23 - 1 - 0"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="6" name="q6"/>
+                </destinationstate>
+                <trans id="4831" propositions="smdislret"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="B" id="793">
+                <sourcestate>
+                    <state id="1857" name="23 - 2 - 1"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="1" name="q1"/>
+                </destinationstate>
+                <trans id="4786" propositions="stdias"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="B" id="811">
+                <sourcestate>
+                    <state id="1879" name="23 - 1 - 2"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="1" name="q1"/>
+                </destinationstate>
+                <trans id="4857" propositions="stdias"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="B" id="803">
+                <sourcestate>
+                    <state id="1843" name="23 - 2 - 0"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="13" name="q13"/>
+                </destinationstate>
+                <trans id="4876" propositions="smdislret"/>
+            </labeledplugtransition>
+        </outtransitions>
+        <lowerReachability>
+            <reachabilityElements>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="789" source="805"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="787" source="807"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="791" source="809"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="777" source="793"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="781" source="797"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="779" source="795"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="783" source="801"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="781" source="803"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="785" source="799"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="791" source="815"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="789" source="811"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="787" source="813"/>
+            </reachabilityElements>
+        </lowerReachability>
+        <upperReachability>
+            <reachabilityElements>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="791" source="809"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="789" source="805"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="787" source="807"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="779" source="795"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="777" source="793"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="781" source="797"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="785" source="799"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="783" source="801"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="781" source="803"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="787" source="813"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="true" destination="791" source="815"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="789" source="811"/>
+            </reachabilityElements>
+        </upperReachability>
+    </subproperty>
+</constraint>
