@@ -45,6 +45,18 @@ public class StringToClaimPropositionsTest {
 	 * Test method for {@link  it.polimi.automata.io.in.propositions.StringToClaimPropositions#transform(String)}.
 	 */
 	@Test
+	public void testTransformAtomicPropositionShouldCorrectlyParseAndPropositions() {
+		Set<IGraphProposition> propositions=new HashSet<IGraphProposition>();
+		propositions.add(new GraphProposition("a", false));
+		propositions.add(new GraphProposition("b", false));
+		
+		assertEquals("An atomic proposition is a valid label for a claim transition", propositions, new StringToClaimPropositions().transform("a^b"));
+	}
+	
+	/**
+	 * Test method for {@link  it.polimi.automata.io.in.propositions.StringToClaimPropositions#transform(String)}.
+	 */
+	@Test
 	public void testTransformSigma() {
 		
 		Set<IGraphProposition> propositions=new HashSet<IGraphProposition>();
