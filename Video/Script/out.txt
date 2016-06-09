@@ -1,0 +1,197 @@
+[H[2J>java -jar CHIA.jar
+********************************************************************
+WELCOME in CHIA (Checker for Incomplete Automata)
+You can change between the replacement and the automata mode at any time
+rep: enables replacement mode
+aut: enables repautomata mode
+********************************************************************
+aut: automata mode enabled
+
+CHIA Started
+CHIA> 
+lm      dispm   lp      lpLTL   dispp   ck      exit    cc      help    sc      dispc   rep     
+CHIA> help lm
+SYNOPSIS 
+ 	lm
+NAME 
+ 	loadModel
+PARAMS 
+ 	modelFilePath:  the path of the file that contains the model to be checked
+DESCRIPTION 
+ 	Is used to load the model from an XML file. The XML file must mach the IBA.xsd. 
+ 
+CHIA> lm CHIAExamples/SENDINGMESSAGE/Aut/Model.xml
+Model readed
+N° states: 5
+N° transitions:7
+CHIA> dispm
+<?xml version="1.0" encoding="UTF-8"?><iba>
+    <propositions>
+        <proposition name="success"/>
+        <proposition name="start"/>
+        <proposition name="fail"/>
+        <proposition name="abort"/>
+        <proposition name="ok"/>
+    </propositions>
+    <states>
+        <state id="1" initial="true" name="q1"/>
+        <state blackbox="true" id="2" name="send1"/>
+        <state blackbox="true" id="3" name="send2"/>
+        <state accepting="true" id="4" name="q2"/>
+        <state accepting="true" id="5" name="q3"/>
+    </states>
+    <transitions>
+        <transition destination="2" id="1" propositions="start" source="1"/>
+        <transition destination="3" id="2" propositions="fail" source="2"/>
+        <transition destination="5" id="3" propositions="ok" source="2"/>
+        <transition destination="5" id="4" propositions="ok" source="3"/>
+        <transition destination="4" id="5" propositions="fail" source="3"/>
+        <transition destination="4" id="6" propositions="abort" source="4"/>
+        <transition destination="5" id="7" propositions="success" source="5"/>
+    </transitions>
+</iba>
+
+CHIA> lpLTL [](send-><>success)
+Property loaded
+N° states: 2
+N° transitions:3
+CHIA> ck
+Verification result: POSSIBLY SATISFIED
+Verification time: 41 ms
+Dimension of the intersection automaton (states+transitions): 32
+CHIA> cc
+Constraint computed
+CHIA> sc CHIAExamples/SENDINGMESSAGE/Rep/LivenessConstraint.xml
+Constraint saved
+CHIA> rep
+replacement mode enabled
+CHIA> lr CHIAExamples/SENDINGMESSAGE/Rep/ReplacementSend1.xml
+Replacement Loaded
+CHIA> dispr
+<?xml version="1.0" encoding="UTF-8"?><replacement modelstateId="2" name="send1">
+    <iba>
+        <propositions>
+            <proposition name="timeout"/>
+            <proposition name="start"/>
+            <proposition name="send"/>
+            <proposition name="fail"/>
+            <proposition name="ack"/>
+            <proposition name="wait"/>
+            <proposition name="ok"/>
+        </propositions>
+        <states>
+            <state id="6" name="q4"/>
+            <state id="7" name="q5"/>
+            <state id="8" name="q6"/>
+            <state id="9" name="q7"/>
+            <state id="10" name="q8"/>
+        </states>
+        <transitions>
+            <transition destination="7" id="8" propositions="send" source="6"/>
+            <transition destination="8" id="9" propositions="wait" source="7"/>
+            <transition destination="9" id="10" propositions="timeout" source="8"/>
+            <transition destination="10" id="11" propositions="ack" source="8"/>
+        </transitions>
+    </iba>
+    <intransitions>
+        <plugtransition id="16">
+            <sourcestate>
+                <state id="1" name="q1"/>
+            </sourcestate>
+            <destinationstate>
+                <state id="6" name="q4"/>
+            </destinationstate>
+            <transition id="1" propositions="start"/>
+        </plugtransition>
+    </intransitions>
+    <outtransitions>
+        <plugtransition id="17">
+            <sourcestate>
+                <state id="9" name="q7"/>
+            </sourcestate>
+            <destinationstate>
+                <state id="3" name="send2"/>
+            </destinationstate>
+            <transition id="2" propositions="fail"/>
+        </plugtransition>
+        <plugtransition id="18">
+            <sourcestate>
+                <state id="10" name="q8"/>
+            </sourcestate>
+            <destinationstate>
+                <state id="5" name="q3"/>
+            </destinationstate>
+            <transition id="3" propositions="ok"/>
+        </plugtransition>
+    </outtransitions>
+</replacement>
+
+CHIA> lc CHIAExamples/SENDINGMESSAGE/Rep/LivenessConstraint.xml
+Constraint Loaded
+CHIA> ck
+Verification result: POSSIBLY SATISFIED
+Verification time: 5 ms
+Dimension of the intersection automaton (states+transitions): 47
+CHIA> 
+>java -jar CHIA.jar
+********************************************************************
+WELCOME in CHIA (Checker for Incomplete Automata)
+You can change between the replacement and the automata mode at any time
+rep: enables replacement mode
+aut: enables repautomata mode
+********************************************************************
+aut: automata mode enabled
+
+CHIA Started
+CHIA> lm CHIAExamples/SENDINGMESSAGE/Aut/Refinement.xml
+Model readed
+N° states: 9
+N° transitions:11
+CHIA> dispm
+<?xml version="1.0" encoding="UTF-8"?><iba>
+    <propositions>
+        <proposition name="timeout"/>
+        <proposition name="success"/>
+        <proposition name="start"/>
+        <proposition name="send"/>
+        <proposition name="fail"/>
+        <proposition name="ack"/>
+        <proposition name="wait"/>
+        <proposition name="abort"/>
+        <proposition name="ok"/>
+    </propositions>
+    <states>
+        <state id="1" initial="true" name="q1"/>
+        <state blackbox="true" id="3" name="send2"/>
+        <state accepting="true" id="4" name="q2"/>
+        <state accepting="true" id="5" name="q3"/>
+        <state id="6" name="q4"/>
+        <state id="7" name="q5"/>
+        <state id="8" name="q6"/>
+        <state id="9" name="q7"/>
+        <state id="10" name="q8"/>
+    </states>
+    <transitions>
+        <transition destination="6" id="1" propositions="start" source="1"/>
+        <transition destination="3" id="2" propositions="fail" source="9"/>
+        <transition destination="5" id="3" propositions="ok" source="10"/>
+        <transition destination="5" id="4" propositions="ok" source="3"/>
+        <transition destination="4" id="5" propositions="fail" source="3"/>
+        <transition destination="4" id="6" propositions="abort" source="4"/>
+        <transition destination="5" id="7" propositions="success" source="5"/>
+        <transition destination="7" id="8" propositions="send" source="6"/>
+        <transition destination="8" id="9" propositions="wait" source="7"/>
+        <transition destination="9" id="10" propositions="timeout" source="8"/>
+        <transition destination="10" id="11" propositions="ack" source="8"/>
+    </transitions>
+</iba>
+
+CHIA> lpLTL [](send-><>success)
+Property loaded
+N° states: 2
+N° transitions:3
+CHIA> ck
+Verification result: POSSIBLY SATISFIED
+Verification time: 48 ms
+Dimension of the intersection automaton (states+transitions): 67
+CHIA> 0h:5m:18s
