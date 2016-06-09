@@ -11,12 +11,9 @@ CHIALTLIOltl2ba
 /CHIAScalabilityEvaluatorltl2ba
 /CHIAFrameworkltl2ba
 /bin/
-/bin/
-/bin/
-/bin/
-/bin/
 bin*.pdf
 /CHIA.mp4
 .project
 *.project
 *.classpath
+*.pdf

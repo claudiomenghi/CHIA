@@ -1,0 +1,872 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- lC /Users/Claudio1/Desktop/CHIAExamples/MUTEX/Scenario2/Rep/LivenessConstraint.xml -->
+<constraint>
+    <subproperty indispensable="false" modelstateId="10" name="t10">
+        <ba>
+            <propositions>
+                <proposition name="crz"/>
+                <proposition name="cro"/>
+            </propositions>
+            <states>
+                <state id="395" name="10 - 3 - 0"/>
+                <state accepting="true" id="400" name="10 - 3 - 2"/>
+                <state accepting="true" id="415" name="10 - 2 - 2"/>
+                <state id="381" name="10 - 1 - 1"/>
+                <state id="416" name="10 - 2 - 0"/>
+                <state id="405" name="10 - 3 - 1"/>
+                <state id="417" name="10 - 2 - 1"/>
+            </states>
+            <transitions>
+                <transition destination="405" id="737" propositions="!cro" source="395"/>
+                <transition destination="381" id="754" propositions="SIGMA" source="381"/>
+                <transition destination="400" id="707" propositions="!cro" source="405"/>
+                <transition destination="395" id="722" propositions="!cro" source="400"/>
+                <transition destination="400" id="765" propositions="!cro" source="381"/>
+                <transition destination="415" id="764" propositions="!crz" source="381"/>
+                <transition destination="416" id="763" propositions="!crz" source="415"/>
+                <transition destination="417" id="762" propositions="!crz" source="416"/>
+                <transition destination="415" id="761" propositions="!crz" source="417"/>
+            </transitions>
+        </ba>
+        <intransitions>
+            <labeledplugtransition label="G" id="236">
+                <sourcestate>
+                    <state id="9" name="q9"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="381" name="10 - 1 - 1"/>
+                </destinationstate>
+                <trans id="782" propositions="tro^to^trz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="208">
+                <sourcestate>
+                    <state id="8" name="q8"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="395" name="10 - 3 - 0"/>
+                </destinationstate>
+                <trans id="716" propositions="tro^to^ntz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="G" id="212">
+                <sourcestate>
+                    <state id="9" name="q9"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="395" name="10 - 3 - 0"/>
+                </destinationstate>
+                <trans id="744" propositions="tro^to^trz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="G" id="218">
+                <sourcestate>
+                    <state id="8" name="q8"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="400" name="10 - 3 - 2"/>
+                </destinationstate>
+                <trans id="746" propositions="tro^to^ntz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="234">
+                <sourcestate>
+                    <state id="7" name="q7"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="381" name="10 - 1 - 1"/>
+                </destinationstate>
+                <trans id="766" propositions="tro^to^ntz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="G" id="230">
+                <sourcestate>
+                    <state id="8" name="q8"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="415" name="10 - 2 - 2"/>
+                </destinationstate>
+                <trans id="790" propositions="tro^to^ntz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="246">
+                <sourcestate>
+                    <state id="9" name="q9"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="405" name="10 - 3 - 1"/>
+                </destinationstate>
+                <trans id="714" propositions="tro^to^trz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="244">
+                <sourcestate>
+                    <state id="7" name="q7"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="405" name="10 - 3 - 1"/>
+                </destinationstate>
+                <trans id="708" propositions="tro^to^ntz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="250">
+                <sourcestate>
+                    <state id="9" name="q9"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="417" name="10 - 2 - 1"/>
+                </destinationstate>
+                <trans id="793" propositions="tro^to^trz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="226">
+                <sourcestate>
+                    <state id="7" name="q7"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="415" name="10 - 2 - 2"/>
+                </destinationstate>
+                <trans id="767" propositions="tro^to^ntz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="G" id="238">
+                <sourcestate>
+                    <state id="8" name="q8"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="381" name="10 - 1 - 1"/>
+                </destinationstate>
+                <trans id="789" propositions="tro^to^ntz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="G" id="228">
+                <sourcestate>
+                    <state id="9" name="q9"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="415" name="10 - 2 - 2"/>
+                </destinationstate>
+                <trans id="783" propositions="tro^to^trz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="214">
+                <sourcestate>
+                    <state id="7" name="q7"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="400" name="10 - 3 - 2"/>
+                </destinationstate>
+                <trans id="723" propositions="tro^to^ntz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="248">
+                <sourcestate>
+                    <state id="8" name="q8"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="405" name="10 - 3 - 1"/>
+                </destinationstate>
+                <trans id="731" propositions="tro^to^ntz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="G" id="240">
+                <sourcestate>
+                    <state id="9" name="q9"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="416" name="10 - 2 - 0"/>
+                </destinationstate>
+                <trans id="786" propositions="tro^to^trz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="210">
+                <sourcestate>
+                    <state id="7" name="q7"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="395" name="10 - 3 - 0"/>
+                </destinationstate>
+                <trans id="738" propositions="tro^to^ntz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="G" id="216">
+                <sourcestate>
+                    <state id="9" name="q9"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="400" name="10 - 3 - 2"/>
+                </destinationstate>
+                <trans id="729" propositions="tro^to^trz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="242">
+                <sourcestate>
+                    <state id="8" name="q8"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="416" name="10 - 2 - 0"/>
+                </destinationstate>
+                <trans id="795" propositions="tro^to^ntz"/>
+            </labeledplugtransition>
+        </intransitions>
+        <outtransitions>
+            <labeledplugtransition label="Y" id="270">
+                <sourcestate>
+                    <state id="381" name="10 - 1 - 1"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="11" name="t11"/>
+                </destinationstate>
+                <trans id="751" propositions="tz^nto^trz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="262">
+                <sourcestate>
+                    <state id="415" name="10 - 2 - 2"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="11" name="t11"/>
+                </destinationstate>
+                <trans id="756" propositions="tz^nto^trz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="264">
+                <sourcestate>
+                    <state id="381" name="10 - 1 - 1"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="11" name="t11"/>
+                </destinationstate>
+                <trans id="691" propositions="tz^ntz^nto"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="256">
+                <sourcestate>
+                    <state id="400" name="10 - 3 - 2"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="11" name="t11"/>
+                </destinationstate>
+                <trans id="720" propositions="tz^ntz^nto"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="284">
+                <sourcestate>
+                    <state id="417" name="10 - 2 - 1"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="11" name="t11"/>
+                </destinationstate>
+                <trans id="759" propositions="tz^ntz^nto"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="286">
+                <sourcestate>
+                    <state id="417" name="10 - 2 - 1"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="11" name="t11"/>
+                </destinationstate>
+                <trans id="760" propositions="tz^nto^trz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="278">
+                <sourcestate>
+                    <state id="416" name="10 - 2 - 0"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="11" name="t11"/>
+                </destinationstate>
+                <trans id="758" propositions="tz^nto^trz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="276">
+                <sourcestate>
+                    <state id="416" name="10 - 2 - 0"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="11" name="t11"/>
+                </destinationstate>
+                <trans id="757" propositions="tz^ntz^nto"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="252">
+                <sourcestate>
+                    <state id="395" name="10 - 3 - 0"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="11" name="t11"/>
+                </destinationstate>
+                <trans id="735" propositions="tz^ntz^nto"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="280">
+                <sourcestate>
+                    <state id="405" name="10 - 3 - 1"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="11" name="t11"/>
+                </destinationstate>
+                <trans id="705" propositions="tz^ntz^nto"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="258">
+                <sourcestate>
+                    <state id="400" name="10 - 3 - 2"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="11" name="t11"/>
+                </destinationstate>
+                <trans id="721" propositions="tz^nto^trz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="282">
+                <sourcestate>
+                    <state id="405" name="10 - 3 - 1"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="11" name="t11"/>
+                </destinationstate>
+                <trans id="706" propositions="tz^nto^trz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="260">
+                <sourcestate>
+                    <state id="415" name="10 - 2 - 2"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="11" name="t11"/>
+                </destinationstate>
+                <trans id="755" propositions="tz^ntz^nto"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="254">
+                <sourcestate>
+                    <state id="395" name="10 - 3 - 0"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="11" name="t11"/>
+                </destinationstate>
+                <trans id="736" propositions="tz^nto^trz"/>
+            </labeledplugtransition>
+        </outtransitions>
+        <lowerReachability>
+            <reachabilityElements/>
+        </lowerReachability>
+        <upperReachability>
+            <reachabilityElements>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="218" source="254"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="246" source="254"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="244" source="252"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="246" source="252"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="216" source="254"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="244" source="254"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="212" source="254"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="208" source="254"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="248" source="254"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="218" source="252"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="212" source="252"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="210" source="254"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="216" source="252"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="214" source="252"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="208" source="252"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="210" source="252"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="214" source="254"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="248" source="252"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="208" source="258"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="212" source="256"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="214" source="256"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="216" source="258"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="210" source="258"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="248" source="258"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="244" source="258"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="214" source="258"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="218" source="258"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="246" source="256"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="216" source="256"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="248" source="256"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="218" source="256"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="210" source="256"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="208" source="256"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="212" source="258"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="244" source="256"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="246" source="258"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="216" source="264"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="234" source="264"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="210" source="264"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="216" source="264"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="230" source="264"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="228" source="264"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="214" source="270"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="210" source="270"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="212" source="270"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="212" source="264"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="230" source="270"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="208" source="270"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="218" source="270"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="248" source="270"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="216" source="270"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="216" source="270"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="226" source="270"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="false" destination="242" source="264"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="248" source="270"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="246" source="270"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="214" source="264"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="234" source="270"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="210" source="264"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="218" source="270"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="212" source="264"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="246" source="264"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="244" source="264"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="208" source="270"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="250" source="264"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="246" source="264"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="228" source="270"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="214" source="264"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="244" source="270"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="false" destination="242" source="270"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="214" source="270"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="238" source="264"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="244" source="264"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="236" source="270"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="218" source="264"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="218" source="270"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="208" source="264"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="226" source="264"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="208" source="264"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="false" destination="240" source="264"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="236" source="264"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="216" source="264"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="false" destination="240" source="270"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="244" source="270"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="246" source="270"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="212" source="270"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="218" source="264"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="238" source="270"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="248" source="264"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="210" source="270"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="248" source="264"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="216" source="270"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="214" source="264"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="218" source="264"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="214" source="270"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="250" source="270"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="208" source="282"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="214" source="282"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="218" source="280"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="248" source="280"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="210" source="282"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="244" source="280"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="218" source="282"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="210" source="280"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="216" source="282"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="248" source="282"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="246" source="282"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="216" source="280"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="208" source="280"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="246" source="280"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="214" source="280"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="212" source="280"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="212" source="282"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="244" source="282"/>
+            </reachabilityElements>
+        </upperReachability>
+    </subproperty>
+    <subproperty indispensable="false" modelstateId="11" name="t11">
+        <ba>
+            <propositions>
+                <proposition name="crz"/>
+                <proposition name="cro"/>
+            </propositions>
+            <states>
+                <state id="377" name="11 - 1 - 1"/>
+                <state id="396" name="11 - 3 - 1"/>
+                <state accepting="true" id="382" name="11 - 2 - 2"/>
+                <state id="401" name="11 - 3 - 0"/>
+                <state id="386" name="11 - 2 - 0"/>
+                <state id="389" name="11 - 2 - 1"/>
+                <state accepting="true" id="391" name="11 - 3 - 2"/>
+            </states>
+            <transitions>
+                <transition destination="382" id="801" propositions="!crz" source="377"/>
+                <transition destination="391" id="802" propositions="!cro" source="377"/>
+                <transition destination="382" id="701" propositions="!crz" source="389"/>
+                <transition destination="396" id="719" propositions="!cro" source="401"/>
+                <transition destination="389" id="702" propositions="!crz" source="386"/>
+                <transition destination="386" id="703" propositions="!crz" source="382"/>
+                <transition destination="391" id="734" propositions="!cro" source="396"/>
+                <transition destination="401" id="749" propositions="!cro" source="391"/>
+                <transition destination="377" id="800" propositions="SIGMA" source="377"/>
+            </transitions>
+        </ba>
+        <intransitions>
+            <labeledplugtransition label="Y" id="138">
+                <sourcestate>
+                    <state id="10" name="t10"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="377" name="11 - 1 - 1"/>
+                </destinationstate>
+                <trans id="751" propositions="tz^nto^trz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="G" id="146">
+                <sourcestate>
+                    <state id="1" name="q1"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="396" name="11 - 3 - 1"/>
+                </destinationstate>
+                <trans id="805" propositions="tz^ntz^nto"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="164">
+                <sourcestate>
+                    <state id="10" name="t10"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="389" name="11 - 2 - 1"/>
+                </destinationstate>
+                <trans id="757" propositions="tz^ntz^nto"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="142">
+                <sourcestate>
+                    <state id="10" name="t10"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="396" name="11 - 3 - 1"/>
+                </destinationstate>
+                <trans id="735" propositions="tz^ntz^nto"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="160">
+                <sourcestate>
+                    <state id="10" name="t10"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="386" name="11 - 2 - 0"/>
+                </destinationstate>
+                <trans id="755" propositions="tz^ntz^nto"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="136">
+                <sourcestate>
+                    <state id="10" name="t10"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="377" name="11 - 1 - 1"/>
+                </destinationstate>
+                <trans id="691" propositions="tz^ntz^nto"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="148">
+                <sourcestate>
+                    <state id="10" name="t10"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="382" name="11 - 2 - 2"/>
+                </destinationstate>
+                <trans id="704" propositions="tz^ntz^nto"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="166">
+                <sourcestate>
+                    <state id="10" name="t10"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="389" name="11 - 2 - 1"/>
+                </destinationstate>
+                <trans id="758" propositions="tz^nto^trz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="162">
+                <sourcestate>
+                    <state id="10" name="t10"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="386" name="11 - 2 - 0"/>
+                </destinationstate>
+                <trans id="756" propositions="tz^nto^trz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="144">
+                <sourcestate>
+                    <state id="10" name="t10"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="396" name="11 - 3 - 1"/>
+                </destinationstate>
+                <trans id="736" propositions="tz^nto^trz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="172">
+                <sourcestate>
+                    <state id="10" name="t10"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="391" name="11 - 3 - 2"/>
+                </destinationstate>
+                <trans id="706" propositions="tz^nto^trz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="170">
+                <sourcestate>
+                    <state id="10" name="t10"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="391" name="11 - 3 - 2"/>
+                </destinationstate>
+                <trans id="705" propositions="tz^ntz^nto"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="G" id="168">
+                <sourcestate>
+                    <state id="1" name="q1"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="389" name="11 - 2 - 1"/>
+                </destinationstate>
+                <trans id="804" propositions="tz^ntz^nto"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="158">
+                <sourcestate>
+                    <state id="10" name="t10"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="401" name="11 - 3 - 0"/>
+                </destinationstate>
+                <trans id="721" propositions="tz^nto^trz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="G" id="140">
+                <sourcestate>
+                    <state id="1" name="q1"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="377" name="11 - 1 - 1"/>
+                </destinationstate>
+                <trans id="803" propositions="tz^ntz^nto"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="150">
+                <sourcestate>
+                    <state id="10" name="t10"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="382" name="11 - 2 - 2"/>
+                </destinationstate>
+                <trans id="752" propositions="tz^nto^trz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="156">
+                <sourcestate>
+                    <state id="10" name="t10"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="401" name="11 - 3 - 0"/>
+                </destinationstate>
+                <trans id="720" propositions="tz^ntz^nto"/>
+            </labeledplugtransition>
+        </intransitions>
+        <outtransitions>
+            <labeledplugtransition label="Y" id="194">
+                <sourcestate>
+                    <state id="396" name="11 - 3 - 1"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="6" name="q6"/>
+                </destinationstate>
+                <trans id="733" propositions="tz^crz^nto"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="186">
+                <sourcestate>
+                    <state id="377" name="11 - 1 - 1"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="6" name="q6"/>
+                </destinationstate>
+                <trans id="798" propositions="tz^crz^nto"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="190">
+                <sourcestate>
+                    <state id="396" name="11 - 3 - 1"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="3" name="q3"/>
+                </destinationstate>
+                <trans id="726" propositions="tro^tz^ntz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="192">
+                <sourcestate>
+                    <state id="396" name="11 - 3 - 1"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="5" name="q5"/>
+                </destinationstate>
+                <trans id="727" propositions="tro^tz^trz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="202">
+                <sourcestate>
+                    <state id="391" name="11 - 3 - 2"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="3" name="q3"/>
+                </destinationstate>
+                <trans id="741" propositions="tro^tz^ntz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="196">
+                <sourcestate>
+                    <state id="401" name="11 - 3 - 0"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="3" name="q3"/>
+                </destinationstate>
+                <trans id="711" propositions="tro^tz^ntz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="198">
+                <sourcestate>
+                    <state id="401" name="11 - 3 - 0"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="5" name="q5"/>
+                </destinationstate>
+                <trans id="712" propositions="tro^tz^trz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="206">
+                <sourcestate>
+                    <state id="391" name="11 - 3 - 2"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="6" name="q6"/>
+                </destinationstate>
+                <trans id="748" propositions="tz^crz^nto"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="200">
+                <sourcestate>
+                    <state id="401" name="11 - 3 - 0"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="6" name="q6"/>
+                </destinationstate>
+                <trans id="718" propositions="tz^crz^nto"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="204">
+                <sourcestate>
+                    <state id="391" name="11 - 3 - 2"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="5" name="q5"/>
+                </destinationstate>
+                <trans id="742" propositions="tro^tz^trz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="182">
+                <sourcestate>
+                    <state id="377" name="11 - 1 - 1"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="5" name="q5"/>
+                </destinationstate>
+                <trans id="777" propositions="tro^tz^trz"/>
+            </labeledplugtransition>
+            <labeledplugtransition label="Y" id="178">
+                <sourcestate>
+                    <state id="377" name="11 - 1 - 1"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="3" name="q3"/>
+                </destinationstate>
+                <trans id="774" propositions="tro^tz^ntz"/>
+            </labeledplugtransition>
+        </outtransitions>
+        <lowerReachability>
+            <reachabilityElements/>
+        </lowerReachability>
+        <upperReachability>
+            <reachabilityElements>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="142" source="194"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="158" source="194"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="158" source="190"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="156" source="194"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="158" source="192"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="144" source="192"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="144" source="190"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="172" source="192"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="170" source="190"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="172" source="190"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="142" source="192"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="170" source="192"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="156" source="192"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="156" source="190"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="172" source="194"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="144" source="194"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="142" source="190"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="170" source="194"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="156" source="182"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="144" source="186"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="false" destination="160" source="182"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="164" source="186"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="148" source="186"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="false" destination="162" source="178"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="142" source="186"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="false" destination="150" source="178"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="172" source="186"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="150" source="178"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="138" source="178"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="172" source="182"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="150" source="182"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="false" destination="166" source="178"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="150" source="186"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="170" source="186"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="false" destination="166" source="182"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="142" source="178"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="156" source="186"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="138" source="182"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="156" source="186"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="144" source="182"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="150" source="186"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="156" source="178"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="166" source="186"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="136" source="178"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="170" source="182"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="158" source="186"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="170" source="178"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="170" source="186"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="false" destination="164" source="178"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="172" source="186"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="172" source="182"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="172" source="186"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="136" source="182"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="148" source="178"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="170" source="186"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="false" destination="150" source="182"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="false" destination="148" source="182"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="172" source="178"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="170" source="182"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="144" source="178"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="170" source="178"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="170" source="182"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="172" source="178"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="144" source="186"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="158" source="186"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="156" source="178"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="142" source="182"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="172" source="178"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="144" source="182"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="142" source="186"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="160" source="186"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="158" source="182"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="156" source="182"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="148" source="182"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="false" destination="160" source="178"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="false" destination="148" source="178"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="142" source="182"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="136" source="186"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="158" source="178"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="158" source="178"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="144" source="178"/>
+                <reachabilityElement accepting="false" acceptingclaim="false" acceptingmodel="false" destination="138" source="186"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="170" source="178"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="172" source="182"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="false" destination="162" source="182"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="158" source="182"/>
+                <reachabilityElement accepting="true" acceptingclaim="true" acceptingmodel="true" destination="142" source="178"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="162" source="186"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="false" destination="164" source="182"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="148" source="186"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="158" source="198"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="156" source="198"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="156" source="196"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="144" source="198"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="172" source="196"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="172" source="200"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="142" source="200"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="144" source="200"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="142" source="198"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="170" source="200"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="158" source="200"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="172" source="198"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="170" source="198"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="156" source="200"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="170" source="196"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="142" source="196"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="158" source="196"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="144" source="196"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="144" source="204"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="142" source="206"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="156" source="206"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="158" source="202"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="142" source="204"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="144" source="202"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="172" source="204"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="158" source="206"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="170" source="202"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="156" source="202"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="170" source="206"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="158" source="204"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="142" source="202"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="144" source="206"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="170" source="204"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="172" source="202"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="156" source="204"/>
+                <reachabilityElement accepting="true" acceptingclaim="false" acceptingmodel="true" destination="172" source="206"/>
+            </reachabilityElements>
+        </upperReachability>
+    </subproperty>
+</constraint>
+

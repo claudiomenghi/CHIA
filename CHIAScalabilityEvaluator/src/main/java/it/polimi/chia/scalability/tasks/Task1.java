@@ -14,17 +14,15 @@ import java.util.concurrent.TimeUnit;
 
 import com.google.common.base.Stopwatch;
 
-public class Task1 {
+public class Task1 extends Task{
 
-	private final Configuration configuration;
+
 	private final BA modelBA;
 	private final AcceptingType acceptingPolicy;
 	
-	private long taskTime;
-	private int taskSpace;
 	
 	public Task1(Configuration configuration, BA modelBA, AcceptingType acceptingPolicy) {
-		this.configuration=configuration;
+		super(configuration);
 		this.modelBA=modelBA;
 		this.acceptingPolicy=acceptingPolicy;
 	}
@@ -33,15 +31,15 @@ public class Task1 {
 		IBA modelIBA = getIBA(modelBA);
 		Stopwatch timer = Stopwatch.createUnstarted();
 		Checker checker = new Checker(modelIBA,
-				configuration.getCurrentClaim(),
+				getConfiguration().getCurrentClaim(),
 				AcceptingPolicy.getAcceptingPolicy(acceptingPolicy, modelBA,
-						configuration.getCurrentClaim()));
+						getConfiguration().getCurrentClaim()));
 
 		timer.start();
 		checker.perform();
 		timer.stop();
-		this.taskTime=timer.elapsed(TimeUnit.MILLISECONDS);
-		this.taskSpace=checker.getIntersectionAutomataSize();
+		this.setTaskTime(timer.elapsed(TimeUnit.MILLISECONDS));
+		this.setTaskSpace(checker.getIntersectionAutomataSize());
 		
 		return checker;
 	}
@@ -66,19 +64,5 @@ public class Task1 {
 					factory.create(t.getId(), t.getPropositions()));
 		}
 		return iba;
-	}
-
-	/**
-	 * @return the taskTime
-	 */
-	public long getTaskTime() {
-		return taskTime;
-	}
-
-	/**
-	 * @return the taskSpace
-	 */
-	public int getTaskSpace() {
-		return taskSpace;
 	}
 }

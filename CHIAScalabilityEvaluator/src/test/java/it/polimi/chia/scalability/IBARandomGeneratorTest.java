@@ -3,7 +3,7 @@
  */
 package it.polimi.chia.scalability;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 import it.polimi.automata.BA;
 import it.polimi.automata.IBA;
 import it.polimi.automata.state.StateFactory;

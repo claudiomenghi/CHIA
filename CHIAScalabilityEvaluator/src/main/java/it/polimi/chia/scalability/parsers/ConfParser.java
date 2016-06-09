@@ -20,28 +20,28 @@ public class ConfParser {
 	/**
 	 * contains the file where the results of the parsing are written
 	 */
-	private final static String RESULT_FILE = "RESULTS:";
+	private static final  String RESULT_FILE = "RESULTS:";
 
 	/**
 	 * contains the file where the possible results of the parsing are written
 	 */
-	private final static String RESULT_FILE_POSSIBLY = "RESULTSPOSSIBLY:";
+	private static final  String RESULT_FILE_POSSIBLY = "RESULTSPOSSIBLY:";
 
 	/**
 	 * contains the directory where the results are written
 	 */
-	private final static String TESTD_IRECTORY = "TESTDIRECTORY";
+	private static final  String TESTD_IRECTORY = "TESTDIRECTORY";
 
 	/**
 	 * the number of tests to be performed
 	 */
-	private final static String N_TESTS = "N_TESTS";
+	private static final  String N_TESTS = "N_TESTS";
 
 	// NUMBER OF STATES
-	private final static String INIT_NSTATES = "INIT_NSTATES";
-	private final static String FINAL_NSTATES = "FINAL_NSTATES";
-	private final static String INCREMENT_NSTATES = "INCREMENT_NSTATES";
-	private final static String CURRENT_NSTATES = "CURRENT_NSTATES";
+	private static final  String INIT_NSTATES = "INIT_NSTATES";
+	private static final  String FINAL_NSTATES = "FINAL_NSTATES";
+	private static final  String INCREMENT_NSTATES = "INCREMENT_NSTATES";
+	private static final  String CURRENT_NSTATES = "CURRENT_NSTATES";
 
 	// TRANSITIONS DENSITIES
 	private static final String INIT_TRANSITION_DENSITY = "INIT_TRANSITION_DENSITY";
@@ -188,10 +188,11 @@ public class ConfParser {
 	public ConfParser(String confFile) throws IOException, URISyntaxException {
 		Preconditions.checkNotNull(confFile,
 				"The file to be considered cannot be null");
-		if(ClassLoader.getSystemResource(confFile)==null){
+		
+		File f = new File(confFile);
+		if(!f.exists()){
 			throw new IllegalArgumentException("The file "+confFile+" has not been found");
 		}
-		File f = new File(ClassLoader.getSystemResource(confFile).toURI());
 		Preconditions.checkState(f.exists() && !f.isDirectory(), "The file "
 				+ confFile + " does not exists");
 		this.currentConfiguration = 1;
@@ -202,14 +203,14 @@ public class ConfParser {
 		FileInputStream inputStream = new FileInputStream(f);
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 				inputStream));
-		String line = null;
+		String line = new String();
 		while ((line = br.readLine()) != null) {
 			this.parseLine(line);
 		}
 		br.close();
 	}
 
-	private void parseLine(String line) {
+	protected void parseLine(String line) {
 		if (line.startsWith(RESULT_FILE)) {
 			this.resultsFile = line.substring(RESULT_FILE.length() + 1);
 		}

@@ -12,7 +12,7 @@
 	<parent>
 		<groupId>it.polimi.chia</groupId>
 		<artifactId>CHIA</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>1.0.0</version>
 	</parent>
 
 
@@ -36,17 +36,17 @@
 		<dependency>
 			<groupId>it.polimi.chia</groupId>
 			<artifactId>CHIAAutomata</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>it.polimi.chia</groupId>
 			<artifactId>CHIAAction</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>it.polimi.chia</groupId>
 			<artifactId>CHIAAutomataIO</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -56,7 +56,7 @@
 		<dependency>
 			<groupId>it.polimi.chia</groupId>
 			<artifactId>CHIALTLIO</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 	</dependencies>
 </project>

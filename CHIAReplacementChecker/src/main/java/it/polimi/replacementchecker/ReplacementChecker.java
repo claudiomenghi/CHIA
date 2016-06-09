@@ -47,7 +47,7 @@ import com.google.common.base.Preconditions;
  * </p>
  * 
  * 
- * @author claudiomenghi
+ * @author Claudio Menghi
  */
 public class ReplacementChecker extends CHIAAction<SatisfactionValue> {
 

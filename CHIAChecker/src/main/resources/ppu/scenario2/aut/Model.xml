@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- lm /Users/Claudio1/Desktop/CHIAExamples/PPU/Scenario2/Aut/Model.xml -->
+<iba>
+	<propositions>
+		<!-- z stays for zero -->
+		<!-- o stays for one -->
+
+		<!--  STACK -->		
+		<proposition name="stdias" />
+		<proposition name="stempty" />
+		<proposition name="stwpav" />
+		<proposition name="stactext" />
+		<proposition name="stdiext" />
+		<proposition name="stactext" />
+		<proposition name="stdiext" />
+		<proposition name="stdiwpav" />
+		
+		<!--  STAMP -->
+		<proposition name="smactslret" />
+		<proposition name="smdislret" />
+		<proposition name="smactspw" />
+		<proposition name="smactstext" />
+		<proposition name="smdistext" />
+		<proposition name="smtmp" />
+		
+		<proposition name="smdistmp" />
+		<proposition name="smactstret" />
+		<proposition name="smdistret" />
+		<proposition name="smactslext" />
+		<proposition name="smdislext" />
+		<proposition name="smdiwpav" />
+		<proposition name="smdiwpsr" />
+		
+		
+		
+		
+		<!-- CONVEYOR -->
+		<proposition name="coacttf" />
+		<proposition name="codiwprpone" />
+		<proposition name="codistonenfull" />
+		<proposition name="coditonetout" />
+		<proposition name="coactconeext" />
+		<proposition name="codiconeext" />
+		<proposition name="coactconeret" />
+		<proposition name="codiconeret" />
+		<proposition name="codiprone" />
+		<proposition name="codiwprptwo" />
+		<proposition name="codisttwonfull" />
+		<proposition name="codittwotout" />
+		<proposition name="coactctwoext" />
+		<proposition name="codictwoext" />
+		<proposition name="coactctworet" />
+		<proposition name="codictworet" />
+		<proposition name="codiprtwo" />
+		<proposition name="coactms" />
+		<proposition name="codiwprm" />
+		<proposition name="codiwprptwo" />
+		<proposition name="coditthreetout" />
+		<proposition name="codiprthree" />
+		
+		<proposition name="codiwpab" />
+		
+		<!-- CRANE-->
+		<proposition name="crdias" />
+	</propositions>
+	<states>
+		<!--  STACK -->		
+		<state id="1" name="q1" initial="true" />
+		<state id="2" name="q2" />
+		<state id="3" name="q3" />
+		<state id="4" name="q4" />
+		<state id="5" name="q5" />
+		
+		<!--  STAMP -->
+		<state id="6" name="q6" />
+		<state id="7" name="q7" />
+		<state id="8" name="q8" />
+		<state id="9" name="q9" />
+		<state id="10" name="q10" />
+		<state id="11" name="q11" />
+		<state id="12" name="q12" />
+		
+		<!-- CONVEYOR -->
+		<state id="13" name="q13" />
+		<state id="14" name="q14" />
+		<state id="15" name="q15" />
+		<state id="16" name="q16" />
+		<state id="17" name="q17" />
+		<state id="18" name="q18" accepting="true"/>
+		<state id="19" name="q19" />
+		<state id="20" name="q20" />
+		<state id="21" name="q21" />
+		<state id="22" name="q22" />
+		
+		
+		<!-- CRANE-->
+		<state id="23" name="crane" blackbox="true"/>
+		
+	</states>
+	<transitions>
+		<!--  STACK -->		
+		<transition id="8" source="1" destination="3" propositions="stempty" />
+		<transition id="9" source="3" destination="2" propositions="stwpav" />
+		<transition id="10" source="1" destination="2" propositions="stwpav" />		
+		<transition id="11" source="2" destination="2" propositions="stactext" />
+		<transition id="12" source="2" destination="4" propositions="stdiext" />		
+		<transition id="13" source="4" destination="4" propositions="stactext" />
+		<transition id="14" source="4" destination="5" propositions="stdiext" />
+		
+		<!--  STAMP -->
+		<transition id="15" source="6" destination="6" propositions="smactslret" />
+		<transition id="16" source="6" destination="7" propositions="smdislret" />
+		<transition id="17" source="7" destination="8" propositions="smactspw" />		
+		<transition id="18" source="8" destination="8" propositions="smactstext" />
+		<transition id="19" source="8" destination="9" propositions="smdistext" />		
+		<transition id="20" source="9" destination="10" propositions="smtmp^smdistmp" />
+		<transition id="21" source="10" destination="10" propositions="smactstret" />
+		<transition id="22" source="10" destination="11" propositions="smdistret" />
+		<transition id="23" source="11" destination="11" propositions="smactslext" />
+		<transition id="24" source="11" destination="12" propositions="smdislext" />
+		
+		<!-- CONVEYOR -->
+		<transition id="25" source="13" destination="13" propositions="coacttf" />
+		<transition id="26" source="13" destination="14" propositions="codiwprpone^codistonenfull" />
+		<transition id="27" source="13" destination="19" propositions="codiwprptwo^codisttwonfull" />
+		<transition id="28" source="13" destination="22" propositions="codiwprptwo" />
+		<transition id="29" source="14" destination="15" propositions="coditonetout" />
+		<transition id="30" source="15" destination="15" propositions="coactconeext" />
+		<transition id="31" source="15" destination="16" propositions="codiconeext" />
+		<transition id="32" source="16" destination="16" propositions="coactconeret" />
+		<transition id="33" source="16" destination="17" propositions="codiconeret^codiprone" />
+		<transition id="34" source="17" destination="18" propositions="coactms" />
+		<transition id="35" source="19" destination="20" propositions="codittwotout" />
+		<transition id="36" source="20" destination="20" propositions="coactctwoext" />
+		<transition id="37" source="20" destination="21" propositions="codictwoext" />
+		<transition id="38" source="21" destination="21" propositions="coactctworet" />
+		<transition id="39" source="21" destination="17" propositions="codictworet^codiprtwo" />
+		<transition id="40" source="22" destination="17" propositions="coditthreetout^codiprthree" />
+		
+		<!-- INTERCONNECTIONS -->
+		
+
+		<transition id="2" source="23" destination="1" propositions="crdias" />
+		<transition id="3" source="23" destination="6" propositions="smdiwpav" />
+		
+		<transition id="1" source="5" destination="23" propositions="stdiwpav" />
+		<transition id="4" source="12" destination="23" propositions="smdiwpsr" />
+		<transition id="6" source="18" destination="23" propositions="codiwprm" />
+		<transition id="5" source="23" destination="13" propositions="codiwpab" />
+		
+	</transitions>
+</iba>

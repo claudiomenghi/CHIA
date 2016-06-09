@@ -5,7 +5,7 @@
 	<artifactId>CHIA</artifactId>
 
 	<groupId>it.polimi.chia</groupId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>CHIA</name>
 	<description>CHecker for Incomplete Automata</description>
 	<packaging>pom</packaging>
@@ -408,7 +408,26 @@
 			<url></url>
 		</site>
 	</distributionManagement>
-
+	<!-- It is used to manage the versions in a multimodule project  -->
+	<!-- to adjust all the versions run mvn versions:set -DnewVersion=x.y.z -->
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+				<version>2.2</version>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>dependency-updates-report</report>
+							<report>plugin-updates-report</report>
+							<report>property-updates-report</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+		</plugins>
+	</reporting>
 
 	<modules>
 		<module>CHIAAction</module>
@@ -424,7 +443,5 @@
 		<module>CHIALTLIO</module>
 
 		<!-- <module>CHIAVisualization</module> -->
-
-		<module>CHIALogging</module>
 	</modules>
 </project>

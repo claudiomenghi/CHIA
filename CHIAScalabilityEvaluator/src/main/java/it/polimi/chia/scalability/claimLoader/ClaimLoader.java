@@ -1,34 +1,46 @@
 package it.polimi.chia.scalability.claimLoader;
 
+
+
 import it.polimi.automata.BA;
 import it.polimi.automata.io.in.ClaimReader;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.emory.mathcs.backport.java.util.Arrays;
+
+/**
+ * Loads the claims contained in the folder specified as parameter
+ * 
+ * @author Claudio Menghi
+ *
+ */
 public class ClaimLoader {
 
-	private final static String claim0 = "!(<>(a->(<>b)))";
-	private final static String claim1 = "!([](a-><>(a^(<>b))))";
-	private final static String claim2 = "!(<>(a^X(a^Xa))^<>(b^X(b^Xb)))";
 
-	public List<BA> getClaimToBeConsidered() throws Exception {
+	/**
+	 * loads the claims from the XML files contained in the specified folder
+	 * @param pathFolder the path of the folder that contains the claim
+	 * @return a list of BA which contains the claims
+	 * 
+	 * @throws Exception
+	 */
+	public List<BA> getClaimToBeConsidered(String pathFolder) throws Exception {
 
-		List<BA> claims = new ArrayList<BA>();
-
-		//claims.add(new LTLtoBATransformer(claim0).perform());
-		//claims.add(new LTLtoBATransformer(claim1).perform());
-		//claims.add(new LTLtoBATransformer(claim2).perform());
+		File folder = new File(pathFolder);
+		if(!folder.exists()){
+			throw new IllegalArgumentException("The folder "+pathFolder+" does not exists");
+		}
+		List<File> listOfFiles = Arrays.asList(folder.listFiles());
 		
-		//System.out.println(new ElementToStringTransformer().transform(new BAToElementTrasformer().transform(new LTLtoBATransformer(claim0).perform())));
-		//System.out.println(new ElementToStringTransformer().transform(new BAToElementTrasformer().transform(new LTLtoBATransformer(claim1).perform())));
-		//System.out.println(new ElementToStringTransformer().transform(new BAToElementTrasformer().transform(new LTLtoBATransformer(claim2).perform())));
-		
-		claims.add(new ClaimReader(new File(ClassLoader.getSystemResource("Claim1.xml").toURI())).perform());
-		claims.add(new ClaimReader(new File(ClassLoader.getSystemResource("Claim2.xml").toURI())).perform());
-		claims.add(new ClaimReader(new File(ClassLoader.getSystemResource("Claim3.xml").toURI())).perform());
+		List<BA> claims = new ArrayList<>();
+		for(File f: listOfFiles){
+			claims.add(new ClaimReader(f).perform());
+			
+		}
 		return claims;
-
 	}
 
 }

@@ -29,7 +29,7 @@ The CHIA javadoc is available at <a href="https://claudiomenghi.github.io/CHIA/"
 
 To install CHIA:
 
-* download the <a href="https://github.com/claudiomenghi/CHIA/releases/download/v0.1.0-alpha/CHIA.jar">CHIA.jar</a>  
+* download the CHIA.jar file from the <a href="https://github.com/claudiomenghi/CHIA/releases">releases</a> page  
 * run <code>java -jar CHIA.jar</code>
 
 By running the <code>java -jar CHIA.jar</code> command the  shell of CHIA is executed. The user interacts with the tool using a set of commands.

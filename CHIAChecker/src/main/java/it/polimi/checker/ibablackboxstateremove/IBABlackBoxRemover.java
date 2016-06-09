@@ -49,7 +49,8 @@ public class IBABlackBoxRemover {
 		// clones the incomplete Buchi Automaton
 		IBA retIba = iba.clone();
 		// removes the black box states from the Buchi Automaton
-		Set<State> blackBoxStates = new HashSet<State>(
+		iba.getBlackBoxStates().forEach(retIba::removeState);
+		Set<State> blackBoxStates = new HashSet<>(
 				retIba.getBlackBoxStates());
 		for (State s : blackBoxStates) {
 			retIba.removeState(s);

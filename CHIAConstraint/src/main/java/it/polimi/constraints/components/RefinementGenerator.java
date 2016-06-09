@@ -45,6 +45,7 @@ public class RefinementGenerator extends CHIAAction<IBA> {
 				"The replacement to be considered cannot be null");
 		this.model = model;
 		this.replacement = replacement;
+		this.checkValidReplacement();
 
 	}
 
@@ -58,7 +59,7 @@ public class RefinementGenerator extends CHIAAction<IBA> {
 	public void checkValidReplacement() {
 		if (!model.getBlackBoxStates().contains(replacement.getModelState())) {
 			throw new IllegalArgumentException(
-					"The state of the replacement must be a black box state of the original model");
+					"The state "+replacement.getModelState()+" refined by the replacement must be a black box state of the original model");
 		}
 		if (!model.getAcceptStates().contains(replacement.getModelState())
 				&& !replacement.getAutomaton().getAcceptStates().isEmpty()) {
@@ -81,8 +82,8 @@ public class RefinementGenerator extends CHIAAction<IBA> {
 	 * @throws IllegalArgumentException
 	 *             if the replacement is not a valid replacement
 	 */
+	@Override
 	public IBA perform() {
-		this.checkValidReplacement();
 		IBA refinement = model.clone();
 
 		refinement
@@ -120,18 +121,24 @@ public class RefinementGenerator extends CHIAAction<IBA> {
 			Transition transitionClone = new ModelTransitionFactory().create(
 					inTransition.getId(), inTransition.getTransition()
 							.getPropositions());
-
-			refinement.addTransition(inTransition.getSource(),
-					inTransition.getDestination(), transitionClone);
+			if (!refinement.getInTransitions(inTransition.getDestination())
+					.contains(transitionClone)) {
+				refinement.addTransition(inTransition.getSource(),
+						inTransition.getDestination(), transitionClone);
+			}
 		}
 		for (PluggingTransition outTransition : replacement
 				.getOutgoingTransitions()) {
 			Transition transitionClone = new ModelTransitionFactory().create(
 					outTransition.getId(), outTransition.getTransition()
 							.getPropositions());
+			if (!refinement.getInTransitions(outTransition.getDestination())
+					.contains(transitionClone)) {
 
-			refinement.addTransition(outTransition.getSource(),
-					outTransition.getDestination(), transitionClone);
+				refinement.addTransition(outTransition.getSource(),
+						outTransition.getDestination(), transitionClone);
+			}
+
 		}
 
 		return refinement;

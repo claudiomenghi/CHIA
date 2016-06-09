@@ -97,6 +97,7 @@ public class Checker extends CHIAAction<SatisfactionValue> {
 	 * @return 0 if the property is not satisfied, 1 if the property is
 	 *         satisfied, -1 if the property is satisfied with constraints.
 	 */
+	@Override
 	public SatisfactionValue perform() {
 
 		if (!this.isPerformed()) {
@@ -114,23 +115,18 @@ public class Checker extends CHIAAction<SatisfactionValue> {
 				return SatisfactionValue.NOTSATISFIED;
 			}
 
-			if (this.model.getBlackBoxStates().size() == 0) {
-				this.performed();
+			// COMPUTES THE INTERSECTION BETWEEN THE MODEL AND THE CLAIM
+			boolean emptyIntersection = this.checkEmptyIntersection();
+			this.performed();
+			if (!emptyIntersection) {
+				this.satisfactionValue = SatisfactionValue.POSSIBLYSATISFIED;
+				return SatisfactionValue.POSSIBLYSATISFIED;
+			} else {
+
 				this.satisfactionValue = SatisfactionValue.SATISFIED;
 				return SatisfactionValue.SATISFIED;
-			} else {
-				// COMPUTES THE INTERSECTION BETWEEN THE MODEL AND THE CLAIM
-				boolean emptyIntersection = this.checkEmptyIntersection();
-				this.performed();
-				if (!emptyIntersection) {
-					this.satisfactionValue = SatisfactionValue.POSSIBLYSATISFIED;
-					return SatisfactionValue.POSSIBLYSATISFIED;
-				} else {
-
-					this.satisfactionValue = SatisfactionValue.SATISFIED;
-					return SatisfactionValue.SATISFIED;
-				}
 			}
+
 		}
 		return this.satisfactionValue;
 	}
@@ -204,7 +200,7 @@ public class Checker extends CHIAAction<SatisfactionValue> {
 						"You must run the model checker before performing this operation");
 
 		Preconditions.checkState(this.upperIntersectionBuilder != null,
-				"The lower upper autonaton has not been computed");
+				"The upper autonaton has not been computed");
 		return this.upperIntersectionBuilder.getIntersectionAutomaton();
 
 	}
@@ -249,14 +245,14 @@ public class Checker extends CHIAAction<SatisfactionValue> {
 	public List<Entry<State, Transition>> getFilteredCounterexample() {
 		List<Entry<State, Transition>> counterexample = this
 				.getCounterexample();
-		List<Entry<State, Transition>> filteredCounterexamle = new ArrayList<Entry<State, Transition>>();
+		List<Entry<State, Transition>> filteredCounterexamle = new ArrayList<>();
 
 		for (Entry<State, Transition> entry : counterexample) {
 			filteredCounterexamle
 					.add(new AbstractMap.SimpleEntry<State, Transition>(
 							lowerIntersectionBuilder.getModelState(entry
 									.getKey()), entry.getValue()));
-			
+
 		}
 		return filteredCounterexamle;
 	}
