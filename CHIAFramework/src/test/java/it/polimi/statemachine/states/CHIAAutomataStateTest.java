@@ -7,17 +7,22 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import it.polimi.action.CHIAException;
-import it.polimi.automata.io.in.ClaimReader;
-import it.polimi.automata.io.in.ModelReader;
-import it.polimi.automata.io.out.ClaimToStringTrasformer;
-import it.polimi.automata.io.out.ModelToStringTrasformer;
-import it.polimi.checker.Checker;
-import it.polimi.checker.intersection.IntersectionBuilder;
-import it.polimi.constraintcomputation.ConstraintGenerator;
-import it.polimi.constraints.io.out.constraint.ConstraintToStringTrasformer;
-import it.polimi.constraints.io.out.constraint.ConstraintWriter;
-import it.polimi.model.ltltoba.ClaimLTLReader;
-import it.polimi.model.ltltoba.LTLtoBATransformer;
+import it.polimi.statemachine.automata.AutomataState;
+import it.polimi.statemachine.automata.actions.Check;
+import it.polimi.statemachine.automata.actions.ComputeConstraint;
+import it.polimi.statemachine.automata.actions.DisplayConstraint;
+import it.polimi.statemachine.automata.actions.DisplayModel;
+import it.polimi.statemachine.automata.actions.DisplayProperty;
+import it.polimi.statemachine.automata.actions.ReadFileProperty;
+import it.polimi.statemachine.automata.actions.ReadLTLProperty;
+import it.polimi.statemachine.automata.actions.ReadModel;
+import it.polimi.statemachine.automata.actions.WriteConstraint;
+import it.polimi.statemachine.automata.states.Checked;
+import it.polimi.statemachine.automata.states.ConstraintComputed;
+import it.polimi.statemachine.automata.states.Init;
+import it.polimi.statemachine.automata.states.ModelLoaded;
+import it.polimi.statemachine.automata.states.PropertyLoaded;
+import it.polimi.statemachine.automata.states.Ready;
 
 import org.junit.Test;
 
@@ -29,85 +34,93 @@ public class CHIAAutomataStateTest {
 
     /**
      * Test method for
-     * {@link it.polimi.statemachine.states.CHIAAutomataState#isPerformable(java.lang.Class)}
+     * {@link it.polimi.statemachine.states.AutomataState#isPerformable(java.lang.Class)}
      * .
      */
     @Test
     public void testIsPerformable_INIT() {
-        assertTrue(CHIAAutomataState.INIT.isPerformable(ModelReader.class));
-        assertTrue(CHIAAutomataState.INIT.isPerformable(ClaimReader.class));
-        assertTrue(CHIAAutomataState.INIT.isPerformable(ClaimLTLReader.class));
-        assertTrue(CHIAAutomataState.INIT
-                .isPerformable(LTLtoBATransformer.class));
-        assertTrue(CHIAAutomataState.INIT.isPerformable(ClaimReader.class));
-        assertTrue(CHIAAutomataState.INIT.isPerformable(ClaimReader.class));
-        assertFalse(CHIAAutomataState.INIT.isPerformable(Checker.class));
+    	AutomataState init=new Init();
+    	
+        assertTrue(init.isPerformable(new ReadModel(
+        		ClassLoader.getSystemResource(
+        		"it/polimi/console/Model.xml").getPath(), null)));
+        assertTrue(init.isPerformable(new ReadLTLProperty(null, null)));
+        assertTrue(init.isPerformable(new ReadLTLProperty(null, null)));
+        assertTrue(init
+                .isPerformable(new ReadLTLProperty(null, null)));
+        assertTrue(init.isPerformable(new ReadFileProperty(null, null)));
+        assertTrue(init.isPerformable(new ReadFileProperty(null, null)));
+        assertFalse(init.isPerformable(new Check(null)));
     }
 
     /**
      * Test method for
-     * {@link it.polimi.statemachine.states.CHIAAutomataState#perform(java.lang.Class)}
+     * {@link it.polimi.statemachine.states.AutomataState#next(java.lang.Class)}
      * .
      * 
      * @throws CHIAException
      */
     @Test
     public void testPerform_INIT() throws CHIAException {
-
-        assertEquals(CHIAAutomataState.MODELLOADED,
-                CHIAAutomataState.INIT.perform(ModelReader.class));
-        assertEquals(CHIAAutomataState.PROPERTYLOADED,
-                CHIAAutomataState.INIT.perform(ClaimReader.class));
-        assertEquals(CHIAAutomataState.PROPERTYLOADED,
-                CHIAAutomataState.INIT.perform(ClaimLTLReader.class));
-        assertEquals(CHIAAutomataState.PROPERTYLOADED,
-                CHIAAutomataState.INIT.perform(LTLtoBATransformer.class));
-        assertEquals(CHIAAutomataState.PROPERTYLOADED,
-                CHIAAutomataState.INIT.perform(ClaimReader.class));
-        assertEquals(CHIAAutomataState.PROPERTYLOADED,
-                CHIAAutomataState.INIT.perform(ClaimReader.class));
+    	AutomataState init=new Init();
+    	AutomataState modelLoaded=new ModelLoaded();
+        assertEquals(modelLoaded,
+                init.next(new ReadModel(ClassLoader.getSystemResource(
+                		"it/polimi/console/Model.xml").getPath(), null)));
+        assertEquals(new PropertyLoaded(),
+                init.next(new ReadFileProperty(null, null)));
+        assertEquals(new PropertyLoaded(),
+                init.next(new ReadLTLProperty(null, null)));
+        assertEquals(new PropertyLoaded(),
+                init.next(new ReadLTLProperty(null, null)));
+        assertEquals(new PropertyLoaded(),
+                init.next(new ReadFileProperty(null, null)));
+        assertEquals(new PropertyLoaded(),
+                init.next(new ReadFileProperty(null, null)));
 
     }
 
     /**
      * Test method for
-     * {@link it.polimi.statemachine.states.CHIAAutomataState#isPerformable(java.lang.Class)}
+     * {@link it.polimi.statemachine.states.AutomataState#isPerformable(java.lang.Class)}
      * .
      * 
      * @throws CHIAException
      */
     @Test(expected = CHIAException.class)
     public void testIsPerformable_INIT_CHIAException() throws CHIAException {
-        CHIAAutomataState.INIT.perform(ConstraintGenerator.class);
+        new Init().next(new ComputeConstraint(null));
     }
 
     /**
      * Test method for
-     * {@link it.polimi.statemachine.states.CHIAAutomataState#isPerformable(java.lang.Class)}
+     * {@link it.polimi.statemachine.states.AutomataState#isPerformable(java.lang.Class)}
      * .
      */
     @Test
     public void testIsPerformable_MODELLOADED() {
-        assertTrue(CHIAAutomataState.MODELLOADED
-                .isPerformable(ModelReader.class));
-        assertTrue(CHIAAutomataState.MODELLOADED
-                .isPerformable(ClaimReader.class));
-        assertTrue(CHIAAutomataState.MODELLOADED
-                .isPerformable(ClaimLTLReader.class));
-        assertTrue(CHIAAutomataState.MODELLOADED
-                .isPerformable(LTLtoBATransformer.class));
-        assertTrue(CHIAAutomataState.MODELLOADED
-                .isPerformable(ClaimReader.class));
-        assertTrue(CHIAAutomataState.MODELLOADED
-                .isPerformable(ClaimReader.class));
-        assertTrue(CHIAAutomataState.MODELLOADED
-                .isPerformable(ModelToStringTrasformer.class));
-        assertFalse(CHIAAutomataState.MODELLOADED.isPerformable(Checker.class));
+        assertTrue(new ModelLoaded()
+                .isPerformable(new ReadModel(ClassLoader.getSystemResource(
+                		"it/polimi/console/Model.xml").getPath(), null)));
+        assertTrue(new ModelLoaded()
+                .isPerformable(new ReadFileProperty(null, null)));
+        assertTrue(new ModelLoaded()
+                .isPerformable(new ReadLTLProperty(null, null)));
+        assertTrue(new ModelLoaded()
+                .isPerformable(new ReadLTLProperty(null, null)));
+        assertTrue(new ModelLoaded()
+                .isPerformable(new ReadFileProperty(null, null)));
+        assertTrue(new ModelLoaded()
+                .isPerformable(new ReadFileProperty(null, null)));
+        assertTrue(new ModelLoaded()
+                .isPerformable(new DisplayModel(null)));
+        assertFalse(new ModelLoaded()
+        		.isPerformable(new Check(null)));
     }
 
     /**
      * Test method for
-     * {@link it.polimi.statemachine.states.CHIAAutomataState#perform(java.lang.Class)}
+     * {@link it.polimi.statemachine.states.AutomataState#next(java.lang.Class)}
      * .
      * 
      * @throws CHIAException
@@ -115,26 +128,27 @@ public class CHIAAutomataStateTest {
     @Test
     public void testPerform_MODELLOADED() throws CHIAException {
 
-        assertEquals(CHIAAutomataState.MODELLOADED,
-                CHIAAutomataState.MODELLOADED.perform(ModelReader.class));
-        assertEquals(CHIAAutomataState.READY,
-                CHIAAutomataState.MODELLOADED.perform(ClaimReader.class));
-        assertEquals(CHIAAutomataState.READY,
-                CHIAAutomataState.MODELLOADED.perform(ClaimLTLReader.class));
-        assertEquals(CHIAAutomataState.READY,
-                CHIAAutomataState.MODELLOADED.perform(LTLtoBATransformer.class));
-        assertEquals(CHIAAutomataState.READY,
-                CHIAAutomataState.MODELLOADED.perform(ClaimReader.class));
-        assertEquals(CHIAAutomataState.READY,
-                CHIAAutomataState.MODELLOADED.perform(ClaimReader.class));
-        assertEquals(CHIAAutomataState.MODELLOADED,
-                CHIAAutomataState.MODELLOADED
-                        .perform(ModelToStringTrasformer.class));
+        assertEquals(new ModelLoaded(),
+        		new ModelLoaded().next(new ReadModel(ClassLoader.getSystemResource(
+                		"it/polimi/console/Model.xml").getPath(), null)));
+        assertEquals(new Ready(),
+        		new ModelLoaded().next(new ReadFileProperty(null, null)));
+        assertEquals(new Ready(),
+        		new ModelLoaded().next(new ReadLTLProperty(null, null)));
+        assertEquals(new Ready(),
+        		new ModelLoaded().next(new ReadLTLProperty(null, null)));
+        assertEquals(new Ready(),
+        		new ModelLoaded().next(new ReadFileProperty(null, null)));
+        assertEquals(new Ready(),
+        		new ModelLoaded().next(new ReadFileProperty(null, null)));
+        assertEquals(new ModelLoaded(),
+        		new ModelLoaded()
+                        .next(new DisplayModel(null)));
     }
 
     /**
      * Test method for
-     * {@link it.polimi.statemachine.states.CHIAAutomataState#perform(java.lang.Class)}
+     * {@link it.polimi.statemachine.states.AutomataState#next(java.lang.Class)}
      * .
      * 
      * @throws CHIAException
@@ -142,12 +156,12 @@ public class CHIAAutomataStateTest {
     @Test(expected = CHIAException.class)
     public void testIsPerformable_MODELLOADED_CHIAException()
             throws CHIAException {
-        CHIAAutomataState.MODELLOADED.perform(IntersectionBuilder.class);
+    	new ModelLoaded().next(new WriteConstraint(null, null));
     }
 
     /**
      * Test method for
-     * {@link it.polimi.statemachine.states.CHIAAutomataState#perform(java.lang.Class)}
+     * {@link it.polimi.statemachine.states.AutomataState#next(java.lang.Class)}
      * .
      * 
      * @throws CHIAException
@@ -155,61 +169,63 @@ public class CHIAAutomataStateTest {
     @Test
     public void testPerform_PROPERTYLOADED() throws CHIAException {
 
-        assertEquals(CHIAAutomataState.READY,
-                CHIAAutomataState.PROPERTYLOADED.perform(ModelReader.class));
-        assertEquals(CHIAAutomataState.PROPERTYLOADED,
-                CHIAAutomataState.PROPERTYLOADED.perform(ClaimReader.class));
-        assertEquals(CHIAAutomataState.PROPERTYLOADED,
-                CHIAAutomataState.PROPERTYLOADED.perform(ClaimLTLReader.class));
-        assertEquals(CHIAAutomataState.PROPERTYLOADED,
-                CHIAAutomataState.PROPERTYLOADED
-                        .perform(LTLtoBATransformer.class));
-        assertEquals(CHIAAutomataState.PROPERTYLOADED,
-                CHIAAutomataState.PROPERTYLOADED.perform(ClaimReader.class));
-        assertEquals(CHIAAutomataState.PROPERTYLOADED,
-                CHIAAutomataState.PROPERTYLOADED
-                        .perform(ClaimToStringTrasformer.class));
+        assertEquals(new Ready(),
+                new PropertyLoaded().next(new ReadModel(ClassLoader.getSystemResource(
+                		"it/polimi/console/Model.xml").getPath(), null)));
+        assertEquals(new PropertyLoaded(),
+                new PropertyLoaded().next(new ReadFileProperty(null, null)));
+        assertEquals(new PropertyLoaded(),
+                new PropertyLoaded().next(new ReadLTLProperty(null, null)));
+        assertEquals(new PropertyLoaded(),
+                new PropertyLoaded()
+                        .next(new ReadLTLProperty(null, null)));
+        assertEquals(new PropertyLoaded(),
+                new PropertyLoaded().next(new ReadFileProperty(null, null)));
+        assertEquals(new PropertyLoaded(),
+                new PropertyLoaded()
+                        .next(new DisplayProperty(null)));
 
     }
 
     /**
      * Test method for
-     * {@link it.polimi.statemachine.states.CHIAAutomataState#isPerformable(java.lang.Class)}
+     * {@link it.polimi.statemachine.states.AutomataState#isPerformable(java.lang.Class)}
      * .
      */
     @Test
     public void testIsPerformable_PROPERTYLOADED() {
-        assertTrue(CHIAAutomataState.PROPERTYLOADED
-                .isPerformable(ModelReader.class));
-        assertTrue(CHIAAutomataState.PROPERTYLOADED
-                .isPerformable(ClaimReader.class));
-        assertTrue(CHIAAutomataState.PROPERTYLOADED
-                .isPerformable(ClaimLTLReader.class));
-        assertTrue(CHIAAutomataState.PROPERTYLOADED
-                .isPerformable(LTLtoBATransformer.class));
-        assertTrue(CHIAAutomataState.PROPERTYLOADED
-                .isPerformable(ClaimReader.class));
-        assertTrue(CHIAAutomataState.PROPERTYLOADED
-                .isPerformable(ClaimToStringTrasformer.class));
-        assertFalse(CHIAAutomataState.PROPERTYLOADED
-                .isPerformable(Checker.class));
+        assertTrue(new PropertyLoaded()
+                .isPerformable(new ReadModel(ClassLoader.getSystemResource(
+                		"it/polimi/console/Model.xml").getPath(), null)));
+        assertTrue(new PropertyLoaded()
+                .isPerformable(new ReadFileProperty(null, null)));
+        assertTrue(new PropertyLoaded()
+                .isPerformable(new ReadLTLProperty(null, null)));
+        assertTrue(new PropertyLoaded()
+                .isPerformable(new ReadLTLProperty(null, null)));
+        assertTrue(new PropertyLoaded()
+                .isPerformable(new ReadFileProperty(null, null)));
+        assertTrue(new PropertyLoaded()
+                .isPerformable(new DisplayProperty(null)));
+        assertFalse(new PropertyLoaded()
+                .isPerformable(new Check(null)));
     }
 
     /**
      * Test method for
-     * {@link it.polimi.statemachine.states.CHIAAutomataState#perform(java.lang.Class)}
+     * {@link it.polimi.statemachine.states.AutomataState#next(java.lang.Class)}
      * .
      * 
      * @throws CHIAException
      */
     @Test(expected = CHIAException.class)
     public void testPerform_PROPERTYLOADED_CHIAException() throws CHIAException {
-        CHIAAutomataState.PROPERTYLOADED.perform(IntersectionBuilder.class);
+        new PropertyLoaded().next(new WriteConstraint(null, null));
     }
 
     /**
      * Test method for
-     * {@link it.polimi.statemachine.states.CHIAAutomataState#perform(java.lang.Class)}
+     * {@link it.polimi.statemachine.states.AutomataState#next(java.lang.Class)}
      * .
      * 
      * @throws CHIAException
@@ -217,57 +233,60 @@ public class CHIAAutomataStateTest {
     @Test
     public void testPerform_READY() throws CHIAException {
 
-        assertEquals(CHIAAutomataState.READY,
-                CHIAAutomataState.PROPERTYLOADED.perform(ModelReader.class));
-        assertEquals(CHIAAutomataState.READY,
-                CHIAAutomataState.READY.perform(ClaimReader.class));
-        assertEquals(CHIAAutomataState.READY,
-                CHIAAutomataState.READY.perform(ClaimLTLReader.class));
-        assertEquals(CHIAAutomataState.READY,
-                CHIAAutomataState.READY.perform(LTLtoBATransformer.class));
-        assertEquals(CHIAAutomataState.READY,
-                CHIAAutomataState.READY.perform(ClaimReader.class));
-        assertEquals(CHIAAutomataState.READY,
-                CHIAAutomataState.READY.perform(ClaimReader.class));
-        assertEquals(CHIAAutomataState.READY,
-                CHIAAutomataState.READY.perform(ModelToStringTrasformer.class));
-        assertEquals(CHIAAutomataState.READY,
-                CHIAAutomataState.READY.perform(ClaimToStringTrasformer.class));
-        assertEquals(CHIAAutomataState.READY,
-                CHIAAutomataState.READY.perform(ModelReader.class));
-        assertEquals(CHIAAutomataState.CHECKED,
-                CHIAAutomataState.READY.perform(Checker.class));
-        assertEquals(CHIAAutomataState.CONSTRAINTCOMPUTED,
-                CHIAAutomataState.CHECKED.perform(ConstraintGenerator.class));
+    	assertEquals(new Ready(),
+                new PropertyLoaded().next(new ReadModel(ClassLoader.getSystemResource(
+                		"it/polimi/console/Model.xml").getPath(), null)));
+        assertEquals(new Ready(),
+                new Ready().next(new ReadFileProperty(null, null)));
+        assertEquals(new Ready(),
+                new Ready().next(new ReadLTLProperty(null, null)));
+        assertEquals(new Ready(),
+                new Ready().next(new ReadLTLProperty(null, null)));
+        assertEquals(new Ready(),
+                new Ready().next(new ReadFileProperty(null, null)));
+        assertEquals(new Ready(),
+                new Ready().next(new ReadFileProperty(null, null)));
+        assertEquals(new Ready(),
+                new Ready().next(new DisplayModel(null)));
+        assertEquals(new Ready(),
+                new Ready().next(new DisplayProperty(null)));
+        assertEquals(new Ready(),
+                new Ready().next(new ReadModel(ClassLoader.getSystemResource(
+                		"it/polimi/console/Model.xml").getPath(), null)));
+        assertEquals(new Checked(),
+                new Ready().next(new Check(null)));
+        assertEquals(new ConstraintComputed(),
+                new Checked().next(new ComputeConstraint(null)));
        
      }
 
     /**
      * Test method for
-     * {@link it.polimi.statemachine.states.CHIAAutomataState#isPerformable(java.lang.Class)}
+     * {@link it.polimi.statemachine.states.AutomataState#isPerformable(java.lang.Class)}
      * .
      */
     @Test
     public void testIsPerformable_READY() {
-        assertTrue(CHIAAutomataState.READY.isPerformable(ModelReader.class));
-        assertTrue(CHIAAutomataState.READY.isPerformable(ClaimReader.class));
-        assertTrue(CHIAAutomataState.READY.isPerformable(ClaimLTLReader.class));
-        assertTrue(CHIAAutomataState.READY
-                .isPerformable(LTLtoBATransformer.class));
-        assertTrue(CHIAAutomataState.READY.isPerformable(ClaimReader.class));
-        assertTrue(CHIAAutomataState.READY.isPerformable(Checker.class));
-        assertTrue(CHIAAutomataState.READY
-                .isPerformable(ClaimToStringTrasformer.class));
-        assertTrue(CHIAAutomataState.READY
-                .isPerformable(ModelToStringTrasformer.class));
-        assertFalse(CHIAAutomataState.READY
-                .isPerformable(ConstraintGenerator.class));
+        assertTrue(new Ready().isPerformable(new ReadModel(ClassLoader.getSystemResource(
+                		"it/polimi/console/Model.xml").getPath(), null)));
+        assertTrue(new Ready().isPerformable(new ReadFileProperty(null, null)));
+        assertTrue(new Ready().isPerformable(new ReadLTLProperty(null, null)));
+        assertTrue(new Ready()
+                .isPerformable(new ReadLTLProperty(null, null)));
+        assertTrue(new Ready().isPerformable(new ReadFileProperty(null, null)));
+        assertTrue(new Ready().isPerformable(new Check(null)));
+        assertTrue(new Ready()
+                .isPerformable(new DisplayProperty(null)));
+        assertTrue(new Ready()
+                .isPerformable(new DisplayModel(null)));
+        assertFalse(new Ready()
+                .isPerformable(new ComputeConstraint(null)));
 
     }
 
     /**
      * Test method for
-     * {@link it.polimi.statemachine.states.CHIAAutomataState#perform(java.lang.Class)}
+     * {@link it.polimi.statemachine.states.AutomataState#next(java.lang.Class)}
      * .
      * 
      * @throws CHIAException
@@ -275,12 +294,12 @@ public class CHIAAutomataStateTest {
     @Test(expected = CHIAException.class)
     public void testPerform_READY_CHIAException() throws CHIAException {
 
-        CHIAAutomataState.READY.perform(ConstraintGenerator.class);
+        new Ready().next(new ComputeConstraint(null));
     }
 
     /**
      * Test method for
-     * {@link it.polimi.statemachine.states.CHIAAutomataState#perform(java.lang.Class)}
+     * {@link it.polimi.statemachine.states.AutomataState#next(java.lang.Class)}
      * .
      * 
      * @throws CHIAException
@@ -288,67 +307,70 @@ public class CHIAAutomataStateTest {
     @Test
     public void testPerform_CHECKED() throws CHIAException {
 
-        assertEquals(CHIAAutomataState.READY,
-                CHIAAutomataState.CHECKED.perform(ModelReader.class));
-        assertEquals(CHIAAutomataState.READY,
-                CHIAAutomataState.CHECKED.perform(ClaimReader.class));
-        assertEquals(CHIAAutomataState.READY,
-                CHIAAutomataState.CHECKED.perform(ClaimLTLReader.class));
-        assertEquals(CHIAAutomataState.READY,
-                CHIAAutomataState.CHECKED.perform(LTLtoBATransformer.class));
-        assertEquals(CHIAAutomataState.READY,
-                CHIAAutomataState.CHECKED.perform(ClaimReader.class));
-        assertEquals(CHIAAutomataState.READY,
-                CHIAAutomataState.CHECKED.perform(ClaimReader.class));
-        assertEquals(CHIAAutomataState.READY,
-                CHIAAutomataState.CHECKED.perform(ModelReader.class));
-        assertEquals(CHIAAutomataState.CHECKED,
-                CHIAAutomataState.CHECKED
-                        .perform(ModelToStringTrasformer.class));
-        assertEquals(CHIAAutomataState.CHECKED,
-                CHIAAutomataState.CHECKED
-                        .perform(ClaimToStringTrasformer.class));
+        assertEquals(new Ready(),
+                new Checked().next(new ReadModel(ClassLoader.getSystemResource(
+                		"it/polimi/console/Model.xml").getPath(), null)));
+        assertEquals(new Ready(),
+                new Checked().next(new ReadFileProperty(null, null)));
+        assertEquals(new Ready(),
+                new Checked().next(new ReadLTLProperty(null, null)));
+        assertEquals(new Ready(),
+                new Checked().next(new ReadLTLProperty(null, null)));
+        assertEquals(new Ready(),
+                new Checked().next(new ReadFileProperty(null, null)));
+        assertEquals(new Ready(),
+                new Checked().next(new ReadFileProperty(null, null)));
+        assertEquals(new Ready(),
+                new Checked().next(new ReadModel(ClassLoader.getSystemResource(
+                		"it/polimi/console/Model.xml").getPath(), null)));
+        assertEquals(new Checked(),
+                new Checked()
+                        .next(new DisplayModel(null)));
+        assertEquals(new Checked(),
+                new Checked()
+                        .next(new DisplayProperty(null)));
     }
 
     /**
      * Test method for
-     * {@link it.polimi.statemachine.states.CHIAAutomataState#perform(java.lang.Class)}
+     * {@link it.polimi.statemachine.states.AutomataState#next(java.lang.Class)}
      * .
      * 
      * @throws CHIAException
      */
     @Test(expected = CHIAException.class)
     public void testPerform_CHECKED_CHIAException() throws CHIAException {
-        CHIAAutomataState.CHECKED.perform(ConstraintToStringTrasformer.class);
+        new Checked().next(new DisplayConstraint(null));
     }
 
     /**
      * Test method for
-     * {@link it.polimi.statemachine.states.CHIAAutomataState#isPerformable(java.lang.Class)}
+     * {@link it.polimi.statemachine.states.AutomataState#isPerformable(java.lang.Class)}
      * .
      */
     @Test
     public void testIsPerformable_CHECKED() {
-        assertTrue(CHIAAutomataState.CHECKED.isPerformable(ModelReader.class));
-        assertTrue(CHIAAutomataState.CHECKED.isPerformable(ClaimReader.class));
-        assertTrue(CHIAAutomataState.CHECKED
-                .isPerformable(ClaimLTLReader.class));
-        assertTrue(CHIAAutomataState.CHECKED
-                .isPerformable(LTLtoBATransformer.class));
-        assertTrue(CHIAAutomataState.CHECKED.isPerformable(ClaimReader.class));
-        assertTrue(CHIAAutomataState.CHECKED
-                .isPerformable(ClaimToStringTrasformer.class));
-        assertTrue(CHIAAutomataState.CHECKED
-                .isPerformable(ModelToStringTrasformer.class));
-        assertFalse(CHIAAutomataState.CHECKED.isPerformable(Checker.class));
+        assertTrue(new Checked().isPerformable(new ReadModel(ClassLoader.getSystemResource(
+                		"it/polimi/console/Model.xml").getPath(), null)));
+        assertTrue(new Checked().isPerformable(new ReadFileProperty(null, null)));
+        assertTrue(new Checked()
+                .isPerformable(new ReadLTLProperty(null, null)));
+        assertTrue(new Checked()
+                .isPerformable(new ReadLTLProperty(null, null)));
+        assertTrue(new Checked().isPerformable(new ReadFileProperty(null, null)));
+        assertTrue(new Checked()
+                .isPerformable(new DisplayProperty(null)));
+        assertTrue(new Checked()
+                .isPerformable(new DisplayModel(null)));
+        assertFalse(new Checked().isPerformable(new Check(null)));
 
-        assertTrue(CHIAAutomataState.CHECKED.isPerformable(ConstraintGenerator.class));
+        assertTrue(new Checked().isPerformable(new ComputeConstraint(null)));
 
     }
 
     /**
      * Test method for
-     * {@link it.polimi.statemachine.states.CHIAAutomataState#perform(java.lang.Class)}
+     * {@link it.polimi.statemachine.states.AutomataState#next(java.lang.Class)}
      * .
      * 
      * @throws CHIAException
@@ -356,78 +378,81 @@ public class CHIAAutomataStateTest {
     @Test
     public void testPerform_CONSTRAINTCOMPUTED() throws CHIAException {
 
-        assertEquals(CHIAAutomataState.READY,
-                CHIAAutomataState.CONSTRAINTCOMPUTED.perform(ModelReader.class));
-        assertEquals(CHIAAutomataState.READY,
-                CHIAAutomataState.CONSTRAINTCOMPUTED.perform(ClaimReader.class));
-        assertEquals(CHIAAutomataState.READY,
-                CHIAAutomataState.CONSTRAINTCOMPUTED
-                        .perform(ClaimLTLReader.class));
-        assertEquals(CHIAAutomataState.READY,
-                CHIAAutomataState.CONSTRAINTCOMPUTED
-                        .perform(LTLtoBATransformer.class));
-        assertEquals(CHIAAutomataState.READY,
-                CHIAAutomataState.CONSTRAINTCOMPUTED.perform(ClaimReader.class));
-        assertEquals(CHIAAutomataState.READY,
-                CHIAAutomataState.CONSTRAINTCOMPUTED.perform(ClaimReader.class));
-        assertEquals(CHIAAutomataState.READY,
-                CHIAAutomataState.CONSTRAINTCOMPUTED.perform(ModelReader.class));
-        assertEquals(CHIAAutomataState.CONSTRAINTCOMPUTED,
-                CHIAAutomataState.CONSTRAINTCOMPUTED
-                        .perform(ModelToStringTrasformer.class));
-        assertEquals(CHIAAutomataState.CONSTRAINTCOMPUTED,
-                CHIAAutomataState.CONSTRAINTCOMPUTED
-                        .perform(ClaimToStringTrasformer.class));
-        assertEquals(CHIAAutomataState.CONSTRAINTCOMPUTED,
-                CHIAAutomataState.CONSTRAINTCOMPUTED
-                        .perform(ConstraintToStringTrasformer.class));
-        assertEquals(CHIAAutomataState.CONSTRAINTCOMPUTED,
-                CHIAAutomataState.CONSTRAINTCOMPUTED
-                        .perform(ConstraintWriter.class));
-        assertEquals(CHIAAutomataState.CONSTRAINTCOMPUTED,
-                CHIAAutomataState.CONSTRAINTCOMPUTED.perform(ConstraintWriter.class));
+        assertEquals(new Ready(),
+                new ConstraintComputed().next(new ReadModel(ClassLoader.getSystemResource(
+                		"it/polimi/console/Model.xml").getPath(), null)));
+        assertEquals(new Ready(),
+                new ConstraintComputed().next(new ReadFileProperty(null, null)));
+        assertEquals(new Ready(),
+                new ConstraintComputed()
+                        .next(new ReadLTLProperty(null, null)));
+        assertEquals(new Ready(),
+                new ConstraintComputed()
+                        .next(new ReadLTLProperty(null, null)));
+        assertEquals(new Ready(),
+                new ConstraintComputed().next(new ReadFileProperty(null, null)));
+        assertEquals(new Ready(),
+                new ConstraintComputed().next(new ReadFileProperty(null, null)));
+        assertEquals(new Ready(),
+                new ConstraintComputed().next(new ReadModel(ClassLoader.getSystemResource(
+                		"it/polimi/console/Model.xml").getPath(), null)));
+        assertEquals(new ConstraintComputed(),
+                new ConstraintComputed()
+                        .next(new DisplayModel(null)));
+        assertEquals(new ConstraintComputed(),
+                new ConstraintComputed()
+                        .next(new DisplayProperty(null)));
+        assertEquals(new ConstraintComputed(),
+                new ConstraintComputed()
+                        .next(new DisplayConstraint(null)));
+        assertEquals(new ConstraintComputed(),
+                new ConstraintComputed()
+                        .next(new WriteConstraint(null, null)));
+        assertEquals(new ConstraintComputed(),
+                new ConstraintComputed().next(new WriteConstraint(null, null)));
     }
 
     /**
      * Test method for
-     * {@link it.polimi.statemachine.states.CHIAAutomataState#perform(java.lang.Class)}
+     * {@link it.polimi.statemachine.states.AutomataState#next(java.lang.Class)}
      * .
      * 
      * @throws CHIAException
      */
     @Test(expected=CHIAException.class)
     public void testPerform_CONSTRAINTCOMPUTED_CHIAException() throws CHIAException{
-        CHIAAutomataState.CONSTRAINTCOMPUTED.perform(ConstraintGenerator.class);
+        new ConstraintComputed().next(new ComputeConstraint(null));
     }
     /**
      * Test method for
-     * {@link it.polimi.statemachine.states.CHIAAutomataState#isPerformable(java.lang.Class)}
+     * {@link it.polimi.statemachine.states.AutomataState#isPerformable(java.lang.Class)}
      * .
      */
     @Test
     public void testIsPerformable_CONSTRAINTCOMPUTED() {
-        assertTrue(CHIAAutomataState.CONSTRAINTCOMPUTED
-                .isPerformable(ModelReader.class));
-        assertTrue(CHIAAutomataState.CONSTRAINTCOMPUTED
-                .isPerformable(ClaimReader.class));
-        assertTrue(CHIAAutomataState.CONSTRAINTCOMPUTED
-                .isPerformable(ClaimLTLReader.class));
-        assertTrue(CHIAAutomataState.CONSTRAINTCOMPUTED
-                .isPerformable(LTLtoBATransformer.class));
-        assertTrue(CHIAAutomataState.CONSTRAINTCOMPUTED
-                .isPerformable(ClaimReader.class));
-        assertTrue(CHIAAutomataState.CONSTRAINTCOMPUTED
-                .isPerformable(ClaimToStringTrasformer.class));
-        assertTrue(CHIAAutomataState.CONSTRAINTCOMPUTED
-                .isPerformable(ModelToStringTrasformer.class));
-        assertTrue(CHIAAutomataState.CONSTRAINTCOMPUTED
-                .isPerformable(ConstraintToStringTrasformer.class));
-        assertTrue(CHIAAutomataState.CONSTRAINTCOMPUTED
-                .isPerformable(ConstraintWriter.class));
+        assertTrue(new ConstraintComputed()
+                .isPerformable(new ReadModel(ClassLoader.getSystemResource(
+                		"it/polimi/console/Model.xml").getPath(), null)));
+        assertTrue(new ConstraintComputed()
+                .isPerformable(new ReadFileProperty(null, null)));
+        assertTrue(new ConstraintComputed()
+                .isPerformable(new ReadLTLProperty(null, null)));
+        assertTrue(new ConstraintComputed()
+                .isPerformable(new ReadLTLProperty(null, null)));
+        assertTrue(new ConstraintComputed()
+                .isPerformable(new ReadFileProperty(null, null)));
+        assertTrue(new ConstraintComputed()
+                .isPerformable(new DisplayProperty(null)));
+        assertTrue(new ConstraintComputed()
+                .isPerformable(new DisplayModel(null)));
+        assertTrue(new ConstraintComputed()
+                .isPerformable(new DisplayConstraint(null)));
+        assertTrue(new ConstraintComputed()
+                .isPerformable(new WriteConstraint(null, null)));
         
 
-        assertFalse(CHIAAutomataState.CONSTRAINTCOMPUTED
-                .isPerformable(ConstraintGenerator.class));
+        assertFalse(new ConstraintComputed()
+                .isPerformable(new ComputeConstraint(null)));
 
     }
 

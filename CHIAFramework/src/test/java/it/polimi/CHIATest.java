@@ -6,6 +6,7 @@ package it.polimi;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -22,7 +23,9 @@ public class CHIATest {
      */
     @Test
     public void testUsage() throws IOException {
-        CHIA chia=new CHIA(System.out);
+        CHIA chia=new CHIA(
+        		new OutputStreamWriter(
+        		System.out));
         chia.usage();
         assertNotNull(chia);
     }
@@ -33,7 +36,9 @@ public class CHIATest {
      */
     @Test
     public void testCHIA() throws IOException {
-        assertNotNull(new CHIA(System.out));
+        assertNotNull(new CHIA(
+        		new OutputStreamWriter(
+        		System.out)));
     }
 
     /**

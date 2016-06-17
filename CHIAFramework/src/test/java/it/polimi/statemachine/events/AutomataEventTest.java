@@ -7,6 +7,18 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import it.polimi.console.CHIAAutomataConsole;
+import it.polimi.statemachine.automata.actions.helper.CheckHelper;
+import it.polimi.statemachine.automata.actions.helper.ComputeConstraintHelper;
+import it.polimi.statemachine.automata.actions.helper.DisplayConstraintHelper;
+import it.polimi.statemachine.automata.actions.helper.DisplayModelHelper;
+import it.polimi.statemachine.automata.actions.helper.DisplayPropertyHelper;
+import it.polimi.statemachine.automata.actions.helper.ExitHelper;
+import it.polimi.statemachine.automata.actions.helper.HelpHelper;
+import it.polimi.statemachine.automata.actions.helper.ReadFilePropertyHelper;
+import it.polimi.statemachine.automata.actions.helper.ReadLTLPropertyHelper;
+import it.polimi.statemachine.automata.actions.helper.ReadModelHelper;
+import it.polimi.statemachine.automata.actions.helper.WriteConstraintHelper;
 
 import org.junit.Test;
 
@@ -18,69 +30,70 @@ public class AutomataEventTest {
 
     /**
      * Test method for
-     * {@link it.polimi.statemachine.events.AutomataEvent#getShortCuts()}.
+     * {@link it.polimi.statemachine.automata.actions.new CHIAAutomataConsole().getCompleter()#getShortCuts()}.
      */
     @Test
     public void testGetShortCuts() {
 
-        assertEquals("ck", AutomataEvent.CHECK.getCommand());
-        assertEquals("cc", AutomataEvent.COMPUTECONSTRAINT.getCommand());
-        assertEquals("dispc", AutomataEvent.DISPLAYCONSTRAINT.getCommand());
-        assertEquals("dispm", AutomataEvent.DISPLAYMODEL.getCommand());
-        assertEquals("dispp", AutomataEvent.DISPLAYPROPERTY.getCommand());
-        assertEquals("exit", AutomataEvent.EXIT.getCommand());
-        assertEquals("help", AutomataEvent.HELP.getCommand());
-        assertEquals("lpLTL", AutomataEvent.LOADLTLPROPERTY.getCommand());
-        assertEquals("lm", AutomataEvent.LOADMODEL.getCommand());
-        assertEquals("lp", AutomataEvent.LOADPROPERTY.getCommand());
-        assertEquals("sc", AutomataEvent.SAVECONSTRAINT.getCommand());
+    	assertEquals("ck", new CheckHelper().getCommand());
+        assertEquals("cc", new ComputeConstraintHelper().getCommand());
+        assertEquals("dispc", new DisplayConstraintHelper().getCommand());
+        assertEquals("dispm", new DisplayModelHelper().getCommand());
+        assertEquals("dispp", new DisplayPropertyHelper().getCommand());
+        assertEquals("exit", new ExitHelper().getCommand());
+        assertEquals("help", new HelpHelper().getCommand());
+        
+        assertEquals("lpLTL", new ReadLTLPropertyHelper().getCommand());
+        assertEquals("lm", new ReadModelHelper().getCommand());
+        assertEquals("lp", new ReadFilePropertyHelper().getCommand());
+        assertEquals("sc", new WriteConstraintHelper().getCommand());
         
 
     }
 
     /**
      * Test method for
-     * {@link it.polimi.statemachine.events.AutomataEvent#getShortCuts()}.
+     * {@link it.polimi.statemachine.automata.actions.new CHIAAutomataConsole().getCompleter()#getShortCuts()}.
      */
     @Test
     public void testGetCommandMeaning() {
 
-        assertEquals("check", AutomataEvent.CHECK.getCommandMeaning());
+        assertEquals("check", new CheckHelper().getCommandMeaning());
         assertEquals("computeConstraint",
-                AutomataEvent.COMPUTECONSTRAINT.getCommandMeaning());
+                new ComputeConstraintHelper().getCommandMeaning());
         assertEquals("displayConstraint",
-                AutomataEvent.DISPLAYCONSTRAINT.getCommandMeaning());
+                new DisplayConstraintHelper().getCommandMeaning());
         assertEquals("displayModel",
-                AutomataEvent.DISPLAYMODEL.getCommandMeaning());
+                new DisplayModelHelper().getCommandMeaning());
         assertEquals("displayProperty",
-                AutomataEvent.DISPLAYPROPERTY.getCommandMeaning());
-        assertEquals("exit", AutomataEvent.EXIT.getCommandMeaning());
-        assertEquals("help", AutomataEvent.HELP.getCommandMeaning());
+                new DisplayPropertyHelper().getCommandMeaning());
+        assertEquals("exit", new ExitHelper().getCommandMeaning());
+        assertEquals("help", new HelpHelper().getCommandMeaning());
         assertEquals("loadLTLProperty",
-                AutomataEvent.LOADLTLPROPERTY.getCommandMeaning());
-        assertEquals("loadModel", AutomataEvent.LOADMODEL.getCommandMeaning());
+                new ReadLTLPropertyHelper().getCommandMeaning());
+        assertEquals("loadModel", new ReadModelHelper().getCommandMeaning());
         assertEquals("loadProperty",
-                AutomataEvent.LOADPROPERTY.getCommandMeaning());
+                new ReadFilePropertyHelper().getCommandMeaning());
         assertEquals("saveConstraint",
-                AutomataEvent.SAVECONSTRAINT.getCommandMeaning());
+                new WriteConstraintHelper().getCommandMeaning());
 
     }
 
     /**
      * Test method for
-     * {@link it.polimi.statemachine.events.AutomataEvent#getShortCuts()}.
+     * {@link it.polimi.statemachine.automata.actions.new CHIAAutomataConsole().getCompleter()#getShortCuts()}.
      */
     @Test
     public void testGetParams() {
 
-        assertTrue(null == AutomataEvent.CHECK.getParams());
-        assertTrue(null == AutomataEvent.COMPUTECONSTRAINT.getParams());
-        assertTrue(null == AutomataEvent.DISPLAYCONSTRAINT.getParams());
-        assertTrue(null == AutomataEvent.DISPLAYMODEL.getParams());
-        assertTrue(null == AutomataEvent.DISPLAYPROPERTY.getParams());
-        assertTrue(null == AutomataEvent.EXIT.getParams());
+        assertTrue(null == new CheckHelper().getParams());
+        assertTrue(null == new ComputeConstraintHelper().getParams());
+        assertTrue(null == new DisplayConstraintHelper().getParams());
+        assertTrue(null == new DisplayModelHelper().getParams());
+        assertTrue(null == new DisplayPropertyHelper().getParams());
+        assertTrue(null == new ExitHelper().getParams());
         assertEquals("command: is the command to be performed",
-                AutomataEvent.HELP.getParams());
+                new HelpHelper().getParams());
         assertEquals(
                 "LTLFormula: is the LTL formula that represents the property."
                         + "The LTL formula can be created starting from a set of propositional symbol \n"
@@ -91,145 +104,145 @@ public class AutomataEventTest {
                         + "\t V (or)," + "A set of temporal operators,\n"
                         + "\t [] (always)\n" + "\t <> (eventually)"
                         + "\t U (until)" + "\t X (next).",
-                AutomataEvent.LOADLTLPROPERTY.getParams());
+                new ReadLTLPropertyHelper().getParams());
         assertEquals(
                 "modelFilePath:  the path of the file that contains the model to be checked",
-                AutomataEvent.LOADMODEL.getParams());
-        assertEquals("file", AutomataEvent.LOADPROPERTY.getParams());
+                new ReadModelHelper().getParams());
+        assertEquals("file", new ReadFilePropertyHelper().getParams());
         assertEquals(
                 "constraintFilePath: is the path of the file where the constraint must be saved",
-                AutomataEvent.SAVECONSTRAINT.getParams());
+                new WriteConstraintHelper().getParams());
 
     }
 
     /**
      * Test method for
-     * {@link it.polimi.statemachine.events.AutomataEvent#getShortCuts()}.
+     * {@link it.polimi.statemachine.automata.actions.new CHIAAutomataConsole().getCompleter()#getShortCuts()}.
      */
     @Test
     public void testRequireParams() {
 
-        assertFalse(AutomataEvent.CHECK.requiresParams());
-        assertFalse(AutomataEvent.COMPUTECONSTRAINT.requiresParams());
-        assertFalse(AutomataEvent.DISPLAYCONSTRAINT.requiresParams());
-        assertFalse(AutomataEvent.DISPLAYMODEL.requiresParams());
-        assertFalse(AutomataEvent.DISPLAYPROPERTY.requiresParams());
-        assertFalse(AutomataEvent.EXIT.requiresParams());
-        assertFalse(AutomataEvent.HELP.requiresParams());
-        assertTrue(AutomataEvent.LOADLTLPROPERTY.requiresParams());
-        assertTrue(AutomataEvent.LOADMODEL.requiresParams());
-        assertTrue(AutomataEvent.LOADPROPERTY.requiresParams());
-        assertTrue(AutomataEvent.SAVECONSTRAINT.requiresParams());
+        assertFalse(new CheckHelper().requiresParams());
+        assertFalse(new ComputeConstraintHelper().requiresParams());
+        assertFalse(new DisplayConstraintHelper().requiresParams());
+        assertFalse(new DisplayModelHelper().requiresParams());
+        assertFalse(new DisplayPropertyHelper().requiresParams());
+        assertFalse(new ExitHelper().requiresParams());
+        assertFalse(new HelpHelper().requiresParams());
+        assertTrue(new ReadLTLPropertyHelper().requiresParams());
+        assertTrue(new ReadModelHelper().requiresParams());
+        assertTrue(new ReadFilePropertyHelper().requiresParams());
+        assertTrue(new WriteConstraintHelper().requiresParams());
 
     }
 
     /**
      * Test method for
-     * {@link it.polimi.statemachine.events.AutomataEvent#getShortCuts()}.
+     * {@link it.polimi.statemachine.automata.actions.new CHIAAutomataConsole().getCompleter()#getShortCuts()}.
      */
     @Test
     public void testGetDescription() {
 
-        assertNotNull(AutomataEvent.CHECK.getDescription());
-        assertNotNull(AutomataEvent.COMPUTECONSTRAINT.getDescription());
-        assertNotNull(AutomataEvent.DISPLAYCONSTRAINT.getDescription());
-        assertNotNull(AutomataEvent.DISPLAYMODEL.getDescription());
-        assertNotNull(AutomataEvent.DISPLAYPROPERTY.getDescription());
-        assertNotNull(AutomataEvent.EXIT.getDescription());
-        assertNotNull(AutomataEvent.HELP.getDescription());
-        assertNotNull(AutomataEvent.LOADLTLPROPERTY.getDescription());
-        assertNotNull(AutomataEvent.LOADMODEL.getDescription());
-        assertNotNull(AutomataEvent.LOADPROPERTY.getDescription());
-        assertNotNull(AutomataEvent.SAVECONSTRAINT.getDescription());
+        assertNotNull(new CheckHelper().getDescription());
+        assertNotNull(new ComputeConstraintHelper().getDescription());
+        assertNotNull(new DisplayConstraintHelper().getDescription());
+        assertNotNull(new DisplayModelHelper().getDescription());
+        assertNotNull(new DisplayPropertyHelper().getDescription());
+        assertNotNull(new ExitHelper().getDescription());
+        assertNotNull(new HelpHelper().getDescription());
+        assertNotNull(new ReadLTLPropertyHelper().getDescription());
+        assertNotNull(new ReadModelHelper().getDescription());
+        assertNotNull(new ReadFilePropertyHelper().getDescription());
+        assertNotNull(new WriteConstraintHelper().getDescription());
 
     }
 
     /**
      * Test method for
-     * {@link it.polimi.statemachine.events.AutomataEvent#getCommands()}.
+     * {@link it.polimi.statemachine.automata.actions.new CHIAAutomataConsole().getCompleter()#getCommands()}.
      */
     @Test
     public void testGetCommands() {
-        assertTrue(AutomataEvent.getCommands().contains(
-                AutomataEvent.CHECK.getCommand()));
-        assertTrue(AutomataEvent.getCommands().contains(
-                AutomataEvent.COMPUTECONSTRAINT.getCommand()));
-        assertTrue(AutomataEvent.getCommands().contains(
-                AutomataEvent.DISPLAYCONSTRAINT.getCommand()));
-        assertTrue(AutomataEvent.getCommands().contains(
-                AutomataEvent.DISPLAYMODEL.getCommand()));
-        assertTrue(AutomataEvent.getCommands().contains(
-                AutomataEvent.DISPLAYPROPERTY.getCommand()));
-        assertTrue(AutomataEvent.getCommands().contains(
-                AutomataEvent.EXIT.getCommand()));
-        assertTrue(AutomataEvent.getCommands().contains(
-                AutomataEvent.HELP.getCommand()));
-        assertTrue(AutomataEvent.getCommands().contains(
-                AutomataEvent.LOADLTLPROPERTY.getCommand()));
-        assertTrue(AutomataEvent.getCommands().contains(
-                AutomataEvent.LOADMODEL.getCommand()));
-        assertTrue(AutomataEvent.getCommands().contains(
-                AutomataEvent.LOADPROPERTY.getCommand()));
-        assertTrue(AutomataEvent.getCommands().contains(
-                AutomataEvent.SAVECONSTRAINT.getCommand()));
+        assertTrue(new CHIAAutomataConsole().getCompleter().getCommands().contains(
+                new CheckHelper().getCommand()));
+        assertTrue(new CHIAAutomataConsole().getCompleter().getCommands().contains(
+                new ComputeConstraintHelper().getCommand()));
+        assertTrue(new CHIAAutomataConsole().getCompleter().getCommands().contains(
+                new DisplayConstraintHelper().getCommand()));
+        assertTrue(new CHIAAutomataConsole().getCompleter().getCommands().contains(
+                new DisplayModelHelper().getCommand()));
+        assertTrue(new CHIAAutomataConsole().getCompleter().getCommands().contains(
+                new DisplayPropertyHelper().getCommand()));
+        assertTrue(new CHIAAutomataConsole().getCompleter().getCommands().contains(
+                new ExitHelper().getCommand()));
+        assertTrue(new CHIAAutomataConsole().getCompleter().getCommands().contains(
+                new HelpHelper().getCommand()));
+        assertTrue(new CHIAAutomataConsole().getCompleter().getCommands().contains(
+                new ReadLTLPropertyHelper().getCommand()));
+        assertTrue(new CHIAAutomataConsole().getCompleter().getCommands().contains(
+                new ReadModelHelper().getCommand()));
+        assertTrue(new CHIAAutomataConsole().getCompleter().getCommands().contains(
+                new ReadFilePropertyHelper().getCommand()));
+        assertTrue(new CHIAAutomataConsole().getCompleter().getCommands().contains(
+                new WriteConstraintHelper().getCommand()));
     }
 
     /**
      * Test method for
-     * {@link it.polimi.statemachine.events.AutomataEvent#getCommands()}.
+     * {@link it.polimi.statemachine.automata.actions.new CHIAAutomataConsole().getCompleter()#getCommands()}.
      */
     @Test
     public void testGetShortCuts_Test() {
-        assertTrue(AutomataEvent.getShortCuts().contains(
-                AutomataEvent.CHECK.getCommand()));
-        assertTrue(AutomataEvent.getShortCuts().contains(
-                AutomataEvent.COMPUTECONSTRAINT.getCommand()));
-        assertTrue(AutomataEvent.getShortCuts().contains(
-                AutomataEvent.DISPLAYCONSTRAINT.getCommand()));
-        assertTrue(AutomataEvent.getShortCuts().contains(
-                AutomataEvent.DISPLAYMODEL.getCommand()));
-        assertTrue(AutomataEvent.getShortCuts().contains(
-                AutomataEvent.DISPLAYPROPERTY.getCommand()));
-        assertTrue(AutomataEvent.getShortCuts().contains(
-                AutomataEvent.EXIT.getCommand()));
-        assertTrue(AutomataEvent.getShortCuts().contains(
-                AutomataEvent.HELP.getCommand()));
-        assertTrue(AutomataEvent.getShortCuts().contains(
-                AutomataEvent.LOADLTLPROPERTY.getCommand()));
-        assertTrue(AutomataEvent.getShortCuts().contains(
-                AutomataEvent.LOADMODEL.getCommand()));
-        assertTrue(AutomataEvent.getShortCuts().contains(
-                AutomataEvent.LOADPROPERTY.getCommand()));
-        assertTrue(AutomataEvent.getShortCuts().contains(
-                AutomataEvent.SAVECONSTRAINT.getCommand()));
+        assertTrue(new CHIAAutomataConsole().getCompleter().getShortCuts().contains(
+                new CheckHelper().getCommand()));
+        assertTrue(new CHIAAutomataConsole().getCompleter().getShortCuts().contains(
+                new ComputeConstraintHelper().getCommand()));
+        assertTrue(new CHIAAutomataConsole().getCompleter().getShortCuts().contains(
+                new DisplayConstraintHelper().getCommand()));
+        assertTrue(new CHIAAutomataConsole().getCompleter().getShortCuts().contains(
+                new DisplayModelHelper().getCommand()));
+        assertTrue(new CHIAAutomataConsole().getCompleter().getShortCuts().contains(
+                new DisplayPropertyHelper().getCommand()));
+        assertTrue(new CHIAAutomataConsole().getCompleter().getShortCuts().contains(
+                new ExitHelper().getCommand()));
+        assertTrue(new CHIAAutomataConsole().getCompleter().getShortCuts().contains(
+                new HelpHelper().getCommand()));
+        assertTrue(new CHIAAutomataConsole().getCompleter().getShortCuts().contains(
+                new ReadLTLPropertyHelper().getCommand()));
+        assertTrue(new CHIAAutomataConsole().getCompleter().getShortCuts().contains(
+                new ReadModelHelper().getCommand()));
+        assertTrue(new CHIAAutomataConsole().getCompleter().getShortCuts().contains(
+                new ReadFilePropertyHelper().getCommand()));
+        assertTrue(new CHIAAutomataConsole().getCompleter().getShortCuts().contains(
+                new WriteConstraintHelper().getCommand()));
     }
 
     /**
      * Test method for
-     * {@link it.polimi.statemachine.events.AutomataEvent#getCommands()}.
+     * {@link it.polimi.statemachine.automata.actions.new CHIAAutomataConsole().getCompleter()#getCommands()}.
      */
     @Test
     public void testToString() {
-        assertNotNull(AutomataEvent.CHECK.toString());
-        assertNotNull(AutomataEvent.COMPUTECONSTRAINT.toString());
-        assertNotNull(AutomataEvent.DISPLAYCONSTRAINT.toString());
-        assertNotNull(AutomataEvent.DISPLAYMODEL.toString());
-        assertNotNull(AutomataEvent.DISPLAYPROPERTY.toString());
-        assertNotNull(AutomataEvent.EXIT.toString());
-        assertNotNull(AutomataEvent.HELP.toString());
-        assertNotNull(AutomataEvent.LOADLTLPROPERTY.toString());
-        assertNotNull(AutomataEvent.LOADMODEL.toString());
-        assertNotNull(AutomataEvent.LOADPROPERTY.toString());
-        assertNotNull(AutomataEvent.SAVECONSTRAINT.toString());
+        assertNotNull(new CheckHelper().toString());
+        assertNotNull(new ComputeConstraintHelper().toString());
+        assertNotNull(new DisplayConstraintHelper().toString());
+        assertNotNull(new DisplayModelHelper().toString());
+        assertNotNull(new DisplayPropertyHelper().toString());
+        assertNotNull(new ExitHelper().toString());
+        assertNotNull(new HelpHelper().toString());
+        assertNotNull(new ReadLTLPropertyHelper().toString());
+        assertNotNull(new ReadModelHelper().toString());
+        assertNotNull(new ReadFilePropertyHelper().toString());
+        assertNotNull(new WriteConstraintHelper().toString());
     }
 
     /**
      * Test method for
-     * {@link it.polimi.statemachine.events.AutomataEvent#computeCompleters()}.
+     * {@link it.polimi.statemachine.automata.actions.new CHIAAutomataConsole().getCompleter()#computeCompleters()}.
      */
     @Test
     public void testComputeCompleters() {
-        assertNotNull(AutomataEvent.computeCompleters());
+        assertNotNull(new CHIAAutomataConsole().getCompleter().computeCompleters());
     }
 
 }

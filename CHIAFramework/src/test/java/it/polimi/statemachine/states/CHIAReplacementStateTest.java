@@ -3,15 +3,22 @@
  */
 package it.polimi.statemachine.states;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import it.polimi.action.CHIAException;
-import it.polimi.automata.io.out.ModelToStringTrasformer;
-import it.polimi.constraints.components.RefinementGenerator;
-import it.polimi.constraints.io.in.constraint.ConstraintReader;
-import it.polimi.constraints.io.in.replacement.ReplacementReader;
-import it.polimi.constraints.io.out.constraint.ConstraintToStringTrasformer;
-import it.polimi.constraints.io.out.replacement.ReplacementToStringTransformer;
-import it.polimi.replacementchecker.ReplacementChecker;
+import it.polimi.statemachine.replacement.action.Check;
+import it.polimi.statemachine.replacement.action.DisplayConstraint;
+import it.polimi.statemachine.replacement.action.DisplayReplacement;
+import it.polimi.statemachine.replacement.action.LoadConstraint;
+import it.polimi.statemachine.replacement.action.LoadRepacement;
+import it.polimi.statemachine.replacement.states.Checked;
+import it.polimi.statemachine.replacement.states.ConstraintLoaded;
+import it.polimi.statemachine.replacement.states.Init;
+import it.polimi.statemachine.replacement.states.Ready;
+import it.polimi.statemachine.replacement.states.ReplacementLoaded;
+
+import java.io.StringWriter;
 
 import org.junit.Test;
 
@@ -21,281 +28,222 @@ import org.junit.Test;
  */
 public class CHIAReplacementStateTest {
 
-    /**
-     * Test method for
-     * {@link it.polimi.statemachine.states.CHIAReplacementState#perform(java.lang.Class)}
-     * .
-     * 
-     * @throws CHIAException
-     */
-    @Test
-    public void testPerform_INIT() throws CHIAException {
+	private final LoadRepacement loadReplacement = new LoadRepacement(
+			new StringWriter(), "");
 
-        assertEquals(CHIAReplacementState.REPLACEMENTLOADED,
-                CHIAReplacementState.INIT.perform(ReplacementReader.class));
-        assertEquals(CHIAReplacementState.CONSTRAINTLOADED,
-                CHIAReplacementState.INIT.perform(ConstraintReader.class));
-    }
+	/**
+	 * Test method for
+	 * {@link it.polimi.statemachine.replacement.states.CHIAReplacementState#next(java.lang.Class)}
+	 * .
+	 * 
+	 * @throws CHIAException
+	 */
+	@Test
+	public void testPerform_INIT() throws CHIAException {
 
-    /**
-     * Test method for
-     * {@link it.polimi.statemachine.states.CHIAReplacementState#isPerformable(java.lang.Class)}
-     * .
-     */
-    @Test
-    public void isPerformable_INIT() {
+		assertEquals(new Init().next(loadReplacement), new ReplacementLoaded());
+		assertEquals(new ConstraintLoaded(),
+				new Init().next(new LoadConstraint(new StringWriter(), "")));
+	}
 
-        assertTrue(CHIAReplacementState.INIT
-                .isPerformable(ReplacementReader.class));
-        assertTrue(CHIAReplacementState.INIT
-                .isPerformable(ConstraintReader.class));
-        assertFalse(CHIAReplacementState.INIT
-                .isPerformable(ReplacementChecker.class));
-    }
+	/**
+	 * Test method for
+	 * {@link it.polimi.statemachine.replacement.states.CHIAReplacementState#isPerformable(java.lang.Class)}
+	 * .
+	 */
+	@Test
+	public void isPerformable_INIT() {
 
-    /**
-     * Test method for
-     * {@link it.polimi.statemachine.states.CHIAReplacementState#perform(java.lang.Class)}
-     * .
-     * 
-     * @throws CHIAException
-     */
-    @Test(expected = CHIAException.class)
-    public void testPerform_INIT_Exception() throws CHIAException {
-        CHIAReplacementState.INIT.perform(ReplacementChecker.class);
-    }
+		assertTrue(new Init().isPerformable(loadReplacement));
+		assertTrue(new Init().isPerformable(new LoadConstraint(
+				new StringWriter(), "")));
+		assertFalse(new Init().isPerformable(new Check(new StringWriter())));
+	}
 
-    /**
-     * Test method for
-     * {@link it.polimi.statemachine.states.CHIAReplacementState#perform(java.lang.Class)}
-     * .
-     * 
-     * @throws CHIAException
-     */
-    @Test
-    public void testPerform_REPLACEMENTLOADED() throws CHIAException {
+	/**
+	 * Test method for
+	 * {@link it.polimi.statemachine.replacement.states.CHIAReplacementState#next(java.lang.Class)}
+	 * .
+	 * 
+	 * @throws CHIAException
+	 */
+	@Test(expected = CHIAException.class)
+	public void testPerform_INIT_Exception() throws CHIAException {
+		new Init().next(new Check(new StringWriter()));
+	}
 
-        assertEquals(CHIAReplacementState.REPLACEMENTLOADED,
-                CHIAReplacementState.REPLACEMENTLOADED
-                        .perform(ReplacementReader.class));
-        assertEquals(CHIAReplacementState.READY,
-                CHIAReplacementState.REPLACEMENTLOADED
-                        .perform(ConstraintReader.class));
-        assertEquals(CHIAReplacementState.REPLACEMENTLOADED,
-                CHIAReplacementState.REPLACEMENTLOADED
-                        .perform(RefinementGenerator.class));
-        assertEquals(CHIAReplacementState.REPLACEMENTLOADED,
-                CHIAReplacementState.REPLACEMENTLOADED
-                        .perform(ReplacementToStringTransformer.class));
-    }
+	/**
+	 * Test method for
+	 * {@link it.polimi.statemachine.replacement.states.CHIAReplacementState#next(java.lang.Class)}
+	 * .
+	 * 
+	 * @throws CHIAException
+	 */
+	@Test
+	public void testPerform_REPLACEMENTLOADED() throws CHIAException {
 
-    /**
-     * Test method for
-     * {@link it.polimi.statemachine.states.CHIAReplacementState#isPerformable(java.lang.Class)}
-     * .
-     */
-    @Test
-    public void isPerformable_REPLACEMENTLOADED() {
+		assertEquals(new ReplacementLoaded(),
+				new ReplacementLoaded().next(loadReplacement));
+		assertEquals(new Ready(),
+				new ReplacementLoaded().next(new LoadConstraint(
+						new StringWriter(), "")));
+		assertEquals(new ReplacementLoaded(),
+				new ReplacementLoaded().next(new DisplayReplacement(
+						new StringWriter())));
+	}
 
-        assertTrue(CHIAReplacementState.REPLACEMENTLOADED
-                .isPerformable(ReplacementReader.class));
-        assertTrue(CHIAReplacementState.REPLACEMENTLOADED
-                .isPerformable(ConstraintReader.class));
-        assertTrue(CHIAReplacementState.REPLACEMENTLOADED
-                .isPerformable(ReplacementToStringTransformer.class));
-        assertTrue(CHIAReplacementState.REPLACEMENTLOADED
-                .isPerformable(RefinementGenerator.class));
-        assertFalse(CHIAReplacementState.REPLACEMENTLOADED
-                .isPerformable(ReplacementChecker.class));
-    }
+	/**
+	 * Test method for
+	 * {@link it.polimi.statemachine.replacement.states.CHIAReplacementState#isPerformable(java.lang.Class)}
+	 * .
+	 */
+	@Test
+	public void isPerformable_REPLACEMENTLOADED() {
 
-    /**
-     * Test method for
-     * {@link it.polimi.statemachine.states.CHIAReplacementState#perform(java.lang.Class)}
-     * .
-     * 
-     * @throws CHIAException
-     */
-    @Test(expected = CHIAException.class)
-    public void testPerform_REPLACEMENTLOADED_Exception() throws CHIAException {
-        CHIAReplacementState.REPLACEMENTLOADED
-                .perform(ReplacementChecker.class);
-    }
+		assertTrue(new ReplacementLoaded().isPerformable(loadReplacement));
+		assertTrue(new ReplacementLoaded().isPerformable(new LoadConstraint(
+				new StringWriter(), "")));
+		assertTrue(new ReplacementLoaded()
+				.isPerformable(new DisplayReplacement(new StringWriter())));
+		assertFalse(new ReplacementLoaded().isPerformable(new Check(
+				new StringWriter())));
+	}
 
-    /**
-     * Test method for
-     * {@link it.polimi.statemachine.states.CHIAReplacementState#perform(java.lang.Class)}
-     * .
-     * 
-     * @throws CHIAException
-     */
-    @Test
-    public void testPerform_CONSTRAINTLOADED() throws CHIAException {
+	/**
+	 * Test method for
+	 * {@link it.polimi.statemachine.replacement.states.CHIAReplacementState#next(java.lang.Class)}
+	 * .
+	 * 
+	 * @throws CHIAException
+	 */
+	@Test(expected = CHIAException.class)
+	public void testPerform_REPLACEMENTLOADED_Exception() throws CHIAException {
+		new ReplacementLoaded().next(new Check(new StringWriter()));
+	}
 
-        assertEquals(CHIAReplacementState.READY,
-                CHIAReplacementState.CONSTRAINTLOADED
-                        .perform(ReplacementReader.class));
-        assertEquals(CHIAReplacementState.CONSTRAINTLOADED,
-                CHIAReplacementState.CONSTRAINTLOADED
-                        .perform(ConstraintReader.class));
-        assertEquals(CHIAReplacementState.CONSTRAINTLOADED,
-                CHIAReplacementState.CONSTRAINTLOADED
-                        .perform(ConstraintToStringTrasformer.class));
+	/**
+	 * Test method for
+	 * {@link it.polimi.statemachine.replacement.states.CHIAReplacementState#next(java.lang.Class)}
+	 * .
+	 * 
+	 * @throws CHIAException
+	 */
+	@Test
+	public void testPerform_CONSTRAINTLOADED() throws CHIAException {
 
-    }
+		assertEquals(new Ready(), new ConstraintLoaded().next(loadReplacement));
+		assertEquals(new ConstraintLoaded(),
+				new ConstraintLoaded().next(new LoadConstraint(
+						new StringWriter(), "")));
+		assertEquals(new ConstraintLoaded(),
+				new ConstraintLoaded().next(new DisplayConstraint()));
 
-    /**
-     * Test method for
-     * {@link it.polimi.statemachine.states.CHIAReplacementState#isPerformable(java.lang.Class)}
-     * .
-     */
-    @Test
-    public void isPerformable_CONSTRAINTLOADED() {
+	}
 
-        assertTrue(CHIAReplacementState.CONSTRAINTLOADED
-                .isPerformable(ReplacementReader.class));
-        assertTrue(CHIAReplacementState.CONSTRAINTLOADED
-                .isPerformable(ConstraintReader.class));
-        assertTrue(CHIAReplacementState.CONSTRAINTLOADED
-                .isPerformable(ConstraintToStringTrasformer.class));
-        assertFalse(CHIAReplacementState.CONSTRAINTLOADED
-                .isPerformable(ReplacementChecker.class));
-    }
+	/**
+	 * Test method for
+	 * {@link it.polimi.statemachine.replacement.states.CHIAReplacementState#isPerformable(java.lang.Class)}
+	 * .
+	 */
+	@Test
+	public void isPerformable_CONSTRAINTLOADED() {
 
-    /**
-     * Test method for
-     * {@link it.polimi.statemachine.states.CHIAReplacementState#perform(java.lang.Class)}
-     * .
-     * 
-     * @throws CHIAException
-     */
-    @Test(expected = CHIAException.class)
-    public void testPerform_CONSTRAINTLOADED_Exception() throws CHIAException {
-        CHIAReplacementState.CONSTRAINTLOADED.perform(ReplacementChecker.class);
-    }
+		assertTrue(new ConstraintLoaded().isPerformable(loadReplacement));
+		assertTrue(new ConstraintLoaded().isPerformable(new LoadConstraint(
+				new StringWriter(), "")));
+		assertTrue(new ConstraintLoaded()
+				.isPerformable(new DisplayConstraint()));
+		assertFalse(new ConstraintLoaded().isPerformable(new Check(
+				new StringWriter())));
+	}
 
-    /**
-     * Test method for
-     * {@link it.polimi.statemachine.states.CHIAReplacementState#perform(java.lang.Class)}
-     * .
-     * 
-     * @throws CHIAException
-     */
-    @Test
-    public void testPerform_READY() throws CHIAException {
+	/**
+	 * Test method for
+	 * {@link it.polimi.statemachine.replacement.states.CHIAReplacementState#next(java.lang.Class)}
+	 * .
+	 * 
+	 * @throws CHIAException
+	 */
+	@Test(expected = CHIAException.class)
+	public void testPerform_CONSTRAINTLOADED_Exception() throws CHIAException {
+		new ConstraintLoaded().next(new Check(new StringWriter()));
+	}
 
-        assertEquals(CHIAReplacementState.READY,
-                CHIAReplacementState.READY.perform(ReplacementReader.class));
-        assertEquals(CHIAReplacementState.READY,
-                CHIAReplacementState.READY.perform(ConstraintReader.class));
-        assertEquals(CHIAReplacementState.READY,
-                CHIAReplacementState.READY
-                        .perform(ReplacementToStringTransformer.class));
-        assertEquals(CHIAReplacementState.CHECKED,
-                CHIAReplacementState.READY.perform(ReplacementChecker.class));
-        assertEquals(CHIAReplacementState.READY,
-                CHIAReplacementState.READY
-                        .perform(ConstraintToStringTrasformer.class));
-        assertEquals(CHIAReplacementState.READY,
-                CHIAReplacementState.READY.perform(RefinementGenerator.class));
+	/**
+	 * Test method for
+	 * {@link it.polimi.statemachine.replacement.states.CHIAReplacementState#next(java.lang.Class)}
+	 * .
+	 * 
+	 * @throws CHIAException
+	 */
+	@Test
+	public void testPerform_READY() throws CHIAException {
 
-    }
+		assertEquals(new Ready(), new Ready().next(loadReplacement));
+		assertEquals(new Ready(),
+				new Ready().next(new LoadConstraint(new StringWriter(), "")));
+		assertEquals(new Ready(),
+				new Ready().next(new DisplayReplacement(new StringWriter())));
+		assertEquals(new Checked(),
+				new Ready().next(new Check(new StringWriter())));
+		assertEquals(new Ready(), new Ready().next(new DisplayConstraint()));
 
-    /**
-     * Test method for
-     * {@link it.polimi.statemachine.states.CHIAReplacementState#isPerformable(java.lang.Class)}
-     * .
-     */
-    @Test
-    public void isPerformable_READY() {
+	}
 
-        assertTrue(CHIAReplacementState.READY
-                .isPerformable(ReplacementReader.class));
-        assertTrue(CHIAReplacementState.READY
-                .isPerformable(ConstraintReader.class));
-        assertTrue(CHIAReplacementState.READY
-                .isPerformable(ConstraintToStringTrasformer.class));
-        assertTrue(CHIAReplacementState.READY
-                .isPerformable(ReplacementToStringTransformer.class));
-        assertTrue(CHIAReplacementState.READY
-                .isPerformable(RefinementGenerator.class));
-        assertTrue(CHIAReplacementState.READY
-                .isPerformable(ReplacementChecker.class));
-        assertFalse(CHIAReplacementState.READY
-                .isPerformable(ModelToStringTrasformer.class));
-    }
+	/**
+	 * Test method for
+	 * {@link it.polimi.statemachine.replacement.states.CHIAReplacementState#isPerformable(java.lang.Class)}
+	 * .
+	 */
+	@Test
+	public void isPerformable_READY() {
 
-    /**
-     * Test method for
-     * {@link it.polimi.statemachine.states.CHIAReplacementState#perform(java.lang.Class)}
-     * .
-     * 
-     * @throws CHIAException
-     */
-    @Test(expected=CHIAException.class)
-    public void testPerform_READY_CHIAException() throws CHIAException {
-        CHIAReplacementState.READY.perform(ModelToStringTrasformer.class);
+		assertTrue(new Ready().isPerformable(loadReplacement));
+		assertTrue(new Ready().isPerformable(new LoadConstraint(
+				new StringWriter(), "")));
+		assertTrue(new Ready().isPerformable(new DisplayConstraint()));
+		assertTrue(new Ready().isPerformable(new DisplayReplacement(
+				new StringWriter())));
+		assertTrue(new Ready().isPerformable(new Check(new StringWriter())));
+	}
 
-    }
+	/**
+	 * Test method for
+	 * {@link it.polimi.statemachine.replacement.states.CHIAReplacementState#next(java.lang.Class)}
+	 * .
+	 * 
+	 * @throws CHIAException
+	 */
+	@Test
+	public void testPerform_CHECKED() throws CHIAException {
 
-    /**
-     * Test method for
-     * {@link it.polimi.statemachine.states.CHIAReplacementState#perform(java.lang.Class)}
-     * .
-     * 
-     * @throws CHIAException
-     */
-    @Test
-    public void testPerform_CHECKED() throws CHIAException {
+		assertEquals(new Ready(), new Checked().next(loadReplacement));
+		assertEquals(new Ready(),
+				new Checked().next(new LoadConstraint(new StringWriter(), "")));
+		assertEquals(new Checked(), new Checked().next(new DisplayConstraint()));
+		assertEquals(new Checked(),
+				new Checked().next(new DisplayReplacement(new StringWriter())));
+		assertEquals(new Checked(),
+				new Checked().next(new Check(new StringWriter())));
 
-        assertEquals(CHIAReplacementState.READY,
-                CHIAReplacementState.CHECKED.perform(ReplacementReader.class));
-        assertEquals(CHIAReplacementState.READY,
-                CHIAReplacementState.CHECKED.perform(ConstraintReader.class));
-        assertEquals(CHIAReplacementState.CHECKED,
-                CHIAReplacementState.CHECKED
-                        .perform(ConstraintToStringTrasformer.class));
-        assertEquals(CHIAReplacementState.CHECKED,
-                CHIAReplacementState.CHECKED
-                        .perform(ReplacementToStringTransformer.class));
-        assertEquals(CHIAReplacementState.CHECKED,
-                CHIAReplacementState.CHECKED.perform(RefinementGenerator.class));
+	}
 
-    }
+	/**
+	 * Test method for
+	 * {@link it.polimi.statemachine.replacement.states.CHIAReplacementState#isPerformable(java.lang.Class)}
+	 * .
+	 */
+	@Test
+	public void isPerformable_CHECKED() {
 
-    /**
-     * Test method for
-     * {@link it.polimi.statemachine.states.CHIAReplacementState#isPerformable(java.lang.Class)}
-     * .
-     */
-    @Test
-    public void isPerformable_CHECKED() {
+		assertTrue(new Checked().isPerformable(loadReplacement));
+		assertTrue(new Checked().isPerformable(new LoadConstraint(
+				new StringWriter(), "")));
+		assertTrue(new Checked().isPerformable(new DisplayConstraint()));
+		assertTrue(new Checked().isPerformable(new DisplayReplacement(
+				new StringWriter())));
+		assertTrue(new Checked().isPerformable(new Check(new StringWriter())));
 
-        assertTrue(CHIAReplacementState.CHECKED
-                .isPerformable(ReplacementReader.class));
-        assertTrue(CHIAReplacementState.CHECKED
-                .isPerformable(ConstraintReader.class));
-        assertTrue(CHIAReplacementState.CHECKED
-                .isPerformable(ConstraintToStringTrasformer.class));
-        assertTrue(CHIAReplacementState.CHECKED
-                .isPerformable(ReplacementToStringTransformer.class));
-        assertTrue(CHIAReplacementState.CHECKED
-                .isPerformable(RefinementGenerator.class));
-        assertFalse(CHIAReplacementState.CHECKED
-                .isPerformable(ReplacementChecker.class));
-    }
-    
-    /**
-     * Test method for
-     * {@link it.polimi.statemachine.states.CHIAReplacementState#perform(java.lang.Class)}
-     * .
-     * 
-     * @throws CHIAException
-     */
-    @Test(expected=CHIAException.class)
-    public void testPerform_CHECKED_CHIAException() throws CHIAException {
-        CHIAReplacementState.CHECKED.perform(ModelToStringTrasformer.class);
-
-    }
+	}
 
 }

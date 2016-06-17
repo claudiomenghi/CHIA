@@ -2,13 +2,13 @@ package it.polimi;
 
 import it.polimi.console.CHIAAutomataConsole;
 import it.polimi.console.CHIAReplacementConsole;
-import it.polimi.statemachine.events.AutomataEvent;
-import it.polimi.statemachine.events.ReplacementEvent;
+import it.polimi.statemachine.automata.AutomataAction;
+import it.polimi.statemachine.replacement.ReplacementAction;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintStream;
-import java.text.ParseException;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.List;
 
 import jline.console.ConsoleReader;
@@ -34,21 +34,51 @@ public class CHIA {
 	 */
 	private ConsoleReader console;
 
-	private static final String QUIT="quit";
-	private static final String EXIT="exit";
-	private static final String AUTOMATA_MODE="aut";
-	private static final String REPLACEMENT_MODE="rep";
-	private static final String CLS="cls";
-	
+	private static final String QUIT = "quit";
+	private static final String EXIT = "exit";
+	private static final String AUTOMATA_MODE = "aut";
+	private static final String REPLACEMENT_MODE = "rep";
+	private static final String CLS = "cls";
+
+	private final CHIAAutomataConsole automataConsole;
 	/**
 	 * getting the output stream
 	 */
-	private final PrintStream out;
+	private final Writer out;
+
+	public CHIA(Writer out) throws IOException {
+		Preconditions.checkNotNull(out);
+		this.out = out;
+
+		this.automataConsole = new CHIAAutomataConsole();
+		this.console = new ConsoleReader();
+		this.console.setExpandEvents(false);
+		console.setPrompt("CHIA> ");
+		usage();
+
+		if (ClassLoader.getSystemResource("History.txt") != null) {
+			console.setHistory(new FileHistory(new File(ClassLoader
+					.getSystemResource("History.txt").getPath())));
+		} else {
+			out.write("The History file cannot be loaded");
+		}
+		out.write("CHIA Started");
+		if (ClassLoader.getSystemResource("log4j.properties") != null) {
+
+			PropertyConfigurator.configure(ClassLoader
+					.getSystemResource("log4j.properties"));
+		} else {
+			out.write("The logging file cannot be loaded");
+		}
+
+	}
 
 	/**
 	 * print the CHIA usage information
+	 * 
+	 * @throws IOException
 	 */
-	protected void usage() {
+	protected void usage() throws IOException {
 
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder
@@ -62,34 +92,7 @@ public class CHIA {
 		stringBuilder
 				.append("********************************************************************\n");
 		stringBuilder.append("aut: automata mode enabled\n");
-		out.println(stringBuilder);
-
-	}
-
-	public CHIA(PrintStream out) throws IOException {
-		Preconditions.checkNotNull(out);
-		this.out=out;
-
-		this.console = new ConsoleReader();
-		this.console.setExpandEvents(false);
-		console.setPrompt("CHIA> ");
-		usage();
-
-		if (ClassLoader.getSystemResource("History.txt") != null) {
-			console.setHistory(new FileHistory(new File(ClassLoader
-					.getSystemResource("History.txt").getPath())));
-		} else {
-			out.println("The History file cannot be loaded");
-		}
-		out.println("CHIA Started");
-		if (ClassLoader.getSystemResource("log4j.properties") != null) {
-
-			PropertyConfigurator.configure(ClassLoader
-					.getSystemResource("log4j.properties"));
-		} else {
-			out.println("The logging file cannot be loaded");
-		}
-		
+		out.write(stringBuilder.toString());
 
 	}
 
@@ -100,17 +103,19 @@ public class CHIA {
 		console.setCompletionHandler(ch);
 		ch.setPrintSpaceAfterFullCompletion(false);
 
-		CHIAAutomataConsole chiaAutomataConsole = new CHIAAutomataConsole(out);
+		CHIAAutomataConsole chiaAutomataConsole = new CHIAAutomataConsole();
 		CHIAReplacementConsole chiaReplacementConsole = new CHIAReplacementConsole();
 
-		List<Completer> replacementCompleter=ReplacementEvent.computeCompleters();
+		List<Completer> replacementCompleter = chiaReplacementConsole
+				.getCompleter().computeCompleters();
 		replacementCompleter.add(new StringsCompleter(AUTOMATA_MODE));
-		Completer replacementCom=new AggregateCompleter(replacementCompleter);
-		
-		List<Completer> automataCompletor = AutomataEvent.computeCompleters();
+		Completer replacementCom = new AggregateCompleter(replacementCompleter);
+
+		List<Completer> automataCompletor = this.automataConsole.getCompleter()
+				.computeCompleters();
 		automataCompletor.add(new StringsCompleter(REPLACEMENT_MODE));
-		Completer automataCom=new AggregateCompleter(automataCompletor);
-		
+		Completer automataCom = new AggregateCompleter(automataCompletor);
+
 		console.addCompleter(new AggregateCompleter(automataCompletor));
 
 		String line;
@@ -123,17 +128,17 @@ public class CHIA {
 					this.removeCompleter();
 					console.removeCompleter(automataCom);
 					console.addCompleter(replacementCom);
-					out.println("replacement mode enabled");
+					out.write("replacement mode enabled");
 
 				} else {
 					if (line.equals(AUTOMATA_MODE)) {
 						chiaState = CHIAState.AUTOMATAMODE;
 						this.removeCompleter();
-						
+
 						console.removeCompleter(replacementCom);
 						console.addCompleter(automataCom);
 
-						out.println("automata mode enabled");
+						out.write("automata mode enabled");
 
 					} else {
 						if (QUIT.equalsIgnoreCase(line)
@@ -144,21 +149,47 @@ public class CHIA {
 								console.clearScreen();
 							} else {
 								if (chiaState.equals(CHIAState.REPLACEMENTMODE)) {
-									try {
-										ReplacementEvent.parse(line,
-												chiaReplacementConsole);
-									} catch (ParseException e) {
-										out.println(e.getMessage());
+									ReplacementAction action = chiaReplacementConsole
+											.getCompleter()
+											.parse(line,
+													chiaReplacementConsole, out);
+									if (chiaReplacementConsole.getChiaState()
+											.isPerformable(action)) {
+										action.perform(chiaReplacementConsole);
+										chiaReplacementConsole
+												.setChiaState(chiaReplacementConsole
+														.getChiaState().next(
+																action));
+									} else {
+										out.write("Action: "
+												+ line
+												+ " not performable into the state "
+												+ chiaReplacementConsole
+														.getChiaState()
+														.getClass());
 									}
 
 								} else {
 									if (chiaState
 											.equals(CHIAState.AUTOMATAMODE)) {
-										try {
-											AutomataEvent.parse(line,
-													chiaAutomataConsole);
-										} catch (ParseException e) {
-											out.println(e.getMessage());
+										AutomataAction action = this.automataConsole
+												.getCompleter().parse(line,
+														chiaAutomataConsole,
+														out);
+										if (this.automataConsole.getChiaState()
+												.isPerformable(action)) {
+											action.perform(chiaAutomataConsole);
+											this.automataConsole
+													.setChiaState(this.automataConsole
+															.getChiaState()
+															.next(action));
+										} else {
+											out.write("Action: "
+													+ line
+													+ " not performable into the state "
+													+ this.automataConsole
+															.getChiaState()
+															.getClass());
 										}
 
 									}
@@ -168,7 +199,7 @@ public class CHIA {
 					}
 				}
 			} catch (Exception e) {
-				out.print(e.getMessage());
+				out.write(e.getMessage());
 			}
 
 		}
@@ -182,7 +213,7 @@ public class CHIA {
 	}
 
 	public static void main(String[] args) throws IOException {
-		CHIA chia = new CHIA(System.out);
+		CHIA chia = new CHIA(new PrintWriter(System.out));
 		chia.run();
 	}
 

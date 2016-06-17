@@ -1,4 +1,4 @@
-package it.polimi.statemachine.events;
+package it.polimi.statemachine;
 
 /**
  * Is the command Event provided by the user
@@ -8,7 +8,7 @@ package it.polimi.statemachine.events;
  * @param <C>
  *            the console
  */
-public interface CommandEvent<C> {
+public interface ActionHelper<C> {
 	/**
 	 * returns the command meaning
 	 * 
@@ -42,6 +42,7 @@ public interface CommandEvent<C> {
 	 * 
 	 * @return String representation of the command
 	 */
+	@Override
 	public String toString();
 
 	/**
@@ -61,5 +62,5 @@ public interface CommandEvent<C> {
 	 * @throws Exception
 	 *             if the command execution generates an exception
 	 */
-	public void executeCommand(String command, C console) throws Exception;
+	//public void executeCommand(String command, C console) throws Exception;
 }
