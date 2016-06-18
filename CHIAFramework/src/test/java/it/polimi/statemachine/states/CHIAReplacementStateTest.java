@@ -136,7 +136,7 @@ public class CHIAReplacementStateTest {
 				new ConstraintLoaded().next(new LoadConstraint(
 						new StringWriter(), "")));
 		assertEquals(new ConstraintLoaded(),
-				new ConstraintLoaded().next(new DisplayConstraint()));
+				new ConstraintLoaded().next(new DisplayConstraint(new StringWriter())));
 
 	}
 
@@ -152,7 +152,7 @@ public class CHIAReplacementStateTest {
 		assertTrue(new ConstraintLoaded().isPerformable(new LoadConstraint(
 				new StringWriter(), "")));
 		assertTrue(new ConstraintLoaded()
-				.isPerformable(new DisplayConstraint()));
+				.isPerformable(new DisplayConstraint(new StringWriter())));
 		assertFalse(new ConstraintLoaded().isPerformable(new Check(
 				new StringWriter())));
 	}
@@ -186,7 +186,7 @@ public class CHIAReplacementStateTest {
 				new Ready().next(new DisplayReplacement(new StringWriter())));
 		assertEquals(new Checked(),
 				new Ready().next(new Check(new StringWriter())));
-		assertEquals(new Ready(), new Ready().next(new DisplayConstraint()));
+		assertEquals(new Ready(), new Ready().next(new DisplayConstraint(new StringWriter())));
 
 	}
 
@@ -201,7 +201,7 @@ public class CHIAReplacementStateTest {
 		assertTrue(new Ready().isPerformable(loadReplacement));
 		assertTrue(new Ready().isPerformable(new LoadConstraint(
 				new StringWriter(), "")));
-		assertTrue(new Ready().isPerformable(new DisplayConstraint()));
+		assertTrue(new Ready().isPerformable(new DisplayConstraint(new StringWriter())));
 		assertTrue(new Ready().isPerformable(new DisplayReplacement(
 				new StringWriter())));
 		assertTrue(new Ready().isPerformable(new Check(new StringWriter())));
@@ -220,7 +220,7 @@ public class CHIAReplacementStateTest {
 		assertEquals(new Ready(), new Checked().next(loadReplacement));
 		assertEquals(new Ready(),
 				new Checked().next(new LoadConstraint(new StringWriter(), "")));
-		assertEquals(new Checked(), new Checked().next(new DisplayConstraint()));
+		assertEquals(new Checked(), new Checked().next(new DisplayConstraint(new StringWriter())));
 		assertEquals(new Checked(),
 				new Checked().next(new DisplayReplacement(new StringWriter())));
 		assertEquals(new Checked(),
@@ -239,7 +239,7 @@ public class CHIAReplacementStateTest {
 		assertTrue(new Checked().isPerformable(loadReplacement));
 		assertTrue(new Checked().isPerformable(new LoadConstraint(
 				new StringWriter(), "")));
-		assertTrue(new Checked().isPerformable(new DisplayConstraint()));
+		assertTrue(new Checked().isPerformable(new DisplayConstraint(new StringWriter())));
 		assertTrue(new Checked().isPerformable(new DisplayReplacement(
 				new StringWriter())));
 		assertTrue(new Checked().isPerformable(new Check(new StringWriter())));

@@ -15,7 +15,6 @@ import it.polimi.statemachine.replacement.action.helper.DisplayReplacementHelper
 import it.polimi.statemachine.replacement.action.helper.HelpHelper;
 import it.polimi.statemachine.replacement.action.helper.LoadConstraintHelper;
 import it.polimi.statemachine.replacement.action.helper.LoadReplacementHelper;
-import it.polimi.statemachine.replacement.action.helper.SaveRefinementHelper;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -49,7 +48,6 @@ public class ReplacementEventTest {
         assertEquals("help", new HelpHelper().getCommand());
         assertEquals("lc", new LoadConstraintHelper().getCommand());
         assertEquals("lr", new LoadReplacementHelper().getCommand());
-        assertEquals("sref", new SaveRefinementHelper().getCommand());
     }
 
     /**
@@ -64,7 +62,6 @@ public class ReplacementEventTest {
         assertNotNull(new HelpHelper().getCommandMeaning());
         assertNotNull(new LoadConstraintHelper().getCommandMeaning());
         assertNotNull(new LoadReplacementHelper().getCommandMeaning());
-        assertNotNull(new SaveRefinementHelper().getCommandMeaning());
     }
 
     
@@ -81,7 +78,6 @@ public class ReplacementEventTest {
         assertNotNull(new HelpHelper().toString());
         assertNotNull(new LoadConstraintHelper().toString());
         assertNotNull(new LoadReplacementHelper().toString());
-        assertNotNull(new SaveRefinementHelper().toString());
     }
 
     /**
@@ -97,8 +93,7 @@ public class ReplacementEventTest {
         assertTrue(new HelpHelper().requiresParams());
         assertTrue(new LoadConstraintHelper().requiresParams());
         assertTrue(new LoadReplacementHelper().requiresParams());
-        assertTrue(new SaveRefinementHelper().requiresParams());
-
+    
     }
 
     /**
@@ -128,8 +123,6 @@ public class ReplacementEventTest {
                new LoadConstraintHelper().getCommand()));
        assertTrue(new CHIAReplacementConsole().getCompleter().getCommands().contains(
                new LoadReplacementHelper().getCommand()));
-       assertTrue(new CHIAReplacementConsole().getCompleter().getCommands().contains(
-               new SaveRefinementHelper().getCommand()));
       
    }
    /**
@@ -144,6 +137,5 @@ public class ReplacementEventTest {
        assertNotNull(new HelpHelper().getDescription());
        assertNotNull(new LoadConstraintHelper().getDescription());
        assertNotNull(new LoadReplacementHelper().getDescription());
-       assertNotNull(new SaveRefinementHelper().getDescription());
    }
 }

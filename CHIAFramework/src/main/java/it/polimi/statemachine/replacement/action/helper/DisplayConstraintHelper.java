@@ -35,7 +35,7 @@ public class DisplayConstraintHelper implements ReplacementActionHelper {
 	@Override
 	public ReplacementAction getAction(String command,
 			CHIAReplacementConsole console, Writer out) {
-		return new DisplayConstraint();
+		return new DisplayConstraint(out);
 	}
 
 	/**

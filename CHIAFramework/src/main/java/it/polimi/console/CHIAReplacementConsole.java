@@ -1,10 +1,12 @@
 package it.polimi.console;
 
+import it.polimi.action.CHIAException;
 import it.polimi.automata.IBA;
 import it.polimi.checker.intersection.acceptingpolicies.AcceptingPolicy.AcceptingType;
 import it.polimi.constraints.Constraint;
 import it.polimi.constraints.components.Replacement;
 import it.polimi.replacementchecker.ReplacementChecker;
+import it.polimi.statemachine.replacement.ReplacementAction;
 import it.polimi.statemachine.replacement.ReplacementCompleter;
 import it.polimi.statemachine.replacement.ReplacementState;
 import it.polimi.statemachine.replacement.states.Init;
@@ -114,6 +116,11 @@ public class CHIAReplacementConsole {
 
 	public ReplacementCompleter getCompleter() {
 		return completer;
+	}
+	
+	public void changeState(ReplacementAction action) throws CHIAException{
+		this.setChiaState(this.getChiaState()
+				.next(action));
 	}
 
 	

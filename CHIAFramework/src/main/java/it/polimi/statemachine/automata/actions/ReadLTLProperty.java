@@ -2,29 +2,56 @@ package it.polimi.statemachine.automata.actions;
 
 import java.io.Writer;
 
+import com.google.common.base.Preconditions;
+
 import it.polimi.console.CHIAAutomataConsole;
 import it.polimi.model.ltltoba.LTLtoBATransformer;
 
+/**
+ * reads the LTL property from a string
+ * @author Claudio Menghi
+ *
+ */
 public class ReadLTLProperty extends ReadProperty {
 
+	/**
+	 * the writer used to print messages
+	 */
 	private final Writer out;
 
+	/**
+	 * the LTL property to be considered
+	 */
 	private final String ltlProperty;
 
 	/**
 	 * loads the automaton that corresponds to the property of interest from the
 	 * specified LTL formula
 	 * 
+	 * @param out
+	 *            is used to write messages on the console
 	 * @param ltlProperty
 	 *            is the LTL property to be converted into the corresponding
 	 *            automaton
+	 * @throws NullPointerException
+	 *             if one of the parameters is null
 	 */
 	public ReadLTLProperty(Writer out, String ltlProperty) {
+
+		Preconditions.checkNotNull(out, "The out cannot be null");
+		Preconditions.checkNotNull(ltlProperty,
+				"The ltlProperty cannot be null");
 		this.out = out;
 		this.ltlProperty = ltlProperty;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public void perform(CHIAAutomataConsole console) throws Exception {
+		Preconditions.checkNotNull(console, "The console cannot be null");
+
 		if (ltlProperty != null) {
 			try {
 				LTLtoBATransformer action = new LTLtoBATransformer("!("
@@ -66,18 +93,4 @@ public class ReadLTLProperty extends ReadProperty {
 			}
 		}
 	}
-	
-	 
-
-    /*   @Override
-       public void executeCommand(String command, CHIAAutomataConsole console)
-               throws Exception {
-
-           console.loadLTLProperty(command.substring(command.indexOf(" ") + 1)
-                   .replaceAll(" +$", ""));
-           
-           
-       }
-*/
-       
 }

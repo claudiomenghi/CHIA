@@ -9,7 +9,6 @@ import it.polimi.statemachine.replacement.action.helper.HelpHelper;
 import it.polimi.statemachine.replacement.action.helper.LoadConstraintHelper;
 import it.polimi.statemachine.replacement.action.helper.LoadReplacementHelper;
 import it.polimi.statemachine.replacement.action.helper.ReplacementActionHelper;
-import it.polimi.statemachine.replacement.action.helper.SaveRefinementHelper;
 
 import java.io.Writer;
 import java.text.ParseException;
@@ -34,7 +33,6 @@ public class ReplacementCompleter {
 		this.commands.add(new HelpHelper());
 		this.commands.add(new LoadConstraintHelper());
 		this.commands.add(new LoadReplacementHelper());
-		this.commands.add(new SaveRefinementHelper());
 	}
 
 	public Set<ReplacementActionHelper> getAutomataCompleters(){

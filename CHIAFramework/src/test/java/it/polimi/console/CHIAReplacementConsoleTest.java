@@ -6,7 +6,6 @@ package it.polimi.console;
 import static org.junit.Assert.assertNotNull;
 import it.polimi.action.CHIAException;
 import it.polimi.statemachine.replacement.ReplacementAction;
-import it.polimi.statemachine.replacement.action.DisplayConstraint;
 import it.polimi.statemachine.replacement.action.DisplayReplacement;
 import it.polimi.statemachine.replacement.action.LoadConstraint;
 import it.polimi.statemachine.replacement.action.LoadRepacement;
@@ -72,8 +71,6 @@ public class CHIAReplacementConsoleTest {
 		ReplacementAction action =new LoadConstraint(new StringWriter(), getClass().getClassLoader()
 				.getResource("it/polimi/console/LivenessConstraint.xml").getPath());
 		rep.getChiaState().next(action);
-		action=new DisplayConstraint();
-		rep.getChiaState().next(action);
 		assertNotNull(rep.getChiaState());
 	}
 
@@ -108,10 +105,11 @@ public class CHIAReplacementConsoleTest {
 				getClass().getClassLoader()
 						.getResource("it/polimi/console/ReplacementT10.xml")
 						.getPath());
-		rep.getChiaState().next(action);
+		
+		rep.changeState(action);
 		
 		action=new DisplayReplacement(new StringWriter());
-		rep.getChiaState().next(action);
+		rep.changeState(action);
 		assertNotNull(rep.getChiaState());
 	}
 

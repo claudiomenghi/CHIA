@@ -50,6 +50,7 @@ public class ClaimLTLReader extends CHIAAction<BA> {
 	 * @return the BA corresponding to the LTL formula stored in the file
 	 * @throws Exception 
 	 */
+	@Override
 	public BA perform() throws Exception {
 
 		String ltlFormula = "";
@@ -76,8 +77,6 @@ public class ClaimLTLReader extends CHIAAction<BA> {
 			br.close();
 		}
 
-		BA ba = new LTLtoBATransformer("!(" + ltlFormula + ")").perform();
-
-		return ba;
+		return new LTLtoBATransformer("!(" + ltlFormula + ")").perform();
 	}
 }

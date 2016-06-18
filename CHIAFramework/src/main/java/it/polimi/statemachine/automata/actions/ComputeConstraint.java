@@ -14,80 +14,148 @@ import it.polimi.statemachine.automata.states.Ready;
 
 import java.io.Writer;
 
+import com.google.common.base.Preconditions;
+
+/**
+ * The compute constraint action
+ * 
+ * @author Claudio Menghi
+ */
 public class ComputeConstraint implements AutomataAction {
 
-
+	/**
+	 * the writer used to print messages
+	 */
 	private final Writer out;
 
+	/**
+	 * crates a new compute constraint
+	 * @param out the writer used to write messages
+	 * @throws NullPointerException if the writer is null
+	 */
 	public ComputeConstraint(Writer out) {
+		Preconditions.checkNotNull(out, "The writer cannot be null");
 		this.out = out;
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public AutomataState visit(Init state) throws CHIAException {
+		Preconditions.checkNotNull(state, "The state cannot be null");
+		throw new CHIAException("Load property and model before computing the constraint");
+	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isPerformable(Init state) {
+		Preconditions.checkNotNull(state, "The state cannot be null");
+		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public AutomataState visit(ModelLoaded state) throws CHIAException {
+		Preconditions.checkNotNull(state, "The state cannot be null");
+		throw new CHIAException("Load property and model before computing the constraint");
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isPerformable(ModelLoaded state) {
+		Preconditions.checkNotNull(state, "The state cannot be null");
+		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public AutomataState visit(Ready state) throws CHIAException {
+		Preconditions.checkNotNull(state, "The state cannot be null");
+		throw new CHIAException("Load property and model before computing the constraint");
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isPerformable(Ready state) {
+		Preconditions.checkNotNull(state, "The state cannot be null");
+		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public AutomataState visit(PropertyLoaded state) throws CHIAException {
+		Preconditions.checkNotNull(state, "The state cannot be null");
+		throw new CHIAException("Load property and model before computing the constraint");
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isPerformable(PropertyLoaded state) {
+		Preconditions.checkNotNull(state, "The state cannot be null");
+		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public AutomataState visit(Checked state) throws CHIAException {
+		Preconditions.checkNotNull(state, "The state cannot be null");
+		return new ConstraintComputed();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isPerformable(Checked state) {
+		Preconditions.checkNotNull(state, "The state cannot be null");
+		return true;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public AutomataState visit(ConstraintComputed state)
+			throws CHIAException {
+		Preconditions.checkNotNull(state, "The state cannot be null");
+		throw new CHIAException("Load a new property and model before re-computing the constraint");
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isPerformable(ConstraintComputed state) {
+		Preconditions.checkNotNull(state, "The state cannot be null");
+		return false;
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void perform(CHIAAutomataConsole console) throws Exception{
+		Preconditions.checkNotNull(console, "The console cannot be null");
 		ConstraintGenerator cg = new ConstraintGenerator(console.getChecker());
 		console.setConstraint(cg.perform());
 		out.write("Constraint computed");
 	}
 
-	@Override
-	public AutomataState visit(Init state) throws CHIAException {
-		throw new CHIAException("Load property and model before computing the constraint");
-	}
-
-	@Override
-	public boolean isPerformable(Init state) {
-		return false;
-	}
-
-	@Override
-	public AutomataState visit(ModelLoaded modelLoaded) throws CHIAException {
-		throw new CHIAException("Load property and model before computing the constraint");
-	}
-
-	@Override
-	public boolean isPerformable(ModelLoaded modelLoaded) {
-		return false;
-	}
-
-	@Override
-	public AutomataState visit(Ready ready) throws CHIAException {
-		throw new CHIAException("Load property and model before computing the constraint");
-	}
-
-	@Override
-	public boolean isPerformable(Ready ready) {
-		return false;
-	}
-
-	@Override
-	public AutomataState visit(PropertyLoaded propertyLoaded) throws CHIAException {
-		throw new CHIAException("Load property and model before computing the constraint");
-	}
-
-	@Override
-	public boolean isPerformable(PropertyLoaded propertyLoaded) {
-		return false;
-	}
-
-	@Override
-	public AutomataState visit(Checked checked) throws CHIAException {
-		return new ConstraintComputed();
-	}
-
-	@Override
-	public boolean isPerformable(Checked checked) {
-		return true;
-	}
-
-	@Override
-	public AutomataState visit(ConstraintComputed constraintComputed)
-			throws CHIAException {
-		throw new CHIAException("Load a new property and model before re-computing the constraint");
-	}
-
-	@Override
-	public boolean isPerformable(ConstraintComputed constraintComputed) {
-		return false;
-	}
 }

@@ -71,6 +71,7 @@ public class LTLtoBATransformer extends CHIAAction<BA> {
 	 * @throws SecurityException
 	 * @throws Exception
 	 */
+	@Override
 	public BA perform() throws Exception {
 
 		/*
@@ -129,7 +130,7 @@ public class LTLtoBATransformer extends CHIAAction<BA> {
 		 * maps each end point (state) of an ITransition to the corresponding
 		 * state of the Buchi Automaton
 		 */
-		Map<IState, State> map = new HashMap<IState, State>();
+		Map<IState, State> map = new HashMap<>();
 
 		/*
 		 * analyzes each transition and populates the Buchi Automaton with the
