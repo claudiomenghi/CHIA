@@ -52,10 +52,10 @@ public class ReadFileProperty extends ReadProperty {
 
 		ClaimReader action = new ClaimReader(claimFilePath);
 		console.setClaim(action.perform());
-		out.write("Property loaded");
-		out.write("N° states: " + console.getClaim().getStates().size());
+		out.write("Property loaded"+"\n");
+		out.write("N° states: " + console.getClaim().getStates().size()+"\n");
 		out.write("N° transitions:"
-				+ console.getClaim().getTransitions().size());
-
+				+ console.getClaim().getTransitions().size()+"\n");
+		out.flush();
 	}
 }

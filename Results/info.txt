@@ -1,0 +1,4 @@
+To see the results:
+1	-	open Matlab
+2	-	type EX1Script, EX2Script, EX3Script, EX3bScript depending on the experiment of interest
+

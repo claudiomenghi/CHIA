@@ -152,7 +152,8 @@ public class LoadConstraint implements ReplacementAction {
 		console.setConstraint(new ConstraintReader(new File(constraintFilePath))
 				.perform());
 
-		out.write("Constraint Loaded");
+		this.out.write("Constraint Loaded"+"\n");
+		this.out.flush();
 	}
 
 }

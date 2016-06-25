@@ -10,6 +10,7 @@ import it.polimi.statemachine.automata.actions.helper.DisplayModelHelper;
 import it.polimi.statemachine.automata.actions.helper.DisplayPropertyHelper;
 import it.polimi.statemachine.automata.actions.helper.ExitHelper;
 import it.polimi.statemachine.automata.actions.helper.HelpHelper;
+import it.polimi.statemachine.automata.actions.helper.ListHelper;
 import it.polimi.statemachine.automata.actions.helper.ReadFilePropertyHelper;
 import it.polimi.statemachine.automata.actions.helper.ReadLTLPropertyHelper;
 import it.polimi.statemachine.automata.actions.helper.ReadModelHelper;
@@ -44,6 +45,7 @@ public class AutomataCompleter {
 		this.commands.add(new ReadLTLPropertyHelper());
 		this.commands.add(new ReadModelHelper());
 		this.commands.add(new WriteConstraintHelper());
+		this.commands.add(new ListHelper());
 	}
 
 	public Set<AutomataActionHelper> getAutomataCompleters(){

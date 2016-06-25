@@ -156,20 +156,21 @@ public class Check implements ReplacementAction {
 		long startTime = thradBean.getCurrentThreadCpuTime();
 		SatisfactionValue result = console.getReplacementChecker().perform();
 		long endTime = thradBean.getCurrentThreadCpuTime();
-		out.write("Verification result: " + result.toString());
+		out.write("Verification result: " + result.toString()+"\n");
 		out.write("Verification time: "
 				+ Long.toString(TimeUnit.MILLISECONDS.convert(endTime
-						- startTime, TimeUnit.NANOSECONDS)) + " ms");
+						- startTime, TimeUnit.NANOSECONDS)) + " ms"+"\n");
 		if (result.equals(SatisfactionValue.NOTSATISFIED)) {
 			out.write("COUNTEREXAMPLE: "
-					+ console.getReplacementChecker().getCouterexample());
+					+ console.getReplacementChecker().getCouterexample()+"\n");
 
 		}
 		if (!result.equals(SatisfactionValue.NOTSATISFIED)) {
 			out.write("Dimension of the intersection automaton (states+transitions): "
 					+ (console.getReplacementChecker().getUpperIntersectionBA()
 							.size() + console.getReplacementChecker()
-							.getLowerIntersectionBA().size()));
+							.getLowerIntersectionBA().size())+"\n");
 		}
+		this.out.flush();
 	}
 }

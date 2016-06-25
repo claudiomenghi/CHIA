@@ -160,7 +160,7 @@ public class Help implements ReplacementAction {
 		Preconditions.checkNotNull(console, "The console cannot be null");
 		
 		boolean founded = false;
-		String commandOfInterest = command.substring(command.indexOf("\\s") + 1);
+		String commandOfInterest = command.substring(command.indexOf(" ") + 1);
 
 		for (ActionHelper<CHIAReplacementConsole> analyzedCommand : this.commands) {
 			if (commandOfInterest.equals(analyzedCommand.getCommand())) {
@@ -169,9 +169,10 @@ public class Help implements ReplacementAction {
 			}
 		}
 		if (!founded) {
-			out.write("The command: " + commandOfInterest
-					+ " is not a valid command");
+			this.out.write("The command: " + commandOfInterest
+					+ " is not a valid command"+"\n");
 		}
+		this.out.flush();
 	}
 
 }

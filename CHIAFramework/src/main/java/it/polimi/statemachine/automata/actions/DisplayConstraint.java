@@ -157,6 +157,7 @@ public class DisplayConstraint implements AutomataAction {
 	public void perform(CHIAAutomataConsole console) throws Exception {
 		Preconditions.checkNotNull(console, "The console cannot be null");
 		out.write(new ConstraintToStringTrasformer(console.getConstraint())
-				.perform());
+				.perform()+"\n");
+		out.flush();
 	}
 }

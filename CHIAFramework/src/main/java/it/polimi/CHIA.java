@@ -53,6 +53,7 @@ public class CHIA {
 		this.automataConsole = new CHIAAutomataConsole();
 		this.console = new ConsoleReader();
 		this.console.setExpandEvents(false);
+		
 		console.setPrompt("CHIA> ");
 		usage();
 
@@ -60,16 +61,18 @@ public class CHIA {
 			console.setHistory(new FileHistory(new File(ClassLoader
 					.getSystemResource("History.txt").getPath())));
 		} else {
-			out.write("The History file cannot be loaded");
+			out.write("The History file cannot be loaded"+"\n");
 		}
-		out.write("CHIA Started");
+		out.write("CHIA Started\n");
+		out.flush();
 		if (ClassLoader.getSystemResource("log4j.properties") != null) {
 
 			PropertyConfigurator.configure(ClassLoader
 					.getSystemResource("log4j.properties"));
 		} else {
-			out.write("The logging file cannot be loaded");
+			out.write("The logging file cannot be loaded"+"\n");
 		}
+		out.flush();
 
 	}
 
@@ -93,6 +96,7 @@ public class CHIA {
 				.append("********************************************************************\n");
 		stringBuilder.append("aut: automata mode enabled\n");
 		out.write(stringBuilder.toString());
+		out.flush();
 
 	}
 
@@ -128,7 +132,8 @@ public class CHIA {
 					this.removeCompleter();
 					console.removeCompleter(automataCom);
 					console.addCompleter(replacementCom);
-					out.write("replacement mode enabled");
+					out.write("replacement mode enabled"+"\n");
+					out.flush();
 
 				} else {
 					if (line.equals(AUTOMATA_MODE)) {
@@ -138,7 +143,8 @@ public class CHIA {
 						console.removeCompleter(replacementCom);
 						console.addCompleter(automataCom);
 
-						out.write("automata mode enabled");
+						out.write("automata mode enabled"+"\n");
+						out.flush();
 
 					} else {
 						if (QUIT.equalsIgnoreCase(line)
@@ -166,7 +172,8 @@ public class CHIA {
 												+ " not performable into the state "
 												+ chiaReplacementConsole
 														.getChiaState()
-														.getClass());
+														.getClass()+"\n");
+										out.flush();
 									}
 
 								} else {
@@ -189,7 +196,8 @@ public class CHIA {
 													+ " not performable into the state "
 													+ this.automataConsole
 															.getChiaState()
-															.getClass());
+															.getClass()+"\n");
+											out.flush();
 										}
 
 									}
@@ -200,6 +208,7 @@ public class CHIA {
 				}
 			} catch (Exception e) {
 				out.write(e.getMessage());
+				out.flush();
 			}
 
 		}

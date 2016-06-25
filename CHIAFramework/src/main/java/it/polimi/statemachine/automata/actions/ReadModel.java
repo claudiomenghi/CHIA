@@ -179,10 +179,10 @@ public class ReadModel implements AutomataAction {
 
 		ModelReader action = new ModelReader(modelFilePath);
 		console.setModel(action.perform());
-		this.out.write("Model readed");
-		this.out.write("N° states: " + console.getModel().getStates().size());
+		this.out.write("Model readed"+"\n");
+		this.out.write("N° states: " + console.getModel().getStates().size()+"\n");
 		this.out.write("N° transitions:"
-				+ console.getModel().getTransitions().size());
-
+				+ console.getModel().getTransitions().size()+"\n");
+		this.out.flush();
 	}
 }

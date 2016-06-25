@@ -160,7 +160,8 @@ public class DisplayModel implements AutomataAction {
 		Preconditions.checkNotNull(console, "The console cannot be null");
 		out.write(new ElementToStringTransformer()
 				.transform(new IBAToElementTrasformer().transform(console
-						.getModel())));
+						.getModel()))+"\n");
+		out.flush();
 	}
 
 }

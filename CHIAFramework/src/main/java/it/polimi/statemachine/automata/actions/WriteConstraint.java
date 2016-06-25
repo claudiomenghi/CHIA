@@ -176,8 +176,8 @@ public class WriteConstraint implements AutomataAction {
 		ConstraintWriter constraintWriter = new ConstraintWriter(
 				console.getConstraint(), constraintFilePath);
 		constraintWriter.perform();
-		out.write("Constraint saved");
-
+		this.out.write("Constraint saved"+"\n");
+		this.out.flush();
 	}
 
 }

@@ -161,7 +161,8 @@ public class DisplayProperty implements AutomataAction {
 		Preconditions.checkNotNull(console, "The console cannot be null");
 		ClaimToStringTrasformer action = new ClaimToStringTrasformer(
 				console.getClaim());
-		out.write(action.perform());
+		out.write(action.perform()+"\n");
+		out.flush();
 	}
 
 }

@@ -1,43 +1,56 @@
 package it.polimi.statemachine.replacement.action;
 
-import java.io.Writer;
-
-import com.google.common.base.Preconditions;
-
 import it.polimi.action.CHIAException;
 import it.polimi.console.CHIAReplacementConsole;
-import it.polimi.constraints.io.out.constraint.ConstraintToStringTrasformer;
+import it.polimi.statemachine.ActionHelper;
 import it.polimi.statemachine.replacement.ReplacementAction;
 import it.polimi.statemachine.replacement.ReplacementState;
+import it.polimi.statemachine.replacement.action.helper.ReplacementActionHelper;
 import it.polimi.statemachine.replacement.states.Checked;
 import it.polimi.statemachine.replacement.states.ConstraintLoaded;
 import it.polimi.statemachine.replacement.states.Init;
 import it.polimi.statemachine.replacement.states.Ready;
 import it.polimi.statemachine.replacement.states.ReplacementLoaded;
 
+import java.io.Writer;
+import java.util.Set;
+
+import com.google.common.base.Preconditions;
+
 /**
- * contains the display constraint action
+ * contains the list action
  * 
  * @author Claudio Menghi
  *
  */
-public class DisplayConstraint implements ReplacementAction {
+public class ListAction implements ReplacementAction {
 
 	/**
-	 * the writer used to print messages
+	 * The writer used to write messages
 	 */
 	private final Writer out;
-
 	/**
-	 * crates a new display constraint action
+	 * The helper for the actions
+	 */
+	private final Set<ReplacementActionHelper> commands;
+	
+	/**
+	 * creates a new list action
 	 * 
+	 * @param commands
+	 *            the helper of the different commands
 	 * @param out
 	 *            the writer used to write messages
 	 * @throws NullPointerException
-	 *             if the writer is null
+	 *             if one of the parameters is null
 	 */
-	public DisplayConstraint(Writer out) {
+	public ListAction(Set<ReplacementActionHelper> commands,
+			Writer out) {
+		Preconditions.checkNotNull(commands, "The set of helper cannot be null");
+		Preconditions.checkNotNull(out, "The writer cannot be null");
+		
 		this.out = out;
+		this.commands = commands;
 	}
 
 	/**
@@ -46,7 +59,7 @@ public class DisplayConstraint implements ReplacementAction {
 	@Override
 	public ReplacementState visit(Init state) throws CHIAException {
 		Preconditions.checkNotNull(state, "The state cannot be null");
-		throw new CHIAException("It is not possible to display the constraint into the init state");
+		return state;
 	}
 
 	/**
@@ -55,7 +68,7 @@ public class DisplayConstraint implements ReplacementAction {
 	@Override
 	public boolean isPerformable(Init state) {
 		Preconditions.checkNotNull(state, "The state cannot be null");
-		return false;
+		return true;
 	}
 
 	/**
@@ -80,7 +93,7 @@ public class DisplayConstraint implements ReplacementAction {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public ReplacementState visit(Ready state) throws CHIAException {
+	public ReplacementState visit(Ready state) {
 		Preconditions.checkNotNull(state, "The state cannot be null");
 		return state;
 	}
@@ -114,13 +127,11 @@ public class DisplayConstraint implements ReplacementAction {
 
 	/**
 	 * {@inheritDoc}
-	 * @throws CHIAException 
 	 */
 	@Override
-	public ReplacementState visit(ReplacementLoaded state) throws CHIAException {
+	public ReplacementState visit(ReplacementLoaded state) {
 		Preconditions.checkNotNull(state, "The state cannot be null");
-		throw new CHIAException("It is not possible to display the constraint into the init state");
-
+		return state;
 	}
 
 	/**
@@ -132,13 +143,20 @@ public class DisplayConstraint implements ReplacementAction {
 		return true;
 	}
 
-	/**
+		/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void perform(CHIAReplacementConsole console) throws Exception {
 		Preconditions.checkNotNull(console, "The console cannot be null");
-		this.out.write(new ConstraintToStringTrasformer(console.getConstraint()).perform()+"\n");
-		this.out.flush();
+		
+		StringBuilder builder=new StringBuilder();
+		builder.append("aut\t");
+		for (ActionHelper<CHIAReplacementConsole> analyzedCommand : this.commands) {
+			builder.append(analyzedCommand.getCommand()+"\t");
+		}
+		
+		out.write(builder.toString()+"\n");
+		out.flush();
 	}
 }

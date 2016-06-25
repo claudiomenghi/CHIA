@@ -156,6 +156,7 @@ public class LoadRepacement implements ReplacementAction {
 				replacementFilePath));
 		console.setReplacement(rr.perform());
 		console.setModel(rr.getModel());
-		out.write("Replacement Loaded");
+		this.out.write("Replacement Loaded"+"\n");
+		this.out.flush();
 	}
 }

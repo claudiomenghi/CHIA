@@ -57,16 +57,17 @@ public class Check implements AutomataAction {
 						console.getModel(), console.getClaim())));
 		SatisfactionValue result = console.getChecker().perform();
 		long endTime = thradBean.getCurrentThreadCpuTime();
-		out.write("Verification result: " + result.toString());
+		out.write("Verification result: " + result.toString()+"\n");
 		out.write("Verification time: "
 				+ Long.toString(TimeUnit.MILLISECONDS.convert(endTime
-						- startTime, TimeUnit.NANOSECONDS)) + " ms");
+						- startTime, TimeUnit.NANOSECONDS)) + " ms"+"\n");
 		out.write("Dimension of the intersection automaton (states+transitions): "
-				+ console.getChecker().getIntersectionAutomataSize());
+				+ console.getChecker().getIntersectionAutomataSize()+"\n");
 		if (result.equals(SatisfactionValue.NOTSATISFIED)) {
 			out.write("Counterexample:"
-					+ console.getChecker().getFilteredCounterexample());
+					+ console.getChecker().getFilteredCounterexample()+"\n");
 		}
+		out.flush();
 	}
 
 	/**

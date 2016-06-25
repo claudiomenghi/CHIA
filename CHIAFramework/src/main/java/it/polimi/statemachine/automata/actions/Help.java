@@ -178,7 +178,7 @@ public class Help implements AutomataAction {
 		Preconditions.checkNotNull(console, "The console cannot be null");
 		boolean founded = false;
 		String commandOfInterest = command
-				.substring(command.indexOf("\\s") + 1);
+				.substring(command.indexOf(" ") + 1);
 
 		for (ActionHelper<CHIAAutomataConsole> analyzedCommand : this.commands) {
 			if (commandOfInterest.equals(analyzedCommand.getCommand())) {
@@ -188,7 +188,8 @@ public class Help implements AutomataAction {
 		}
 		if (!founded) {
 			out.write("The command: " + commandOfInterest
-					+ " is not a valid command");
+					+ " is not a valid command"+"\n");
 		}
+		out.flush();
 	}
 }

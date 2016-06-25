@@ -139,6 +139,7 @@ public class DisplayReplacement implements ReplacementAction {
 		
 		ReplacementToStringTransformer action = new ReplacementToStringTransformer(
 				console.getReplacement());
-		out.write(action.perform());
+		this.out.write(action.perform()+"\n");
+		this.out.flush();
 	}
 }

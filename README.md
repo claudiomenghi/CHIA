@@ -39,9 +39,9 @@ By running the <code>java -jar CHIA.jar</code> command the  shell of CHIA is exe
 ####General purpose commands
 The general purpose commands include the commands which are used to switch the modality and to additional assistance commands:
 
-* <code>?list</code> (<code>?l</code>): lists all commands with no prefix; 
+* <code>list</code> (<code>list</code>): lists all commands with no prefix; 
 
-* <code>?help</code> (<code>?h</code>): shows the info related with the command;
+* <code>help command</code> (<code>help command</code>): shows the info related with the command;
 
 * <code>exit</code>: exits the CHIA framework
 
@@ -65,8 +65,7 @@ The automata commands can be used in the automata mode when a IBA (BA) is consid
 
 * <code>check</code> (<code>ck</code>): is used to check the model against the specified claim. Before running the model checking procedure it is necessary to load the model and the claim to be considered. The check command can be performed with the optional parameter
 
-* <code>computeConstraint [-p -f]</code> (<code>cc [-p -f]</code>): is used to compute the constraint corresponding to the model and the specified claim. It can be executed with the optional parameters <code>-p</code> and <code>-f</code>. If the 
-<code>-p</code> flag is specified the reachability relation is not computed. If the <code>-f</code>, if also the <code>-f</code> flag is specified the flags of the incoming and outgoing transitions are not computed.
+* <code>computeConstraint</code> (<code>cc</code>): is used to compute the constraint corresponding to the model and the specified claim..
 			
 * <code>saveConstraint constraintFilePath</code> (<code>sc constraintFilePath</code>): is used to save the constraint in an XML file. The parameter <code>constraintFilePath</code> is the path of the file where the constraint must be saved
 

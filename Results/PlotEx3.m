@@ -1,15 +1,4 @@
-
-average(2,6)=425
-
-average(3,6)=42
-average(2,7)=505
-average(2,8)=580
-average(2,9)=650
-average(2,10)=720
-average(3,7)=44.9800
-average(3,8)=46.5432
-average(3,9)=49.0123
-average(3,10)=51.3723
+xValues=initialStatesNumber:incrementStatesNumber:finalStatesNumber;
 ex3plot=figure('Name','Ex3');
 
 fontSize=22;
@@ -32,9 +21,9 @@ xlabel('Number of states')
 ylabel('Tr')
 set(gca,'fontsize', fontSize);
 
-set(gca,'ytick',[0:200:800]);
+set(gca,'ytick',[0:50:250]);
 set(gca,'xtick',[100:200:1000]);
-axis([100 1000 0 800])
+axis([100 1000 0 250])
 
 print(ex3plot, 'EX3','-dpdf', '-r0');
 

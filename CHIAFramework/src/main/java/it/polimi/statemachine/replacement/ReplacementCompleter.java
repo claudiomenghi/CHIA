@@ -6,6 +6,7 @@ import it.polimi.statemachine.replacement.action.helper.CheckReplacementHelper;
 import it.polimi.statemachine.replacement.action.helper.DisplayConstraintHelper;
 import it.polimi.statemachine.replacement.action.helper.DisplayReplacementHelper;
 import it.polimi.statemachine.replacement.action.helper.HelpHelper;
+import it.polimi.statemachine.replacement.action.helper.ListHelpher;
 import it.polimi.statemachine.replacement.action.helper.LoadConstraintHelper;
 import it.polimi.statemachine.replacement.action.helper.LoadReplacementHelper;
 import it.polimi.statemachine.replacement.action.helper.ReplacementActionHelper;
@@ -33,6 +34,7 @@ public class ReplacementCompleter {
 		this.commands.add(new HelpHelper());
 		this.commands.add(new LoadConstraintHelper());
 		this.commands.add(new LoadReplacementHelper());
+		this.commands.add(new ListHelpher());
 	}
 
 	public Set<ReplacementActionHelper> getAutomataCompleters(){
