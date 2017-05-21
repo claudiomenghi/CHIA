@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="layout.css" type="text/css" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
+<title>CHIA</title>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-89204296-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</head>
+
+<body id="body">
+    <div id="container">
+	<ul class="menu">
+        <li class="menu-item">
+			<a href="./index.html" class="link">About CHIA</a>
+		</li>
+        <li class="menu-item">
+			<a href="./installation.html" class="link">Installation</a>
+		</li>
+		<li class="menu-item">
+			<a href="./use.html" class="link">Use</a>
+		</li>
+        <li class="menu-item">
+			<a href="./source.html" class="link">Source code</a>
+		</li>
+        <li class="menu-item">	    			
+			<a href="./publications.html" class="link">Publications</a>
+		</li>
+	</ul>
+    
+    <div id="content">
+    	<div class="testo">
+            <h3>Use</h3>
+            CHIA has an interactive shell that works with these commands
+<ul>
+    <li><i>General purpose commands.</i> The general purpose commands include the commands which are used to switch the modality and to additional assistance commands:</li>
+        <ul>
+            <li>list (list): lists all commands with no prefix;</li>
+            <li>help command (help command): shows the info related with the command;</li>
+            <li>exit: exits the CHIA framework</li>
+            <li>automata (aut): enters the automata mode</li>
+            <li>replacement (rep): enters the replacement mode</li>
+        </ul>
+    <li><i>Automata mode commands.</i> The automata commands can be used in the automata mode when a IBA (BA) is considered against the corresponding claim.</li>    
+        <ul>
+            <li>loadModel modelFilePath (lm modelFilePath): is used to load the model from an XML file. The XML file must match the IBA.xsd. It requires the parameter modelFilePath, i.e., the path of the file that contains the model to be checked.</li>
+            <li>displayModel (dispm): is used to display the model into the console.</li>
+            <li>loadProperty propertyFilePath (lp propertyFilePath): is used to load the property from an XML file. The XML file must match the BA.xsd. It requires the parameter propertyFilePath, i.e., the path of the file that contains the property</li>
+            <li>displayProperty (dispp): is used to display the property into the console.</li>
+            <li>loadLTLProperty LTLProperty (lpLTL LTLProperty): it is used to load the property from an LTL formula LTLProperty is the LTL formula that represents the property. The LTL formula can be created starting from a set of propositional symbols, i.e., true, false any lowercase string, a set of boolean operators, i.e., ! (negation), -> (implication), <-> (equivalence), ^ (and), v (or), and a set of temporal operators, [] (always) <> (eventually), U (until), R (realease) (Spin syntax : V), X (next).</li>
+            <li>check (ck): is used to check the model against the specified claim. Before running the model checking procedure it is necessary to load the model and the claim to be considered. The check command can be performed with the optional parameter</li>
+            <li>computeConstraint (cc): is used to compute the constraint corresponding to the model and the specified claim..</li>
+            <li>saveConstraint constraintFilePath (sc constraintFilePath): is used to save the constraint in an XML file. The parameter constraintFilePath is the path of the file where the constraint must be saved</li>
+            <li>displayConstraint (dispc): is used to display the constraint into the console.</li>
+        </ul>
+    <li><i>Replacement mode commands.</i> The automata commands can be used in the replacement mode when a Replacement (BA) is considered against the constraint or a specific sub-property.</li>
+        <ul>
+            <li>loadConstraint constraintFilePath (lc constraintFilePath): is used to load the constraint from an XML file. The XML file must match the Constraint.xsd. It requires the parameter constraintFilePath, i.e., the path of the file that contains the constraint to be considered;</li>
+            <li>displayConstraint (dispc): is used to display the constraint into the console;</li> 
+            <li>loadReplacement replacementFilePath (lr replacementFilePath): is used to load the replacement from an XML file. The XML file must mach the Replacement.xsd. The parameter replacementFilePath is the path of the file that contains the replacement to be considered;</li>
+            <li>displayReplacement (dispr): is used to display the replacement into the console.</li>
+            <li>check (ck): is used to check the replacement against the corresponding sub-property.</li>
+        </ul>
+    </ul>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
