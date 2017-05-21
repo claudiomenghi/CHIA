@@ -1,0 +1,40 @@
+<iba>
+	<propositions>
+		<proposition name="ok"/>
+        <proposition name="abort"/>
+        <proposition name="fail"/>
+        <proposition name="start"/>
+        <proposition name="success"/>
+    	<proposition name="send" />
+		<proposition name="ok" />
+		<proposition name="wait" />
+		<proposition name="timeout" />
+		<proposition name="ack" />
+	</propositions>
+	<states>
+		<state id="1" name="q1" initial="true"/>
+		<state id="3" name="send2" blackbox="true"/>
+		<state id="4" name="q2" accepting="true"/>
+		<state id="5" name="q3" accepting="true"/>
+		<state id="6" name="q4" />
+		<state id="7" name="q5" />
+		<state id="8" name="q6" />
+		<state id="9" name="q7" />
+		<state id="10" name="q8" />
+	</states>
+	<transitions>
+		<transition id="1" source="1" destination="6" propositions="start"/>
+		<transition id="2" source="9" destination="3" propositions="fail"/>
+		<transition id="3" source="10" destination="5" propositions="ok"/>
+		<transition id="4" source="3" destination="5" propositions="ok"/>
+		<transition id="5" source="3" destination="4" propositions="fail"/>
+		<transition id="6" source="4" destination="4" propositions="abort"/>
+		<transition id="7" source="5" destination="5" propositions="success"/>
+		<transition id="8" propositions="send" source="6"  destination="7"/>
+		<transition id="9" propositions="wait" source="7" destination="8"/>
+		<transition id="10" propositions="timeout" source="8" destination="9"/>
+		<transition id="11" propositions="ack" source="8" destination="10"/>
+	</transitions>
+</iba>
+
+

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?><constraint>
+    <subproperty indispensable="true" modelstateId="2" name="send1">
+        <ba>
+            <propositions>
+                <proposition name="send"/>
+                <proposition name="success"/>
+            </propositions>
+            <states>
+                <state id="19" name="2 - 6 - 0"/>
+                <state id="10" name="2 - 7 - 0"/>
+            </states>
+            <transitions>
+                <transition destination="19" id="28" propositions="!success" source="19"/>
+                <transition destination="19" id="29" propositions="send^!success" source="10"/>
+                <transition destination="10" id="25" propositions="SIGMA" source="10"/>
+            </transitions>
+        </ba>
+        <intransitions>
+            <labeledplugtransition id="7" label="G">
+                <sourcestate>
+                    <state id="1" name="q1"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="10" name="2 - 7 - 0"/>
+                </destinationstate>
+                <trans id="30" propositions="start"/>
+            </labeledplugtransition>
+        </intransitions>
+        <outtransitions>
+            <labeledplugtransition id="11" label="Y">
+                <sourcestate>
+                    <state id="10" name="2 - 7 - 0"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="3" name="send2"/>
+                </destinationstate>
+                <trans id="23" propositions="fail"/>
+            </labeledplugtransition>
+            <labeledplugtransition id="9" label="Y">
+                <sourcestate>
+                    <state id="19" name="2 - 6 - 0"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="3" name="send2"/>
+                </destinationstate>
+                <trans id="26" propositions="fail"/>
+            </labeledplugtransition>
+        </outtransitions>
+        <lowerReachability>
+            <reachabilityElements/>
+        </lowerReachability>
+        <upperReachability>
+            <reachabilityElements/>
+        </upperReachability>
+    </subproperty>
+    <subproperty indispensable="true" modelstateId="3" name="send2">
+        <ba>
+            <propositions>
+                <proposition name="send"/>
+                <proposition name="success"/>
+            </propositions>
+            <states>
+                <state id="11" name="3 - 7 - 0"/>
+                <state id="14" name="3 - 6 - 0"/>
+            </states>
+            <transitions>
+                <transition destination="11" id="15" propositions="SIGMA" source="11"/>
+                <transition destination="14" id="22" propositions="send^!success" source="11"/>
+                <transition destination="14" id="21" propositions="!success" source="14"/>
+            </transitions>
+        </ba>
+        <intransitions>
+            <labeledplugtransition id="1" label="Y">
+                <sourcestate>
+                    <state id="2" name="send1"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="11" name="3 - 7 - 0"/>
+                </destinationstate>
+                <trans id="23" propositions="fail"/>
+            </labeledplugtransition>
+            <labeledplugtransition id="3" label="Y">
+                <sourcestate>
+                    <state id="2" name="send1"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="14" name="3 - 6 - 0"/>
+                </destinationstate>
+                <trans id="26" propositions="fail"/>
+            </labeledplugtransition>
+        </intransitions>
+        <outtransitions>
+            <labeledplugtransition id="5" label="R">
+                <sourcestate>
+                    <state id="14" name="3 - 6 - 0"/>
+                </sourcestate>
+                <destinationstate>
+                    <state id="4" name="q2"/>
+                </destinationstate>
+                <trans id="20" propositions="fail"/>
+            </labeledplugtransition>
+        </outtransitions>
+        <lowerReachability>
+            <reachabilityElements/>
+        </lowerReachability>
+        <upperReachability>
+            <reachabilityElements/>
+        </upperReachability>
+    </subproperty>
+</constraint>

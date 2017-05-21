@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<replacement modelstateId="2" name="send1" modelFilePath="../Aut/Model.xml">
+<iba>
+<propositions>
+<proposition name="start" />	
+<proposition name="send" />
+<proposition name="fail" />
+<proposition name="ok" />
+<proposition name="wait" />
+<proposition name="timeout" />
+<proposition name="ack" />
+</propositions>
+<states>
+<state id="6" name="q4" />
+<state id="7" name="q5" />
+<state id="8" name="q6" />
+<state id="9" name="q7" />
+<state id="10" name="q8" />
+</states>
+<transitions>
+<transition id="8" propositions="send" source="6"  destination="7"/>
+<transition id="9" propositions="wait" source="7" destination="8"/>
+<transition id="10" propositions="timeout" source="8" destination="9"/>
+<transition id="11" propositions="ack" source="8" destination="10"/>
+</transitions>
+</iba>
+<intransitions>
+<plugtransition id="16">
+<sourcestate>
+<state id="1" name="q1" />
+</sourcestate>
+<destinationstate>
+<state id="6" name="q4" />
+</destinationstate>
+<trans id="1" propositions="start" />
+</plugtransition>
+</intransitions>
+<outtransitions>
+
+<plugtransition id="17">
+<sourcestate>
+<state id="9" name="q7" />
+</sourcestate>
+<destinationstate>
+<state id="3" name="send2" />
+</destinationstate>
+<trans id="2" propositions="fail" />
+</plugtransition>
+
+<plugtransition id="18">
+<sourcestate>
+<state id="10" name="q8" />
+</sourcestate>
+<destinationstate>
+<state id="5" name="q3" />
+</destinationstate>
+<trans id="3" propositions="ok" />
+</plugtransition>
+
+</outtransitions>
+</replacement>
